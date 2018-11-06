@@ -73,7 +73,7 @@ variable "zones" {
 
 variable "instance_type" {
   type    = "list"
-  default = ["", ""]
+  default = ["", "", "", ""]
 }
 
 variable "hosts" {
@@ -84,6 +84,7 @@ variable "hosts_onion" {
   default = ["", ""]
 }
 
+# some hardcoded vars and misc
 variable "docker_tag_nginx" {
   type = "string"
 
@@ -103,6 +104,11 @@ variable "docker_tag_node_exporter" {
 variable "docker_tag_explorer" {
   type    = "string"
   default = "overwritten_by_ci"
+}
+
+variable "docker_tag_tor" {
+  type    = "string"
+  default = "blockstream/gcloud-tor@sha256:be56a33b3010ac4c85037899714979bb4eb6c15fe85114bd009501750320617f"
 }
 
 variable "docker_tag_prometheus" {

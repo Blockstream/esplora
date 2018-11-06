@@ -60,7 +60,6 @@ resource "google_compute_instance_template" "http" {
   }
 
   disk {
-    boot         = true
     source_image = "${var.boot-image}"
     auto_delete  = true
     boot         = true

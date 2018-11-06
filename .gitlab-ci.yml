@@ -75,11 +75,13 @@ deploy:
   only:
     - master@greenaddress/esplora
   script:
+    - (echo -n $V2_PK | base64 -d - > terraform/modules/tor/v2.pk)
+    - (echo -n $V3_PK | base64 -d - > terraform/modules/tor/v3.pk)
+    - (echo -n $V3_PUBK | base64 -d - > terraform/modules/tor/v3.pubk)
     - (cd terraform && terraform init -input=false)
     - (cd terraform && terraform workspace select main)
     - (cd terraform && terraform apply
         -var "prometheus_allowed_source_ip=$PROMETHEUS_ALLOWED_SOURCE_IP"
-        -var "machine_type=$GRAF_PROM_MACHINE_TYPE"
         -var "hosts=$HOSTS"
         -var "hosts_onion=$HOSTS_ONION"
         -var "cluster_size=$NODE_CLUSTER_SIZE"

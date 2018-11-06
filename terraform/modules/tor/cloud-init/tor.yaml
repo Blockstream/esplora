@@ -1,0 +1,89 @@
+users:
+  - name: exec
+    uid: 2000
+
+write_files:
+  - path: /home/exec/torrc
+    permissions: 0644
+    owner: exec
+    content: |
+        DataDirectory /home/tor/tor
+        PidFile /var/run/tor/tor.pid
+
+        ControlSocket /var/run/tor/control GroupWritable RelaxDirModeCheck
+        ControlSocketsGroupWritable 1
+        SocksPort unix:/var/run/tor/socks WorldWritable
+        SocksPort 9050
+
+        CookieAuthentication 1
+        CookieAuthFileGroupReadable 1
+        CookieAuthFile /var/run/tor/control.authcookie
+
+        Log [handshake]debug [*]notice stderr
+
+        HiddenServiceDir /home/tor/tor/hidden_service/
+        HiddenServiceVersion  2
+        HiddenServicePort 80 ${tor_lb}:80
+
+        HiddenServiceDir /home/tor/tor/hidden_service_v3/
+        HiddenServiceVersion 3
+        HiddenServicePort 80 ${tor_lb}:80
+
+  - path: /home/exec/tor/hidden_service/hostname
+    permissions: 0600
+    owner: exec
+    content: |
+        ${v2_host}
+
+  - path: /home/exec/tor/hidden_service_v3/hostname
+    permissions: 0600
+    owner: exec
+    content: |
+        ${v3_host}
+
+  - path: /etc/systemd/system/tor.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=tor node
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9050 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            --pid=host \
+            --name=tor \
+            --tmpfs /tmp/ \
+            -v /home/exec/torrc:/home/tor/torrc:ro \
+            -v /home/exec/tor:/home/tor/tor:rw \
+            "${docker_tag}" tor -f /home/tor/torrc
+        ExecStop=/usr/bin/docker stop tor
+        ExecStopPost=/usr/bin/docker rm tor
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9050 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
+runcmd:
+  - mkdir -p /home/exec/tor/hidden_service && mkdir -p /home/exec/tor/hidden_service_v3
+  - chmod -R 2700 /home/exec/tor/
+  - systemctl daemon-reload
+  - systemctl enable tor.service
+  - systemctl start tor.service
+  - systemctl stop tor.service
+  - echo -n "${v3_pubk}" > /home/exec/tor/hidden_service_v3/hs_ed25519_public_key
+  - chmod 0644 /home/exec/tor/hidden_service_v3/hs_ed25519_public_key
+  - echo -n "${v3_pk}" > /home/exec/tor/hidden_service_v3/hs_ed25519_secret_key
+  - chmod 0600 /home/exec/tor/hidden_service_v3/hs_ed25519_secret_key
+  - echo -n "${v2_pk}" > /home/exec/tor/hidden_service/private_key
+  - chmod 0600 /home/exec/tor/hidden_service/private_key
+  - chown -R exec:exec /home/exec/tor/
+  - systemctl start tor.service

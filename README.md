@@ -47,3 +47,11 @@ docker build --squash -t blockstream/gcloud-docker:latest -f Dockerfile.ci .
 docker push blockstream/gcloud-docker:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-docker
 ```
+
+# Build new gcloud-tor
+
+```
+docker build --squash -t blockstream/gcloud-tor:latest -f Dockerfile.tor .
+docker push blockstream/gcloud-tor:latest
+docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-tor
+```

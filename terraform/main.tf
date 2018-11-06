@@ -18,9 +18,9 @@ module "prometheus" {
   name                       = "explorer"
   network                    = "default"
   zones                      = ["${var.zones}"]
-  region                     = "${var.regions[0]}"                                                                                   // necessary for compute_address
+  region                     = "${var.regions[0]}"
   instances                  = 1
-  machine_type               = "${var.machine_type}"
+  machine_type               = "${var.instance_type[2]}"
   retention                  = "31d"
   project                    = "${var.project}"
   docker_tag                 = "${var.docker_tag_prometheus}"
@@ -28,6 +28,23 @@ module "prometheus" {
   allowed_source_ip          = "${var.prometheus_allowed_source_ip}"
   prometheus_service_account = "${terraform.workspace != "main" ? data.terraform_remote_state.main.prometheus_service_account : ""}"
   opsgenie_api_key           = "${var.opsgenie_api_key}"
+
+  create_resources = "${local.create_main}"
+}
+
+module "tor" {
+  source = "modules/tor"
+
+  name             = "explorer-tor"
+  network          = "default"
+  zones            = "${var.zones[0]}"
+  region           = "${var.regions[0]}"
+  instances        = 1
+  project          = "${var.project}"
+  tor_machine_type = "${var.instance_type[3]}"
+  tor_lb           = "${terraform.workspace == "main" ? google_compute_global_address.onion-lb.address : ""}"
+  docker_tag       = "${var.docker_tag_tor}"
+  hosts_onion      = "${var.hosts_onion}"
 
   create_resources = "${local.create_main}"
 }
