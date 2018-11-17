@@ -1,0 +1,443 @@
+bootcmd:
+  - blkid /dev/disk/by-id/google-data || mkfs.ext4 -L data -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/disk/by-id/google-data
+
+mounts:
+  - [ /dev/disk/by-label/data, /mnt/disks/data, auto, defaults ]
+
+users:
+  - name: exec
+    uid: 2000
+
+write_files:
+  - path: /home/exec/prometheus/alertmanager.yml
+    permissions: 0644
+    owner: root
+    content: |
+        route:
+         group_by: [cluster]
+         # If an alert isn't caught by a route, send it to the pager.
+         receiver: team-pager
+         routes:
+          # Send severity=page alerts to the pager.
+          - match:
+              severity: page
+            receiver: team-pager
+
+        receivers:
+          - name: team-pager
+            opsgenie_configs:
+            - api_key: ${opsgenie_api_key}
+              teams: SecOps   # Put in your team here
+              tags: esplora
+
+  - path: /home/exec/prometheus/rules/alerts.yml
+    permissions: 0644
+    owner: root
+    content: |
+        groups:
+          - name: node
+            rules:
+            - alert: NoHostsInNetwork
+              expr: sum by (name) (up{name=~".+"}) == 0
+              for: 1m
+              labels:
+                severity: page
+              annotations:
+                summary: No hosts in network {{ $labels.name }}, production traffic impacted!
+                description: There are currently no hosts up in the network {{ $labels.name }}, verify the instance groups. https://wiki.blockstream.io/OpsPlaybooks/Esplora-Runbooks#NoHostsInNetwork
+            - alert: NoHostsInNetworkBitcoinMainnet
+              expr: absent(up{name="bitcoin-mainnet"})
+              for: 1m
+              labels:
+                severity: page
+              annotations:
+                summary: No hosts in network {{ $labels.name }}, production traffic impacted!
+                description: There are currently no hosts up in the network {{ $labels.name }}, verify the instance group. https://wiki.blockstream.io/OpsPlaybooks/Esplora-Runbooks#NoHostsInNetworkBitcoinMainnet
+            - alert: NoHostsInNetworkBitcoinTestnet
+              expr: absent(up{name="bitcoin-testnet"})
+              for: 1m
+              labels:
+                severity: page
+              annotations:
+                summary: No hosts in network {{ $labels.name }}, production traffic impacted!
+                description: There are currently no hosts up in the network {{ $labels.name }}, verify the instance group. https://wiki.blockstream.io/OpsPlaybooks/Esplora-Runbooks#NoHostsInNetworkBitcoinTestnet
+            - alert: NoHostsInNetworkLiquidMainnet
+              expr: absent(up{name="liquid-mainnet"})
+              for: 1m
+              labels:
+                severity: page
+              annotations:
+                summary: No hosts in network {{ $labels.name }}, production traffic impacted!
+                description: There are currently no hosts up in the network {{ $labels.name }}, verify the instance group. https://wiki.blockstream.io/OpsPlaybooks/Esplora-Runbooks#NoHostsInNetworkLiquidMainnet
+
+  - path: /home/exec/prometheus/prometheus.yml
+    permissions: 0644
+    owner: root
+    content: |
+        global:
+          evaluation_interval: 15s
+          scrape_interval: 15s
+          external_labels:
+            project: green-address-explorer
+
+        rule_files:
+          - /config/rules/alerts.yml
+
+        alerting:
+          alertmanagers:
+          - scheme: http
+            static_configs:
+            - targets:
+              - "127.0.0.1:9093"
+
+        scrape_configs:
+        - job_name: prometheus
+          relabel_configs:
+            - source_labels:
+              - '__meta_gce_label_network'
+              target_label: 'network'
+            - source_labels:
+              - '__meta_gce_label_name'
+              target_label: 'name'
+            - source_labels:
+              - '__meta_gce_instance_name'
+              target_label: 'instance_name'
+          gce_sd_configs:
+            - project: green-address-explorer
+              zone: asia-northeast1-a
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-b
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-c
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-a
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-b
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-c
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-a
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-b
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-c
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-f
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-d
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-b
+              filter: (labels.type = "prometheus")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-c
+              filter: (labels.type = "prometheus")
+              port: 9100
+        - job_name: http-tor
+          relabel_configs:
+            - source_labels:
+              - '__meta_gce_label_network'
+              target_label: 'network'
+            - source_labels:
+              - '__meta_gce_label_name'
+              target_label: 'name'
+            - source_labels:
+              - '__meta_gce_instance_name'
+              target_label: 'instance_name'
+          gce_sd_configs:
+            - project: green-address-explorer
+              zone: asia-northeast1-a
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-b
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-c
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-a
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-b
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-c
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-a
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-b
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-c
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-f
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-d
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-b
+              filter: (labels.type = "http-tor")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-c
+              filter: (labels.type = "http-tor")
+              port: 9100
+        - job_name: explorer
+          relabel_configs:
+            - source_labels:
+              - '__meta_gce_label_network'
+              target_label: 'network'
+            - source_labels:
+              - '__meta_gce_label_name'
+              target_label: 'name'
+            - source_labels:
+              - '__meta_gce_instance_name'
+              target_label: 'instance_name'
+          gce_sd_configs:
+            - project: green-address-explorer
+              zone: asia-northeast1-a
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: asia-northeast1-b
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: asia-northeast1-c
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: europe-west4-a
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: europe-west4-b
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: europe-west4-c
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-central1-a
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-central1-b
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-central1-c
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-central1-f
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-east1-d
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-east1-b
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: us-east1-c
+              filter: (labels.type = "explorer")
+              port: 4224
+            - project: green-address-explorer
+              zone: asia-northeast1-a
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-b
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-c
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-a
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-b
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: europe-west4-c
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-a
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-b
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-c
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-central1-f
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-d
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-b
+              filter: (labels.type = "explorer")
+              port: 9100
+            - project: green-address-explorer
+              zone: us-east1-c
+              filter: (labels.type = "explorer")
+              port: 9100
+
+  - path: /etc/systemd/system/prometheus.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus-server instance
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9090 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 9090
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            -v /mnt/disks/data:/data:rw \
+            -v /home/exec/prometheus:/config:ro \
+            --read-only \
+            --name prometheus \
+            "${docker_tag}" --config.file=/config/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --storage.tsdb.path=/data/metrics --storage.tsdb.retention=${retention}
+        ExecStop=/usr/bin/docker stop prometheus
+        ExecStopPost=/usr/bin/docker rm prometheus
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9090 -j ACCEPT
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStopPost=/sbin/iptables -D PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 9090
+
+        [Install]
+        WantedBy=multi-user.target
+  - path: /etc/systemd/system/alertmanager.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=alertmanager-server instance
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9093 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            -v /mnt/disks/data:/data:rw \
+            -v /home/exec/prometheus:/config:ro \
+            --read-only \
+            --name alertmanager \
+            --entrypoint=/bin/alertmanager \
+            "${docker_tag}" --config.file=/config/alertmanager.yml
+        ExecStop=/usr/bin/docker stop alertmanager
+        ExecStopPost=/usr/bin/docker rm alertmanager
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9093 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+  - path: /etc/systemd/system/node-exporter.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus node-exporter
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --name=node-exporter \
+            --network=host \
+            --read-only \
+            -v /proc:/host/proc:ro \
+            -v /sys:/host/sys:ro \
+            -v /:/rootfs:ro \
+            -v metrics:/metrics:ro \
+            "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))"
+        ExecStop=/usr/bin/docker stop node-exporter
+        ExecStopPost=/usr/bin/docker rm node-exporter
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
+runcmd:
+  - /bin/mkdir -p /mnt/disks/data/metrics
+  - /bin/chown nobody:nobody /mnt/disks/data/metrics
+  - systemctl daemon-reload
+  - systemctl start prometheus.service
+  - systemctl enable prometheus.service
+  - systemctl start alertmanager.service
+  - systemctl enable alertmanager.service
+  - systemctl start node-exporter.service
+  - systemctl enable node-exporter.service

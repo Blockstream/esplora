@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>moon_dark</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="moon_dark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M22.8258412,2.6117 C16.9597295,2.6117 12.6748563,7.32602 12.6748563,12.71088 C12.6748563,18.09574 18.1338882,22.39016 24,22.39016 C21.6644281,24.62616 18.495448,26 15.0057462,26 C7.82293268,26 2,20.17964 2,13 C2,5.82036 7.82293268,0 15.0057462,0 C17.9411431,0 20.6494597,0.97214 22.8258412,2.6117 Z" id="moon" fill="#A3ABB0" fill-rule="nonzero" transform="translate(13.000000, 13.000000) scale(-1, 1) translate(-13.000000, -13.000000) "></path>
+    </g>
+</svg>

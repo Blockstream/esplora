@@ -1,0 +1,123 @@
+variables:
+  CI_DISPOSABLE_ENVIRONMENT: "true"
+  CLOUD_SDK_VERSION: "218.0.0"
+  DOCKER_DRIVER: overlay2
+
+image: blockstream/gcloud-docker@sha256:86c3b471e6aa9790007fbd7dff459737d81947277ac612d2c18d2cf3aee62d19
+stages:
+  - build
+  - deploy
+
+before_script:
+  - TMPF=$(mktemp) || exit 1
+  - echo $GCLOUD_KEY > $TMPF
+  - export GOOGLE_APPLICATION_CREDENTIALS=$TMPF
+  - gcloud auth activate-service-account --key-file=$TMPF
+  - gcloud auth list
+  - gcloud --version
+
+test_docker_build_image:
+  image: docker@sha256:f7211e1779c82e3a50d0d6f165e83f3e2be217a234b0181d5e8bee411d8fcc5f
+  stage: build
+  before_script:
+    - echo "Disabling before script"
+  except:
+    - tags
+    - master
+  script:
+    - docker build --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"'-->' -t esplora .
+    - docker rmi esplora
+
+build:
+  stage: build
+  only:
+    - /^bitcoin_mainnet.*/
+    - /^bitcoin_testnet.*/
+    - /^liquid_mainnet.*/
+    - master@greenaddress/esplora
+  script:
+    - gcloud container images list-tags gcr.io/green-address-explorer/explorer-deploy | grep -q $CI_COMMIT_SHA || (
+        docker build
+          --squash
+          --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+          --cache-from gcr.io/green-address-explorer/explorer-deploy:latest
+          -t gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA
+          -t gcr.io/green-address-explorer/explorer-deploy:latest .
+        && docker push gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA)
+
+deploy:
+  stage: deploy
+  image:
+    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    entrypoint: [""]
+  only:
+    - master@greenaddress/esplora
+  script:
+    - (cd terraform && terraform init -input=false)
+    - (cd terraform && terraform workspace select main)
+    - (cd terraform && terraform apply
+        -var "prometheus_allowed_source_ip=$PROMETHEUS_ALLOWED_SOURCE_IP"
+        -var "machine_type=$GRAF_PROM_MACHINE_TYPE"
+        -var "hosts=$HOSTS"
+        -var "hosts_onion=$HOSTS_ONION"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "ssl_certs=$SSL_CERTS"
+        -var "opsgenie_api_key=$OPSGENIE_API_KEY"
+        -input=false -auto-approve)
+
+deploy_bitcoin_mainnet:
+  stage: deploy
+  image:
+    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    entrypoint: [""]
+  only:
+    - /^bitcoin_mainnet.*/
+  script:
+    - (cd terraform && terraform init -input=false)
+    - (cd terraform && terraform workspace select bitcoin-mainnet)
+    - (cd terraform && terraform apply
+        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -input=false -auto-approve)
+
+deploy_bitcoin_testnet:
+  stage: deploy
+  image:
+    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    entrypoint: [""]
+  only:
+    - /^bitcoin_testnet.*/
+  script:
+    - (cd terraform && terraform init -input=false)
+    - (cd terraform && terraform workspace select bitcoin-testnet)
+    - (cd terraform && terraform apply
+        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -input=false -auto-approve)
+
+deploy_liquid_mainnet:
+  stage: deploy
+  image:
+    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    entrypoint: [""]
+  only:
+    - /^liquid_mainnet.*/
+  script:
+    - (cd terraform && terraform init -input=false)
+    - (cd terraform && terraform workspace select liquid-mainnet)
+    - (cd terraform && terraform apply
+        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -input=false -auto-approve)

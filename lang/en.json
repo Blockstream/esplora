@@ -1,0 +1,18 @@
+{
+  "lang_name": "English",
+  "%s Confirmations": [
+    "",
+    "1 Confirmation",
+    "%0 Confirmations"
+  ],
+  "In best chain (%s confirmations)": [
+    "",
+    "In best chain (1 confirmation)",
+    "In best chain (%0 confirmations)"
+  ],
+  "%s Transactions": [
+    "",
+    "1 Transaction",
+    "%0 Transactions"
+  ]
+}

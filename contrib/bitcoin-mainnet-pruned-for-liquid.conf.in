@@ -1,0 +1,9 @@
+[main]
+server=1
+peerbloomfilters=0
+enforcenodebloom=1
+rpcuser=admin1
+rpcpassword={RPC_PASS}
+disablewallet=1
+prune=550
+blocksonly=1

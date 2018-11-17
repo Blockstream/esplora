@@ -1,0 +1,28 @@
+[supervisord]
+nodaemon=true
+
+[program:{DAEMON}d]
+command=/srv/explorer/{DAEMON}/bin/{DAEMON}d -conf=/data/.{DAEMON}.conf -datadir=/data/{DAEMON}
+directory=/data
+
+[program:bitcoind_for_liquid]
+command=/srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin_for_liquid.conf -datadir=/data/bitcoin_for_liquid
+directory=/data
+autostart={ISLIQUID}
+
+[program:electrs]
+command=/srv/explorer/electrs_{DAEMON}/bin/electrs --cookie admin1:{RPC_PASS} --network {ELECTRS_NETWORK} {PARENT_NETWORK} --daemon-dir /data/{DAEMON} --daemon-rpc-addr 127.0.0.1:{BTC_DAEMON_RPC_PORT} --monitoring-addr 0.0.0.0:4224 --db-dir /data/electrs_{DAEMON}_db/{NETWORK}
+autostart={EXPLORERAUTOSTART}
+directory=/data
+stopasgroup=true
+stderr_logfile=/data/logs/electrs-{DAEMON}.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=5
+
+[program:nginx]
+command=/usr/sbin/nginx -g "daemon off;"
+autostart={EXPLORERAUTOSTART}
+
+[program:tor]
+command=/usr/bin/tor
+autostart={TORAUTOSTART}

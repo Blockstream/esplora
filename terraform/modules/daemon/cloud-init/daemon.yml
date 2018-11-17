@@ -1,0 +1,82 @@
+bootcmd:
+  - /sbin/blkid /dev/disk/by-id/google-data || /sbin/mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0,discard -L data /dev/disk/by-id/google-data
+  - mkdir -p /mnt/disks/data
+
+mounts:
+  - [ /dev/disk/by-id/google-data, /mnt/disks/data, auto, "rw,noatime,discard,nobarrier,nodev" ]
+
+users:
+  - name: exec
+    uid: 2000
+
+
+write_files:
+  - path: /etc/systemd/system/explorer.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=explorer
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            --pid=host \
+            --name=${container_name} \
+            --tmpfs /tmp/ \
+            -v /mnt/disks/data:/data:rw \
+            "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network} explorer'
+        ExecStop=/usr/bin/docker stop ${container_name}
+        ExecStopPost=/usr/bin/docker rm ${container_name}
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+  - path: /etc/systemd/system/node-exporter.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus node-exporter
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --name=node-exporter \
+            --network=host \
+            --read-only \
+            -v /proc:/host/proc:ro \
+            -v /sys:/host/sys:ro \
+            -v /:/rootfs:ro \
+            -v metrics:/metrics:ro \
+            "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))"
+        ExecStop=/usr/bin/docker stop node-exporter
+        ExecStopPost=/usr/bin/docker rm node-exporter
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
+runcmd:
+  - systemctl daemon-reload
+  - systemctl start explorer.service
+  - systemctl enable explorer.service
+  - systemctl start node-exporter.service
+  - systemctl enable node-exporter.service

@@ -1,0 +1,49 @@
+FROM debian:stretch@sha256:802706fa62e75c96fff96ada0e8ca11f570895ae2e9ba4a9d409981750ca544c
+
+SHELL ["/bin/bash", "-c"]
+
+RUN mkdir -p /srv/explorer \
+ && sed -i 's/deb.debian.org/httpredir.debian.org/g' /etc/apt/sources.list \
+ && apt-get -yqq update \
+ && apt-get -yqq upgrade \
+ && apt-get -yqq install clang cmake nginx supervisor curl git tor
+
+RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github.com/creationix/nvm.git /root/.nvm \
+ && rm -rf /root/.nvm/.git \
+ && source /root/.nvm/nvm.sh \
+ && nvm install v8.11.4
+
+ENV SHA256SUM_BITCOINCORE=9d6b472dc2aceedb1a974b93a3003a81b7e0265963bd2aa0acdcb17598215a4f
+RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.17.0/bitcoin-0.17.0-x86_64-linux-gnu.tar.gz \
+ && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
+ && tar xzf bitcoin.tar.gz -C /srv/explorer \
+ && ln -s /srv/explorer/bitcoin-0.17.0 /srv/explorer/bitcoin \
+ && rm bitcoin.tar.gz
+
+ENV SHA256SUM_LIQUID=ea2836aa267b32b29e890acdd5e724b4be225c34891fd26426ce741c12c1e166
+RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.21/liquid-3.14.1.21-x86_64-linux-gnu.tar.gz \
+ && echo "${SHA256SUM_LIQUID}  liquid.tar.gz" | sha256sum --check \
+ && tar xzf liquid.tar.gz -C /srv/explorer \
+ && ln -s /srv/explorer/liquid-3.14.1.21 /srv/explorer/liquid \
+ && rm liquid.tar.gz
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
+ && source /root/.cargo/env \
+ && mkdir -p /srv/explorer/electrs{,_liquid} \
+ && git clone --no-checkout https://github.com/greenaddress/electrs.git \
+ && cd electrs \
+ && git checkout 32239bd7f56e0e5076f7cf7f546dc748026f4569 \
+ && cargo build --release \
+ && cargo install --root /srv/explorer/electrs_bitcoin \
+ && git checkout --force e82c904f2662371319eab16d4ddbcf5e35cbf93a \
+ && cargo build --release \
+ && cargo install --root /srv/explorer/electrs_liquid \
+ && cd .. \
+ && rm -fr /root/.cargo electrs \
+ && strip /srv/explorer/electrs_*/bin/electrs
+
+# cleanup
+RUN apt-get --auto-remove remove -yqq --purge clang cmake manpages curl git \
+ && apt-get clean \
+ && apt-get autoclean \
+ && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo

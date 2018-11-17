@@ -1,0 +1,78 @@
+body.theme-light {
+    color: rgba(21, 24, 28, 1);
+    background-color: #FFF;
+}
+
+.theme-light .blocks-table-row {
+    color: rgba(21, 24, 28, 1) !important;
+}
+
+.theme-light .jumbotron-fluid {
+    background-color: rgba(238, 242, 245, 1) !important;
+}
+
+.theme-light .explorer-container > .footer {
+    background-color: #fff;
+}
+
+.theme-light .transaction-box {
+    background-color: #fff;
+    border: 1px solid #15191e;
+}
+
+.theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading), .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) {
+    background-color: #fff !important;
+}
+
+.theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-body {
+    background-color: #fff !important;
+}
+
+.theme-light .language-selector {
+    background-color: rgba(169, 177, 182, 1);
+}
+
+.theme-light .jumbotron-fluid .prev-next-blocks-btns > div a > div {
+    background-color: #fff;
+}
+
+.theme-light .jumbotron-fluid .prev-next-blocks-btns > div a, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:link, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:visited, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:hover, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:focus {
+    color: rgba(21, 24, 28, 1) !important;
+}
+
+.theme-light .blocks-table-link-row:nth-child(odd) {
+    background: #fff;
+}
+
+.theme-light .search-bar {
+    background-color: #fff;
+}
+
+.theme-light .load-more {
+    color: #22242c;
+    background-color: #fff;
+}
+
+/* keep this for now - dark menu button */
+/* .theme-light .navbar-toggler {
+  border-color: rgba(17, 19, 22, 0.5);
+}
+.theme-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(17, 19, 22, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")
+} */
+
+.theme-light .footer_container_content_row_onion_link {
+  color: inherit !important;
+}
+
+.theme-light .nav-bar_moon_icon {
+    background-image: url("img/icons/moon_light.svg");
+}
+
+.theme-light .footer_container_content_row_onion_icon {
+    background-image: url("img/onion_light.svg");
+}
+
+.theme-light .jumbotron {
+    color: #fff;
+}

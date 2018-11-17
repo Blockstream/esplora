@@ -1,0 +1,120 @@
+users:
+  - name: exec
+    uid: 2000
+
+write_files:
+  - path: /home/exec/nginx.conf
+    permissions: 0644
+    owner: root
+    content: |
+      user root;
+      worker_processes  1;
+
+      error_log  /var/log/nginx/error.log;
+
+      events {
+        worker_connections  1024;
+      }
+
+      http {
+        # this nginx server is used just to redirect http to https
+        include       mime.types;
+        default_type  application/octet-stream;
+
+        log_format  combined_host '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" "$host" "$http_x_real_ip';
+        access_log /var/log/nginx/access.log combined_host;
+
+        sendfile          on;
+        keepalive_timeout 65;
+
+        server {
+          listen       80;
+          server_name  explorer.greenaddress.it explorer.blockstream.com blockstream.info;
+
+          location /lbtest {
+            return 200;
+          }
+          location / {
+            return 301 https://$host$request_uri;
+          }
+        }
+
+        server {
+          listen 80 default_server;
+          server_name _;
+
+          location /lbtest {
+            return 200;
+          }
+          location / {
+            return 301 https://blockstream.info$request_uri;
+          }
+        }
+      }
+  - path: /etc/systemd/system/nginx.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=Nginx LB instance
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_nginx}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            --pid=host \
+            --name=nginx \
+            --tmpfs /tmp/ \
+            -v /home/exec/nginx.conf:/etc/nginx/nginx.conf:ro \
+            "${docker_tag_nginx}"
+        ExecStop=/usr/bin/docker stop nginx
+        ExecStopPost=/usr/bin/docker rm nginx
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+  - path: /etc/systemd/system/node-exporter.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus node-exporter
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --name=node-exporter \
+            --network=host \
+            --read-only \
+            -v /proc:/host/proc:ro \
+            -v /sys:/host/sys:ro \
+            -v /:/rootfs:ro \
+            -v metrics:/metrics:ro \
+            "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))"
+        ExecStop=/usr/bin/docker stop node-exporter
+        ExecStopPost=/usr/bin/docker rm node-exporter
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
+runcmd:
+  - systemctl daemon-reload
+  - systemctl start nginx.service
+  - systemctl enable nginx.service
+  - systemctl start node-exporter.service
+  - systemctl enable node-exporter.service

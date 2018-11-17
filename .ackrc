@@ -1,0 +1,4 @@
+--ignore-dir=dist
+--ignore-dir=www/img
+--ignore-dir=www/font
+--ignore-file=is:bootstrap.min.css
