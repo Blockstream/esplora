@@ -10,6 +10,11 @@ export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang
 export const formatAmount = vout =>
   vout.value == null ? 'Confidential' : `${ sat2btc(vout.value, true) } ${ vout.asset !== '' ? outAssetLabel(vout) : '' }`
 
+export const formatHex = num => {
+  const str = num.toString(16)
+  return '0x' + (str.length%2 ? '0' : '') + str
+}
+
 const parentChainExplorerTx = process.env.PARENT_CHAIN_EXPLORER_TX || '/tx/{txid}'
 const parentChainExplorerAddr = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
 

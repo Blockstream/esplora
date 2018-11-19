@@ -79,3 +79,6 @@ Amount commitment
 Reissuance keys
 Reissuance commitment
 No reissuance
+Bits
+Nonce
+Merkle root

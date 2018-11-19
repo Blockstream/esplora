@@ -62,5 +62,14 @@
   "OP_RETURN data": "מידע OP_RETURN",
   "Output in parent chain": "מטבע משרשרת אם",
   "Coinbase": "פרס כרייה",
-  "Spending tx": "נוצל ע\"י"
+  "Spending tx": "נוצל ע\"י",
+
+  "Asset ID": "מזהה נכס",
+  "Issuance": "הנפקה",
+  "New asset": "נכס חדש",
+  "Reissuance": "הנפקה נוספת",
+  "Issuance amount": "כמות הנפקה",
+  "Reissuance keys": "מפתחות הנפקה מחדש",
+  "No reissuance": "ללא הנפקה מחדש"
+
 }

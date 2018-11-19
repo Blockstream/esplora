@@ -39,7 +39,7 @@ const standard = (vout, { isOpen, spend, t }) => layout(
 
     <div className="vout-body-row">
       <div>{t`scriptPubKey.hex`}</div>
-      <div className="mono">{vout.scriptpubkey_hex}</div>
+      <div className="mono">{vout.scriptpubkey}</div>
     </div>
 
     { vout.scriptpubkey_type == 'op_return' &&
