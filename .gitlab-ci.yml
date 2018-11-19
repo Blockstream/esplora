@@ -15,7 +15,7 @@ before_script:
   - gcloud auth activate-service-account --key-file=$TMPF
   - gcloud auth list
   - gcloud --version
-  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
 test_docker_build_image:
   image: docker@sha256:f7211e1779c82e3a50d0d6f165e83f3e2be217a234b0181d5e8bee411d8fcc5f
