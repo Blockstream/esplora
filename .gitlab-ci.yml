@@ -42,14 +42,15 @@ build:
     - docker push blockstream/esplora-base:latest
     - esplora_base_sha=$(docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base:$CI_COMMIT_REF_SLUG)
     - sed -i "s~blockstream/esplora-base:latest~${esplora_base_sha}~g" Dockerfile
-    - gcloud container images list-tags gcr.io/green-address-explorer/explorer-deploy | grep -q $CI_COMMIT_SHA || (
+    - curl "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/" | grep -q "$CI_COMMIT_SHA" || (
         docker build
           --squash
           --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
-          --cache-from gcr.io/green-address-explorer/explorer-deploy:latest
-          -t gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA
-          -t gcr.io/green-address-explorer/explorer-deploy:latest .
-        && docker push gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA)
+          --cache-from blockstream/esplora:latest
+          -t blockstream/esplora:$CI_COMMIT_SHA
+          -t blockstream/esplora:latest .
+        && docker push blockstream/esplora:$CI_COMMIT_SHA
+        && docker push blockstream/esplora:latest)
 
 deploy:
   stage: deploy
@@ -85,7 +86,7 @@ deploy_bitcoin_mainnet:
     - (cd terraform && terraform init -input=false &&
        terraform workspace select bitcoin-mainnet &&
        terraform apply
-        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -103,7 +104,7 @@ deploy_bitcoin_testnet:
     - (cd terraform && terraform init -input=false &&
        terraform workspace select bitcoin-testnet &&
        terraform apply
-        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -121,7 +122,7 @@ deploy_liquid_mainnet:
     - (cd terraform && terraform init -input=false &&
        terraform workspace select liquid-mainnet &&
        terraform apply
-        -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
