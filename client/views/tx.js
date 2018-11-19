@@ -8,7 +8,7 @@ import { formatAmount } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
-export default ({ t, tx, txStatus: status, tipHeight, spends, openTx }) => tx && layout(
+export default ({ t, tx, tipHeight, spends, openTx }) => tx && layout(
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
@@ -25,15 +25,17 @@ export default ({ t, tx, txStatus: status, tipHeight, spends, openTx }) => tx &&
       </div>
     </div>
     <div className="container">
-      {txHeader(tx, status, { t, tipHeight })}
-      {txBox({ ...tx, status }, { openTx, tipHeight, t, spends })}
+      {txHeader(tx, { t, tipHeight })}
+      {txBox(tx, { openTx, tipHeight, t, spends })}
     </div>
   </div>
 , { t })
 
+const confirmationText = (status, tipHeight, t) =>
+  !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
+
 export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
   const isOpen = openTx == tx.txid
-      , confs  = !tx.status ? null : tx.status.confirmed ? tipHeight-tx.status.block_height+1 : 0
 
   return <div className="transaction-box">
     <div className="header">
@@ -63,7 +65,7 @@ export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
       <div></div>
       <div></div>
       <div>
-        <span>{ confs == null ? '' : confs === 0 ? t`Unconfirmed` : t`${confs} Confirmations`} {isRbf(tx) ? t`(RBF)` : ''}</span>
+        <span>{confirmationText(tx.status, tipHeight, t)} {isRbf(tx) ? t`(RBF)` : ''}</span>
         <span className="amount">{ isAnyConfidential(tx) ? t`Confidential`
               : isAllNative(tx)       ? formatAmount({ value: outTotal(tx) })
               : ''}</span>
@@ -71,15 +73,15 @@ export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
     </div>
   </div>
 }
-const txHeader = (tx, status, { tipHeight, t }) =>
+const txHeader = (tx, { tipHeight, t }) =>
   <div className="block-stats-table">
     <div>
       <div>{t`Status`}</div>
-      <div>{!status ? '' : !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`}</div>
+      <div>{confirmationText(tx.status, tipHeight, t)}</div>
     </div>
-   {(status && status.confirmed) && <div>
+   {(tx.status.confirmed) && <div>
       <div>{t`Included in Block`}</div>
-      <div><a href={`block/${status.block_hash}`}>{status.block_hash}</a></div>
+      <div><a href={`block/${tx.status.block_hash}`} className="mono">{tx.status.block_hash}</a></div>
     </div>}
     <div>
       <div>{t`Size (bytes)`}</div>

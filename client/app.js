@@ -1,6 +1,5 @@
 import 'babel-polyfill'
 import 'bootstrap/js/dist/collapse'
-import EventEmitter from 'events'
 import { Observable as O } from './rxjs'
 import run from '@cycle/rxjs-run'
 import storageDriver from '@cycle/storage'
@@ -20,9 +19,8 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.
-const searchEm = new EventEmitter
-document.body.addEventListener('submit', e =>
-  e.target.classList.contains('search') && (e.preventDefault(), searchEm.emit('search', e)))
+const searchSubmit$ = O.fromEvent(document.body, 'submit')
+  .filter(e => e.target.classList.contains('search'))
 
 function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   const
@@ -43,7 +41,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock)
   , togTheme$ = click('.toggle-theme')
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
-  , query$    = O.merge(O.fromEvent(searchEm, 'search').map(e => e.target.querySelector('[name=q]').value), goSearch$)
+  , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
 
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))
   , moreBTxs$   = click('[data-loadmore-txs-block]').map(d => ({ block: d.loadmoreTxsBlock, start_index: d.loadmoreTxsIndex }))
@@ -104,7 +102,6 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null))
-  , txStatus$ = reply('tx-stat').merge(goTx$.mapTo(null))
 
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
@@ -135,7 +132,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , blocks$, nextMoreBlocks$
                      , block$, blockStatus$, blockTxs$, nextMoreBTxs$, openBlock$
-                     , tx$, txStatus$, openTx$
+                     , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
                      , loading$, view$
                      })
@@ -144,14 +141,13 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 
   // HTTP request sink
   , req$ = O.merge(
-    // fetch single block and its status
+    // fetch single block, its status and its txs
       goBlock$.flatMap(hash => [{ category: 'block',      method: 'GET', path: `/block/${hash}` }
                               , { category: 'block-stat', method: 'GET', path: `/block/${hash}/status` }
                               , { category: 'block-txs',  method: 'GET', path: `/block/${hash}/txs` } ])
 
-    // fetch single tx and its status
-    , goTx$.flatMap(txid    => [{ category: 'tx',         method: 'GET', path: `/tx/${txid}` }
-                              , { category: 'tx-stat',    method: 'GET', path: `/tx/${txid}/status` }])
+    // fetch single tx (including confirmation status)
+    , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
 
     // fetch address stats
     , goAddr$.flatMap(addr  => [{ category: 'address',    method: 'GET', path: `/address/${addr}` }
@@ -161,10 +157,10 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     , O.merge(goHome$.mapTo({ }), moreBlocks$)
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height || ''}` }))
 
-    // fetch list of txs for block page
+    // fetch more txs for block page
     , moreBTxs$.map(d       => ({ category: 'block-txs',  method: 'GET', path: `/block/${d.block}/txs/${d.start_index}` }))
 
-    // fetch list of txs for address page
+    // fetch more txs for address page
     , moreATxs$.map(d       => ({ category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/${d.start_index}` }))
 
     // fetch block by height
@@ -176,7 +172,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 
     // get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     , O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
-        .mapTo(                 { category: 'tip-height', method: 'GET', path: '/tip/height', bg: true } )
+        .mapTo(                 { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
 
     ).map(setBase)
 

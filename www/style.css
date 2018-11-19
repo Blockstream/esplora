@@ -649,7 +649,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
 
 .block-stats-table > div > div:nth-child(2) {
   text-align: right;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .addr-stats-table > div {

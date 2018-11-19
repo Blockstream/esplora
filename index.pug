@@ -1,20 +1,21 @@
 doctype html
 
-meta(charset='utf-8')
-title= process.env.SITE_TITLE || 'Block Explorer'
-meta(property='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Block explorer')
-meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
+head
+  meta(charset='utf-8')
+  title= process.env.SITE_TITLE || 'Block Explorer'
+  meta(property='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Block explorer')
+  meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
 
-base(href=process.env.BASE_HREF || '/')
+  base(href=process.env.BASE_HREF || '/')
 
-meta(name='viewport', content='width=device-width, initial-scale=1')
-link(rel='shortcut icon', type='image/png', href='img/favicon_new.png')
-link(rel='stylesheet', href='bootstrap.min.css')
-link(rel='stylesheet', href='style.css')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  link(rel='shortcut icon', type='image/png', href='img/favicon_new.png')
+  link(rel='stylesheet', href='bootstrap.min.css')
+  link(rel='stylesheet', href='style.css')
 
-!= process.env.CUSTOM_HEAD_HTML
+  != process.env.HEAD_HTML
 
 body(class=prerender_html?'theme-dark':'')
   #liquid-explorer.liquid-explorer!= prerender_html || ''
   script(src='app.js', async)
-  != process.env.CUSTOM_HTML
+  != process.env.FOOT_HTML

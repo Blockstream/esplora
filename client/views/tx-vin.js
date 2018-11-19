@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatAmount, linkToAddr } from './util'
+import { linkToParentOut, formatAmount, formatHex, linkToAddr } from './util'
 
 const layout = (vin, desc, body, { t }) =>
   <div className="vin">
@@ -16,11 +16,11 @@ const coinbase = (vin, { t }) => layout(vin, t`Coinbase`, null, { t })
 
 const pegin = (vin, { isOpen, t }) => layout(
   vin
-, linkToParentOut(vin.outpoint, t`Output in parent chain`)
+, linkToParentOut(vin, t`Output in parent chain`)
 , isOpen && <div className="vin-body">
     <div>
       <div>{t`txid:vout`}</div>
-      <div className="mono">{linkToParentOut(vin.outpoint)}</div>
+      <div className="mono">{linkToParentOut(vin)}</div>
     </div>
   </div>
 , { t }
@@ -33,7 +33,7 @@ const standard = (vin, { isOpen, t }) => layout(
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
       <div>{t`txid:vout`}</div>
-      <div className="mono"><a href={`tx/${vin.outpoint.txid}`}>{vin.outpoint.txid}:{vin.outpoint.vout}</a></div>
+      <div className="mono"><a href={`tx/${vin.txid}`}>{vin.txid}:{vin.vout}</a></div>
     </div>
 
     { vin.issuance && [
@@ -75,7 +75,7 @@ const standard = (vin, { isOpen, t }) => layout(
     </div>
     <div className="vin-body-row">
       <div>{t`scriptSig.hex`}</div>
-      <div className="mono">{vin.scriptsig_hex}</div>
+      <div className="mono">{vin.scriptsig}</div>
     </div>
 
     { vin.witness && <div className="vin-body-row">
@@ -85,7 +85,7 @@ const standard = (vin, { isOpen, t }) => layout(
 
     <div className="vin-body-row">
       <div>{t`nSequence`}</div>
-      <div className="mono">0x{ vin.sequence.toString(16) }</div>
+      <div className="mono">{formatHex(vin.sequence)}</div>
     </div>
 
   </div>
@@ -93,6 +93,6 @@ const standard = (vin, { isOpen, t }) => layout(
 )
 
 export default (vin, opt) =>
-  vin.is_coinbase       ? coinbase(vin, opt)
-: vin.outpoint.is_pegin ? pegin(vin, opt)
-                        : standard(vin, opt)
+  vin.is_coinbase ? coinbase(vin, opt)
+: vin.is_pegin    ? pegin(vin, opt)
+                  : standard(vin, opt)

@@ -2,7 +2,7 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatTime } from './util'
+import { formatTime, formatHex } from './util'
 
 const formatHeight = height => height
 
@@ -47,12 +47,12 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
     </div>
     <div className="container">
 
-      { b.proof && <div className="details-btn float-right mb-2" data-toggleBlock={b.id}>
+      <div className="details-btn float-right mb-2" data-toggleBlock={b.id}>
         <div role="button" tabindex="0">
           <div>{t`Details`}</div>
           <div><img alt="" src={`img/icons/${ openBlock == b.id ? 'minus' : 'plus' }.svg`}/></div>
         </div>
-      </div> }
+      </div>
 
       <div className="block-stats-table">
         <div>
@@ -80,15 +80,44 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
           <div>{b.weight/1000}</div>
         </div>
 
-        { /* block proof for federated chains */ }
-        { b.proof && openBlock == b.id && <div>
-          <div>{t`Block Challenge`}</div>
-          <div className="mono">{b.proof.challenge_asm}</div>
-        </div> }
-        { b.proof && openBlock == b.id && <div>
-          <div>{t`Block Solution`}</div>
-          <div className="mono">{b.proof.solution_asm}</div>
-        </div> }
+        { /* advanced details */ }
+        { openBlock == b.id && [
+
+            <div>
+              <div>{t`Version`}</div>
+              <div className="mono">{formatHex(b.version)}</div>
+            </div>
+          , <div>
+              <div>{t`Merkle root`}</div>
+              <div className="mono">{b.merkle_root}</div>
+            </div>
+
+          /* PoW chains */
+          , b.bits ? [
+              <div>
+                <div>{t`Bits`}</div>
+                <div className="mono">{formatHex(b.bits)}</div>
+              </div>
+            , <div>
+                <div>{t`Nonce`}</div>
+                <div className="mono">{formatHex(b.nonce)}</div>
+              </div>
+            ]
+
+          /* Federated chains */
+          : b.proof ? [
+              <div>
+                <div>{t`Block Challenge`}</div>
+                <div className="mono">{b.proof.challenge_asm}</div>
+              </div>
+            , <div>
+                <div>{t`Block Solution`}</div>
+                <div className="mono">{b.proof.solution_asm}</div>
+             </div>
+            ]
+          : null
+        ] }
+
 
       </div>
 
