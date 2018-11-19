@@ -92,9 +92,10 @@ if [ "${DAEMON}" == "liquid" ]; then
     DAEMON=bitcoin
     preprocess /srv/explorer/cli.sh.in /usr/bin/cli_bitcoin
     DAEMON=liquid
+    chmod +x /usr/bin/cli_bitcoin
 fi
 
-chmod +x /usr/bin/cli /usr/bin/cli_bitcoin
+chmod +x /usr/bin/cli
 
 if [ ! -d /data/logs ]; then
     # initial sync: initialize directories
