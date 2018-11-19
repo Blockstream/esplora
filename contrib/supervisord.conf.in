@@ -6,7 +6,7 @@ command=/srv/explorer/{DAEMON}/bin/{DAEMON}d -conf=/data/.{DAEMON}.conf -datadir
 directory=/data
 
 [program:bitcoind_for_liquid]
-command=/srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin_for_liquid.conf -datadir=/data/bitcoin_for_liquid
+command=/srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin.conf -datadir=/data/bitcoin_for_liquid
 directory=/data
 autostart={ISLIQUID}
 
