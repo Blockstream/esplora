@@ -15,6 +15,7 @@ before_script:
   - gcloud auth activate-service-account --key-file=$TMPF
   - gcloud auth list
   - gcloud --version
+  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
 
 test_docker_build_image:
   image: docker@sha256:f7211e1779c82e3a50d0d6f165e83f3e2be217a234b0181d5e8bee411d8fcc5f
@@ -36,6 +37,11 @@ build:
     - /^liquid_mainnet.*/
     - master@greenaddress/esplora
   script:
+    - docker pull blockstream/esplora-base:latest || true
+    - docker build --cache-from blockstream/esplora-base:latest -t blockstream/esplora-base:$CI_COMMIT_REF_SLUG -t blockstream/esplora-base:latest -f Dockerfile.deps .
+    - docker push blockstream/esplora-base:latest
+    - esplora_base_sha=$(docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base:$CI_COMMIT_REF_SLUG)
+    - sed -i "s~blockstream/esplora-base:latest~${esplora_base_sha}~g" Dockerfile
     - gcloud container images list-tags gcr.io/green-address-explorer/explorer-deploy | grep -q $CI_COMMIT_SHA || (
         docker build
           --squash
@@ -76,9 +82,9 @@ deploy_bitcoin_mainnet:
   only:
     - /^bitcoin_mainnet.*/
   script:
-    - (cd terraform && terraform init -input=false)
-    - (cd terraform && terraform workspace select bitcoin-mainnet)
-    - (cd terraform && terraform apply
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-mainnet &&
+       terraform apply
         -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
@@ -94,9 +100,9 @@ deploy_bitcoin_testnet:
   only:
     - /^bitcoin_testnet.*/
   script:
-    - (cd terraform && terraform init -input=false)
-    - (cd terraform && terraform workspace select bitcoin-testnet)
-    - (cd terraform && terraform apply
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-testnet &&
+       terraform apply
         -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
@@ -112,9 +118,9 @@ deploy_liquid_mainnet:
   only:
     - /^liquid_mainnet.*/
   script:
-    - (cd terraform && terraform init -input=false)
-    - (cd terraform && terraform workspace select liquid-mainnet)
-    - (cd terraform && terraform apply
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-mainnet &&
+       terraform apply
         -var "docker_tag_explorer=gcr.io/green-address-explorer/explorer-deploy:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"

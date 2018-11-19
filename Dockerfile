@@ -1,4 +1,4 @@
-FROM blockstream/esplora-base@sha256:b9c388dd7e99bb808fce981fc788a1915976a4236881b95001847b373514e1d5 AS build
+FROM blockstream/esplora-base:latest AS build
 
 FROM debian:stretch@sha256:802706fa62e75c96fff96ada0e8ca11f570895ae2e9ba4a9d409981750ca544c
 
