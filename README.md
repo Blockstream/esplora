@@ -40,18 +40,10 @@ docker push blockstream/esplora-base:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
 ```
 
-# Build new gcloud-docker
+# Build new ci
 
 ```
-docker build --squash -t blockstream/gcloud-docker:latest -f Dockerfile.docker .
+docker build --squash -t blockstream/gcloud-docker:latest -f Dockerfile.ci .
 docker push blockstream/gcloud-docker:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-docker
-```
-
-# Build new gcloud-terraform
-
-```
-docker build --squash -t blockstream/gcloud-terraform:latest -f Dockerfile.terraform .
-docker push blockstream/gcloud-terraform:latest
-docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-terraform
 ```

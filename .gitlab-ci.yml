@@ -3,7 +3,7 @@ variables:
   CLOUD_SDK_VERSION: "218.0.0"
   DOCKER_DRIVER: overlay2
 
-image: blockstream/gcloud-docker@sha256:86c3b471e6aa9790007fbd7dff459737d81947277ac612d2c18d2cf3aee62d19
+image: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
 stages:
   - build
   - deploy
@@ -55,7 +55,7 @@ build:
 deploy:
   stage: deploy
   image:
-    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
     entrypoint: [""]
   only:
     - master@greenaddress/esplora
@@ -78,7 +78,7 @@ deploy:
 deploy_bitcoin_mainnet:
   stage: deploy
   image:
-    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
     entrypoint: [""]
   only:
     - /^bitcoin_mainnet.*/
@@ -96,7 +96,7 @@ deploy_bitcoin_mainnet:
 deploy_bitcoin_testnet:
   stage: deploy
   image:
-    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
     entrypoint: [""]
   only:
     - /^bitcoin_testnet.*/
@@ -114,7 +114,7 @@ deploy_bitcoin_testnet:
 deploy_liquid_mainnet:
   stage: deploy
   image:
-    name: blockstream/gcloud-terraform@sha256:40e23b0e89a66ae24e1e8ee9770b9bab3b71ebae50615c8ff5023ff3d5392344
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
     entrypoint: [""]
   only:
     - /^liquid_mainnet.*/

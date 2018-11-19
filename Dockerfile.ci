@@ -1,4 +1,7 @@
-FROM hashicorp/terraform@sha256:3d5eb7a88d94f5216658b804acd70597e0315b8839a099a3d33baa45494bca65
+FROM hashicorp/terraform@sha256:3d5eb7a88d94f5216658b804acd70597e0315b8839a099a3d33baa45494bca65 AS terraform
+FROM docker@sha256:f7211e1779c82e3a50d0d6f165e83f3e2be217a234b0181d5e8bee411d8fcc5f
+
+COPY --from=terraform /bin/terraform /bin/terraform
 
 ENV CLOUD_SDK_VERSION="224.0.0"
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH
