@@ -26,7 +26,12 @@ test_docker_build_image:
     - tags
     - master
   script:
-    - docker build --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"'-->' -t esplora .
+    - docker pull blockstream/esplora:latest
+    - docker build
+        --squash
+        --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
+        --cache-from blockstream/esplora:latest
+        -t esplora .
     - docker rmi esplora
 
 build:
@@ -43,14 +48,18 @@ build:
     - esplora_base_sha=$(docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base:$CI_COMMIT_REF_SLUG)
     - sed -i "s~blockstream/esplora-base:latest~${esplora_base_sha}~g" Dockerfile
     - curl "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/" | grep -q "$CI_COMMIT_SHA" || (
-        docker build
+        docker pull blockstream/esplora:latest
+        && docker build
+          --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+          --cache-from blockstream/esplora:latest
+          -t blockstream/esplora:latest .
+        && docker push blockstream/esplora:latest
+        && docker build
           --squash
           --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
           --cache-from blockstream/esplora:latest
-          -t blockstream/esplora:$CI_COMMIT_SHA
-          -t blockstream/esplora:latest .
-        && docker push blockstream/esplora:$CI_COMMIT_SHA
-        && docker push blockstream/esplora:latest)
+          -t blockstream/esplora:$CI_COMMIT_SHA .
+        && docker push blockstream/esplora:$CI_COMMIT_SHA)
 
 deploy:
   stage: deploy
