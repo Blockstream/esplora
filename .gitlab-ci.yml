@@ -30,6 +30,7 @@ test_docker_build_image:
     - docker pull blockstream/esplora:latest
     - docker build
         --cache-from blockstream/esplora-base:latest
+        -f Dockerfile.deps
         -t esplora-base .
     - docker build
         --squash
