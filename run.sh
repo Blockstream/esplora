@@ -25,7 +25,6 @@ echo "Enabled mode ${MODE}"
 
 DAEMON=$(echo ${FLAVOR} | cut -d'-' -f1)
 NETWORK=$(echo ${FLAVOR} | cut -d'-' -f2)
-RPC_PASS=$(cat /dev/urandom | tr -dc _A-Z-a-z-0-9 | head -c 32) || true
 BTC_DAEMON_RPC_PORT=2002
 
 ELECTRS_NETWORK=${NETWORK}
@@ -56,7 +55,6 @@ function preprocess(){
        -e "s|{NETWORK}|$NETWORK|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
-       -e "s|{RPC_PASS}|$RPC_PASS|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
        -e "s|{NGINX_NOSLASH_PATH}|$NGINX_NOSLASH_PATH|g" \
