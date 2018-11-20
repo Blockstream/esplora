@@ -26,12 +26,17 @@ test_docker_build_image:
     - tags
     - master
   script:
+    - docker pull blockstream/esplora-base:latest
     - docker pull blockstream/esplora:latest
+    - docker build
+        --cache-from blockstream/esplora-base:latest
+        -t esplora-base .
     - docker build
         --squash
         --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
         --cache-from blockstream/esplora:latest
         -t esplora .
+    - docker rmi esplora-base
     - docker rmi esplora
 
 build:
