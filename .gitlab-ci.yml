@@ -34,7 +34,7 @@ test_docker_build_image:
         -t esplora-base .
     - docker build
         --squash
-        --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
+        --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
         --cache-from blockstream/esplora:latest
         -t esplora .
     - docker rmi esplora-base
@@ -56,13 +56,13 @@ build:
     - curl "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/" | grep -q "$CI_COMMIT_SHA" || (
         docker pull blockstream/esplora:latest
         && docker build
-          --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+          --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
           --cache-from blockstream/esplora:latest
           -t blockstream/esplora:latest .
         && docker push blockstream/esplora:latest
         && docker build
           --squash
-          --build-arg CUSTOM_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+          --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
           --cache-from blockstream/esplora:latest
           -t blockstream/esplora:$CI_COMMIT_SHA .
         && docker push blockstream/esplora:$CI_COMMIT_SHA)

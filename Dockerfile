@@ -15,7 +15,7 @@ RUN mkdir /tmp/explorer \
 
 COPY ./ /tmp/explorer
 
-ARG CUSTOM_HTML
+ARG FOOT_HTML
 
 WORKDIR /tmp/explorer
 
