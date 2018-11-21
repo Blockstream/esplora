@@ -3,16 +3,6 @@ variable "boot_image" {
   default = "cos-cloud/cos-stable"
 }
 
-variable "initial_delay_sec" {
-  type    = "string"
-  default = "300"
-}
-
-variable "network" {
-  type    = "string"
-  default = "default"
-}
-
 variable "project" {
   type = "string"
 }

@@ -21,7 +21,7 @@ resource "google_compute_instance_group_manager" "tor" {
 
   auto_healing_policies {
     health_check      = "${google_compute_health_check.tor.self_link}"
-    initial_delay_sec = "${var.initial_delay_sec}"
+    initial_delay_sec = "120"
   }
 }
 
@@ -32,9 +32,8 @@ resource "google_compute_instance_template" "tor" {
   count        = "${var.create_resources}"
 
   labels {
-    type    = "tor"
-    name    = "${var.name}"
-    network = "${var.network}"
+    type = "tor"
+    name = "${var.name}"
   }
 
   disk {
