@@ -102,7 +102,14 @@ write_files:
                 --key=${kms_key} \
                 --ciphertext-file=/root/secrets/private_key.enc \
                 --plaintext-file=/root/secrets/private_key
-        ExecStartPost=/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.* /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.* /home/bs/tor/hidden_service/private_key.*
+        ExecStartPost=/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.*
+        ExecStartPost=/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.*
+        ExecStartPost=/bin/rm /home/bs/tor/hidden_service/private_key.*
+        ExecStartPost=/bin/chmod -R 2700 /home/bs/tor/
+        ExecStartPost=/bin/chmod 0644 /home/bs/tor/hidden_service_v3/hs_ed25519_public_key
+        ExecStartPost=/bin/chmod 0600 /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key
+        ExecStartPost=/bin/chmod 0600 /home/bs/tor/hidden_service/private_key
+        ExecStartPost=/bin/chown -R bs:bs /home/bs/tor/
 
   - path: /etc/systemd/system/tor.service
     permissions: 0644
@@ -140,7 +147,6 @@ runcmd:
   - base64 -d /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc.b64 > /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc
   - base64 -d /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc.b64 > /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc
   - base64 -d /home/bs/tor/hidden_service/private_key.enc.b64 > /home/bs/tor/hidden_service/private_key.enc
-  - chown -R bs:bs /home/bs/tor/
   - systemctl enable tor.service
   - systemctl enable decrypt.service
   - systemctl start decrypt.service
