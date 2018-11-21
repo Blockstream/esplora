@@ -49,6 +49,23 @@ variable "docker_tag" {
   type = "string"
 }
 
+variable "docker_tag_gcloud" {
+  type    = "string"
+  default = "google/cloud-sdk@sha256:b0d0555efef6a566f42fc4f0d89be9e1d74aff4565e27bbd206405f759d3f2b0"
+}
+
 variable "hosts_onion" {
   default = ["", ""]
+}
+
+variable "kms_key" {
+  type = "string"
+}
+
+variable "kms_key_ring" {
+  type = "string"
+}
+
+variable "kms_location" {
+  type = "string"
 }

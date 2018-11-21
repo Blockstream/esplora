@@ -45,6 +45,9 @@ module "tor" {
   tor_lb           = "${terraform.workspace == "main" ? google_compute_global_address.onion-lb.address : ""}"
   docker_tag       = "${var.docker_tag_tor}"
   hosts_onion      = "${var.hosts_onion}"
+  kms_key          = "${google_kms_crypto_key.esplora-crypto-key.name}"
+  kms_key_ring     = "${google_kms_key_ring.esplora-key-ring.name}"
+  kms_location     = "${var.kms_location}"
 
   create_resources = "${local.create_main}"
 }

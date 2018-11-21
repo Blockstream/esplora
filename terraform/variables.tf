@@ -136,3 +136,7 @@ variable "prometheus_allowed_source_ip" {
 variable "opsgenie_api_key" {
   default = ""
 }
+
+variable "kms_location" {
+  default = "us-central1"
+}

@@ -13,7 +13,8 @@ data "template_file" "tor" {
     v3_pk   = "${file("${path.module}/v3.pk")}"
     v3_pubk = "${file("${path.module}/v3.pubk")}"
 
-    docker_tag = "${var.docker_tag}"
+    docker_tag        = "${var.docker_tag}"
+    docker_tag_gcloud = "${var.docker_tag_gcloud}"
   }
 }
 

@@ -75,9 +75,9 @@ deploy:
   only:
     - master@greenaddress/esplora
   script:
-    - (echo -n $V2_PK | base64 -d - > terraform/modules/tor/v2.pk)
-    - (echo -n $V3_PK | base64 -d - > terraform/modules/tor/v3.pk)
-    - (echo -n $V3_PUBK | base64 -d - > terraform/modules/tor/v3.pubk)
+    - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
+    - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
+    - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
     - (cd terraform && terraform init -input=false)
     - (cd terraform && terraform workspace select main)
     - (cd terraform && terraform apply

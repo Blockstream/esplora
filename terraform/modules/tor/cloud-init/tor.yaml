@@ -1,11 +1,27 @@
 users:
-  - name: exec
+  - name: bs
     uid: 2000
 
 write_files:
-  - path: /home/exec/torrc
+  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc
+    permissions: 0600
+    owner: root
+    content: |
+        ${v3_pubk}
+  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc
+    permissions: 0600
+    owner: root
+    content: |
+        ${v3_pk}
+  - path: /home/bs/tor/hidden_service/private_key.enc
+    permissions: 0600
+    owner: root
+    content: |
+        ${v2_pk}
+
+  - path: /home/bs/torrc
     permissions: 0644
-    owner: exec
+    owner: root
     content: |
         DataDirectory /home/tor/tor
         PidFile /var/run/tor/tor.pid
@@ -29,17 +45,63 @@ write_files:
         HiddenServiceVersion 3
         HiddenServicePort 80 ${tor_lb}:80
 
-  - path: /home/exec/tor/hidden_service/hostname
+  - path: /home/bs/tor/hidden_service/hostname
     permissions: 0600
-    owner: exec
+    owner: root
     content: |
         ${v2_host}
 
-  - path: /home/exec/tor/hidden_service_v3/hostname
+  - path: /home/bs/tor/hidden_service_v3/hostname
     permissions: 0600
-    owner: exec
+    owner: root
     content: |
         ${v3_host}
+
+  - path: /etc/systemd/system/decrypt.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=decrypt secrets against KMS
+        Wants=gcr-online.target
+        After=gcr-online.target
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=true
+        Environment=HOME=/home/bs
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
+        ExecStart=/usr/bin/docker run \
+            --name=decrypt \
+            --rm \
+            -v /home/bs/tor/hidden_service_v3/:/root/secrets:rw \
+            "${docker_tag_gcloud}" gcloud kms decrypt \
+                --location=${kms_location} \
+                --keyring=${kms_key_ring} \
+                --key=${kms_key} \
+                --ciphertext-file=/root/secrets/hs_ed25519_public_key.enc \
+                --plaintext-file=/root/secrets/hs_ed25519_public_key
+        ExecStart=/usr/bin/docker run \
+            --name=decrypt \
+            --rm \
+            -v /home/bs/tor/hidden_service_v3/:/root/secrets:rw \
+            "${docker_tag_gcloud}" gcloud kms decrypt \
+                --location=${kms_location} \
+                --keyring=${kms_key_ring} \
+                --key=${kms_key} \
+                --ciphertext-file=/root/secrets/hs_ed25519_secret_key.enc \
+                --plaintext-file=/root/secrets/hs_ed25519_secret_key
+        ExecStart=/usr/bin/docker run \
+            --name=decrypt \
+            --rm \
+            -v /home/bs/tor/hidden_service/:/root/secrets:rw \
+            "${docker_tag_gcloud}" gcloud kms decrypt \
+                --location=${kms_location} \
+                --keyring=${kms_key_ring} \
+                --key=${kms_key} \
+                --ciphertext-file=/root/secrets/private_key.enc \
+                --plaintext-file=/root/secrets/private_key
 
   - path: /etc/systemd/system/tor.service
     permissions: 0644
@@ -48,12 +110,12 @@ write_files:
         [Unit]
         Description=tor node
         Wants=gcr-online.target docker.service
-        After=gcr-online.service docker.service
+        After=gcr-online.service docker.service decrypt.service
 
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9050 -j ACCEPT
@@ -62,8 +124,8 @@ write_files:
             --pid=host \
             --name=tor \
             --tmpfs /tmp/ \
-            -v /home/exec/torrc:/home/tor/torrc:ro \
-            -v /home/exec/tor:/home/tor/tor:rw \
+            -v /home/bs/torrc:/home/tor/torrc:ro \
+            -v /home/bs/tor:/home/tor/tor:rw \
             "${docker_tag}" tor -f /home/tor/torrc
         ExecStop=/usr/bin/docker stop tor
         ExecStopPost=/usr/bin/docker rm tor
@@ -73,17 +135,8 @@ write_files:
         WantedBy=multi-user.target
 
 runcmd:
-  - mkdir -p /home/exec/tor/hidden_service && mkdir -p /home/exec/tor/hidden_service_v3
-  - chmod -R 2700 /home/exec/tor/
   - systemctl daemon-reload
   - systemctl enable tor.service
-  - systemctl start tor.service
-  - systemctl stop tor.service
-  - echo -n "${v3_pubk}" > /home/exec/tor/hidden_service_v3/hs_ed25519_public_key
-  - chmod 0644 /home/exec/tor/hidden_service_v3/hs_ed25519_public_key
-  - echo -n "${v3_pk}" > /home/exec/tor/hidden_service_v3/hs_ed25519_secret_key
-  - chmod 0600 /home/exec/tor/hidden_service_v3/hs_ed25519_secret_key
-  - echo -n "${v2_pk}" > /home/exec/tor/hidden_service/private_key
-  - chmod 0600 /home/exec/tor/hidden_service/private_key
-  - chown -R exec:exec /home/exec/tor/
+  - systemctl enable decrypt.service
+  - systemctl start decrypt.service
   - systemctl start tor.service
