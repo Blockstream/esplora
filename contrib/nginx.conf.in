@@ -29,6 +29,7 @@ server {
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
+        alias /srv/explorer/static/{DAEMON}-{NETWORK};
         expires 60m;
     }
     location /{NGINX_NOSLASH_PATH} {
