@@ -32,10 +32,10 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.30.1 \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/Blockstream/electrs.git \
  && cd electrs \
- && git checkout 32239bd7f56e0e5076f7cf7f546dc748026f4569 \
+ && git checkout 80a1d83b15283c97c814c640e7a99932b36911e5 \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_bitcoin \
- && git checkout --force e82c904f2662371319eab16d4ddbcf5e35cbf93a \
+ && git checkout --force ff32483a0954a0ca248e8bba4ad047a4fe74c25c \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_liquid \
  && cd .. \
