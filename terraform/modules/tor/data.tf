@@ -15,6 +15,9 @@ data "template_file" "tor" {
 
     docker_tag        = "${var.docker_tag}"
     docker_tag_gcloud = "${var.docker_tag_gcloud}"
+    kms_key           = "${var.kms_key}"
+    kms_key_ring      = "${var.kms_key_ring}"
+    kms_location      = "${var.kms_location}"
   }
 }
 

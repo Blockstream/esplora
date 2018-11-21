@@ -42,7 +42,7 @@ module "tor" {
   instances        = 1
   project          = "${var.project}"
   tor_machine_type = "${var.instance_type[3]}"
-  tor_lb           = "${terraform.workspace == "main" ? google_compute_global_address.onion-lb.address : ""}"
+  tor_lb           = "${element(concat(google_compute_global_address.onion-lb.*.address, list("")), 0)}"
   docker_tag       = "${var.docker_tag_tor}"
   hosts_onion      = "${var.hosts_onion}"
   kms_key          = "${google_kms_crypto_key.esplora-crypto-key.name}"
