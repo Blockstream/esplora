@@ -1,7 +1,3 @@
-server_tokens off;
-add_header X-Frame-Options SAMEORIGIN;
-add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none' ";
-
 upstream backend {
     server 127.0.0.1:3000;
     keepalive 300;
@@ -9,7 +5,7 @@ upstream backend {
 
 server {
     listen 80;
-    keepalive_requests  100000;
+    keepalive_requests 100000;
     gzip on;
     gzip_types application/json text/plain application/xml application/javascript;
     gzip_proxied any;
@@ -18,48 +14,22 @@ server {
     tcp_nopush on;
     tcp_nodelay on;
     keepalive_timeout 15;
+    access_log off;
+    server_tokens off;
+    add_header X-Frame-Options SAMEORIGIN;
+    add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none' ";
+
     location /{NGINX_PATH}api/ {
-        access_log off;
+        rewrite ^/{NGINX_PATH}api/(tip/.*) /{NGINX_PATH}api/blocks/$1; # @FIXME temporary for migration, should eventually be removed
         proxy_pass http://backend/;
-        proxy_redirect / /{NGINX_PATH}api/;
-        expires 30s;
         add_header Access-Control-Allow-Origin *;
-        add_header Cache-Control "public";
-    }
-    location /{NGINX_PATH}api/address/ {
-        access_log off;
-        proxy_pass http://backend/address/;
-        proxy_redirect / /{NGINX_PATH}api/address/;
-        expires 30s;
-        add_header Access-Control-Allow-Origin *;
-        add_header Cache-Control "public";
-    }
-    location /{NGINX_PATH}api/block/ {
-        access_log off;
-        proxy_pass http://backend/block/;
-        proxy_redirect / /{NGINX_PATH}api/block/;
-        expires 1m;
-        add_header Access-Control-Allow-Origin *;
-        add_header Cache-Control "public";
-    }
-    location /{NGINX_PATH}api/tx/ {
-        access_log off;
-        proxy_pass http://backend/tx/;
-        proxy_redirect / /{NGINX_PATH}api/tx/;
-        expires 1m;
-        add_header Access-Control-Allow-Origin *;
-        add_header Cache-Control "public";
     }
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address)/|[a-zA-Z0-9]+$) {
-        access_log off;
+        expires 60m;
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
-        access_log off;
-        expires 3m;
-        {NGINX_REWRITE}
-        add_header Access-Control-Allow-Origin *;
-        add_header Cache-Control "public";
+        expires 60m;
     }
     location /{NGINX_NOSLASH_PATH} {
         access_log off;
