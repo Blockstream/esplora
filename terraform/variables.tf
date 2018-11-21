@@ -5,6 +5,7 @@ locals {
       create_bitcoin_mainnet = 0
       create_bitcoin_testnet = 0
       create_liquid_mainnet  = 0
+      create_builders        = 0
     }
 
     "bitcoin-mainnet" = {
@@ -12,6 +13,7 @@ locals {
       create_bitcoin_mainnet = 1
       create_bitcoin_testnet = 0
       create_liquid_mainnet  = 0
+      create_builders        = 0
     }
 
     "bitcoin-testnet" = {
@@ -19,6 +21,7 @@ locals {
       create_bitcoin_mainnet = 0
       create_bitcoin_testnet = 1
       create_liquid_mainnet  = 0
+      create_builders        = 0
     }
 
     "liquid-mainnet" = {
@@ -26,6 +29,15 @@ locals {
       create_bitcoin_mainnet = 0
       create_bitcoin_testnet = 0
       create_liquid_mainnet  = 1
+      create_builders        = 0
+    }
+
+    "builders" = {
+      create_main            = 0
+      create_bitcoin_mainnet = 0
+      create_bitcoin_testnet = 0
+      create_liquid_mainnet  = 0
+      create_builders        = 1
     }
   }
 
@@ -33,6 +45,7 @@ locals {
   create_bitcoin_mainnet = "${lookup(local.context_variables[terraform.workspace], "create_bitcoin_mainnet")}"
   create_bitcoin_testnet = "${lookup(local.context_variables[terraform.workspace], "create_bitcoin_testnet")}"
   create_liquid_mainnet  = "${lookup(local.context_variables[terraform.workspace], "create_liquid_mainnet")}"
+  create_builders        = "${lookup(local.context_variables[terraform.workspace], "create_builders")}"
 }
 
 variable "project" {

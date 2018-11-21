@@ -1,0 +1,151 @@
+bootcmd:
+  - /sbin/blkid /dev/disk/by-id/google-data || /sbin/mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0,discard -L data /dev/disk/by-id/google-data
+  - mkdir -p /mnt/disks/data
+
+mounts:
+  - [ /dev/disk/by-id/google-data, /mnt/disks/data, auto, "rw,noatime,discard,nobarrier,nodev" ]
+
+users:
+  - name: bs
+    uid: 2000
+
+write_files:
+  - path: /home/bs/prep.sh
+    permissions: 0644
+    owner: root
+    content: |
+        #!/bin/bash
+        echo "INSTANCE_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google')" > /home/bs/instance
+        echo "DATE=$(date +%d-%m-%Y)" >> /home/bs/instance
+        instance_name=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google') && echo "INSTANCE_COUNT=$${instance_name##*-}" >> /home/bs/instance
+        zone=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google') && echo "ZONE=$${zone##*/}" >> /home/bs/instance
+  - path: /home/bs/healthcheck.sh
+    permissions: 0644
+    owner: root
+    content: |
+        #!/bin/bash
+        if /usr/bin/curl --silent --fail --connect-timeout 5 http://localhost${request_path}
+        then
+          echo "healthy"
+          /usr/bin/systemctl start process.service
+        else
+          echo "not yet healthy"
+        fi
+
+  - path: /etc/systemd/system/process.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=process
+        Wants=gcr-online.target
+        After=gcr-online.service
+
+        [Service]
+        Type=oneshot
+        Environment=HOME=/home/bs
+        EnvironmentFile=/home/bs/instance
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
+        ExecStartPre=-/usr/bin/systemctl stop explorer.service
+        ExecStartPre=-/bin/umount -l /mnt/disks/data
+        ExecStart=/usr/bin/docker run \
+            --rm \
+            --name detach-disk \
+            --tmpfs /tmp \
+            "${docker_tag_gcloud}" gcloud compute instances \
+                detach-disk $${INSTANCE_NAME} --device-name=data --zone=$${ZONE}
+        ExecStart=/usr/bin/docker run \
+            --rm \
+            --name create-image \
+            --tmpfs /tmp \
+            "${docker_tag_gcloud}" gcloud compute images \
+                create builder-${name}-data-image-$${DATE} \
+                --source-disk=builder-data-${name}-$${INSTANCE_COUNT} \
+                --family=${name} \
+                --source-disk-zone=$${ZONE}
+        ExecStart=/usr/bin/docker run \
+            --rm \
+            --name delete-disk \
+            --tmpfs /tmp \
+            "${docker_tag_gcloud}" gcloud compute disks \
+                delete builder-data-${name}-$${INSTANCE_COUNT} --zone=$${ZONE}
+        ExecStart=/usr/bin/docker run \
+            --rm \
+            --name delete-instance \
+            --tmpfs /tmp \
+            "${docker_tag_gcloud}" gcloud compute instances \
+                delete $${INSTANCE_NAME} --zone=$${ZONE} --delete-disks=all
+
+  - path: /etc/systemd/system/explorer.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=explorer
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/bs
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --network=host \
+            --pid=host \
+            --name=${container_name} \
+            --tmpfs /tmp/ \
+            -v /mnt/disks/data:/data:rw \
+            "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network} explorer'
+        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'supervisorctl stop electrs'
+        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli stop'
+        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli-bitcoin stop'
+        ExecStop=/usr/bin/docker stop ${container_name}
+        ExecStopPost=/usr/bin/docker rm ${container_name}
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+  - path: /etc/systemd/system/healthcheck.timer
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=Run healthcheck every minute, 10 minutes after boot
+
+        [Timer]
+        OnBootSec=10min
+        OnUnitActiveSec=1min
+
+        [Install]
+        WantedBy=timers.target
+  - path: /etc/systemd/system/healthcheck.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=check if explorer is done syncing
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Type=oneshot
+        Environment=HOME=/home/bs
+        ExecStart=/bin/bash /home/bs/healthcheck.sh
+
+        [Install]
+        WantedBy=multi-user.target
+
+runcmd:
+  - bash /home/bs/prep.sh
+  - systemctl daemon-reload
+  - systemctl start explorer.service
+  - systemctl enable explorer.service
+  - systemctl enable healthcheck.service
+  - systemctl start healthcheck.timer
+  - systemctl enable healthcheck.timer

@@ -18,6 +18,8 @@ before_script:
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
 test_docker_build_image:
+  except:
+    - schedules
   image: docker@sha256:f7211e1779c82e3a50d0d6f165e83f3e2be217a234b0181d5e8bee411d8fcc5f
   stage: build
   before_script:
@@ -37,8 +39,8 @@ test_docker_build_image:
         --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
         --cache-from blockstream/esplora:latest
         -t esplora .
-    - docker rmi esplora-base
-    - docker rmi esplora
+    - docker rmi esplora-base || true
+    - docker rmi esplora || true
 
 build:
   stage: build
@@ -69,6 +71,8 @@ build:
         && docker push blockstream/esplora:$CI_COMMIT_SHA)
 
 deploy:
+  except:
+    - schedules
   stage: deploy
   image:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
@@ -94,6 +98,8 @@ deploy:
         -input=false -auto-approve)
 
 deploy_bitcoin_mainnet:
+  except:
+    - schedules
   stage: deploy
   image:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
@@ -112,6 +118,8 @@ deploy_bitcoin_mainnet:
         -input=false -auto-approve)
 
 deploy_bitcoin_testnet:
+  except:
+    - schedules
   stage: deploy
   image:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
@@ -130,6 +138,8 @@ deploy_bitcoin_testnet:
         -input=false -auto-approve)
 
 deploy_liquid_mainnet:
+  except:
+    - schedules
   stage: deploy
   image:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
@@ -143,6 +153,24 @@ deploy_liquid_mainnet:
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -input=false -auto-approve)
+
+build_images:on-schedule:
+  only:
+    - schedules
+  stage: deploy
+  image:
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    entrypoint: [""]
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select builders &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$BUILDER_CLUSTER_SIZE"
+        -var "instance_type=$BUILDER_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -input=false -auto-approve)
