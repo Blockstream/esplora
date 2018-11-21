@@ -75,13 +75,13 @@ Menu configuration (useful for inter-linking multiple instances on different net
 - `MENU_ITEMS` - json map of menu items, where the key is the label and the value is the url
 - `MENU_ACTIVE` - the active menu item identified by its label
 
-# How to build the Docker image
+## How to build the Docker image
 
 ```
 docker build -t esplora .
 ```
 
-# How to run the explorer for Bitcoin mainnet
+## How to run the explorer for Bitcoin mainnet
 
 ```
 docker run --port 8080:80 \
@@ -90,7 +90,7 @@ docker run --port 8080:80 \
            bash -c "/srv/explorer/run.sh bitcoin-mainnet explorer"
 ```
 
-# How to run the explorer for Liquid mainnet
+## How to run the explorer for Liquid mainnet
 
 ```
 docker run --port 8082:80 \
@@ -99,7 +99,7 @@ docker run --port 8082:80 \
            bash -c "/srv/explorer/run.sh liquid-mainnet explorer"
 ```
 
-# How to run the explorer for Bitcoin testnet3
+## How to run the explorer for Bitcoin testnet3
 
 ```
 docker run --port 8084:80 \
@@ -109,7 +109,7 @@ docker run --port 8084:80 \
 ```
 
 
-# Build new esplora-base
+## Build new esplora-base
 
 ```
 docker build -t blockstream/esplora-base:latest -f Dockerfile.deps .
@@ -117,7 +117,7 @@ docker push blockstream/esplora-base:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
 ```
 
-# Build new ci
+## Build new ci
 
 ```
 docker build --squash -t blockstream/gcloud-docker:latest -f Dockerfile.ci .
