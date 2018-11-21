@@ -10,7 +10,7 @@ resource "google_project_iam_member" "tor" {
 }
 
 resource "google_kms_crypto_key_iam_binding" "crypto-key" {
-  crypto_key_id = "${var.kms_key_link.self_link}"
+  crypto_key_id = "${var.kms_key_link}"
   role          = "roles/cloudkms.cryptoKeyDecrypter"
 
   members = [
