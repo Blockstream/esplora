@@ -33,6 +33,7 @@ server {
         expires 60m;
     }
     location /{NGINX_NOSLASH_PATH} {
+        alias /srv/explorer/static/{DAEMON}-{NETWORK};
         access_log off;
         return 301 /{NGINX_PATH};
     }
