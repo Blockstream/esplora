@@ -3,6 +3,8 @@ resource "google_compute_health_check" "tor" {
   timeout_sec        = 5
   check_interval_sec = 10
 
+  count = "${var.create_resources}"
+
   tcp_health_check {
     port = "9050"
   }
