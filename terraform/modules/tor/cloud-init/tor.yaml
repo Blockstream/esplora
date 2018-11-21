@@ -3,17 +3,17 @@ users:
     uid: 2000
 
 write_files:
-  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc
+  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc.b64
     permissions: 0600
     owner: root
     content: |
         ${v3_pubk}
-  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc
+  - path: /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc.b64
     permissions: 0600
     owner: root
     content: |
         ${v3_pk}
-  - path: /home/bs/tor/hidden_service/private_key.enc
+  - path: /home/bs/tor/hidden_service/private_key.enc.b64
     permissions: 0600
     owner: root
     content: |
@@ -136,6 +136,10 @@ write_files:
 
 runcmd:
   - systemctl daemon-reload
+  - base64 -d /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc.b64 > /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc
+  - base64 -d /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc.b64 > /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc
+  - base64 -d /home/bs/tor/hidden_service/private_key.enc.b64 > /home/bs/tor/hidden_service/private_key.enc
+  - chown -R bs:bs /home/bs/tor/
   - systemctl enable tor.service
   - systemctl enable decrypt.service
   - systemctl start decrypt.service
