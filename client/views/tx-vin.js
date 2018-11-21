@@ -5,7 +5,7 @@ const layout = (vin, desc, body, { t }) =>
   <div className="vin">
     <div className="vin-header">
       <div className="vin-header-container">
-        <span>{ desc || t`Nonstandard` }</span>
+        <span>{ desc }</span>
         <span className="amount">{ vin.prevout && t(formatAmount(vin.prevout)) }</span>
       </div>
     </div>
@@ -28,8 +28,9 @@ const pegin = (vin, { isOpen, t }) => layout(
 
 const standard = (vin, { isOpen, t }) => layout(
   vin
-, !vin.prevout ? null : vin.prevout.scriptpubkey_address ? linkToAddr(vin.prevout.scriptpubkey_address)
-                                                         : vin.prevout.scriptpubkey_type ? vin.prevout.scriptpubkey_type.toUpperCase() : null
+, !vin.prevout ? <a href={`tx/${vin.txid}`}>{vin.txid}:{vin.vout}</a>
+  : vin.prevout.scriptpubkey_address ? linkToAddr(vin.prevout.scriptpubkey_address)
+  : vin.prevout.scriptpubkey_type ? vin.prevout.scriptpubkey_type.toUpperCase() : null
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
       <div>{t`txid:vout`}</div>
