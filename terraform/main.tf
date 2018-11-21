@@ -45,9 +45,9 @@ module "tor" {
   tor_lb           = "${element(concat(google_compute_global_address.onion-lb.*.address, list("")), 0)}"
   docker_tag       = "${var.docker_tag_tor}"
   hosts_onion      = "${var.hosts_onion}"
-  kms_key          = "${google_kms_crypto_key.esplora-crypto-key.name}"
-  kms_key_link     = "${google_kms_crypto_key.esplora-crypto-key.self_link}"
-  kms_key_ring     = "${google_kms_key_ring.esplora-key-ring.name}"
+  kms_key          = "${element(concat(google_kms_crypto_key.esplora-crypto-key.*.name, list("")), 0)}"
+  kms_key_link     = "${element(concat(google_kms_crypto_key.esplora-crypto-key.*.self_link, list("")), 0)}"
+  kms_key_ring     = "${element(concat(google_kms_key_ring.esplora-key-ring.*.name, list("")), 0)}"
   kms_location     = "${var.kms_location}"
 
   create_resources = "${local.create_main}"
