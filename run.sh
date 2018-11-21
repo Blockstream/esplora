@@ -35,11 +35,13 @@ if [ "${DAEMON}" != "liquid" ]; then
     if [ "${NETWORK}" == "testnet" ]; then
         NGINX_PATH="testnet/"
         NGINX_NOSLASH_PATH="testnet"
+        NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
     fi
 else
     ELECTRS_NETWORK="liquidv1"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
+    NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
     NGINX_NOSLASH_PATH="liquid"
     ISLIQUID="true"
 fi
@@ -54,6 +56,7 @@ function preprocess(){
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
+       -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
        -e "s|{NGINX_NOSLASH_PATH}|$NGINX_NOSLASH_PATH|g" \
        -e "s|{EXPLORERAUTOSTART}|$EXPLORERAUTOSTART|g" \
        -e "s|{TORAUTOSTART}|$TORAUTOSTART|g" \
