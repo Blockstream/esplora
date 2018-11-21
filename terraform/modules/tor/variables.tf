@@ -58,6 +58,10 @@ variable "hosts_onion" {
   default = ["", ""]
 }
 
+variable "kms_key_link" {
+  type = "string"
+}
+
 variable "kms_key" {
   type = "string"
 }

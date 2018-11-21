@@ -102,6 +102,7 @@ write_files:
                 --key=${kms_key} \
                 --ciphertext-file=/root/secrets/private_key.enc \
                 --plaintext-file=/root/secrets/private_key
+        ExecStartPost=/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.* /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.* /home/bs/tor/hidden_service/private_key.*
 
   - path: /etc/systemd/system/tor.service
     permissions: 0644
