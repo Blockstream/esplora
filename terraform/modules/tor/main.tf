@@ -56,8 +56,13 @@ resource "google_compute_instance_template" "tor" {
   }
 
   service_account {
-    email  = "${google_service_account.tor.email}"
-    scopes = ["compute-ro", "storage-ro"]
+    email = "${google_service_account.tor.email}"
+
+    scopes = [
+      "https://www.googleapis.com/auth/cloudkms",
+      "compute-ro",
+      "storage-ro",
+    ]
   }
 
   lifecycle {
