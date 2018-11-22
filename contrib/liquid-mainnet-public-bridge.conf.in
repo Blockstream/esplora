@@ -8,6 +8,6 @@ onion=127.0.0.1:9050
 torcontrol=127.0.0.1:9051
 listen=1
 discover=1
-mainchainrpccookiefile=/data/bitcoin_for_liquid
+mainchainrpccookiefile=/data/bitcoin_for_liquid/.cookie
 mainchainrpchost=127.0.0.1
 mainchainrpcport=8332
