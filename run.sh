@@ -97,7 +97,7 @@ chmod +x /usr/bin/cli
 
 if [ ! -d /data/logs ]; then
     # initial sync: initialize directories
-    mkdir /data/logs /data/${DAEMON} /data/bitcoin_for_liquid
+    mkdir --parents /data/logs /data/${DAEMON} /data/bitcoin
 fi
 
 

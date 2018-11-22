@@ -4,5 +4,5 @@ peerbloomfilters=0
 enforcenodebloom=1
 disablewallet=1
 txindex=1
-mainchainrpccookiefile=/data/bitcoin_for_liquid/.cookie
+mainchainrpccookiefile=/data/bitcoin/.cookie
 mainchainrpcport=8332
