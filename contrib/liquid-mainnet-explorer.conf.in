@@ -5,5 +5,4 @@ enforcenodebloom=1
 disablewallet=1
 txindex=1
 mainchainrpccookiefile=/data/bitcoin_for_liquid/.cookie
-mainchainrpchost=127.0.0.1
 mainchainrpcport=8332
