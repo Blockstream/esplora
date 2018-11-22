@@ -1,4 +1,3 @@
-rpcport={BTC_DAEMON_RPC_PORT}
 server=1
 peerbloomfilters=0
 enforcenodebloom=1

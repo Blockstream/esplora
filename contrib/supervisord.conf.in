@@ -11,7 +11,7 @@ directory=/data
 autostart={ISLIQUID}
 
 [program:electrs]
-command=/srv/explorer/electrs_{DAEMON}/bin/electrs --http-addr 127.0.0.1:3000 --network {ELECTRS_NETWORK} {PARENT_NETWORK} --daemon-dir /data/{DAEMON} --daemon-rpc-addr 127.0.0.1:{BTC_DAEMON_RPC_PORT} --monitoring-addr 0.0.0.0:4224 --db-dir /data/electrs_{DAEMON}_db/{NETWORK}
+command=/srv/explorer/electrs_{DAEMON}/bin/electrs --http-addr 127.0.0.1:3000 --network {ELECTRS_NETWORK} {PARENT_NETWORK} --daemon-dir /data/{DAEMON} --monitoring-addr 0.0.0.0:4224 --db-dir /data/electrs_{DAEMON}_db/{NETWORK}
 autostart={EXPLORERAUTOSTART}
 directory=/data
 stopasgroup=true

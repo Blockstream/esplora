@@ -1,6 +1,5 @@
 testnet=1
 [test]
-rpcport={BTC_DAEMON_RPC_PORT}
 server=1
 peerbloomfilters=0
 enforcenodebloom=1

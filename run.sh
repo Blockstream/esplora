@@ -25,7 +25,6 @@ echo "Enabled mode ${MODE}"
 
 DAEMON=$(echo ${FLAVOR} | cut -d'-' -f1)
 NETWORK=$(echo ${FLAVOR} | cut -d'-' -f2)
-BTC_DAEMON_RPC_PORT=2002
 
 ELECTRS_NETWORK=${NETWORK}
 
@@ -51,7 +50,6 @@ function preprocess(){
    out_file=$2
    cat $in_file | \
    sed -e "s|{DAEMON}|$DAEMON|g" \
-       -e "s|{BTC_DAEMON_RPC_PORT}|$BTC_DAEMON_RPC_PORT|g" \
        -e "s|{NETWORK}|$NETWORK|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \

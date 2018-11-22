@@ -1,4 +1,4 @@
 #!/bin/bash
 set -eo pipefail
 
-/srv/explorer/{DAEMON}/bin/{DAEMON}-cli -conf=/data/.{DAEMON}.conf -datadir=/data/{DAEMON} "$@"
+/srv/explorer/{DAEMON}/bin/{DAEMON}-cli -datadir=/data/{DAEMON} "$@"
