@@ -206,6 +206,8 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     .subscribe(([el, t]) => (el.setCustomValidity(t`No results found`), el.reportValidity()))
   on('[name=q]', 'input').subscribe(e => e.target.setCustomValidity(''))
 
+  searchSubmit$.subscribe(e => e.preventDefault())
+
   // Update page title
   title$.subscribe(title => document.title = title ? `${title} · ${initTitle}` : initTitle)
 
