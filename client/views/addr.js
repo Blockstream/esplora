@@ -2,7 +2,7 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatAmount, addressQR } from './util'
+import { formatAmount, addressQR, perPage } from './util'
 
 export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading }) => addr && layout(
   <div>
@@ -48,7 +48,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
         ? <h2>{t`Sorry! Addresses with a large number of transactions aren't currently supported.`}</h2>
         : <div>
             <div className="transactions">
-              <h3>{addrTxs && addr.tx_count > 50 ? t`${addrTxs.length} of ${addr.tx_count} Transactions` : t`${addr.tx_count} Transactions`}</h3>
+              <h3>{addrTxs && addr.tx_count > perPage ? t`${addrTxs.length} of ${addr.tx_count} Transactions` : t`${addr.tx_count} Transactions`}</h3>
               { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
                          : <img src="img/Loading.gif" className="loading-delay" /> }
             </div>

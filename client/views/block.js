@@ -2,7 +2,7 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatTime, formatHex } from './util'
+import { formatTime, formatHex, perPage } from './util'
 
 const formatHeight = height => height
 
@@ -122,7 +122,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       </div>
 
       <div className="transactions">
-        <h3>{blockTxs && b.tx_count>50 ? t`${blockTxs.length} of ${b.tx_count} Transactions` : t`${b.tx_count} Transactions`}</h3>
+        <h3>{blockTxs && b.tx_count > perPage ? t`${blockTxs.length} of ${b.tx_count} Transactions` : t`${b.tx_count} Transactions`}</h3>
         { blockTxs ? blockTxs.map(tx => txBox( { ...tx, status: txsStatus }, { openTx, tipHeight, t, spends }))
                    : <img src="img/Loading.gif" className="loading-delay" /> }
       </div>

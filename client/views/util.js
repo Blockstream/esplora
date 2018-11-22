@@ -4,6 +4,8 @@ import { outAssetLabel } from '../util'
 
 const qruri = !process.env.NO_QR && require('qruri')
 
+export const perPage = 25
+
 export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang_id, { timeZoneName: 'short' })
 
 // @XXX we currently format all amounts as having 8 decimal places (like BTC), disregarding the asset type
