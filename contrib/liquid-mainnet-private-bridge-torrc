@@ -1,4 +1,3 @@
 RunAsDaemon 0
 SOCKSPort 9050
-
 LongLivedPorts 10100     #Prefer high-uptime nodes for liquid-daemon connections
