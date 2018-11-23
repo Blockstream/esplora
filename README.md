@@ -1,6 +1,6 @@
 # Esplora Block Explorer
 
-Block explorer web interface based on the [esplora-electrs](#) HTTP API.
+Block explorer web interface based on the [esplora-electrs](https://github.com/Blockstream/electrs) HTTP API.
 
 Written as a single-page app in a reactive and functional style using
 [rxjs](https://github.com/ReactiveX/rxjs) and [cycle.js](https://cycle.js.org/).
@@ -32,7 +32,7 @@ See live at [Blockstream.info](https://blockstream.info/).
 To start a development server with live babel/browserify transpilation, run:
 
 ```bash
-$ git clone .. && cd esplora
+$ git clone https://github.com/Blockstream/esplora && cd esplora
 $ npm install
 $ export API_URL=http://localhost:5000/ # or https://blockstream.info/api/ if you don't have a local API server
 # (see more config options below)
