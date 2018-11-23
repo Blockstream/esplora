@@ -20,7 +20,6 @@ server {
     add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none' ";
 
     location /{NGINX_PATH}api/ {
-        rewrite ^/{NGINX_PATH}api/(tip/.*) /{NGINX_PATH}api/blocks/$1; # @FIXME temporary for migration, should eventually be removed
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin *;
     }

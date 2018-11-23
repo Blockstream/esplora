@@ -4,4 +4,5 @@ enforcenodebloom=1
 disablewallet=1
 txindex=1
 mainchainrpccookiefile=/data/bitcoin/.cookie
+#FIXME: remove unnecessary port once fixed in liquid next release
 mainchainrpcport=8332
