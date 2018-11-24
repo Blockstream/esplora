@@ -10,8 +10,7 @@ RUN sed -i 's/deb.debian.org/httpredir.debian.org/g' /etc/apt/sources.list \
  && apt-get -yqq upgrade \
  && apt-get -yqq install nginx supervisor tor git curl
 
-RUN mkdir /tmp/explorer \
- && mkdir -p /srv/explorer/static
+RUN mkdir -p /srv/explorer/static
 
 COPY ./ /tmp/explorer
 
