@@ -12,7 +12,7 @@ data "template_file" "builder" {
     network           = "${var.network}"
     name              = "${var.name}"
     container_name    = "${var.name}-explorer"
-    request_path      = "${var.name == "bitcoin-mainnet" ? "/api/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/tip/hash" : "/liquid/api/tip/hash"}"
+    request_path      = "${var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash" : "/liquid/api/blocks/tip/hash"}"
   }
 }
 

@@ -1,7 +1,7 @@
 # Health check
 resource "google_compute_http_health_check" "daemon" {
   name         = "${var.name}-explorer-http-health-check"
-  request_path = "${var.name == "bitcoin-mainnet" ? "/api/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/tip/hash" : "/liquid/api/tip/hash"}"
+  request_path = "${var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash" : "/liquid/api/blocks/tip/hash"}"
 
   timeout_sec        = 5
   check_interval_sec = 5
