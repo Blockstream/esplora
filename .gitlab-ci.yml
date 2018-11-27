@@ -170,7 +170,7 @@ build_images:on-schedule:
        terraform apply
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$BUILDER_CLUSTER_SIZE"
-        -var "instance_type=$BUILDER_INSTANCE_TYPE"
-        -var "regions=$REGIONS"
-        -var "zones=$ZONES"
+        -var "machine_type=$BUILDER_INSTANCE_TYPE"
+        -var "region=$BUILDER_REGION"
+        -var "zones=$BUILDER_ZONES"
         -input=false -auto-approve)
