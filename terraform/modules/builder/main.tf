@@ -1,4 +1,5 @@
 resource "google_compute_disk" "data" {
+  count = "${var.create_resources > 0 ? var.cluster_size : 0}"
   name  = "builder-data-${var.name}-${count.index}"
   type  = "pd-ssd"
   zone  = "${element(var.zones, count.index)}"
@@ -37,7 +38,7 @@ resource "google_compute_instance" "builder" {
   }
 
   attached_disk {
-    source      = "${google_compute_disk.data.self_link}"
+    source      = "${element(google_compute_disk.data.*.self_link, count.index)}"
     device_name = "data"
   }
 
