@@ -32,8 +32,9 @@ resource "google_compute_instance_template" "tor" {
   count        = "${var.create_resources}"
 
   labels {
-    type = "tor"
-    name = "${var.name}"
+    type    = "tor"
+    name    = "${var.name}"
+    network = "${var.network}"
   }
 
   disk {

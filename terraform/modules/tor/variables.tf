@@ -11,6 +11,11 @@ variable "name" {
   type = "string"
 }
 
+variable "network" {
+  type    = "string"
+  default = "default"
+}
+
 variable "region" {
   type = "string"
 }
