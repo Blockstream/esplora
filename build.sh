@@ -2,10 +2,12 @@
 set -xeo pipefail
 shopt -s extglob
 
-: ${DEST:=dist}
-: ${NODE_ENV:=production}
+for flavor in "$@"; do source flavors/$flavor/config.env; done
 
-export NODE_ENV
+export DEST=${DEST:-dist}
+export NODE_ENV=${NODE_ENV:=production}
+export BASE_HREF=${BASE_HREF:-/}
+export API_URL=${API_URL:-"${BASE_HREF}api"}
 
 mkdir -p $DEST
 rm -rf $DEST/*
@@ -14,7 +16,10 @@ rm -rf $DEST/*
 (cd client && [[ -d node_modules ]] || npm install)
 
 # Static assets
-cp -rL www/* $DEST/
+cp -rL www/* $CUSTOM_ASSETS $DEST/
+
+# CSS customizations
+[ -n "$CUSTOM_CSS" ] && cat $CUSTOM_CSS >> $DEST/style.css
 
 # Index HTML
 pug index.pug -o $DEST
