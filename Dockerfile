@@ -23,10 +23,18 @@ SHELL ["/bin/bash", "-c"]
 # required to run some scripts as root (needed for docker)
 RUN source /root/.nvm/nvm.sh \
  && npm config set unsafe-perm true \
- && npm run dist:bitcoin-testnet \
- && npm run dist:bitcoin-mainnet \
- && npm run dist:liquid-mainnet \
- && mv dist/* /srv/explorer/static
+ && DEST=/srv/explorer/static/bitcoin-mainnet \
+    npm run dist -- bitcoin-mainnet \
+ && DEST=/srv/explorer/static/bitcoin-testnet \
+    npm run dist -- bitcoin-testnet \
+ && DEST=/srv/explorer/static/liquid-mainnet \
+    npm run dist -- liquid-mainnet \
+ && DEST=/srv/explorer/static/bitcoin-mainnet-blockstream \
+    npm run dist -- bitcoin-mainnet blockstream \
+ && DEST=/srv/explorer/static/bitcoin-testnet-blockstream \
+    npm run dist -- bitcoin-testnet blockstream \
+ && DEST=/srv/explorer/static/liquid-mainnet-blockstream \
+    npm run dist -- liquid-mainnet blockstream
 
 # configuration
 RUN cp /tmp/explorer/contrib/*.conf.in /tmp/explorer/contrib/*torrc /tmp/explorer/run.sh /tmp/explorer/cli.sh.in /srv/explorer/

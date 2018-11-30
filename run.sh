@@ -4,7 +4,7 @@ set -eo pipefail
 FLAVOR=$1
 MODE=$2
 
-if [ "$FLAVOR" != "bitcoin-mainnet" ] && [ "$FLAVOR" != "bitcoin-testnet" ] && [ "$FLAVOR" != "liquid-mainnet" ]; then
+if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-testnet, bitcoin-mainnet or liquid-mainnet as a parameter"
     echo "For example run.sh bitcoin-mainnet explorer"
     exit 1
@@ -25,6 +25,7 @@ echo "Enabled mode ${MODE}"
 
 DAEMON=$(echo ${FLAVOR} | cut -d'-' -f1)
 NETWORK=$(echo ${FLAVOR} | cut -d'-' -f2)
+STATIC_DIR=/srv/explorer/static/$FLAVOR
 
 ELECTRS_NETWORK=${NETWORK}
 
@@ -51,6 +52,7 @@ function preprocess(){
    cat $in_file | \
    sed -e "s|{DAEMON}|$DAEMON|g" \
        -e "s|{NETWORK}|$NETWORK|g" \
+       -e "s|{STATIC_DIR}|$STATIC_DIR|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \

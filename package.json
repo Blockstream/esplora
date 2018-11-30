@@ -4,10 +4,7 @@
   "scripts": {
     "start": "babel-node server.js",
     "postinstall": "cd client && npm install",
-    "dist": "./build.sh",
-    "dist:bitcoin-mainnet": "./build.sh bitcoin-mainnet",
-    "dist:bitcoin-testnet": "./build.sh bitcoin-testnet",
-    "dist:liquid-mainnet": "./build.sh liquid-mainnet"
+    "dist": "./build.sh"
   },
   "author": "Nadav Ivgi",
   "license": "MIT",

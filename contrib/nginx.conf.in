@@ -9,7 +9,7 @@ server {
     gzip on;
     gzip_types application/json text/plain application/xml application/javascript;
     gzip_proxied any;
-    root /srv/explorer/static/{DAEMON}-{NETWORK};
+    root {STATIC_DIR};
     sendfile on;
     tcp_nopush on;
     tcp_nodelay on;
