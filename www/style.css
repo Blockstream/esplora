@@ -51,6 +51,20 @@ a, a:link, a:visited, a:hover, a:focus {
 }
 
 
+.navbar-brand {
+  font-size: 0px;
+}
+.navbar-brand::before {
+  width: 54px;
+  height: 54px;
+  background: url(img/icons/menu-logo.svg);
+  background-size: 54px 54px;
+  display: inline-block;
+  vertical-align: top;
+  content: ' ';
+}
+
+
 /* header title / search bar */
 .explorer-title-container {
   display: flex;
@@ -1021,16 +1035,6 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: 100%;
 }
 
-.footer_container_blockstream-logo {
-  width: 220px;
-  height: 93px;
-  background-image: url(img/blockstream-full-logo.svg);
-  background-size: 100%;
-}
-.theme-light .footer_container_blockstream-logo {
-  background-image: url(img/blockstream-full-logo-light.svg);
-}
-
 .language-selector {
   color: #FFF;
   background-color: #111316;
@@ -1044,6 +1048,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  width: 100%;
 }
 
 .footer_container_content_row {
@@ -1051,7 +1056,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
-  width: 475px;
+  width: 100%;
 }
 
 .footer_container_content_copyright {
@@ -1067,7 +1072,6 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 150px;
 }
 
 .footer_container_content_row_social-media_item {
@@ -1079,9 +1083,8 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   cursor: pointer;
 }
 
-.footer_twitter_link {
-  display: block;
-  margin-right: 5px;
+.footer_container_content_row_social-media_link:not(:first-child) .footer_container_content_row_social-media_item {
+  margin-left: 17px;
 }
 
 .footer_container_content_row_onion_container {
@@ -1351,10 +1354,6 @@ body::after{
     width: 250px;
   }
 
-  .footer_container_blockstream-logo {
-    width: 200px;
-    height: 83px;
-  }
 }
 
 @media only screen and (max-width: 990px) {
@@ -1643,7 +1642,7 @@ body::after{
 
   .footer_container_content_row {
     flex-direction: column-reverse;
-    width: auto;
+    width: auto !important;
     height: 160px;
     margin: 0 auto;
   }
@@ -1673,9 +1672,4 @@ body::after{
   .footer_container_content_onion-links_row {
     text-align: center;
   }
-
-  .footer_container_blockstream-logo {
-    margin-top: 30px;
-  }
 }
-

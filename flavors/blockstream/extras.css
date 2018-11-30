@@ -1,0 +1,40 @@
+.navbar-brand::before {
+  background: url(img/icons/blockstream-logo.png);
+  background-size: 54px 54px;
+}
+
+.footer_container_content {
+  width: auto;
+}
+.footer_container_content_row {
+  width: 475px;
+}
+
+.footer-logo::before {
+  width: 220px;
+  height: 93px;
+  background-image: url(img/blockstream-full-logo.svg);
+  background-size: 100%;
+  content: ' ';
+  display: block;
+}
+.theme-light .footer-logo::before {
+  background-image: url(img/blockstream-full-logo-light.svg);
+}
+
+@media only screen and (max-width: 1000px) {
+  .footer-logo::before {
+    width: 200px;
+    height: 83px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .footer-logo::before {
+    margin-top: 30px;
+  }
+}
+
+.footer_container_content_row_social-media_link[href^="https://twitter.com/"] img {
+  margin-right: 5px;
+}
