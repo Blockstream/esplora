@@ -18,7 +18,7 @@
   "%s Transactions": "Процент (%0) Транзакций",
   "Next": "Следующий",
   "In best chain (%s confirmations)": "В лучшей цепи (процент потверждений)",
-  "%s of %s Transactions": "Процент от процента Транзакций",
+  "%s of %s Transactions": "%0 от %1 Транзакций",
   "Details": "Подробные детали",
   "Nonstandard": "Нестандартный",
   "Transaction": "Транзакция",
