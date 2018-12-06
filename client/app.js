@@ -30,15 +30,15 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   , click = sel => on(sel, 'click').map(e => e.ownerTarget.dataset)
 
   /// User actions
-  , route$    = route()
+  , page$     = route()
   , goHome$   = route('/')
   , goBlock$  = route('/block/:hash').map(loc => loc.params.hash)
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q)
-  , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(route$.mapTo(null))
-  , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock)
+  , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null))
+  , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null))
   , togTheme$ = click('.toggle-theme')
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
@@ -110,11 +110,11 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   // Spending txs map (reset on every page nav)
   , spends$ = O.merge(
     reply('tx-spends', true).map(r => S => ({ ...S, [r.request.txid]: r.body }))
-  , route$.mapTo(S => ({}))
+  , page$.mapTo(S => ({}))
   ).startWith({}).scan((S, mod) => mod(S))
 
   // Currently visible view
-  , view$ = O.merge(route$.mapTo(null)
+  , view$ = O.merge(page$.mapTo(null)
                   , blocks$.filter(notNully).mapTo('home')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
@@ -123,7 +123,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
   // Page title
-  , title$ = O.merge(route$.mapTo(null)
+  , title$ = O.merge(page$.mapTo(null)
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`))
@@ -149,7 +149,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     // fetch single tx (including confirmation status)
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
 
-    // fetch address stats
+    // fetch address and its txs
     , goAddr$.flatMap(addr  => [{ category: 'address',    method: 'GET', path: `/address/${addr}` }
                               , { category: 'addr-txs',   method: 'GET', path: `/address/${addr}/txs`, ignore_err: true }])
 
@@ -191,7 +191,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     , byHeight$.map(hash => ({ type: 'replace', pathname:`/block/${hash}` }))
   )
 
-  dbg({ goHome$, goBlock$, goTx$, togTx$, route$, lang$
+  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$
       , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
       , tipHeight$, error$, loading$
       , query$, searchResult$, copy$, store$, navto$
@@ -230,7 +230,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   })
 
   // Reset scrolling when navigating to a new page (but not when hitting 'back')
-  route$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
+  page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
     .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
     .subscribe(_ => window.scrollTo(0, 0))
 
