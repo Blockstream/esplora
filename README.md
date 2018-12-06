@@ -7,6 +7,8 @@ Written as a single-page app in a reactive and functional style using
 
 See live at [Blockstream.info](https://blockstream.info/).
 
+API documentation [is available here](API.md).
+
 ## Features
 
 - Explore blocks, transactions and addresses
