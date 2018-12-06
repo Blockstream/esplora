@@ -64,6 +64,8 @@ All options are optional.
 - `SITE_FOOTER` - text for page footer (defaults to `Powered by esplora`)
 - `HEAD_HTML` - custom html to inject at the end of `<head>`
 - `FOOT_HTML` - custom html to inject at the end of `<body>`
+- `CUSTOM_ASSETS` - space separated list of static assets to add to the build
+- `CUSTOM_CSS` - space separated list of css files to append into `style.css`
 
 Elements-only configuration:
 
