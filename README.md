@@ -9,7 +9,7 @@ See live at [Blockstream.info](https://blockstream.info/).
 
 API documentation [is available here](API.md).
 
-![Esplora](https://blockstream.info/img/social-sharing.png)
+![Esplora](https://raw.githubusercontent.com/Blockstream/esplora/master/flavors/blockstream/www/img/social-sharing.png)
 
 ## Features
 
