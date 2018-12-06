@@ -24,5 +24,6 @@ import 'rxjs/add/operator/distinctUntilChanged'
 import 'rxjs/add/operator/first'
 import 'rxjs/add/operator/skip'
 import 'rxjs/add/operator/concat'
+import 'rxjs/add/operator/pluck'
 
 module.exports = { Observable }

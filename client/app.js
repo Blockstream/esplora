@@ -9,7 +9,7 @@ import { makeHistoryDriver, captureClicks } from '@cycle/history'
 import makeRouteDriver from './driver/route'
 import makeSearchDriver from './driver/search'
 
-import { dbg, combine, extractErrors, dropErrors, last, notNully, tryUnconfidentialAddress} from './util'
+import { dbg, combine, extractErrors, dropErrors, last, remove, add, notNully, tryUnconfidentialAddress} from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -37,9 +37,15 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q)
-  , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null))
-  , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null))
+
+  // auto-expand when opening with "#expand"
+  , expandTx$ = route('/tx/:txid').filter(loc => loc.hashopt.includes('expand')).map(loc => loc.params.txid)
+  , expandBl$ = route('/block/:hash').filter(loc => loc.hashopt.includes('expand')).map(loc => loc.params.hash)
+
+  , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null), expandTx$)
+  , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null), expandBl$)
   , togTheme$ = click('.toggle-theme')
+
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
 
@@ -137,6 +143,17 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
                      , loading$, view$
                      })
 
+  // Update hash options with #expand
+  , updateHash$ = O.merge(
+      page$.mapTo(null)
+    , openTx$.withLatestFrom(view$).filter(([ _, view]) => view == 'tx').pluck(0)
+    , openBlock$.withLatestFrom(view$).filter(([ _, view]) => view == 'block').pluck(0)
+    )
+    .map(Boolean).distinctUntilChanged()
+    .withLatestFrom(route.all$)
+    .filter(([ expand, page ]) => page.hashopt.includes('expand') != expand)
+    .map(([ expand, page ]) => [ page.pathname, (expand?add:remove)(page.hashopt, 'expand').join(',') ])
+
   /// Sinks
 
   // HTTP request sink
@@ -189,9 +206,11 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   , navto$ = O.merge(
       searchResult$.filter(Boolean).map(path => ({ type: 'push', pathname: path }))
     , byHeight$.map(hash => ({ type: 'replace', pathname:`/block/${hash}` }))
+    , updateHash$.map(([ pathname, hash ]) => ({ type: 'replace', pathname: pathname+(hash?'#'+hash:''), state: { noRouting: true } }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$
+      , openTx$, openBlock$, updateHash$
       , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
       , tipHeight$, error$, loading$
       , query$, searchResult$, copy$, store$, navto$
