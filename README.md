@@ -9,6 +9,8 @@ See live at [Blockstream.info](https://blockstream.info/).
 
 API documentation [is available here](API.md).
 
+![Esplora](https://blockstream.info/img/social-sharing.png)
+
 ## Features
 
 - Explore blocks, transactions and addresses
