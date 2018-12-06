@@ -28,7 +28,7 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 
 const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
-, !vin.prevout ? <a href={`tx/${vin.txid}`}>{vin.txid}:{vin.vout}</a>
+, !vin.prevout ? <a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a>
   : vin.prevout.scriptpubkey_address ? linkToAddr(vin.prevout.scriptpubkey_address)
   : vin.prevout.scriptpubkey_type ? vin.prevout.scriptpubkey_type.toUpperCase() : null
 , isOpen && <div className="vin-body">
@@ -62,11 +62,12 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
                                                   : <span className="mono">{vin.issuance.assetamountcommitment}</span>}</div>
       </div>
 
-    , <div className="vin-body-row">
-        <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance keys` : t`Reissuance commitment`}</div>
-        <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : vin.issuance.tokenamount)
-                                                  : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
-      </div>
+    , !vin.issuance.is_reissuance &&
+        <div className="vin-body-row">
+          <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance keys` : t`Reissuance commitment`}</div>
+          <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : vin.issuance.tokenamount)
+                                                    : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
+        </div>
 
     ] }
 
