@@ -25,5 +25,6 @@ import 'rxjs/add/operator/first'
 import 'rxjs/add/operator/skip'
 import 'rxjs/add/operator/concat'
 import 'rxjs/add/operator/pluck'
+import 'rxjs/add/operator/delay'
 
 module.exports = { Observable }

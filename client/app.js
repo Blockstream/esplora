@@ -140,13 +140,12 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
                      , block$, blockStatus$, blockTxs$, nextMoreBTxs$, openBlock$
                      , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
-                     , loading$, view$
+                     , loading$, page$, view$
                      })
 
   // Update hash options with #expand
   , updateHash$ = O.merge(
-      page$.mapTo(null)
-    , openTx$.withLatestFrom(view$).filter(([ _, view]) => view == 'tx').pluck(0)
+      openTx$.withLatestFrom(view$).filter(([ _, view]) => view == 'tx').pluck(0)
     , openBlock$.withLatestFrom(view$).filter(([ _, view]) => view == 'block').pluck(0)
     )
     .map(Boolean).distinctUntilChanged()
@@ -252,6 +251,13 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
     .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
     .subscribe(_ => window.scrollTo(0, 0))
+
+  // Scroll elements selected via URL hash into view
+  DOM.select('.ins-and-outs .selected').elements()
+    .filter(els => !!els.length)
+    .map(els => els[0])
+    .distinctUntilChanged().delay(300)
+    .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
 
   return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$ }
 }

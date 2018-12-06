@@ -1,8 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
 import { linkToParentOut, formatAmount, formatHex, linkToAddr } from './util'
 
-const layout = (vin, desc, body, { t }) =>
-  <div className="vin">
+const layout = (vin, desc, body, { t, index, selected=[] }) =>
+  <div class={{ vin: true, selected: selected.includes(`input:${index}`) }}>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>
@@ -12,9 +12,9 @@ const layout = (vin, desc, body, { t }) =>
     { body }
   </div>
 
-const coinbase = (vin, { t }) => layout(vin, t`Coinbase`, null, { t })
+const coinbase = (vin, { t, ...S }) => layout(vin, t`Coinbase`, null, { t, ...S })
 
-const pegin = (vin, { isOpen, t }) => layout(
+const pegin = (vin, { isOpen, t, ...S }) => layout(
   vin
 , linkToParentOut(vin, t`Output in parent chain`)
 , isOpen && <div className="vin-body">
@@ -23,10 +23,10 @@ const pegin = (vin, { isOpen, t }) => layout(
       <div className="mono">{linkToParentOut(vin)}</div>
     </div>
   </div>
-, { t }
+, { t, ...S }
 )
 
-const standard = (vin, { isOpen, t }) => layout(
+const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
 , !vin.prevout ? <a href={`tx/${vin.txid}`}>{vin.txid}:{vin.vout}</a>
   : vin.prevout.scriptpubkey_address ? linkToAddr(vin.prevout.scriptpubkey_address)
@@ -34,7 +34,7 @@ const standard = (vin, { isOpen, t }) => layout(
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
       <div>{t`txid:vout`}</div>
-      <div className="mono"><a href={`tx/${vin.txid}`}>{vin.txid}:{vin.vout}</a></div>
+      <div className="mono"><a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a></div>
     </div>
 
     { vin.issuance && [
@@ -90,7 +90,7 @@ const standard = (vin, { isOpen, t }) => layout(
     </div>
 
   </div>
-, { t }
+, { t, ...S }
 )
 
 export default (vin, opt) =>

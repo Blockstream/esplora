@@ -975,6 +975,13 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: auto;
 }
 
+.vin.selected, .vout.selected {
+  background: #3B4147 !important;
+}
+.theme-light .vin.selected, .theme-light .vout.selected {
+  background: #FFFDD4 !important;
+}
+
 .transaction-box > .footer {
   height: 64px;
 }

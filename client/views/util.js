@@ -17,11 +17,11 @@ export const formatHex = num => {
   return '0x' + (str.length%2 ? '0' : '') + str
 }
 
-const parentChainExplorerTx = process.env.PARENT_CHAIN_EXPLORER_TX || '/tx/{txid}'
-const parentChainExplorerAddr = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
+const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}#output:{vout}'
+const parentChainExplorerAddr  = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
 
 export const linkToParentOut = ({ txid, vout }, label=`${txid}:${vout}`) =>
-  <a href={parentChainExplorerTx.replace('{txid}', txid).replace('{vout}', vout)} target="_blank" rel="external">{label}</a>
+  <a href={parentChainExplorerTxOut.replace('{txid}', txid).replace('{vout}', vout)} target="_blank" rel="external">{label}</a>
 
 export const linkToParentAddr = (addr, label=addr) =>
   <a href={parentChainExplorerAddr.replace('{addr}', addr)} target="_blank" rel="external">{label}</a>

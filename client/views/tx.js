@@ -1,14 +1,14 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
-import vin from './tx-vin'
-import vout from './tx-vout'
+import vinView from './tx-vin'
+import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal } from '../util'
 import { formatAmount } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
-export default ({ t, tx, tipHeight, spends, openTx }) => tx && layout(
+export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
@@ -26,7 +26,7 @@ export default ({ t, tx, tipHeight, spends, openTx }) => tx && layout(
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight })}
-      {txBox(tx, { openTx, tipHeight, t, spends })}
+      {txBox(tx, { openTx, tipHeight, t, spends, selected: page.hashopt })}
     </div>
   </div>
 , { t })
@@ -34,8 +34,8 @@ export default ({ t, tx, tipHeight, spends, openTx }) => tx && layout(
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
-  const isOpen = openTx == tx.txid
+export const txBox = (tx, { t, openTx, tipHeight, spends, selected }) => {
+  const vopt = { isOpen: (openTx == tx.txid), selected, t }
 
   return <div className="transaction-box">
     <div className="header">
@@ -43,12 +43,12 @@ export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
       <div className="details-btn" data-toggleTx={tx.txid}>
         <div role="button" tabindex="0">
           <div>{t`Details`}</div>
-          <div><img alt="" src={`img/icons/${ isOpen ? 'minus' : 'plus' }.svg`}/></div>
+          <div><img alt="" src={`img/icons/${ vopt.isOpen ? 'minus' : 'plus' }.svg`}/></div>
         </div>
       </div>
     </div>
     <div className="ins-and-outs">
-      <div className="vins">{tx.vin.map(i => vin(i, { isOpen, t }))}</div>
+      <div className="vins">{tx.vin.map((vin, index) => vinView(vin, { ...vopt, index }))}</div>
 
 
       <div className="ins-and-outs_spacer">
@@ -59,7 +59,9 @@ export const txBox = (tx, { t, openTx, tipHeight, spends }) => {
       </div>
 
 
-      <div className="vouts">{tx.vout.map((o, idx) => vout(o, { isOpen, spend: findSpend(spends, tx.txid, idx), t }))}</div>
+      <div className="vouts">{tx.vout.map((out, index) =>
+        voutView(out, { ...vopt, index, spend: findSpend(spends, tx.txid, index) }))}
+      </div>
     </div>
     <div className="footer">
       <div></div>

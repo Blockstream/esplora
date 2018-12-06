@@ -21,11 +21,11 @@ body.theme-light {
 }
 
 .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading), .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) {
-    background-color: #fff !important;
+    background-color: #fff;
 }
 
 .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-body {
-    background-color: #fff !important;
+    background-color: #fff;
 }
 
 .theme-light .language-selector {

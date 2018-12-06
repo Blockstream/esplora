@@ -3,8 +3,8 @@ import { formatAmount, linkToAddr, linkToParentAddr } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
-const layout = (vout, desc, body, { t }) =>
-  <div className="vout">
+const layout = (vout, desc, body, { t, index, selected=[] }) =>
+  <div class={{ vout: true, selected: selected.includes(`output:${index}`) }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>
@@ -14,9 +14,9 @@ const layout = (vout, desc, body, { t }) =>
     { body }
   </div>
 
-const fee = (vout, { t }) => layout(vout, t`Transaction fees`, null, { t })
+const fee = (vout, { t, index }) => layout(vout, t`Transaction fees`, null, { t, index })
 
-const standard = (vout, { isOpen, spend, t }) => layout(
+const standard = (vout, { isOpen, spend, t, ...S }) => layout(
   vout
 
 , vout.pegout ? (vout.pegout.scriptpubkey_address ? <span>{t`Peg-out to`}<br/>{linkToParentAddr(vout.pegout.scriptpubkey_address)}</span> : t`Peg-out`)
@@ -68,7 +68,7 @@ const standard = (vout, { isOpen, spend, t }) => layout(
         <div>{t`Spending tx`}</div>
         <div>{
           !spend ? t`Loading...`
-        : spend.spent ? <span>{t`Spent by`} <a href={`tx/${spend.txid}`} className="mono">{`${spend.txid}:${spend.vin}`}</a></span>
+        : spend.spent ? <span>{t`Spent by`} <a href={`tx/${spend.txid}#input:${spend.vin}`} className="mono">{`${spend.txid}:${spend.vin}`}</a></span>
         : t`Unspent`
         }</div>
       </div>
@@ -89,7 +89,7 @@ const standard = (vout, { isOpen, spend, t }) => layout(
     }
 
   </div>
-, { t }
+, { t, ...S }
 )
 
 const getOpReturn = vout => new Buffer(vout.scriptpubkey_asm.split(' ')[2] || '', 'hex').toString('utf-8')
