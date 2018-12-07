@@ -9,6 +9,7 @@ export default createL10ns({
 , it: require('../lang/it.json')
 , es: require('../lang/es.json')
 , nl: require('../lang/nl.json')
+, bg: require('../lang/bg.json')
 , ru: require('../lang/ru.json')
 , sr: require('../lang/sr.json')
 , hr: require('../lang/hr.json')
