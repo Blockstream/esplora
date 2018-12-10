@@ -24,6 +24,11 @@ cp -rL www/* $CUSTOM_ASSETS $DEST/
 # Index HTML
 pug client/index.pug -o $DEST
 
+# Open search (requires absolute BASE_URL)
+if [ -n "$BASE_URL" ]; then
+  pug client/opensearch.pug -E xml -o $DEST
+fi
+
 # RTLify CSS
 cat www/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css
 

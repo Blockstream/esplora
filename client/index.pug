@@ -13,6 +13,10 @@ head
   link(rel='stylesheet', href='bootstrap.min.css')
   link(rel='stylesheet', href='style.css')
 
+  if process.env.BASE_URL
+    //- open search requires the absolute URL of the explorer
+    link(rel='search', href='opensearch.xml', type='application/opensearchdescription+xml', title=process.env.SITE_TITLE || 'Block Explorer')
+
   != process.env.HEAD_HTML
 
 body(class=prerender_html?'theme-dark':'')

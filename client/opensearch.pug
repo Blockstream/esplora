@@ -1,0 +1,9 @@
+doctype xml
+
+OpenSearchDescription(xmlns='http://a9.com/-/spec/opensearch/1.1/', xmlns:moz='http://www.mozilla.org/2006/browser/search/')
+  ShortName= process.env.SITE_TITLE || 'Esplora Block Explorer'
+  Description= process.env.SITE_DESC || 'Esplora Block Explorer'
+  InputEncoding UTF-8
+  Image(width='16', height='16', type='image/x-icon')= `${process.env.BASE_URL}/img/favicon.png`
+  Url(type='text/html', method='GET', template=`${process.env.BASE_URL}/{searchTerms}`)
+  SearchForm= process.env.BASE_URL
