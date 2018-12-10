@@ -22,7 +22,7 @@ cp -rL www/* $CUSTOM_ASSETS $DEST/
 [ -n "$CUSTOM_CSS" ] && cat $CUSTOM_CSS >> $DEST/style.css
 
 # Index HTML
-pug index.pug -o $DEST
+pug client/index.pug -o $DEST
 
 # RTLify CSS
 cat www/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css

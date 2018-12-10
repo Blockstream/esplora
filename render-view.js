@@ -8,7 +8,7 @@ const pug = require('pug')
 
 state.t = l10n[state.lang || 'en']
 
-require('pug').renderFile('index.pug', {
+require('pug').renderFile('client/index.pug', {
   prerender_html: require('snabbdom-to-html')(view(state))
 }, (err, html) => {
   if (err) throw err

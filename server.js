@@ -13,7 +13,7 @@ app.engine('pug', pug.__express)
 
 app.use(require('morgan')('dev'))
 
-app.get('/', (req, res) => res.render(rpath('index.pug')))
+app.get('/', (req, res) => res.render(rpath('client/index.pug')))
 app.get('/app.js', browserify(rpath('client/app.js')))
 app.get('/style-rtl.css', (req, res) =>
   res.type('css').send(cssjanus.transform(fs.readFileSync(rpath('www/style.css')).toString(), false, true)))
