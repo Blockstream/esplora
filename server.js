@@ -20,7 +20,7 @@ app.get('/style-rtl.css', (req, res) =>
 
 app.use('/', express.static(rpath('www')))
 
-app.use((req, res) => res.render(rpath('index.pug')))
+app.use((req, res) => res.render(rpath('client/index.pug')))
 
 app.listen(process.env.PORT || 5000, function(){
   console.log(`HTTP server running on ${this.address().address}:${this.address().port}`)
