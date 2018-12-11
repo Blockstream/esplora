@@ -28,12 +28,10 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 
 const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
-, !vin.prevout ? <a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a>
-  : vin.prevout.scriptpubkey_address ? linkToAddr(vin.prevout.scriptpubkey_address)
-  : vin.prevout.scriptpubkey_type ? vin.prevout.scriptpubkey_type.toUpperCase() : null
+, <a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a>
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
-      <div>{t`txid:vout`}</div>
+      <div>{t`Outpoint`}</div>
       <div className="mono"><a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a></div>
     </div>
 
@@ -72,11 +70,11 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
     ] }
 
     <div className="vin-body-row">
-      <div>{t`scriptSig.ASM`}</div>
+      <div>{t`scriptSig (asm)`}</div>
       <div className="mono">{vin.scriptsig_asm}</div>
     </div>
     <div className="vin-body-row">
-      <div>{t`scriptSig.hex`}</div>
+      <div>{t`scriptSig (hex)`}</div>
       <div className="mono">{vin.scriptsig}</div>
     </div>
 
@@ -89,6 +87,22 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
       <div>{t`nSequence`}</div>
       <div className="mono">{formatHex(vin.sequence)}</div>
     </div>
+
+    { vin.prevout && [
+      <div className="vin-body-row">
+        <div>{t`Previous output script`}</div>
+        <div className="mono">
+          {vin.prevout.scriptpubkey_asm}
+          {vin.prevout.scriptpubkey_type && <em> ({vin.prevout.scriptpubkey_type})</em>}
+        </div>
+      </div>
+
+    , vin.prevout.scriptpubkey_address && <div className="vin-body-row">
+        <div>{t`Previous output address`}</div>
+        <div className="mono">{linkToAddr(vin.prevout.scriptpubkey_address)}</div>
+      </div>
+    ] }
+
 
   </div>
 , { t, ...S }

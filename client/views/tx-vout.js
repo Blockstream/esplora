@@ -33,12 +33,12 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
     }
 
     <div className="vout-body-row">
-      <div>{t`scriptPubKey.asm`}</div>
+      <div>{t`scriptPubKey (asm)`}</div>
       <div className="mono">{vout.scriptpubkey_asm}</div>
     </div>
 
     <div className="vout-body-row">
-      <div>{t`scriptPubKey.hex`}</div>
+      <div>{t`scriptPubKey (hex)`}</div>
       <div className="mono">{vout.scriptpubkey}</div>
     </div>
 

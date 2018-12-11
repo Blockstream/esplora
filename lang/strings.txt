@@ -38,15 +38,18 @@ Confirmed balance
 Unconfirmed balance
 Sorry! Addresses with a large number of transactions aren't currently supported.
 We encountered an error. Please try again later.
-scriptPubKey.asm
-scriptPubKey.hex
+scriptPubKey (asm)
+scriptPubKey (hex)
 Type
 OP_RETURN data
 txid:vout
-scriptSig.ASM
-scriptSig.hex
+Outpoint
+scriptSig (asm)
+scriptSig (hex)
 Witness
 nSequence
+Previous output script
+Previous output address
 Search for block height, hash, transaction, or address
 Powered by esplora
 Block #%s: %s

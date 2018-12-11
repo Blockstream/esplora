@@ -1355,6 +1355,10 @@ body::after{
   color: #fff;
 }
 
+.vout-body-row > div:first-child,
+.vin-body-row > div:first-child {
+  word-break: break-word !important;
+}
 
 @media only screen and (max-width: 1000px) {
   .blocks-table .blocks-table-row > div:nth-child(2) {
