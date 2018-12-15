@@ -38,7 +38,7 @@ To start a development server with live babel/browserify transpilation, run:
 ```bash
 $ git clone https://github.com/Blockstream/esplora && cd esplora
 $ npm install
-$ export API_URL=http://localhost:5000/ # or https://blockstream.info/api/ if you don't have a local API server
+$ export API_URL=http://localhost:3000/ # or https://blockstream.info/api/ if you don't have a local API server
 # (see more config options below)
 $ npm start
 ```
@@ -58,7 +58,7 @@ All options are optional.
 - `NODE_ENV` - set to `production` to enable js minification, or to `development` to disable (defaults to `production`)
 - `BASE_HREF` - base href for user interface (defaults to `/`, change if not served from the root directory)
 - `API_URL` - URL for HTTP REST API (defaults to `/api`, change if the API is available elsewhere)
-- `PORT` - port to bind http development server (defaults to `3000`, has no effect when building)
+- `PORT` - port to bind http development server (defaults to `5000`, has no effect when building)
 - `BASE_URL` - absolute base url for user interface (no default, only required for opensearch functionality)
 - `NATIVE_ASSET_LABEL` - the name of the network native asset (defaults to `BTC`)
 - `SITE_TITLE` - website title for `<title>` (defaults to `Block Explorer`)
