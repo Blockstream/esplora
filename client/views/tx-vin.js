@@ -69,14 +69,16 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
 
     ] }
 
-    <div className="vin-body-row">
-      <div>{t`scriptSig (asm)`}</div>
-      <div className="mono">{vin.scriptsig_asm}</div>
-    </div>
-    <div className="vin-body-row">
-      <div>{t`scriptSig (hex)`}</div>
-      <div className="mono">{vin.scriptsig}</div>
-    </div>
+    { vin.scriptsig && [
+      <div className="vin-body-row">
+        <div>{t`scriptSig (asm)`}</div>
+        <div className="mono">{vin.scriptsig_asm}</div>
+      </div>
+    , <div className="vin-body-row">
+        <div>{t`scriptSig (hex)`}</div>
+        <div className="mono">{vin.scriptsig}</div>
+      </div>
+    ] }
 
     { vin.witness && <div className="vin-body-row">
       <div>{t`Witness`}</div>
