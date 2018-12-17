@@ -35,7 +35,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.30.1 \
  && git checkout ae51519d35845b9d0f3ec201ab3972dfd4b0236e \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_bitcoin \
- && git checkout --force 0b329e3ef77dcd68d167f19c3967034c80fedf13 \
+ && git checkout --force 9be0a79a1602cd476f1d5022ae5105eafceb7337 \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_liquid \
  && cd .. \
