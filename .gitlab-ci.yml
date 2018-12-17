@@ -6,6 +6,7 @@ variables:
 image: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
 stages:
   - build
+  - plan
   - deploy
 
 before_script:
@@ -70,6 +71,37 @@ build:
           -t blockstream/esplora:$CI_COMMIT_SHA .
         && docker push blockstream/esplora:$CI_COMMIT_SHA)
 
+plan:
+  except:
+    - /^bitcoin_mainnet.*/
+    - /^bitcoin_testnet.*/
+    - /^liquid_mainnet.*/
+    - master@greenaddress/esplora
+    - schedules
+  only:
+    - branches@greenaddress/esplora
+  stage: plan
+  image:
+    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    entrypoint: [""]
+  script:
+    - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
+    - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
+    - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select main &&
+       terraform plan
+        -var "prometheus_allowed_source_ip=$PROMETHEUS_ALLOWED_SOURCE_IP"
+        -var "hosts=$HOSTS"
+        -var "hosts_onion=$HOSTS_ONION"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "ssl_certs=$SSL_CERTS"
+        -var "opsgenie_api_key=$OPSGENIE_API_KEY"
+        -input=false)
+
 deploy:
   except:
     - schedules
@@ -83,9 +115,9 @@ deploy:
     - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
     - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
-    - (cd terraform && terraform init -input=false)
-    - (cd terraform && terraform workspace select main)
-    - (cd terraform && terraform apply
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select main &&
+       terraform apply
         -var "prometheus_allowed_source_ip=$PROMETHEUS_ALLOWED_SOURCE_IP"
         -var "hosts=$HOSTS"
         -var "hosts_onion=$HOSTS_ONION"
