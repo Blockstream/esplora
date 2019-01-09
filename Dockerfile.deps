@@ -26,20 +26,19 @@ RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/dow
  && ln -s /srv/explorer/liquid-3.14.1.22 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.30.1 \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.31.1 \
  && source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/Blockstream/electrs.git \
  && cd electrs \
- && git checkout 5fedce2485dc062faf71c387a0cd81674a1411ee \
- && cargo build --release \
- && cargo install --root /srv/explorer/electrs_bitcoin \
- && git checkout --force e0c877126e4c41d96df650001cfa49561482932d \
- && cargo build --release \
- && cargo install --root /srv/explorer/electrs_liquid \
+ && git checkout 1cb864222c5f8884b15f09e0ccdc8af7d9b05296 \
+ && cargo install --root /srv/explorer/electrs_bitcoin --path . \
  && cd .. \
  && rm -fr /root/.cargo electrs \
  && strip /srv/explorer/electrs_*/bin/electrs
+
+# FIXME add back support for liquid
+# && cargo install --root /srv/explorer/electrs_liquid --path . --features "liquid" \
 
 # cleanup
 RUN apt-get --auto-remove remove -yqq --purge clang cmake manpages curl git \
