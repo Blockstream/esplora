@@ -5,8 +5,7 @@ FROM debian:stretch@sha256:58a80e0b6aa4d960ee2a5452b0230c406c47ed30a66555ba753c8
 COPY --from=build /srv/explorer /srv/explorer
 COPY --from=build /root/.nvm /root/.nvm
 
-RUN sed -i 's/deb.debian.org/httpredir.debian.org/g' /etc/apt/sources.list \
- && apt-get -yqq update \
+RUN apt-get -yqq update \
  && apt-get -yqq upgrade \
  && apt-get -yqq install nginx supervisor tor git curl
 
