@@ -14,5 +14,10 @@
     "",
     "1 Transaction",
     "%0 Transactions"
+  ],
+  "%s outputs": [
+    "No outputs",
+    "1 output",
+    "%0 outputs"
   ]
 }

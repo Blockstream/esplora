@@ -13,6 +13,11 @@
     "בשרשרת הכי טובה (אישור אחד)",
     "בשרשרת הכי טובה (%0 אישורים)"
   ],
+  "%s outputs": [
+    "ללא פלטים",
+    "פלט 1",
+    "%0 פלטים"
+  ],
   "Page Not Found": "עמוד לא נמצא",
   "Block not found": "בלוק לא נמצא",
   "Transaction not found": "טרנזקציה לא נמצאה",
@@ -32,10 +37,8 @@
   "Included in Block": "כלול בבלוק",
   "Address": "כתובת",
   "Transaction count": "מספר טרנזקציות",
-  "Total received": "סה\"כ התקבל",
-  "Confirmed balance": "יתרה מאושרת",
-  "Unconfirmed balance": "יתרה לא מאושרת",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "אנו מתנצלים! כתובות עם כמות גדולה של טרנזקציות לא נתמכות כעת.",
+  "Received": "התקבל",
+  "Sent": "נשלח",
   "We encountered an error. Please try again later.": "התרחשה שגיאה. נא לנסות שוב מאוחר יותר.",
   "Orphan": "יתום",
   "Search for block height, hash, transaction, or address": "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת",

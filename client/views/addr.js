@@ -24,47 +24,49 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
     </div>
     <div className="container">
       <div className="addr-stats-table">
-        { addr.tx_count != null && <div>
+        { addr.stats.tx_count != null && <div>
             <div>{t`Transaction count`}</div>
-            <div>{addr.tx_count}</div>
+            <div>{addr.stats.tx_count}</div>
           </div> }
 
         { /* unavailable for chains with CT and/or multi-assets */ }
-        { addr.total_received != null && <div>
-            <div>{t`Total received`}</div>
-            <div className="amount">{formatAmount({ value: addr.total_received })}</div>
-          </div> }
-        { addr.confirmed_balance != null && <div>
-            <div>{t`Confirmed balance`}</div>
-            <div className="amount">{formatAmount({ value: addr.confirmed_balance })}</div>
-          </div> }
-        { addr.mempool_balance > 0 && <div>
-            <div>{t`Unconfirmed balance`}</div>
-            <div className="amount">{formatAmount({ value: addr.mempool_balance })}</div>
-          </div> }
+        { /* XXX: currently displays confirmed stats only, no mempool data */ }
+
+        { addr.stats.funded_txo_sum != null && <div>
+          <div>{t`Received`}</div>
+          <div className="amount">{t`${addr.stats.funded_txo_count} outputs`} (total {formatAmount({ value: addr.stats.funded_txo_sum })})</div>
+        </div> }
+
+        { addr.stats.spent_txo_sum != null && <div>
+          <div>{t`Sent`}</div>
+          <div className="amount">{t`${addr.stats.spent_txo_count} outputs`} (total {formatAmount({ value: addr.stats.spent_txo_sum })})</div>
+        </div> }
+
+        { addr.stats.funded_txo_count > addr.stats.spent_txo_count && <div>
+          <div>{t`Unspent`}</div>
+          <div className="amount">{t`${addr.stats.funded_txo_count-addr.stats.spent_txo_count} outputs`} (total {formatAmount({ value: addr.stats.funded_txo_sum - addr.stats.spent_txo_sum})})</div>
+        </div> }
+
       </div>
 
-      { addr.tx_count == null
-        ? <h2>{t`Sorry! Addresses with a large number of transactions aren't currently supported.`}</h2>
-        : <div>
-            <div className="transactions">
-              <h3>{addrTxs && addr.tx_count > perPage ? t`${addrTxs.length} of ${addr.tx_count} Transactions` : t`${addr.tx_count} Transactions`}</h3>
-              { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
-                         : <img src="img/Loading.gif" className="loading-delay" /> }
-            </div>
+      <div>
+        <div className="transactions">
+          <h3>{addrTxs && addr.stats.tx_count > perPage ? t`${addrTxs.length} of ${addr.stats.tx_count} Transactions` : t`${addr.stats.tx_count} Transactions`}</h3>
+          { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
+                     : <img src="img/Loading.gif" className="loading-delay" /> }
+        </div>
 
-            { nextMoreATxs && <div className="load-more-container">
-              <div>
-                { loading
-                ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-                : <div className="load-more" role="button" data-loadmoreTxsIndex={nextMoreATxs} data-loadmoreTxsAddr={addr.address}>
-                    <span>{t`Load more`}</span>
-                    <div><img alt="" src="img/icons/arrow_down.png" /></div>
-                  </div> }
-              </div>
-            </div> }
+        { nextMoreATxs && <div className="load-more-container">
+          <div>
+            { loading
+            ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
+            : <div className="load-more" role="button" data-loadmoreTxsIndex={nextMoreATxs} data-loadmoreTxsAddr={addr.address}>
+                <span>{t`Load more`}</span>
+                <div><img alt="" src="img/icons/arrow_down.png" /></div>
+              </div> }
           </div>
-      }
+        </div> }
+      </div>
     </div>
   </div>
 , { t })
