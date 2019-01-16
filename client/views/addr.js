@@ -60,7 +60,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
           <div>
             { loading
             ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-            : <div className="load-more" role="button" data-loadmoreTxsIndex={nextMoreATxs} data-loadmoreTxsAddr={addr.address}>
+            : <div className="load-more" role="button" data-loadmoreTxsLastTxid={nextMoreATxs} data-loadmoreTxsAddr={addr.address}>
                 <span>{t`Load more`}</span>
                 <div><img alt="" src="img/icons/arrow_down.png" /></div>
               </div> }

@@ -51,7 +51,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))
   , moreBTxs$   = click('[data-loadmore-txs-block]').map(d => ({ block: d.loadmoreTxsBlock, start_index: d.loadmoreTxsIndex }))
-  , moreATxs$   = click('[data-loadmore-txs-addr]').map(d => ({ addr: d.loadmoreTxsAddr, start_index: d.loadmoreTxsIndex }))
+  , moreATxs$   = click('[data-loadmore-txs-addr]').map(d => ({ addr: d.loadmoreTxsAddr, last_txid: d.loadmoreTxsLastTxid }))
 
   , lang$ = storage.local.getItem('lang').first().map(lang => lang || defaultLang)
       .concat(on('select[name=lang]', 'input').map(e => e.target.value))
@@ -104,7 +104,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     , goAddr$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
-  , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) => addr && txs && addr.tx_count > txs.length ? txs.length : null)
+  , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) => addr && txs && txs.length && addr.stats.tx_count > txs.length ? last(txs).txid : null)
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null))
@@ -177,7 +177,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     , moreBTxs$.map(d       => ({ category: 'block-txs',  method: 'GET', path: `/block/${d.block}/txs/${d.start_index}` }))
 
     // fetch more txs for address page
-    , moreATxs$.map(d       => ({ category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/${d.start_index}` }))
+    , moreATxs$.map(d       => ({ category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/${d.last_txid}` }))
 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
