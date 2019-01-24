@@ -100,11 +100,13 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   // Address and associated txs
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
   , addrTxs$ = O.merge(
-      reply('addr-txs').map(txs => S => [ ...(S || []), ...txs ])
+      reply('addr-txs').map(r => S => r)
+    , reply('addr-txs-chain').map(txs => S => ({ mempool: S.mempool, chain: [ ...S.chain, ...txs ] }))
     , goAddr$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
-  , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) => addr && txs && txs.length && addr.stats.tx_count > txs.length ? last(txs).txid : null)
+  , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) =>
+      addr && txs && txs.chain.length && addr.chain_stats.tx_count > txs.chain.length ? last(txs.chain).txid : null)
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null))
@@ -177,7 +179,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     , moreBTxs$.map(d       => ({ category: 'block-txs',  method: 'GET', path: `/block/${d.block}/txs/${d.start_index}` }))
 
     // fetch more txs for address page
-    , moreATxs$.map(d       => ({ category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/${d.last_txid}` }))
+    , moreATxs$.map(d       => ({ category: 'addr-txs-chain', method: 'GET', path: `/address/${d.addr}/txs/chain/${d.last_txid}` }))
 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))

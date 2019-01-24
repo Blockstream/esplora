@@ -4,7 +4,21 @@ import search from './search'
 import { txBox } from './tx'
 import { formatAmount, addressQR, perPage } from './util'
 
-export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading }) => addr && layout(
+export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading }) => {
+  if (!addr) return;
+
+  const { chain_stats, mempool_stats } = addr
+      , chain_utxo_count = chain_stats.funded_txo_count-chain_stats.spent_txo_count
+      , chain_utxo_sum = chain_stats.funded_txo_sum-chain_stats.spent_txo_sum
+      , mempool_utxo_count = mempool_stats.funded_txo_count-mempool_stats.spent_txo_count
+      , mempool_utxo_sum = mempool_stats.funded_txo_sum-mempool_stats.spent_txo_sum
+      , total_utxo_count = chain_utxo_count+mempool_utxo_count
+      , total_utxo_sum = chain_utxo_sum+mempool_utxo_sum
+      , total_txs = chain_stats.tx_count + mempool_stats.tx_count
+      , shown_txs = addrTxs ? addrTxs.mempool.length + addrTxs.chain.length : 0
+
+  // @fixme indent
+  return layout(
   <div>
     <div className="jumbotron jumbotron-fluid addr-page">
       <div className="container">
@@ -24,35 +38,60 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
     </div>
     <div className="container">
       <div className="addr-stats-table">
-        { addr.stats.tx_count != null && <div>
-            <div>{t`Transaction count`}</div>
-            <div>{addr.stats.tx_count}</div>
-          </div> }
+          <div>
+            <div>{t`Total tx count`}</div>
+            <div>{total_txs}</div>
+          </div>
+          <div>
+            <div>{t`Confirmed tx count`}</div>
+            <div>{chain_stats.tx_count}</div>
+          </div>
 
-        { /* unavailable for chains with CT and/or multi-assets */ }
+        { /* unavailable for chains with CT and/or multi-assets
+             TODO: display txo counts without sum */ }
         { /* XXX: currently displays confirmed stats only, no mempool data */ }
 
-        { addr.stats.funded_txo_sum != null && <div>
-          <div>{t`Received`}</div>
-          <div className="amount">{t`${addr.stats.funded_txo_count} outputs`} (total {formatAmount({ value: addr.stats.funded_txo_sum })})</div>
+        { chain_stats.funded_txo_sum != null && <div>
+          <div>{t`Confirmed received`}</div>
+          <div className="amount">{t`${chain_stats.funded_txo_count} outputs`} (total {formatAmount({ value: chain_stats.funded_txo_sum })})</div>
         </div> }
 
-        { addr.stats.spent_txo_sum != null && <div>
-          <div>{t`Sent`}</div>
-          <div className="amount">{t`${addr.stats.spent_txo_count} outputs`} (total {formatAmount({ value: addr.stats.spent_txo_sum })})</div>
+        { chain_stats.spent_txo_sum != null && <div>
+          <div>{t`Confirmed sent`}</div>
+          <div className="amount">{t`${chain_stats.spent_txo_count} outputs`} (total {formatAmount({ value: chain_stats.spent_txo_sum })})</div>
         </div> }
 
-        { addr.stats.funded_txo_count > addr.stats.spent_txo_count && <div>
-          <div>{t`Unspent`}</div>
-          <div className="amount">{t`${addr.stats.funded_txo_count-addr.stats.spent_txo_count} outputs`} (total {formatAmount({ value: addr.stats.funded_txo_sum - addr.stats.spent_txo_sum})})</div>
+        { chain_stats.funded_txo_count > chain_stats.spent_txo_count && <div>
+          <div>{t`Confirmed balance`}</div>
+          <div className="amount">{t`${chain_utxo_count} outputs`} (total {formatAmount({ value: chain_utxo_sum})})</div>
         </div> }
 
+        <div>
+          <div>{t`Unconfirmed tx count`}</div>
+          <div>{mempool_stats.tx_count}</div>
+        </div>
+        <div>
+          <div>{t`Unconfirmed received`}</div>
+          <div className="amount">{t`${mempool_stats.funded_txo_count} outputs`} (total {formatAmount({ value: mempool_stats.funded_txo_sum })})</div>
+        </div>
+        <div>
+          <div>{t`Unconfirmed sent`}</div>
+          <div className="amount">{t`${mempool_stats.spent_txo_count} outputs`} (total {formatAmount({ value: mempool_stats.spent_txo_sum })})</div>
+        </div>
+        <div>
+          <div>{t`Unconfirmed balance`}</div>
+          <div className="amount">{t`${mempool_utxo_count} outputs`} (total {formatAmount({ value: mempool_utxo_sum})})</div>
+        </div>
+        <div>
+          <div>{t`Total balance`}</div>
+          <div className="amount">{t`${total_utxo_count} outputs`} (total {formatAmount({ value: total_utxo_sum })})</div>
+        </div>
       </div>
 
       <div>
         <div className="transactions">
-          <h3>{addrTxs && addr.stats.tx_count > perPage ? t`${addrTxs.length} of ${addr.stats.tx_count} Transactions` : t`${addr.stats.tx_count} Transactions`}</h3>
-          { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
+          <h3>{shown_txs && chain_stats.tx_count > perPage ? t`${shown_txs} of ${total_txs} Transactions` : t`${total_txs} Transactions`}</h3>
+          { addrTxs ? [ ...addrTxs.mempool, ...addrTxs.chain ].map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
                      : <img src="img/Loading.gif" className="loading-delay" /> }
         </div>
 
@@ -69,4 +108,5 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
       </div>
     </div>
   </div>
-, { t })
+  , { t })
+}
