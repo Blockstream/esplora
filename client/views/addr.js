@@ -38,33 +38,27 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
       </div>
       <div className="container">
         <div className="addr-stats-table">
-            <div>
-              <div>{t`Total tx count`}</div>
-              <div>{total_txs}</div>
-            </div>
-            <div>
-              <div>{t`Confirmed tx count`}</div>
-              <div>{chain_stats.tx_count}</div>
-            </div>
+          <div>
+            <div>{t`Total tx count`}</div>
+            <div>{total_txs}</div>
+          </div>
 
-          { /* unavailable for chains with CT and/or multi-assets
-               TODO: display txo counts without sum */ }
-          { /* XXX: currently displays confirmed stats only, no mempool data */ }
-
-          { chain_stats.funded_txo_sum != null && <div>
+          <div>
+            <div>{t`Confirmed tx count`}</div>
+            <div>{chain_stats.tx_count}</div>
+          </div>
+          <div>
             <div>{t`Confirmed received`}</div>
-            <div className="amount">{t`${chain_stats.funded_txo_count} outputs`} (total {formatAmount({ value: chain_stats.funded_txo_sum })})</div>
-          </div> }
-
-          { chain_stats.spent_txo_sum != null && <div>
+            <div>{fmtTxos(chain_stats.funded_txo_count, chain_stats.funded_txo_sum, t)}</div>
+          </div>
+          <div>
             <div>{t`Confirmed sent`}</div>
-            <div className="amount">{t`${chain_stats.spent_txo_count} outputs`} (total {formatAmount({ value: chain_stats.spent_txo_sum })})</div>
-          </div> }
-
-          { chain_stats.funded_txo_count > chain_stats.spent_txo_count && <div>
+            <div>{fmtTxos(chain_stats.spent_txo_count, chain_stats.spent_txo_sum, t)}</div>
+          </div>
+          <div>
             <div>{t`Confirmed balance`}</div>
-            <div className="amount">{t`${chain_utxo_count} outputs`} (total {formatAmount({ value: chain_utxo_sum})})</div>
-          </div> }
+            <div>{fmtTxos(chain_utxo_count, chain_utxo_sum, t)}</div>
+          </div>
 
           <div>
             <div>{t`Unconfirmed tx count`}</div>
@@ -72,19 +66,19 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
           </div>
           <div>
             <div>{t`Unconfirmed received`}</div>
-            <div className="amount">{t`${mempool_stats.funded_txo_count} outputs`} (total {formatAmount({ value: mempool_stats.funded_txo_sum })})</div>
+            <div>{fmtTxos(mempool_stats.funded_txo_count, mempool_stats.funded_txo_sum, t)}</div>
           </div>
           <div>
             <div>{t`Unconfirmed sent`}</div>
-            <div className="amount">{t`${mempool_stats.spent_txo_count} outputs`} (total {formatAmount({ value: mempool_stats.spent_txo_sum })})</div>
+            <div>{fmtTxos(mempool_stats.spent_txo_count, mempool_stats.spent_txo_sum, t)}</div>
           </div>
           <div>
             <div>{t`Unconfirmed balance`}</div>
-            <div className="amount">{t`${mempool_utxo_count} outputs`} (total {formatAmount({ value: mempool_utxo_sum})})</div>
+            <div>{fmtTxos(mempool_utxo_count, mempool_utxo_sum, t)}</div>
           </div>
           <div>
             <div>{t`Total balance`}</div>
-            <div className="amount">{t`${total_utxo_count} outputs`} (total {formatAmount({ value: total_utxo_sum })})</div>
+            <div>{fmtTxos(total_utxo_count, total_utxo_sum, t)}</div>
           </div>
         </div>
 
@@ -110,3 +104,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
     </div>
   , { t })
 }
+
+const fmtTxos = (count, sum, t) =>
+  (t`${count} outputs`)
++ (sum != null && !isNaN(sum) ? ' ' + t`of ${formatAmount({ value: sum })}` : '')
