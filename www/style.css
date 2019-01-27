@@ -1360,6 +1360,22 @@ body::after{
   word-break: break-word !important;
 }
 
+/* input/output counter */
+.vouts, .vins {
+    counter-reset: txcnt -1;
+}
+.vout-header-container span:first-child:before, .vin-header-container span:first-child:before {
+    counter-increment: txcnt;
+    content: "#" counter(txcnt);
+    padding-right: 5px;
+    font-size: 0.9em;
+    color: #475562;
+    margin-left: -19px;
+}
+.theme-light .vout-header-container span:first-child:before, .theme-light .vin-header-container span:first-child:before {
+  color: #c3cbd3;
+}
+
 @media only screen and (max-width: 1000px) {
   .blocks-table .blocks-table-row > div:nth-child(2) {
     width: 250px;
