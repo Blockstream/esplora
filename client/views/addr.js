@@ -43,43 +43,43 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{total_txs}</div>
           </div>
 
-          <div>
+          { chain_stats.tx_count > 0 && <div>
             <div>{t`Confirmed tx count`}</div>
             <div>{chain_stats.tx_count}</div>
-          </div>
-          <div>
+          </div> }
+          { chain_stats.funded_txo_count > 0 && <div>
             <div>{t`Confirmed received`}</div>
             <div>{fmtTxos(chain_stats.funded_txo_count, chain_stats.funded_txo_sum, t)}</div>
-          </div>
-          <div>
+          </div> }
+          { chain_stats.spent_txo_count > 0 && <div>
             <div>{t`Confirmed sent`}</div>
             <div>{fmtTxos(chain_stats.spent_txo_count, chain_stats.spent_txo_sum, t)}</div>
-          </div>
-          <div>
+          </div> }
+          { chain_utxo_count > 0 && <div>
             <div>{t`Confirmed balance`}</div>
             <div>{fmtTxos(chain_utxo_count, chain_utxo_sum, t)}</div>
-          </div>
+          </div> }
 
-          <div>
+          { mempool_stats.tx_count > 0 && <div>
             <div>{t`Unconfirmed tx count`}</div>
             <div>{mempool_stats.tx_count}</div>
-          </div>
-          <div>
+          </div> }
+          { mempool_stats.funded_txo_count > 0 && <div>
             <div>{t`Unconfirmed received`}</div>
             <div>{fmtTxos(mempool_stats.funded_txo_count, mempool_stats.funded_txo_sum, t)}</div>
-          </div>
-          <div>
+          </div> }
+          { mempool_stats.spent_txo_count > 0 && <div>
             <div>{t`Unconfirmed sent`}</div>
             <div>{fmtTxos(mempool_stats.spent_txo_count, mempool_stats.spent_txo_sum, t)}</div>
-          </div>
-          <div>
+          </div> }
+          { mempool_utxo_count > 0 && <div>
             <div>{t`Unconfirmed balance`}</div>
             <div>{fmtTxos(mempool_utxo_count, mempool_utxo_sum, t)}</div>
-          </div>
-          <div>
+          </div> }
+          { total_utxo_count > 0 && <div>
             <div>{t`Total balance`}</div>
             <div>{fmtTxos(total_utxo_count, total_utxo_sum, t)}</div>
-          </div>
+          </div> }
         </div>
 
         <div>
