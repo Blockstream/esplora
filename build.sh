@@ -33,7 +33,7 @@ fi
 cat www/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css
 
 # Browserify bundle
-(cd client && browserify -p bundle-collapser/plugin app.js \
+(cd client && browserify -p bundle-collapser/plugin run-browser.js \
   | ( [[ "$NODE_ENV" != "development" ]] && uglifyjs -cm || cat ) ) \
   > $DEST/app.js
 

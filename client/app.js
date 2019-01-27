@@ -1,13 +1,6 @@
 import 'babel-polyfill'
 import 'bootstrap/js/dist/collapse'
 import { Observable as O } from './rxjs'
-import run from '@cycle/rxjs-run'
-import storageDriver from '@cycle/storage'
-import { makeHTTPDriver } from '@cycle/http'
-import { makeDOMDriver } from '@cycle/dom'
-import { makeHistoryDriver, captureClicks } from '@cycle/history'
-import makeRouteDriver from './driver/route'
-import makeSearchDriver from './driver/search'
 
 import { dbg, combine, extractErrors, dropErrors, last, remove, add, notNully, tryUnconfidentialAddress} from './util'
 import l10n, { defaultLang } from './l10n'
@@ -22,7 +15,7 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 const searchSubmit$ = O.fromEvent(document.body, 'submit')
   .filter(e => e.target.classList.contains('search'))
 
-function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
+export default function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -269,11 +262,3 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 
   return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$ }
 }
-
-run(main, {
-  DOM: makeDOMDriver('#explorer')
-, HTTP: makeHTTPDriver()
-, route: makeRouteDriver(captureClicks(makeHistoryDriver({ basename: process.env.BASE_HREF || '/' })))
-, storage: storageDriver
-, search: makeSearchDriver(apiBase)
-})
