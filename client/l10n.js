@@ -27,4 +27,4 @@ Object.entries(exports.default).forEach(([ lang_id, lang_t ]) =>  {
   lang_t.langs = exports.default
 })
 
-export const defaultLang = browserLanguage.pick(Object.keys(exports.default), 'en')
+export const defaultLang = process.browser ? browserLanguage.pick(Object.keys(exports.default), 'en') : 'en'

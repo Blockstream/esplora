@@ -1,18 +1,20 @@
 import 'babel-polyfill'
-import 'bootstrap/js/dist/collapse'
 import { Observable as O } from './rxjs'
 
 import { dbg, combine, extractErrors, dropErrors, last, remove, add, notNully, tryUnconfidentialAddress} from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
+if (process.browser) {
+  require('bootstrap/js/dist/collapse')
+}
+
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ ...r, path }) => ({ ...r, url: apiBase + path })
-    , initTitle = document.title
 
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.
-const searchSubmit$ = O.fromEvent(document.body, 'submit')
+const searchSubmit$ = !process.browser ? O.empty() : O.fromEvent(document.body, 'submit')
   .filter(e => e.target.classList.contains('search'))
 
 export default function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
@@ -181,9 +183,11 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , openTx$.filter(notNully)
         .map(txid           => ({ category: 'tx-spends',  method: 'GET', path: `/tx/${txid}/outspends`, txid }))
 
-    // get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
-    , O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
-        .mapTo(                 { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
+    // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
+    // in server env, just get it once
+    , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
+                      : O.of(1)
+        ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
 
     ).map(setBase)
 
@@ -211,54 +215,53 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers
+  if (process.browser) {
 
-  // Display "No results found"
-  searchResult$.filter(found => !found).map(_ => document.querySelector('[name=q]'))
-    .filter(el => !!el)
-    .withLatestFrom(t$)
-    .subscribe(([el, t]) => (el.setCustomValidity(t`No results found`), el.reportValidity()))
-  on('[name=q]', 'input').subscribe(e => e.target.setCustomValidity(''))
+    // Display "No results found"
+    searchResult$.filter(found => !found).map(_ => document.querySelector('[name=q]'))
+      .filter(el => !!el)
+      .withLatestFrom(t$)
+      .subscribe(([el, t]) => (el.setCustomValidity(t`No results found`), el.reportValidity()))
+    on('[name=q]', 'input').subscribe(e => e.target.setCustomValidity(''))
 
-  searchSubmit$.subscribe(e => e.preventDefault())
+    searchSubmit$.subscribe(e => e.preventDefault())
 
-  // Update page title
-  title$.subscribe(title => document.title = title ? `${title} · ${initTitle}` : initTitle)
+    // Click-to-copy
+    if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
 
-  // Click-to-copy
-  if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
+    // Switch stylesheet based on current language
+    const stylesheet = document.querySelector('link[href="style.css"]')
+    t$.map(t => t`style.css`).distinctUntilChanged().subscribe(styleSrc =>
+      stylesheet.getAttribute('href') != styleSrc && (stylesheet.href = styleSrc))
 
-  // Switch stylesheet based on current language
-  const stylesheet = document.querySelector('link[href="style.css"]')
-  t$.map(t => t`style.css`).distinctUntilChanged().subscribe(styleSrc =>
-    stylesheet.getAttribute('href') != styleSrc && (stylesheet.href = styleSrc))
+    // Apply dark/light theme, language and text direction to root element
+    theme$.subscribe(theme => {
+      document.body.classList.remove('theme-dark', 'theme-light')
+      document.body.classList.add(`theme-${theme}`)
+    })
+    t$.subscribe(t => {
+      document.body.setAttribute('lang', t.lang_id)
+      document.body.setAttribute('dir', t`ltr`)
+    })
 
-  // Apply dark/light theme, language and text direction to root element
-  theme$.subscribe(theme => {
-    document.body.classList.remove('theme-dark', 'theme-light')
-    document.body.classList.add(`theme-${theme}`)
-  })
-  t$.subscribe(t => {
-    document.body.setAttribute('lang', t.lang_id)
-    document.body.setAttribute('dir', t`ltr`)
-  })
+    // Reset scrolling when navigating to a new page (but not when hitting 'back')
+    page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
+      .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
+      .subscribe(_ => window.scrollTo(0, 0))
 
-  // Reset scrolling when navigating to a new page (but not when hitting 'back')
-  page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
-    .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
-    .subscribe(_ => window.scrollTo(0, 0))
+    // Scroll elements selected via URL hash into view
+    DOM.select('.ins-and-outs .selected').elements()
+      .filter(els => !!els.length)
+      .map(els => els[0])
+      .distinctUntilChanged().delay(300)
+      .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
 
-  // Scroll elements selected via URL hash into view
-  DOM.select('.ins-and-outs .selected').elements()
-    .filter(els => !!els.length)
-    .map(els => els[0])
-    .distinctUntilChanged().delay(300)
-    .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
+    // Display "Copied!" tooltip
+    on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
+      btn.classList.add('show-tooltip')
+      setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
+    })
+  }
 
-  // Display "Copied!" tooltip
-  on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
-    btn.classList.add('show-tooltip')
-    setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
-  })
-
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$ }
+  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, title: title$ }
 }
