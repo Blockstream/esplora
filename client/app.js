@@ -261,6 +261,12 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
     .distinctUntilChanged().delay(300)
     .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
 
+  // Display "Copied!" tooltip
+  on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
+    btn.classList.add('show-tooltip')
+    setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
+  })
+
   return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$ }
 }
 

@@ -1700,3 +1700,55 @@ body::after{
     text-align: center;
   }
 }
+
+
+/* "Copied!" tooltip for click-to-copy buttons */
+.code-button-btn {
+  position: relative;
+}
+.code-button-btn:before,
+.code-button-btn:after {
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+.code-button-btn:after {
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(0,0,0,.75);
+  border-left: 6px solid transparent;
+  content: '';
+  height: 0;
+    top: 20px;
+    left: 20px;
+  width: 0;
+}
+.code-button-btn:before {
+  background: rgba(0,0,0,.75);
+  border-radius: 2px;
+  color: #fff;
+  content: 'Copied!';
+  font-size: 14px;
+  padding: 6px 10px;
+    top: 26px;
+  white-space: nowrap;
+}
+
+
+.code-button-btn:before {
+  transform: scale3d(.2,.2,1);
+  transition: all .2s ease-in-out;
+}
+.code-button-btn:after {
+  transform: translate3d(0,6px,0);
+  transition: all .1s ease-in-out;
+}
+
+.code-button-btn.show-tooltip:before,
+.code-button-btn.show-tooltip:after {
+  opacity: 1;
+  transform: scale3d(1,1,1);
+}
+.code-button-btn.tooltip:after {
+  transition: all .2s .1s ease-in-out;
+}
