@@ -7,4 +7,3 @@ onion=127.0.0.1:9050
 listen=0
 discover=0
 mainchainrpccookiefile=/data/bitcoin/.cookie
-mainchainrpcport=8332

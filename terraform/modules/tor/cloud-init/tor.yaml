@@ -105,11 +105,6 @@ write_files:
         ExecStartPost=-/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc.b64
         ExecStartPost=-/bin/rm /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key.enc.b64
         ExecStartPost=-/bin/rm /home/bs/tor/hidden_service/private_key.enc /home/bs/tor/hidden_service/private_key.enc.b64
-        ExecStartPost=/bin/chmod -R 2700 /home/bs/tor/
-        ExecStartPost=/bin/chmod 0644 /home/bs/tor/hidden_service_v3/hs_ed25519_public_key
-        ExecStartPost=/bin/chmod 0600 /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key
-        ExecStartPost=/bin/chmod 0600 /home/bs/tor/hidden_service/private_key
-        ExecStartPost=/bin/chown -R bs:bs /home/bs/tor/
 
   - path: /etc/systemd/system/tor.service
     permissions: 0644
@@ -117,7 +112,7 @@ write_files:
     content: |
         [Unit]
         Description=tor node
-        Wants=gcr-online.target docker.service
+        Wants=gcr-online.target docker.service decrypt.service
         After=gcr-online.service docker.service decrypt.service
 
         [Service]
@@ -126,6 +121,11 @@ write_files:
         Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=-/bin/chown -R bs:bs /home/bs/tor/
+        ExecStartPre=-/bin/chmod -R 2700 /home/bs/tor/
+        ExecStartPre=-/bin/chmod 0644 /home/bs/tor/hidden_service_v3/hs_ed25519_public_key
+        ExecStartPre=-/bin/chmod 0600 /home/bs/tor/hidden_service_v3/hs_ed25519_secret_key
+        ExecStartPre=-/bin/chmod 0600 /home/bs/tor/hidden_service/private_key
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9050 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --network=host \
@@ -142,6 +142,38 @@ write_files:
         [Install]
         WantedBy=multi-user.target
 
+  - path: /etc/systemd/system/node-exporter.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus node-exporter
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/exec
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --name=node-exporter \
+            --network=host \
+            --read-only \
+            -v /proc:/host/proc:ro \
+            -v /sys:/host/sys:ro \
+            -v /:/rootfs:ro \
+            -v metrics:/metrics:ro \
+            "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))"
+        ExecStop=/usr/bin/docker stop node-exporter
+        ExecStopPost=/usr/bin/docker rm node-exporter
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
 runcmd:
   - systemctl daemon-reload
   - base64 -d /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc.b64 > /home/bs/tor/hidden_service_v3/hs_ed25519_public_key.enc
@@ -151,3 +183,5 @@ runcmd:
   - systemctl enable decrypt.service
   - systemctl start decrypt.service
   - systemctl start tor.service
+  - systemctl enable node-exporter.service
+  - systemctl start node-exporter.service

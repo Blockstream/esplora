@@ -68,3 +68,11 @@ variable "kms_key_ring" {
 variable "kms_location" {
   type = "string"
 }
+
+variable "docker_tag_node_exporter" {
+  type = "string"
+}
+
+variable "service_account_prom" {
+  type = "string"
+}

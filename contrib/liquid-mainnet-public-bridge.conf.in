@@ -8,4 +8,3 @@ torcontrol=127.0.0.1:9051
 listen=1
 discover=1
 mainchainrpccookiefile=/data/bitcoin/.cookie
-mainchainrpcport=8332

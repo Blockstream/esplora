@@ -1,9 +1,8 @@
-FROM debian:stretch@sha256:df6ebd5e9c87d0d7381360209f3a05c62981b5c2a3ec94228da4082ba07c4f05
+FROM debian:stretch@sha256:58a80e0b6aa4d960ee2a5452b0230c406c47ed30a66555ba753c8e1710a434f5
 
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p /srv/explorer \
- && sed -i 's/deb.debian.org/httpredir.debian.org/g' /etc/apt/sources.list \
  && apt-get -yqq update \
  && apt-get -yqq upgrade \
  && apt-get -yqq install clang cmake nginx supervisor curl git tor
@@ -13,18 +12,18 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github
  && source /root/.nvm/nvm.sh \
  && nvm install v8.11.4
 
-ENV SHA256SUM_BITCOINCORE=9d6b472dc2aceedb1a974b93a3003a81b7e0265963bd2aa0acdcb17598215a4f
-RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.17.0/bitcoin-0.17.0-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_BITCOINCORE=53ffca45809127c9ba33ce0080558634101ec49de5224b2998c489b6d0fc2b17
+RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.17.1/bitcoin-0.17.1-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
  && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/bitcoin-0.17.0 /srv/explorer/bitcoin \
+ && ln -s /srv/explorer/bitcoin-0.17.1 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_LIQUID=ea2836aa267b32b29e890acdd5e724b4be225c34891fd26426ce741c12c1e166
-RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.21/liquid-3.14.1.21-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_LIQUID=9bca50796526e8cd33738ad22ecf21e6d2696aecb4d4e45eb7982d2c6c40beae
+RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.22/liquid-3.14.1.22-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_LIQUID}  liquid.tar.gz" | sha256sum --check \
  && tar xzf liquid.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/liquid-3.14.1.21 /srv/explorer/liquid \
+ && ln -s /srv/explorer/liquid-3.14.1.22 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.30.1 \
@@ -32,10 +31,10 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.30.1 \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/Blockstream/electrs.git \
  && cd electrs \
- && git checkout ae51519d35845b9d0f3ec201ab3972dfd4b0236e \
+ && git checkout 5fedce2485dc062faf71c387a0cd81674a1411ee \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_bitcoin \
- && git checkout --force 0b329e3ef77dcd68d167f19c3967034c80fedf13 \
+ && git checkout --force e0c877126e4c41d96df650001cfa49561482932d \
  && cargo build --release \
  && cargo install --root /srv/explorer/electrs_liquid \
  && cd .. \
