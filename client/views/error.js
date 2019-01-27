@@ -6,11 +6,11 @@ const formatError = err =>
 ? 'We encountered an error. Please try again later.'
 : err.toString()
 
-export const error = ({ t, error }) => layout(<div>
+export const error = ({ t, error, errorId }) => layout(<div>
   <div className="jumbotron jumbotron-fluid">
-    <div className="container"><h1>{ t(formatError(error)) }</h1></div>
+    <div className="container" data-errorId={errorId}><h1>{ t(formatError(error)) }</h1></div>
   </div>
 </div>
 , { t })
 
-export const notFound = S => error({ ...S, error: 'Page Not Found' })
+export const notFound = S => error({ ...S, error: 'Page Not Found', errorId: 'not-found' })

@@ -1,25 +1,31 @@
 doctype html
 
+- baseTitle = process.env.SITE_TITLE || 'Block Explorer'
+- pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
+- staticRoot = process.env.STATIC_ROOT || ''
+
 head
   meta(charset='utf-8')
-  title= process.env.SITE_TITLE || 'Block Explorer'
+  title= pageTitle
   meta(property='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Block explorer')
   meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
 
   base(href=process.env.BASE_HREF || '/')
 
   meta(name='viewport', content='width=device-width, initial-scale=1')
-  link(rel='shortcut icon', type='image/png', href='img/favicon.png')
-  link(rel='stylesheet', href='bootstrap.min.css')
-  link(rel='stylesheet', href='style.css')
+  link(rel='shortcut icon', type='image/png', href=staticRoot+'img/favicon.png')
+  link(rel='stylesheet', href=staticRoot+'bootstrap.min.css')
+  link(rel='stylesheet', href=staticRoot+'style.css')
 
   if process.env.BASE_URL
     //- open search requires the absolute URL of the explorer
-    link(rel='search', href='opensearch.xml', type='application/opensearchdescription+xml', title=process.env.SITE_TITLE || 'Block Explorer')
+    link(rel='search', href=staticRoot+'opensearch.xml', type='application/opensearchdescription+xml', title=process.env.SITE_TITLE || 'Block Explorer')
 
   != process.env.HEAD_HTML
 
 body(class=prerender_html?'theme-dark':'')
   #explorer!= prerender_html || ''
-  script(src='app.js', async)
+
+  if !noscript
+    script(src=staticRoot+'app.js', async)
   != process.env.FOOT_HTML
