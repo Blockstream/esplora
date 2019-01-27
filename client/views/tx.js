@@ -4,7 +4,7 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal } from '../util'
-import { formatAmount } from './util'
+import { formatAmount, formatTime } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
@@ -81,10 +81,20 @@ const txHeader = (tx, { tipHeight, t }) =>
       <div>{t`Status`}</div>
       <div>{confirmationText(tx.status, tipHeight, t)}</div>
     </div>
-   {(tx.status.confirmed) && <div>
-      <div>{t`Included in Block`}</div>
-      <div><a href={`block/${tx.status.block_hash}`} className="mono">{tx.status.block_hash}</a></div>
-    </div>}
+   {tx.status.confirmed && [
+     <div>
+        <div>{t`Included in Block`}</div>
+        <div><a href={`block/${tx.status.block_hash}`} className="mono">{tx.status.block_hash}</a></div>
+      </div>
+    , <div>
+        <div>{t`Block height`}</div>
+        <div>{tx.status.block_height}</div>
+      </div>
+    , <div>
+        <div>{t`Block timestamp`}</div>
+        <div>{formatTime(tx.status.block_time, t)}</div>
+      </div>
+    ]}
     <div>
       <div>{t`Size (bytes)`}</div>
       <div>{tx.size}</div>
