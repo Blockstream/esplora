@@ -107,4 +107,4 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
 
 const fmtTxos = (count, sum, t) =>
   (t`${count} outputs`)
-+ (sum != null && !isNaN(sum) ? ' ' + t`of ${formatAmount({ value: sum })}` : '')
++ (sum > 0 ? ' ' + t`of ${formatAmount({ value: sum })}` : '')
