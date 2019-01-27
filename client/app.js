@@ -265,7 +265,7 @@ function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
 }
 
 run(main, {
-  DOM: makeDOMDriver('#liquid-explorer')
+  DOM: makeDOMDriver('#explorer')
 , HTTP: makeHTTPDriver()
 , route: makeRouteDriver(captureClicks(makeHistoryDriver({ basename: process.env.BASE_HREF || '/' })))
 , storage: storageDriver

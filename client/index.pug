@@ -20,6 +20,6 @@ head
   != process.env.HEAD_HTML
 
 body(class=prerender_html?'theme-dark':'')
-  #liquid-explorer.liquid-explorer!= prerender_html || ''
+  #explorer!= prerender_html || ''
   script(src='app.js', async)
   != process.env.FOOT_HTML
