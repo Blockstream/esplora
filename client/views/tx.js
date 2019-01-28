@@ -17,9 +17,9 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
           <h1 className="transaction-header-title">{t`Transaction`}</h1>
           <div className="block-hash">
             <span>{tx.txid}</span>
-            <div className="code-button">
+            { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={tx.txid}></div>
-            </div>
+            </div> }
           </div>
         </div>
       </div>

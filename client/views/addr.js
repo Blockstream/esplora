@@ -26,10 +26,11 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
           <div className="row">
             <div className="col-sm-8">
               <h1>{t`Address`}</h1>
-              <div className="block-hash"><span>{addr.address}</span>
-                <div className="code-button">
+              <div className="block-hash">
+                <span>{addr.address}</span>
+                { process.browser && <div className="code-button">
                   <div className="code-button-btn" role="button" data-clipboardCopy={addr.address}></div>
-                </div>
+                </div> }
               </div>
             </div>
             <div className="col-sm-4"><img className="float-sm-right address-qr-code" src={ addressQR(addr.address) } /></div>

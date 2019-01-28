@@ -16,9 +16,9 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
         <div>
           <h1 className="block-header-title">{t`Block ${formatHeight(b.height)}`}</h1>
           <div className="block-hash"><span>{b.id}</span>
-            <div className="code-button">
+            { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={b.id}></div>
-            </div>
+            </div> }
           </div>
           <div className="prev-next-blocks-btns">
             <div>
