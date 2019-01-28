@@ -14,11 +14,11 @@ const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
 const notFoundMarker = 'data-errorId="not-found"'
     , loadingMarker = 'src="img/Loading.gif"'
 
-export default function render(pathname, hash='', locals={}, cb) {
+export default function render(pathname, args='', locals={}, cb) {
   let scheduled=false, seenLoading=false, called=false, timeout, lastHtml, lastTitle
 
   function done() {
-    if (called) return console.error('html render result() called too many times', { lastHtml });
+    if (called) return console.error('html render result() called too many times', pathname, { lastHtml });
     called = true
     cb(null, { html: lastHtml, title: lastTitle })
   }
@@ -54,7 +54,7 @@ export default function render(pathname, hash='', locals={}, cb) {
   run(main, {
     DOM: makeHTMLDriver(processHTML, { modules: ModulesForHTML })
   , HTTP: makeHTTPDriver()
-  , route: makeRouteDriver(_ => O.of({ pathname, hash }))
+  , route: makeRouteDriver(_ => O.of({ pathname, hash: '#'+args }))
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
   , search: _ => O.empty()
   , title: title$ => O.from(title$).subscribe(title => lastTitle = title)

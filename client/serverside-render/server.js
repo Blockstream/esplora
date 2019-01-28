@@ -17,8 +17,9 @@ app.use(require('morgan')('dev'))
 app.get('*', (req, res, next) => {
   // TODO: promise
   // TODO: cookies as localStorage
-  console.log('req', req.url, '--', req.query)
-  render(req.url, '', {}, (err, resp) => {
+  // TODO: handle 404
+
+  render(req._parsedUrl.pathname, req._parsedUrl.query || '', {}, (err, resp) => {
     if (err) return next(err);
 
     res.render(indexView, {
