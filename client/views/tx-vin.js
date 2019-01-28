@@ -28,11 +28,11 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 
 const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
-, <a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a>
+, <a href={`tx/${vin.txid}#output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a>
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
       <div>{t`Outpoint`}</div>
-      <div className="mono"><a href={`tx/${vin.txid}#output:${vin.vout}`}>{vin.txid}:{vin.vout}</a></div>
+      <div className="mono"><a href={`tx/${vin.txid}#output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a></div>
     </div>
 
     { vin.issuance && [
