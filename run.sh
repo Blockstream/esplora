@@ -38,7 +38,7 @@ if [ "${DAEMON}" != "liquid" ]; then
         NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
     fi
 else
-    ELECTRS_NETWORK="liquidv1"
+    ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
     NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
