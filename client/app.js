@@ -56,7 +56,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg && !r$.request.ignore_err))
 
-  , tipHeight$ = reply('tip-height').map(height => +height)
+  , tipHeight$ = reply('tip-height', true).map(res => +res.text)
 
   // the translation function for the currently selected language
   , t$ = lang$.map(lang => l10n[lang] || l10n[defaultLang])
