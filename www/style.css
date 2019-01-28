@@ -200,10 +200,13 @@ a, a:link, a:visited, a:hover, a:focus {
   margin-left: 12px;
   cursor: pointer;
   position: relative;
+  vertical-align: text-bottom;
 }
 
 .jumbotron-fluid .code-button .code-button-btn {
-  height: 26px;
+  height: 23px;
+  width: 30px;
+  background: url(img/icons/copy.png) no-repeat;
 }
 
 .jumbotron-fluid .code-button .code-button-btn img {

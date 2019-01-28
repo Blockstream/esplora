@@ -28,7 +28,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
               <h1>{t`Address`}</h1>
               <div className="block-hash"><span>{addr.address}</span>
                 <div className="code-button">
-                  <div className="code-button-btn" role="button" data-clipboardCopy={addr.address}><img alt="" src="img/icons/copy.png" /></div>
+                  <div className="code-button-btn" role="button" data-clipboardCopy={addr.address}></div>
                 </div>
               </div>
             </div>
