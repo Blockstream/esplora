@@ -2,7 +2,7 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatTime, formatHex, perPage, updateExpandOpt } from './util'
+import { formatTime, formatHex, perPage, updateQuery } from './util'
 
 const formatHeight = height => height
 
@@ -46,7 +46,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       </div>
     </div>
     <div className="container">
-      {btnDetails(b.id, openBlock == b.id, page.hashopt, t)}
+      {btnDetails(b.id, openBlock == b.id, page.query, t)}
 
       <div className="block-stats-table">
         <div>
@@ -135,11 +135,11 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
   </div>
 , { t })
 
-const btnDetails = (blockhash, isOpen, hashopt, t) => process.browser
+const btnDetails = (blockhash, isOpen, query, t) => process.browser
   // dynamic button in browser env
   ? <div className="details-btn float-right mb-2" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
   // or a plain link in server-side rendered env
-  :  <a className="details-btn float-right mb-2" href={`block/${blockhash}${updateExpandOpt(hashopt, !isOpen, true)}`}>{btnDetailsContent(isOpen, t)}</a>
+  :  <a className="details-btn float-right mb-2" href={`block/${blockhash}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">

@@ -1,3 +1,4 @@
+import qs from 'querystring'
 import Snabbdom from 'snabbdom-pragma'
 import { sat2btc } from 'fmtbtc'
 import { outAssetLabel, add, remove } from '../util'
@@ -17,7 +18,7 @@ export const formatHex = num => {
   return '0x' + (str.length%2 ? '0' : '') + str
 }
 
-const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}#output:{vout}'
+const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}?output:{vout}'
 const parentChainExplorerAddr  = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
 
 export const linkToParentOut = ({ txid, vout }, label=`${txid}:${vout}`) =>
@@ -30,7 +31,20 @@ export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
 
 export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
 
-export const updateExpandOpt = (hashopt=[], enable, as_query=false) => {
-  const optstr = (enable ? add : remove)(hashopt, 'expand').join(',')
-  return (as_query && optstr.length) ? `?${optstr}` : optstr
+export const updateQuery = (query, opts, as_obj) => {
+  const new_query = Object.entries(opts).reduce((acc, [ key, val ]) => {
+    if (val === true) { acc[key] = '' }
+    else if (val === false) { delete acc[key] }
+    else acc[key]=val
+    return acc
+  }, Object.assign({}, query))
+
+  if (as_obj) return new_query;
+
+  const new_qs = qs.stringify(new_query)
+    .replace(/=(true)?(&|$)/g, '$2') // strip "=" off of value-less args
+
+  console.log({ query, opts, new_query, new_qs })
+
+  return `${new_qs.length ? '?' : ''}${new_qs}`
 }

@@ -34,8 +34,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q)
 
   // auto-expand when opening with "#expand"
-  , expandTx$ = route('/tx/:txid').filter(loc => loc.hashopt.includes('expand')).map(loc => loc.params.txid)
-  , expandBl$ = route('/block/:hash').filter(loc => loc.hashopt.includes('expand')).map(loc => loc.params.hash)
+  , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
+  , expandBl$ = route('/block/:hash').filter(loc => loc.query.expand).map(loc => loc.params.hash)
 
   , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null), expandTx$)
   , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null), expandBl$)
@@ -147,8 +147,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     )
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
-    .filter(([ expand, page ]) => page.hashopt.includes('expand') != expand)
-    .map(([ expand, page ]) => [ page.pathname, updateExpandOpt(page.hashopt, expand) ])
+    .filter(([ expand, page ]) => page.query.expand != expand)
+    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }, true) ])
 
   /// Sinks
 

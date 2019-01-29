@@ -1,3 +1,4 @@
+import qs from 'querystring'
 import pathRegexp from 'path-to-regexp'
 import { Observable as O } from '../rxjs'
 
@@ -7,11 +8,19 @@ const makeObj = (keys, values) => keys.reduce((o, k, i) => ({ ...o, [k.name]: va
 
 const baseHref  = process.env.BASE_HREF || '/'
     , stripBase = path => path.indexOf(baseHref) == 0 ? path.substr(baseHref.length-1) : path
-    , getOpt    = hash => hash.substr(1).split(',').filter(Boolean)
+
+const parseQuery = loc => {
+  // Older versions of Esplora used the url hash instead of the query.
+  // Try both for backward compatibility with old links.
+  const query = qs.parse((loc.search || loc.hash || '').substr(1))
+  // Convert value-less args to true
+  Object.keys(query).forEach(key => (query[key] === '') && (query[key] = true))
+  return query
+}
 
 module.exports = history => goto$ => {
   const history$ = O.from(history(goto$.map(goto => isStr(goto) ? { type: 'push', pathname: goto } : goto)))
-    .map(loc =>({...loc, pathname: stripBase(loc.pathname), hashopt: getOpt(loc.hash) }))
+    .map(loc =>({...loc, pathname: stripBase(loc.pathname), query: parseQuery(loc) }))
 
   const page$ = history$
     .filter((loc, i) => i == 0 || !loc.state || !loc.state.noRouting)

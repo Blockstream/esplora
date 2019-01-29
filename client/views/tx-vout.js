@@ -3,8 +3,8 @@ import { formatAmount, linkToAddr, linkToParentAddr } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
-const layout = (vout, desc, body, { t, index, hashopt=[] }) =>
-  <div class={{ vout: true, selected: hashopt.includes(`output:${index}`) }}>
+const layout = (vout, desc, body, { t, index, query={} }) =>
+  <div class={{ vout: true, selected: query[`output:${index}`] }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>
@@ -68,7 +68,7 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
         <div>{t`Spending tx`}</div>
         <div>{
           !spend ? t`Loading...`
-        : spend.spent ? <span>{t`Spent by`} <a href={`tx/${spend.txid}#input:${spend.vin}`} className="mono">{`${spend.txid}:${spend.vin}`}</a></span>
+        : spend.spent ? <span>{t`Spent by`} <a href={`tx/${spend.txid}?input:${spend.vin}`} className="mono">{`${spend.txid}:${spend.vin}`}</a></span>
         : t`Unspent`
         }</div>
       </div>

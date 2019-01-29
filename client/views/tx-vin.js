@@ -1,8 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
 import { linkToParentOut, formatAmount, formatHex, linkToAddr } from './util'
 
-const layout = (vin, desc, body, { t, index, hashopt=[] }) =>
-  <div class={{ vin: true, selected: hashopt.includes(`input:${index}`) }}>
+const layout = (vin, desc, body, { t, index, query={} }) =>
+  <div class={{ vin: true, selected: query[`input:${index}`] }}>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>
@@ -28,11 +28,11 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 
 const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
-, <a href={`tx/${vin.txid}#output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a>
+, <a href={`tx/${vin.txid}?output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a>
 , isOpen && <div className="vin-body">
     <div className="vin-body-row">
       <div>{t`Outpoint`}</div>
-      <div className="mono"><a href={`tx/${vin.txid}#output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a></div>
+      <div className="mono"><a href={`tx/${vin.txid}?output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a></div>
     </div>
 
     { vin.issuance && [

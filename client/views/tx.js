@@ -4,7 +4,7 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal } from '../util'
-import { formatAmount, formatTime, updateExpandOpt } from './util'
+import { formatAmount, formatTime, updateQuery } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
@@ -26,7 +26,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight })}
-      {txBox(tx, { openTx, tipHeight, t, spends, hashopt: page.hashopt })}
+      {txBox(tx, { openTx, tipHeight, t, spends, query: page.query })}
     </div>
   </div>
 , { t })
@@ -34,13 +34,13 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends, hashopt }) => {
-  const vopt = { isOpen: (openTx == tx.txid), hashopt, t }
+export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
+  const vopt = { isOpen: (openTx == tx.txid), query, t }
 
   return <div className="transaction-box">
     <div className="header">
       <div className="txn"><a href={`tx/${tx.txid}`}>{tx.txid}</a></div>
-      {btnDetails(tx.txid, vopt.isOpen, hashopt, t)}
+      {btnDetails(tx.txid, vopt.isOpen, query, t)}
     </div>
     <div className="ins-and-outs">
       <div className="vins">{tx.vin.map((vin, index) => vinView(vin, { ...vopt, index }))}</div>
@@ -71,11 +71,11 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, hashopt }) => {
   </div>
 }
 
-const btnDetails = (txid, isOpen, hashopt, t) => process.browser
+const btnDetails = (txid, isOpen, query, t) => process.browser
   // dynamic button in browser env
   ? <div className="details-btn" data-toggleTx={txid}>{btnDetailsContent(isOpen, t)}</div>
   // or a plain link in server-side rendered env
-  :  <a className="details-btn" href={`tx/${txid}${updateExpandOpt(hashopt, !isOpen, true)}`}>{btnDetailsContent(isOpen, t)}</a>
+  :  <a className="details-btn" href={`tx/${txid}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
