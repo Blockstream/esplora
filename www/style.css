@@ -855,6 +855,19 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: 30px;
 }
 
+.details-btn .plus:before, .details-btn .minus:before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  display: block;
+}
+.details-btn .plus:before {
+  background: url(img/icons/plus.svg);
+}
+.details-btn .minus:before {
+  background: url(img/icons/minus.svg);
+}
+
 .transaction-box > .ins-and-outs {
   display: table;
   table-layout: fixed;

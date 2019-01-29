@@ -80,7 +80,7 @@ const btnDetails = (txid, isOpen, hashopt, t) => process.browser
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
     <div>{t`Details`}</div>
-    <div><img alt="" src={`img/icons/${ isOpen ? 'minus' : 'plus' }.svg`}/></div>
+    <div className={isOpen?'minus':'plus'}></div>
   </div>
 
 const txHeader = (tx, { tipHeight, t }) =>
