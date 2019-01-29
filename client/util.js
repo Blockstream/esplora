@@ -82,6 +82,7 @@ export const updateQuery = (query, opts, as_obj) => {
 
   const new_qs = qs.stringify(new_query)
     .replace(/=(true)?(&|$)/g, '$2') // strip "=" off of value-less args
+    .replace(/%3A/g, ':') // use literal colon for prettier urls
 
   return `${new_qs.length ? '?' : ''}${new_qs}`
 }
