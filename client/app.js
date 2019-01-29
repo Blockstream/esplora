@@ -137,7 +137,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                      , block$, blockStatus$, blockTxs$, nextMoreBTxs$, openBlock$
                      , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
-                     , loading$, page$, view$
+                     , loading$, page$, view$, title$
                      })
 
   // Update hash options with #expand
@@ -263,5 +263,5 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, title: title$ }
+  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, title: title$, state: state$ }
 }

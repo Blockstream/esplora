@@ -14,8 +14,14 @@ const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
 const notFoundMarker = 'data-errorId="not-found"'
     , loadingMarker = 'src="img/Loading.gif"'
 
+// TODO compile html on our own based on state
+// TODO catch route redirects & issue 30x
+
 export default function render(pathname, args='', locals={}, cb) {
-  let scheduled=false, seenLoading=false, called=false, timeout, lastHtml, lastTitle
+  //let scheduled=false, seenLoading=false, called=false, timeout, lastHtml, lastTitle
+
+
+  console.log('render',pathname,'with',args)
 
   function done() {
     if (called) return console.error('html render result() called too many times', pathname, { lastHtml });
@@ -23,7 +29,7 @@ export default function render(pathname, args='', locals={}, cb) {
     cb(null, { html: lastHtml, title: lastTitle })
   }
 
-  function processHTML(html) {
+  /*function processHTML(html) {
     lastHtml = html
     clearTimeout(timeout)
 
@@ -49,18 +55,32 @@ export default function render(pathname, args='', locals={}, cb) {
       if (isNotFound) timeout = setTimeout(_ => done(), 100)
       if (isLoading) timeout = setTimeout(_ => done(), 1500)
     })
+  }*/
+
+  let lastHtml, lastTitle, seenLoading=false, called=false, timeout
+
+  function htmlUpdate(html) {
+    lastHtml = html
+  }
+  function stateUpdate({ title, loading, error }) {
+    // lastState = ...
+    lastTitle = title
+    if (loading) seenLoading = true
+    else if (seenLoading) process.nextTick(done)
   }
 
+  //const noRouteTimeout = setTimeout(_ => !seenLoading && done([>TODO: render error page<]), 150)
+  //const loadTimeout = setTimeout(_ => done(), 5000)
+
   run(main, {
-    DOM: makeHTMLDriver(processHTML, { modules: ModulesForHTML })
+    DOM: makeHTMLDriver(htmlUpdate, { modules: ModulesForHTML })
   , HTTP: makeHTTPDriver()
   , route: makeRouteDriver(_ => O.of({ pathname, hash: '#'+args }))
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
   , search: _ => O.empty()
-  , title: title$ => O.from(title$).subscribe(title => lastTitle = title)
+  , state: state$ => O.from(state$).subscribe(stateUpdate)
   })
 
 
 }
 
-//render('/tx/4c9df295b97b50c2aaeb309f4cd24d11917cd60b18bfe2a97527a86c1c3e0c0f', '', { lang: 'he' }, (err, res) => console.log({ err, res }))
