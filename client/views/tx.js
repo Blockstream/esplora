@@ -4,7 +4,7 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal } from '../util'
-import { formatAmount, formatTime } from './util'
+import { formatAmount, formatTime, updateExpandOpt } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
@@ -26,7 +26,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight })}
-      {txBox(tx, { openTx, tipHeight, t, spends, selected: page.hashopt })}
+      {txBox(tx, { openTx, tipHeight, t, spends, hashopt: page.hashopt })}
     </div>
   </div>
 , { t })
@@ -34,18 +34,13 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends, selected }) => {
-  const vopt = { isOpen: (openTx == tx.txid), selected, t }
+export const txBox = (tx, { t, openTx, tipHeight, spends, hashopt }) => {
+  const vopt = { isOpen: (openTx == tx.txid), hashopt, t }
 
   return <div className="transaction-box">
     <div className="header">
       <div className="txn"><a href={`tx/${tx.txid}`}>{tx.txid}</a></div>
-      <div className="details-btn" data-toggleTx={tx.txid}>
-        <div role="button" tabindex="0">
-          <div>{t`Details`}</div>
-          <div><img alt="" src={`img/icons/${ vopt.isOpen ? 'minus' : 'plus' }.svg`}/></div>
-        </div>
-      </div>
+      {btnDetails(tx.txid, vopt.isOpen, hashopt, t)}
     </div>
     <div className="ins-and-outs">
       <div className="vins">{tx.vin.map((vin, index) => vinView(vin, { ...vopt, index }))}</div>
@@ -75,6 +70,19 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, selected }) => {
     </div>
   </div>
 }
+
+const btnDetails = (txid, isOpen, hashopt, t) => process.browser
+  // dynamic button in browser env
+  ? <div className="details-btn" data-toggleTx={txid}>{btnDetailsContent(isOpen, t)}</div>
+  // or a plain link in server-side rendered env
+  :  <a className="details-btn" href={`tx/${txid}${updateExpandOpt(hashopt, !isOpen, true)}`}>{btnDetailsContent(isOpen, t)}</a>
+
+const btnDetailsContent = (isOpen, t) =>
+  <div role="button" tabindex="0">
+    <div>{t`Details`}</div>
+    <div><img alt="" src={`img/icons/${ isOpen ? 'minus' : 'plus' }.svg`}/></div>
+  </div>
+
 const txHeader = (tx, { tipHeight, t }) =>
   <div className="block-stats-table">
     <div>

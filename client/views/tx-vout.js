@@ -3,8 +3,8 @@ import { formatAmount, linkToAddr, linkToParentAddr } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
-const layout = (vout, desc, body, { t, index, selected=[] }) =>
-  <div class={{ vout: true, selected: selected.includes(`output:${index}`) }}>
+const layout = (vout, desc, body, { t, index, hashopt=[] }) =>
+  <div class={{ vout: true, selected: hashopt.includes(`output:${index}`) }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>

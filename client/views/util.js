@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { sat2btc } from 'fmtbtc'
-import { outAssetLabel } from '../util'
+import { outAssetLabel, add, remove } from '../util'
 
 const qruri = !process.env.NO_QR && require('qruri')
 
@@ -29,3 +29,8 @@ export const linkToParentAddr = (addr, label=addr) =>
 export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
 
 export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
+
+export const updateExpandOpt = (hashopt=[], enable, as_query=false) => {
+  const optstr = (enable ? add : remove)(hashopt, 'expand').join(',')
+  return (as_query && optstr.length) ? `?${optstr}` : optstr
+}

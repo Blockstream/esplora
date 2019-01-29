@@ -2,13 +2,13 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatTime, formatHex, perPage } from './util'
+import { formatTime, formatHex, perPage, updateExpandOpt } from './util'
 
 const formatHeight = height => height
 
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
-export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading }, txsStatus=makeStatus(b)) => b && layout(
+export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading, page }, txsStatus=makeStatus(b)) => b && layout(
   <div>
     <div className="jumbotron jumbotron-fluid block-page">
       <div className="container">
@@ -46,13 +46,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       </div>
     </div>
     <div className="container">
-
-      <div className="details-btn float-right mb-2" data-toggleBlock={b.id}>
-        <div role="button" tabindex="0">
-          <div>{t`Details`}</div>
-          <div><img alt="" src={`img/icons/${ openBlock == b.id ? 'minus' : 'plus' }.svg`}/></div>
-        </div>
-      </div>
+      {btnDetails(b.id, openBlock == b.id, page.hashopt, t)}
 
       <div className="block-stats-table">
         <div>
@@ -140,3 +134,15 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
     </div>
   </div>
 , { t })
+
+const btnDetails = (blockhash, isOpen, hashopt, t) => process.browser
+  // dynamic button in browser env
+  ? <div className="details-btn float-right mb-2" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
+  // or a plain link in server-side rendered env
+  :  <a className="details-btn float-right mb-2" href={`block/${blockhash}${updateExpandOpt(hashopt, !isOpen, true)}`}>{btnDetailsContent(isOpen, t)}</a>
+
+const btnDetailsContent = (isOpen, t) =>
+  <div role="button" tabindex="0">
+    <div>{t`Details`}</div>
+    <div><img alt="" src={`img/icons/${ isOpen ? 'minus' : 'plus' }.svg`}/></div>
+  </div>

@@ -1,8 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
 import { linkToParentOut, formatAmount, formatHex, linkToAddr } from './util'
 
-const layout = (vin, desc, body, { t, index, selected=[] }) =>
-  <div class={{ vin: true, selected: selected.includes(`input:${index}`) }}>
+const layout = (vin, desc, body, { t, index, hashopt=[] }) =>
+  <div class={{ vin: true, selected: hashopt.includes(`input:${index}`) }}>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>

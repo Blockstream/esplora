@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
-import { dbg, combine, extractErrors, dropErrors, last, remove, add, notNully, tryUnconfidentialAddress} from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateExpandOpt, notNully, tryUnconfidentialAddress} from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -148,7 +148,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => page.hashopt.includes('expand') != expand)
-    .map(([ expand, page ]) => [ page.pathname, (expand?add:remove)(page.hashopt, 'expand').join(',') ])
+    .map(([ expand, page ]) => [ page.pathname, updateExpandOpt(page.hashopt, expand) ])
 
   /// Sinks
 
