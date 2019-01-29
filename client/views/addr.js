@@ -73,10 +73,6 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{t`Unconfirmed sent`}</div>
             <div>{fmtTxos(mempool_stats.spent_txo_count, mempool_stats.spent_txo_sum, t)}</div>
           </div> }
-          { mempool_utxo_count > 0 && <div>
-            <div>{t`Unconfirmed balance`}</div>
-            <div>{fmtTxos(mempool_utxo_count, mempool_utxo_sum, t)}</div>
-          </div> }
           { total_utxo_count > 0 && <div>
             <div>{t`Total balance`}</div>
             <div>{fmtTxos(total_utxo_count, total_utxo_sum, t)}</div>
