@@ -3,8 +3,8 @@ import layout from './layout'
 import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
-import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal } from '../util'
-import { formatAmount, formatTime, updateQuery } from './util'
+import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
+import { formatAmount, formatTime } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 

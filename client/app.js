@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
-import { dbg, combine, extractErrors, dropErrors, last, updateExpandOpt, notNully, tryUnconfidentialAddress} from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress} from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -140,15 +140,15 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                      , loading$, page$, view$, title$
                      })
 
-  // Update hash options with #expand
-  , updateHash$ = O.merge(
+  // Update query options with ?expand
+  , updateQuery$ = O.merge(
       openTx$.withLatestFrom(view$).filter(([ _, view]) => view == 'tx').pluck(0)
     , openBlock$.withLatestFrom(view$).filter(([ _, view]) => view == 'block').pluck(0)
     )
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => page.query.expand != expand)
-    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }, true) ])
+    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }) ])
 
   /// Sinks
 
@@ -204,11 +204,11 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , navto$ = O.merge(
       searchResult$.filter(Boolean).map(path => ({ type: 'push', pathname: path }))
     , byHeight$.map(hash => ({ type: 'replace', pathname:`/block/${hash}` }))
-    , updateHash$.map(([ pathname, hash ]) => ({ type: 'replace', pathname: pathname+(hash?'#'+hash:''), state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$
-      , openTx$, openBlock$, updateHash$
+      , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
       , tipHeight$, error$, loading$
       , query$, searchResult$, copy$, store$, navto$

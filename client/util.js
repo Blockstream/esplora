@@ -1,3 +1,4 @@
+import qs from 'querystring'
 import bs58check from 'bs58check'
 import debug from 'debug'
 import assert from 'assert'
@@ -68,3 +69,19 @@ export const dbg = (obj, label='stream', dbg=debug(label)) =>
     x   => dbg(`${k} ->`, x)
   , err => dbg(`${k} \x1b[91mError:\x1b[0m`, err.stack || err)
   , _   => dbg(`${k} completed`)))
+
+export const updateQuery = (query, opts, as_obj) => {
+  const new_query = Object.entries(opts).reduce((acc, [ key, val ]) => {
+    if (val === true) { acc[key] = '' }
+    else if (val === false) { delete acc[key] }
+    else acc[key]=val
+    return acc
+  }, Object.assign({}, query))
+
+  if (as_obj) return new_query;
+
+  const new_qs = qs.stringify(new_query)
+    .replace(/=(true)?(&|$)/g, '$2') // strip "=" off of value-less args
+
+  return `${new_qs.length ? '?' : ''}${new_qs}`
+}

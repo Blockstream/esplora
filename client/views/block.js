@@ -2,7 +2,8 @@ import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatTime, formatHex, perPage, updateQuery } from './util'
+import { updateQuery  } from '../util'
+import { formatTime, formatHex, perPage } from './util'
 
 const formatHeight = height => height
 
