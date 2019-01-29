@@ -147,8 +147,8 @@ deploy_bitcoin_mainnet:
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=1200"
-        -var "initial_delay_sec=1200"
+        -var "min_ready_sec=2400"
+        -var "initial_delay_sec=2400"
         -input=false -auto-approve)
 
 deploy_bitcoin_testnet:
@@ -191,8 +191,8 @@ deploy_liquid_mainnet:
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=600"
-        -var "initial_delay_sec=600"
+        -var "min_ready_sec=1200"
+        -var "initial_delay_sec=1200"
         -input=false -auto-approve)
 
 build_images:on-schedule:
