@@ -90,7 +90,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , nextMoreBTxs$ = O.combineLatest(block$, blockTxs$, (block, txs) => block && txs && block.tx_count > txs.length ? txs.length : null)
 
   // Hash by height search
-  , byHeight$ = reply('height')
+  , byHeight$ = reply('height', true).map(r => r.text)
 
   // Address and associated txs
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
