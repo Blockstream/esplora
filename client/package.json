@@ -28,6 +28,7 @@
     "qruri": "github:shesek/qruri",
     "rxjs": "^5.5.12",
     "snabbdom-pragma": "^2.7.0",
+    "superagent": "^4.1.0",
     "uglifyify": "^5.0.1"
   },
   "browserify": {

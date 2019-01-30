@@ -1,3 +1,4 @@
+import request from 'superagent'
 import { tryUnconfidentialAddress } from '../util'
 import { Observable as O } from '../rxjs'
 
@@ -8,8 +9,8 @@ const reNumber  = /^\d+$/
 
 export default apiBase => {
   const tryResource = path =>
-    fetch(apiBase + path)
-      .then(r => r.ok ? path : Promise.reject(r.statusText))
+    request(apiBase + path)
+      .then(r => r.ok ? path : Promise.reject('invalid status'))
 
   // Accepts a stream of query strings, returns a stream of found resource paths
   return query$ =>

@@ -79,12 +79,42 @@
             "xstream": "11.7.0"
           }
         },
+        "debug": {
+          "version": "3.2.6",
+          "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.6.tgz",
+          "integrity": "sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==",
+          "requires": {
+            "ms": "2.1.1"
+          }
+        },
+        "mime": {
+          "version": "1.6.0",
+          "resolved": "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz",
+          "integrity": "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg=="
+        },
         "rxjs": {
           "version": "6.3.3",
           "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-6.3.3.tgz",
           "integrity": "sha512-JTWmoY9tWCs7zvIk/CvRjhjGaOd+OVBM987mxFo+OW66cGpdKjZcpmc74ES1sB//7Kl/PAe8+wEakuhG4pcgOw==",
           "requires": {
             "tslib": "1.9.3"
+          }
+        },
+        "superagent": {
+          "version": "3.8.3",
+          "resolved": "https://registry.npmjs.org/superagent/-/superagent-3.8.3.tgz",
+          "integrity": "sha512-GLQtLMCoEIK4eDv6OGtkOoSMt3D+oq0y3dsxMuYuDvaNUvuT8eFBuLmfR0iYYzHC1e8hpzC6ZsxbuP6DIalMFA==",
+          "requires": {
+            "component-emitter": "1.2.1",
+            "cookiejar": "2.1.2",
+            "debug": "3.2.6",
+            "extend": "3.0.2",
+            "form-data": "2.3.3",
+            "formidable": "1.2.1",
+            "methods": "1.1.2",
+            "mime": "1.6.0",
+            "qs": "6.6.0",
+            "readable-stream": "2.3.6"
           }
         }
       }
@@ -635,9 +665,9 @@
       "integrity": "sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4="
     },
     "mime": {
-      "version": "1.6.0",
-      "resolved": "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz",
-      "integrity": "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg=="
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-2.4.0.tgz",
+      "integrity": "sha512-ikBcWwyqXQSHKtciCcctu9YfPbFYZ4+gbHEmE0Q8jzcTYQg5dHCr3g2wwAZjPoJfQVXZq6KXAjpXOTf5/cjT7w=="
     },
     "mime-db": {
       "version": "1.37.0",
@@ -712,9 +742,9 @@
       }
     },
     "qs": {
-      "version": "6.5.2",
-      "resolved": "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz",
-      "integrity": "sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA=="
+      "version": "6.6.0",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.6.0.tgz",
+      "integrity": "sha512-KIJqT9jQJDQx5h5uAVPimw6yVg2SekOKu959OCtktD3FjzbpvaPr8i4zzg07DOMz+igA4W/aNM7OV8H37pFYfA=="
     },
     "quicktask": {
       "version": "1.1.0",
@@ -837,28 +867,29 @@
       }
     },
     "superagent": {
-      "version": "3.8.3",
-      "resolved": "https://registry.npmjs.org/superagent/-/superagent-3.8.3.tgz",
-      "integrity": "sha512-GLQtLMCoEIK4eDv6OGtkOoSMt3D+oq0y3dsxMuYuDvaNUvuT8eFBuLmfR0iYYzHC1e8hpzC6ZsxbuP6DIalMFA==",
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/superagent/-/superagent-4.1.0.tgz",
+      "integrity": "sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==",
       "requires": {
         "component-emitter": "1.2.1",
         "cookiejar": "2.1.2",
-        "debug": "3.2.6",
-        "extend": "3.0.2",
+        "debug": "4.1.0",
         "form-data": "2.3.3",
         "formidable": "1.2.1",
         "methods": "1.1.2",
-        "mime": "1.6.0",
-        "qs": "6.5.2",
-        "readable-stream": "2.3.6"
+        "mime": "2.4.0",
+        "qs": "6.6.0",
+        "readable-stream": "3.1.1"
       },
       "dependencies": {
-        "debug": {
-          "version": "3.2.6",
-          "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.6.tgz",
-          "integrity": "sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==",
+        "readable-stream": {
+          "version": "3.1.1",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.1.1.tgz",
+          "integrity": "sha512-DkN66hPyqDhnIQ6Jcsvx9bFjhw214O4poMBcIMgPVpQvNy9a0e0Uhg5SqySyDKAmUlwt8LonTBz1ezOnM8pUdA==",
           "requires": {
-            "ms": "2.1.1"
+            "inherits": "2.0.3",
+            "string_decoder": "1.1.1",
+            "util-deprecate": "1.0.2"
           }
         }
       }
