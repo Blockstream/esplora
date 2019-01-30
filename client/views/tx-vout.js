@@ -4,7 +4,7 @@ import { formatAmount, linkToAddr, linkToParentAddr } from './util'
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
 const layout = (vout, desc, body, { t, index, query={} }) =>
-  <div class={{ vout: true, selected: query[`output:${index}`] }}>
+  <div class={{ vout: true, selected: !!query[`output:${index}`] }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>
