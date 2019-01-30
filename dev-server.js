@@ -20,6 +20,13 @@ if (process.env.CORS_ALLOW) {
   })
 }
 
+if (process.env.PRERENDER_URL) {
+  app.use((req, res, next) => {
+    if (req.query.nojs != null) return res.redirect(303, process.env.PRERENDER_URL+req.path)
+    next()
+  })
+}
+
 app.get('/', (req, res) => res.render(rpath('client/index.pug')))
 app.get('/app.js', browserify(rpath('client/src/run-browser.js')))
 app.get('/style-rtl.css', (req, res) =>
