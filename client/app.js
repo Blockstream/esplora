@@ -31,7 +31,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
-  , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q)
+  , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)

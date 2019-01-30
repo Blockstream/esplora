@@ -1,7 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 
 export default ({ t, klass, autofocus }) =>
-  <form className="search form-inline ml-auto" action=".">
+  <form className="search form-inline ml-auto" action={process.browser?undefined:"search"}>
     <div className={`search-bar${klass?` ${klass}` : ''}`}>
       <input
         className="form-control search-bar-input"
