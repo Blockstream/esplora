@@ -75,7 +75,7 @@ export default function render(pathname, args='', locals={}, cb) {
   run(main, {
     DOM: makeHTMLDriver(htmlUpdate, { modules: ModulesForHTML })
   , HTTP: makeHTTPDriver()
-  , route: makeRouteDriver(_ => O.of({ pathname, hash: '#'+args }))
+  , route: makeRouteDriver(_ => O.of({ pathname, search: '?'+args }))
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
   , search: _ => O.empty()
   , state: state$ => O.from(state$).subscribe(stateUpdate)
