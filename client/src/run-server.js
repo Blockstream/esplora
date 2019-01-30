@@ -10,7 +10,7 @@ import main from './app'
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
 const LOAD_TIMEOUT = 5000
-    , ROUTE_TIMEOUT = 150
+    , ROUTE_TIMEOUT = 250
 
 // should not be necessary following https://github.com/cyclejs/cyclejs/pull/874
 const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
