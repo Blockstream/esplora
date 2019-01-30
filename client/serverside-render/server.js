@@ -35,7 +35,9 @@ app.get('*', (req, res, next) => {
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
     if (err) return next(err)
     if (resp.redirect) return res.redirect(303, resp.redirect)
+    if (resp.errorCode) return res.sendStatus(resp.errorCode)
 
+    res.status(resp.status || 200)
     res.render(indexView, {
       prerender_title: resp.title,
       prerender_html: resp.html,
