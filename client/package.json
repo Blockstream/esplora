@@ -4,7 +4,8 @@
   "author": "Nadav Ivgi",
   "license": "MIT",
   "scripts": {
-    "postinstall": "../node_modules/.bin/patch-package"
+    "postinstall": "../node_modules/.bin/patch-package",
+    "dist": "babel -d dist src"
   },
   "dependencies": {
     "@cycle/dom": "^22.0.0",

@@ -2,15 +2,15 @@ import pug from 'pug'
 import path from 'path'
 import express from 'express'
 
-import l10n from '../client/src/l10n'
-import render from '../client/src/run-server'
+import l10n from '../client/l10n'
+import render from '../client/run-server'
 
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
 
 const rpath = p => path.join(__dirname, p)
 
-const indexView = rpath('../client/index.pug')
+const indexView = rpath('../../client/index.pug')
 
 const app = express()
 app.engine('pug', pug.__express)
