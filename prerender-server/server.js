@@ -2,8 +2,8 @@ import pug from 'pug'
 import path from 'path'
 import express from 'express'
 
-import l10n from '../client/l10n'
-import render from '../client/run-server'
+import l10n from '../client/src/l10n'
+import render from '../client/src/run-server'
 
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)

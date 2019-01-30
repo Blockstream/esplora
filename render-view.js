@@ -2,9 +2,9 @@ process.env.NO_QR=1
 global.window = {}
 
 const pug = require('pug')
-    , l10n  = require('./client/l10n').default
+    , l10n  = require('./client/src/l10n').default
     , state = JSON.parse(process.argv[2])
-    , view = require('./client/views')[state.view]
+    , view = require('./client/src/views')[state.view]
 
 state.t = l10n[state.lang || 'en']
 
