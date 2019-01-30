@@ -2,7 +2,6 @@ import run from '@cycle/rxjs-run'
 import { makeHTTPDriver } from '@cycle/http'
 import { makeHTMLDriver } from '@cycle/html'
 import makeRouteDriver from '../driver/route'
-import makeSearchDriver from '../driver/search'
 
 import { Observable as O } from '../rxjs'
 
@@ -20,13 +19,12 @@ const notFoundMarker = 'data-errorId="not-found"'
 export default function render(pathname, args='', locals={}, cb) {
   //let scheduled=false, seenLoading=false, called=false, timeout, lastHtml, lastTitle
 
+  console.log('render',pathname,'with',args,'and locals',locals)
 
-  console.log('render',pathname,'with',args)
-
-  function done() {
+  function done(data={ html: lastHtml, title: lastTitle }) {
     if (called) return console.error('html render result() called too many times', pathname, { lastHtml });
     called = true
-    cb(null, { html: lastHtml, title: lastTitle })
+    cb(null, data)
   }
 
   /*function processHTML(html) {
@@ -72,10 +70,15 @@ export default function render(pathname, args='', locals={}, cb) {
   //const noRouteTimeout = setTimeout(_ => !seenLoading && done([>TODO: render error page<]), 150)
   //const loadTimeout = setTimeout(_ => done(), 5000)
 
+  const historyDriver = goto$ => {
+    O.from(goto$).first().subscribe(loc => done({ redirect: loc.pathname + (loc.search || '') }))
+    return O.of({ pathname, search: '?'+args })
+  }
+
   run(main, {
     DOM: makeHTMLDriver(htmlUpdate, { modules: ModulesForHTML })
   , HTTP: makeHTTPDriver()
-  , route: makeRouteDriver(_ => O.of({ pathname, search: '?'+args }))
+  , route: makeRouteDriver(historyDriver)
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
   , search: _ => O.empty()
   , state: state$ => O.from(state$).subscribe(stateUpdate)

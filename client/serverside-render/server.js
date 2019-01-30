@@ -22,6 +22,7 @@ app.get('*', (req, res, next) => {
   // TODO: promise
   // TODO: cookies as localStorage
   // TODO: handle 404
+  // TODO: optimize /block-height/nnn (no need to render the whole app just to get the redirect)
 
   let theme = req.query.theme || req.cookies.theme || 'dark'
   if (!themes.includes(theme)) theme = 'light'
@@ -32,7 +33,8 @@ app.get('*', (req, res, next) => {
   if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
 
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
-    if (err) return next(err);
+    if (err) return next(err)
+    if (resp.redirect) return res.redirect(303, resp.redirect)
 
     res.render(indexView, {
       prerender_title: resp.title,
