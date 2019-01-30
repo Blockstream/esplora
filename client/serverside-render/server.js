@@ -25,11 +25,11 @@ app.get('*', (req, res, next) => {
 
   let theme = req.query.theme || req.cookies.theme || 'dark'
   if (!themes.includes(theme)) theme = 'light'
-  if (req.cookies.theme !== theme) res.cookie('theme', theme)
+  if (req.query.theme && req.cookies.theme !== theme) res.cookie('theme', theme)
 
   let lang = req.query.lang || req.cookies.lang || 'en'
   if (!langs.includes(lang)) lang = 'en'
-  if (req.cookies.lang !== lang) res.cookie('lang', lang)
+  if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
 
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
     if (err) return next(err);
