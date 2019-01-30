@@ -10,9 +10,12 @@ const baseHref  = process.env.BASE_HREF || '/'
     , stripBase = path => path.indexOf(baseHref) == 0 ? path.substr(baseHref.length-1) : path
 
 const parseQuery = loc => {
-  // Older versions of Esplora used the url hash instead of the query.
+  // Older versions of Esplora used a comma-separated url hash instead of a query string.
   // Try both for backward compatibility with old links.
-  const query = qs.parse((loc.search || loc.hash || '').substr(1))
+  const query = loc.search ? qs.parse(loc.search.substr(1))
+              : loc.hash ? loc.hash.substr(1).split(',').reduce((acc, k) => ({ ...acc, [k]: true }), {})
+              : {}
+
   // Convert value-less args to true
   Object.keys(query).forEach(key => (query[key] === '') && (query[key] = true))
   return query
