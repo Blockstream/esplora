@@ -8,7 +8,7 @@ import { formatAmount, formatTime } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
-export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
+export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && layout(
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
@@ -29,7 +29,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page }) => tx && layout(
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query })}
     </div>
   </div>
-, { t })
+, { t, page, ...S })
 
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`

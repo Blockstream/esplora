@@ -3,7 +3,7 @@ import layout from './layout'
 import search from './search'
 import { formatTime } from './util'
 
-export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading }) => recentBlocks && layout(
+export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => recentBlocks && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
@@ -52,4 +52,4 @@ export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading }) => recentB
       </div>
     </div>
   </div>
-, { t })
+, { t, ...S })

@@ -4,7 +4,7 @@ import search from './search'
 import { txBox } from './tx'
 import { formatAmount, addressQR, perPage } from './util'
 
-export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading }) => {
+export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading, ...S }) => {
   if (!addr) return;
 
   const { chain_stats, mempool_stats } = addr
@@ -99,7 +99,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
         </div>
       </div>
     </div>
-  , { t })
+  , { t, ...S })
 }
 
 const fmtTxos = (count, sum, t) =>

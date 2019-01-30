@@ -1,7 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 import menu from './navbar-menu'
 
-export default ({ t }) =>
+export default S =>
   <nav className="navbar navbar-dark navbar-expand-lg">
     <div className="container">
       <a className="navbar-brand" href="."></a>
@@ -11,7 +11,7 @@ export default ({ t }) =>
       </button>
 
       <div className="collapse navbar-collapse" id="navbar-menu">
-        { menu({ t }) }
+        { menu(S) }
       </div>
     </div>
   </nav>

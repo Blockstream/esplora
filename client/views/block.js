@@ -9,7 +9,7 @@ const formatHeight = height => height
 
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
-export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading, page }, txsStatus=makeStatus(b)) => b && layout(
+export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading, page, ...S }, txsStatus=makeStatus(b)) => b && layout(
   <div>
     <div className="jumbotron jumbotron-fluid block-page">
       <div className="container">
@@ -134,7 +134,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       </div> }
     </div>
   </div>
-, { t })
+, { t, page, ...S })
 
 const btnDetails = (blockhash, isOpen, query, t) => process.browser
   // dynamic button in browser env
