@@ -4,6 +4,8 @@ import search from './search'
 import { txBox } from './tx'
 import { formatAmount, addressQR, perPage } from './util'
 
+const staticRoot = process.env.STATIC_ROOT || ''
+
 export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loading, ...S }) => {
   if (!addr) return;
 
@@ -92,7 +94,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
               ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
               : <div className="load-more" role="button" data-loadmoreTxsLastTxid={nextMoreATxs} data-loadmoreTxsAddr={addr.address}>
                   <span>{t`Load more`}</span>
-                  <div><img alt="" src="img/icons/arrow_down.png" /></div>
+                  <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
                 </div> }
             </div>
           </div> }

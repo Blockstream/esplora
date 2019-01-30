@@ -5,6 +5,8 @@ import { txBox } from './tx'
 import { updateQuery  } from '../util'
 import { formatTime, formatHex, perPage } from './util'
 
+const staticRoot = process.env.STATIC_ROOT || ''
+
 const formatHeight = height => height
 
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
@@ -128,7 +130,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
           ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
           : <div className="load-more" role="button" data-loadmoreTxsIndex={nextMoreBTxs} data-loadmoreTxsBlock={b.id}>
               <span>{t`Load more`}</span>
-              <div><img alt="" src="img/icons/arrow_down.png" /></div>
+              <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
             </div> }
         </div>
       </div> }

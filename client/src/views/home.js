@@ -3,11 +3,13 @@ import layout from './layout'
 import search from './search'
 import { formatTime } from './util'
 
+const staticRoot = process.env.STATIC_ROOT || ''
+
 export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => recentBlocks && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
-        <img className="explorer-title-container_logo" alt="" src="img/icons/menu-logo.svg" />
+        <img className="explorer-title-container_logo" alt="" src={`${staticRoot}img/icons/menu-logo.svg`} />
         <h1 className="explorer-title-container_title">{t(process.env.HOME_TITLE || process.env.SITE_TITLE || 'Block Explorer')}</h1>
       </div>
       { search({ t, autofocus: true }) }
@@ -45,7 +47,7 @@ export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => r
           ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
           : <div className="load-more" role="button" data-loadmoreBlockHeight={nextMoreBlocks}>
               <span>{t`Load more`}</span>
-              <div><img alt="" src="img/icons/arrow_down.png" /></div>
+              <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
             </div> }
           </div>
         </div> }
