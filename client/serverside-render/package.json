@@ -1,0 +1,10 @@
+{
+  "name": "esplora-serverside-render",
+  "version": "0.1.0",
+  "author": "Nadav Ivgi",
+  "license": "MIT",
+  "dependencies": {
+    "@cycle/html": "^3.1.0",
+    "cookie-parser": "^1.4.3"
+  }
+}
