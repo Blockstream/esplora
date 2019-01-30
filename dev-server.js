@@ -13,6 +13,13 @@ app.engine('pug', pug.__express)
 
 app.use(require('morgan')('dev'))
 
+if (process.env.CORS_ALLOW) {
+  app.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', process.env.CORS_ALLOW)
+    next()
+  })
+}
+
 app.get('/', (req, res) => res.render(rpath('client/index.pug')))
 app.get('/app.js', browserify(rpath('client/src/run-browser.js')))
 app.get('/style-rtl.css', (req, res) =>

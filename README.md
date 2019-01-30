@@ -55,11 +55,12 @@ See [`contrib/nginx.conf.in`](contrib/nginx.conf.in) for example nginx configura
 
 All options are optional.
 
+### GUI options
+
 - `NODE_ENV` - set to `production` to enable js minification, or to `development` to disable (defaults to `production`)
 - `BASE_HREF` - base href for user interface (defaults to `/`, change if not served from the root directory)
 - `STATIC_ROOT` - root for static assets (defaults to `BASE_HREF`, change to load static assets from a different server)
 - `API_URL` - URL for HTTP REST API (defaults to `/api`, change if the API is available elsewhere)
-- `PORT` - port to bind http development server (defaults to `5000`, has no effect when building)
 - `BASE_URL` - absolute base url for user interface (optional, only required for opensearch functionality)
 - `NATIVE_ASSET_LABEL` - the name of the network native asset (defaults to `BTC`)
 - `SITE_TITLE` - website title for `<title>` (defaults to `Block Explorer`)
@@ -82,6 +83,13 @@ Menu configuration (useful for inter-linking multiple instances on different net
 
 - `MENU_ITEMS` - json map of menu items, where the key is the label and the value is the url
 - `MENU_ACTIVE` - the active menu item identified by its label
+
+### Development server options
+
+All GUI options, plus:
+
+- `PORT` - port to bind http development server (defaults to `5000`)
+- `CORS_ALLOW` - value to set for `Access-Control-Allow-Origin` header (optional)
 
 ## How to build the Docker image
 
