@@ -62,7 +62,7 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
       <div></div>
       <div></div>
       <div>
-        <span>{confirmationText(tx.status, tipHeight, t)} {isRbf(tx) ? t`(RBF)` : ''}</span>
+        <span>{tx.status && confirmationText(tx.status, tipHeight, t)} {isRbf(tx) ? t`(RBF)` : ''}</span>
         <span className="amount">{ isAnyConfidential(tx) ? t`Confidential`
               : isAllNative(tx)       ? formatAmount({ value: outTotal(tx) })
               : ''}</span>
