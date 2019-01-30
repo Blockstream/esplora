@@ -10,7 +10,8 @@ import main from './app'
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
 const LOAD_TIMEOUT = 5000
-    , ROUTE_TIMEOUT = 250
+    , ROUTE_TIMEOUT = 50
+    , INIT_STATE_TIMEOUT = 1000
 
 // should not be necessary following https://github.com/cyclejs/cyclejs/pull/874
 const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
@@ -19,7 +20,7 @@ export default function render(pathname, args='', locals={}, cb) {
 
   let lastHtml, lastState, seenLoading=false, called=false
 
-  let timeout = setTimeout(_ => done(), ROUTE_TIMEOUT)
+  let timeout = setTimeout(_ => done({ errorCode: 500 }), INIT_STATE_TIMEOUT)
 
   function done(data) {
     if (called) return console.error('html render result() called too many times', pathname, '\n------\ndata: ', data, '\n------\n lastState:', lastState, '\n------\n lastHtml:', lastHtml, '\n\n\n');
@@ -35,6 +36,11 @@ export default function render(pathname, args='', locals={}, cb) {
     lastHtml = html
   }
   function stateUpdate(S) {
+    if (!lastState) { // the first state
+      clearTimeout(timeout)
+      timeout = setTimeout(_ => done(), ROUTE_TIMEOUT)
+    }
+
     lastState = S
 
     if (S.loading) {
