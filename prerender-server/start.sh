@@ -2,8 +2,10 @@
 
 [[ -d node_modules ]] || npm install
 
+file=${1:-server}
+
 if [ -d dist ] && [ "$NODE_ENV" != "development" ]; then
-  node dist/server.js "$@"
+  node dist/$file.js "$@"
 else
-  babel-node src/server.js "$@"
+  babel-node src/$file.js "$@"
 fi
