@@ -28,7 +28,7 @@ body.theme-light {
     background-color: #fff;
 }
 
-.theme-light .language-selector {
+.theme-light .language-selector, .theme-light .language-submit {
     background-color: rgba(169, 177, 182, 1);
 }
 
