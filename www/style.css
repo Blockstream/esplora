@@ -1061,12 +1061,17 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: 100%;
 }
 
-.language-selector {
+.language-selector, .language-submit {
   color: #FFF;
   background-color: #111316;
   border: 1px solid #22242c;
   border-radius: 4px;
+}
+.language-selector {
   padding: 3px 0 3px 5px;
+}
+.language-submit {
+  padding: 3px 10px;
 }
 
 .footer_container_content {

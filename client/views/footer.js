@@ -37,7 +37,7 @@ export default ({ t, page }) =>
                 <option value={lang_id} attrs={lang_id == t.lang_id ? { selected: true } : {}}>{lang_t`lang_name`}</option>
               ) }
             </select>
-            { !process.browser && <input type="submit" value={t`Go`} /> }
+            { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
           </form>
         </div>
         <div className="footer_container_content_copyright">{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
