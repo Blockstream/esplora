@@ -62,7 +62,12 @@ export const dropErrors = r$$ => r$$.switchMap(r$ => r$.catch(_ => O.empty()))
 
 export const extractErrors = r$$ =>
   r$$.flatMap(r$ => r$.flatMap(_ => O.empty()).catch(err => O.of(err)))
-    .map(e => e.response && (e.response.body && e.response.body.message || e.response.body || e.response.text) || e)
+    .map(e => e.response ? parseError(e.response) : e)
+
+const parseError = res =>
+  (res.body && Object.keys(res.body).length)
+  ? res.body.message || res.body
+  : res.text
 
 export const dbg = (obj, label='stream', dbg=debug(label)) =>
   Object.keys(obj).forEach(k => obj[k] && obj[k].subscribe(
