@@ -2,9 +2,11 @@ import pug from 'pug'
 import path from 'path'
 import express from 'express'
 
+import l10n from '../l10n'
 import render from './render'
 
 const themes = [ 'light', 'dark' ]
+    , langs = Object.keys(l10n)
 
 const rpath = p => path.join(__dirname, p)
 
@@ -25,7 +27,11 @@ app.get('*', (req, res, next) => {
   if (!themes.includes(theme)) theme = 'light'
   if (req.cookies.theme !== theme) res.cookie('theme', req.query.theme)
 
-  render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme }, (err, resp) => {
+  let lang = req.query.lang || req.cookies.lang || 'en'
+  if (!langs.includes(lang)) lang = 'en'
+  if (req.cookies.lang !== lang) res.cookie('lang', req.query.lang)
+
+  render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
     if (err) return next(err);
 
     res.render(indexView, {
@@ -33,6 +39,7 @@ app.get('*', (req, res, next) => {
       prerender_html: resp.html,
       noscript: true,
       theme,
+      t: l10n[lang],
     })
   })
 

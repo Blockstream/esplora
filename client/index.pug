@@ -5,6 +5,10 @@ doctype html
 - pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
 - bodyClass = theme ? `theme-${theme}` : ''
 
+- cssPath = t ? t`style.css` : 'style.css'
+- lang = t ? t.lang_id : 'en'
+- dir = t ? t`ltr` : 'ltr'
+
 head
   meta(charset='utf-8')
   title= pageTitle
@@ -16,7 +20,7 @@ head
   meta(name='viewport', content='width=device-width, initial-scale=1')
   link(rel='shortcut icon', type='image/png', href=staticRoot+'img/favicon.png')
   link(rel='stylesheet', href=staticRoot+'bootstrap.min.css')
-  link(rel='stylesheet', href=staticRoot+'style.css')
+  link(rel='stylesheet', href=staticRoot+cssPath)
 
   if process.env.BASE_URL
     //- open search requires the absolute URL of the explorer
@@ -24,7 +28,7 @@ head
 
   != process.env.HEAD_HTML
 
-body(class=bodyClass)
+body(class=bodyClass, lang=lang, dir=dir)
   #explorer!= prerender_html || ''
 
   if !noscript
