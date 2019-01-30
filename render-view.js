@@ -7,6 +7,7 @@ const pug = require('pug')
     , view = require('./client/src/views')[state.view]
 
 state.t = l10n[state.lang || 'en']
+state.page = { pathname: '', query: {} }
 
 require('pug').renderFile('client/index.pug', {
   prerender_html: require('snabbdom-to-html')(view(state))
