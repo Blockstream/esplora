@@ -4,11 +4,12 @@
   "author": "Nadav Ivgi",
   "license": "MIT",
   "scripts": {
-    "postinstall": "../node_modules/.bin/patch-package && cd serverside-render && npm install"
+    "postinstall": "../node_modules/.bin/patch-package"
   },
   "dependencies": {
     "@cycle/dom": "^22.0.0",
     "@cycle/history": "^7.0.0",
+    "@cycle/html": "^3.1.0",
     "@cycle/http": "^15.0.0",
     "@cycle/rxjs-run": "^8.1.0",
     "@cycle/storage": "^5.0.3",

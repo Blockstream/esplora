@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "dev-server": "babel-node server.js",
-    "prerender-server": "babel-node client/serverside-render/server.js",
-    "postinstall": "cd client && npm install",
+    "prerender-server": "babel-node prerender-server/server.js",
+    "postinstall": "(cd client && npm install) && (cd prerender-server && npm install)",
     "dist": "./build.sh"
   },
   "author": "Nadav Ivgi",

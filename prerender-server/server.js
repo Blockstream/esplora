@@ -2,26 +2,23 @@ import pug from 'pug'
 import path from 'path'
 import express from 'express'
 
-import l10n from '../l10n'
-import render from './render'
+import l10n from '../client/l10n'
+import render from '../client/run-server'
 
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
 
 const rpath = p => path.join(__dirname, p)
 
-const indexView = rpath('../index.pug')
+const indexView = rpath('../client/index.pug')
 
 const app = express()
 app.engine('pug', pug.__express)
 
 app.use(require('morgan')('dev'))
-app.use(require('cookie-parser')('dev'))
+app.use(require('cookie-parser')())
 
 app.get('*', (req, res, next) => {
-  // TODO: promise
-  // TODO: cookies as localStorage
-  // TODO: handle 404
   // TODO: optimize /block-height/nnn (no need to render the whole app just to get the redirect)
 
   let theme = req.query.theme || req.cookies.theme || 'dark'

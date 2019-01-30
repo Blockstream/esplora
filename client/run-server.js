@@ -1,11 +1,11 @@
 import run from '@cycle/rxjs-run'
 import { makeHTTPDriver } from '@cycle/http'
 import { makeHTMLDriver } from '@cycle/html'
-import makeRouteDriver from '../driver/route'
-import makeSearchDriver from '../driver/search'
-import { Observable as O } from '../rxjs'
+import makeRouteDriver from './driver/route'
+import makeSearchDriver from './driver/search'
+import { Observable as O } from './rxjs'
 
-import main from '../app'
+import main from './app'
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
@@ -14,8 +14,6 @@ const LOAD_TIMEOUT = 5000
 
 // should not be necessary following https://github.com/cyclejs/cyclejs/pull/874
 const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
-
-// TODO compile html on our own based on state
 
 export default function render(pathname, args='', locals={}, cb) {
 
