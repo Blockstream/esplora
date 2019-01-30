@@ -1365,6 +1365,7 @@ body::after{
   width: 25px;
   height: 27px;
   cursor: pointer;
+  display: block;
 }
 
 .navbar-dark .navbar-nav .nav-link {

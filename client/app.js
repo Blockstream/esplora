@@ -137,7 +137,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                      , block$, blockStatus$, blockTxs$, nextMoreBTxs$, openBlock$
                      , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
-                     , loading$, page$, view$, title$
+                     , loading$, page$, view$, title$, theme$
                      })
 
   // Update query options with ?expand

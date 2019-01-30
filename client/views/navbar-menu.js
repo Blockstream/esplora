@@ -1,9 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
+import { updateQuery } from '../util'
 
 const items  = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS)
     , active = process.env.MENU_ACTIVE
 
-export default ({ t }) =>
+const otherTheme = { dark: 'light', light: 'dark' }
+
+export default ({ t, theme, page }) =>
 
   <ul className="navbar-nav">
     { items && Object.entries(items).map(([ name, url ]) =>
@@ -12,6 +15,8 @@ export default ({ t }) =>
         </li>
     ) }
     <li className="nav-item nav-toggler">
-      <div className="nav-bar_moon_icon toggle-theme"></div>
+      { process.browser ? <div className="nav-bar_moon_icon toggle-theme"></div>
+                        : <a href={page.pathname + updateQuery(page.query, { theme: otherTheme[theme] })} className="nav-bar_moon_icon"></a>
+      }
     </li>
   </ul>

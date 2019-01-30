@@ -1,8 +1,9 @@
 doctype html
 
 - baseTitle = process.env.SITE_TITLE || 'Block Explorer'
-- pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
 - staticRoot = process.env.STATIC_ROOT || ''
+- pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
+- bodyClass = theme ? `theme-${theme}` : ''
 
 head
   meta(charset='utf-8')
@@ -23,7 +24,7 @@ head
 
   != process.env.HEAD_HTML
 
-body(class=prerender_html?'theme-dark':'')
+body(class=bodyClass)
   #explorer!= prerender_html || ''
 
   if !noscript
