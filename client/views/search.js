@@ -12,8 +12,6 @@ export default ({ t, klass, autofocus }) =>
         autofocus={!!autofocus}
         autocomplete="off"
       />
-      <button className="search-bar-submit" type="image" name="submit">
-        <img className="search-bar-submit-image" src="img/icons/search.svg" alt="" />
-      </button>
+      <button className="search-bar-submit" type="image"></button>
     </div>
   </form>

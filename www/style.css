@@ -145,9 +145,12 @@ a, a:link, a:visited, a:hover, a:focus {
   border-bottom-right-radius: 4px;
 }
 
-.search-bar .search-bar-submit-image {
-  height: auto;
-  width: auto;
+.search-bar .search-bar-submit:before {
+  height: 22px;
+  width: 22px;
+  background: url(img/icons/search.svg);
+  content: '';
+  display: block;
 }
 
 .search-bar input.search-bar-submit:hover{
