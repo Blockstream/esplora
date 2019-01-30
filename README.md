@@ -43,6 +43,8 @@ $ export API_URL=http://localhost:3000/ # or https://blockstream.info/api/ if yo
 $ npm run dev-server
 ```
 
+The server will be available at http://localhost:5000/
+
 ## Building
 
 To build the static assets directory for production deployment, set config options (see below)
@@ -50,6 +52,19 @@ and run `$ npm run dist`. The files will be created under `dist/`.
 
 Because Esplora is a single-page app, the HTTP server needs to be configured to serve the `index.html` file in reply to missing pages.
 See [`contrib/nginx.conf.in`](contrib/nginx.conf.in) for example nginx configuration (TL;DR: `try_files $uri /index.html`).
+
+## Pre-rendering server (noscript)
+
+To start a pre-rendering server that generates static HTML replies suitable for noscript users, run:
+
+```bash
+# (clone, cd, "npm install" and configure as above)
+
+$ export STATIC_ROOT=http://localhost:5000/ # for loading CSS, images and fonts
+$ npm run prerender-server
+```
+
+The server will be available at http://localhost:5001/
 
 ## Configuration options
 
@@ -90,6 +105,12 @@ All GUI options, plus:
 
 - `PORT` - port to bind http development server (defaults to `5000`)
 - `CORS_ALLOW` - value to set for `Access-Control-Allow-Origin` header (optional)
+
+### Pre-rendering server options
+
+All GUI options, plus:
+
+- `PORT` - port to bind pre-rendering server (defaults to `5001`)
 
 ## How to build the Docker image
 
