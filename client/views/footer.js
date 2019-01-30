@@ -1,6 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 
-const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { 'img/github_blue.png': 'https://github.com/blockstream/esplora' }
+const staticRoot = process.env.STATIC_ROOT || ''
+const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { [staticRoot+'img/github_blue.png']: 'https://github.com/blockstream/esplora' }
 
 export default ({ t, page }) =>
   <footer className="footer">
