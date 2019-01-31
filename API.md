@@ -21,11 +21,13 @@ Available fields: `confirmed` (boolean), `block_height` (optional) and `block_ha
 
 Returns the raw transaction in hex.
 
+<!--
 ### `GET /tx/:txid/merkle-proof`
 
 Returns a merkle inclusion proof for the transaction.
 
 *Currently uses Electrum's merkle proof format, will eventually be changed to use the `merkleblock` format.*
+-->
 
 ### `GET /tx/:txid/outspend/:vout`
 
@@ -40,23 +42,45 @@ Returns the spending status of all transaction outputs.
 ## Addresses
 
 ### `GET /address/:address`
+### `GET /scripthash/:hash`
 
-Returns information about an address.
+Get information about an address/scripthash.
 
-Available fields: `address`, `tx_count`, `confirmed_balance`, `mempool_balance` and `total_received`.
+Available fields: `address`/`scripthash`, `chain_stats` and `mempool_stats`.
 
-Elements-based chains only have the `address` and `tx_count` fields.
+`{chain,mempool}_stats` each contain an object with `tx_count`, `funded_txo_count`, `funded_txo_sum`, `spent_txo_count` and `spent_txo_sum`.
 
-### `GET /address/:address/txs[/:start_index]`
+Elements-based chains don't have the `{funded,spent}_txo_sum` fields.
 
-Returns transaction history for the specified adresss (up to 25 transactions beginning at `start_index`, newest first).
+### `GET /address/:address/txs`
+### `GET /scripthash/:hash/txs`
+
+Get transaction history for the specified address/scripthash, sorted with newest first.
+
+Returns up to 50 mempool transactions plus the first 25 confirmed transactions.
+You can request more confirmed transactions using `:last_seen_txid`(see below).
+
+### `GET /address/:address/txs/chain[/:last_seen_txid]`
+### `GET /scripthash/:hash/txs/chain[/:last_seen_txid]`
+
+Get confirmed transaction history for the specified address/scripthash, sorted with newest first.
+
+Returns 25 transactions per page. More can be requested by specifying the last txid seen by the previous query.
+
+### `GET /address/:address/txs/mempool`
+### `GET /scripthash/:hash/txs/mempool`
+
+Get unconfirmed transaction history for the specified address/scripthash.
+
+Returns up to 50 transactions (no paging).
 
 ### `GET /address/:address/utxo`
+### `GET /scripthash/:hash/utxo`
 
-Returns the list of unspent txos associated with the address.
+Get the list of unspent transaction outputs associated with the address/scripthash.
 
 Available fields: `txid`, `vout`, `value` and `status` (with the status of the funding tx).
-Elements-based chains  have an additional `asset` field.
+Elements-based chains have an additional `asset` field.
 
 ## Blocks
 
