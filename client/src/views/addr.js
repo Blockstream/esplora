@@ -56,7 +56,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{fmtTxos(chain_stats.funded_txo_count, chain_stats.funded_txo_sum, t)}</div>
           </div> }
           { chain_stats.spent_txo_count > 0 && <div>
-            <div>{t`Confirmed sent`}</div>
+            <div>{t`Confirmed spent`}</div>
             <div>{fmtTxos(chain_stats.spent_txo_count, chain_stats.spent_txo_sum, t)}</div>
           </div> }
           { chain_stats.tx_count > 0 && <div>
@@ -73,7 +73,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{fmtTxos(mempool_stats.funded_txo_count, mempool_stats.funded_txo_sum, t)}</div>
           </div> }
           { mempool_stats.spent_txo_count > 0 && <div>
-            <div>{t`Unconfirmed sent`}</div>
+            <div>{t`Unconfirmed spent`}</div>
             <div>{fmtTxos(mempool_stats.spent_txo_count, mempool_stats.spent_txo_sum, t)}</div>
           </div> }
 
