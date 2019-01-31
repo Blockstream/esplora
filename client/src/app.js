@@ -104,7 +104,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) =>
       (addr && txs && txs.length && addr.chain_stats.tx_count > 0 && addr.chain_stats.tx_count+addr.mempool_stats.tx_count > txs.length)
-      ? last(txs.chain).txid
+      ? last(txs).txid
       : null
   )
 
