@@ -197,7 +197,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     ).map(setBase)
 
   // DOM sink
-  , vdom$ = state$.map(S => S.view ? views[S.view](S) : null)
+  , vdom$ = state$.map(S => S.view && views[S.view](S) || null)
 
   // localStorage sink
   , store$ = O.merge(
