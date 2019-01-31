@@ -55,6 +55,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   /// Model
 
   , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg && !r$.request.ignore_err))
+      .merge(process.browser ? O.empty() : searchResult$.filter(found => !found).mapTo('No search results found'))
+      // in browser env, this is displayed as a tooltip rather than as an error
 
   , tipHeight$ = reply('tip-height', true).map(res => +res.text)
 
