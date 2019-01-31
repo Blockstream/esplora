@@ -17,7 +17,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
       , total_utxo_count = chain_utxo_count+mempool_utxo_count
       , total_utxo_sum = chain_utxo_sum+mempool_utxo_sum
       , total_txs = chain_stats.tx_count + mempool_stats.tx_count
-      , shown_txs = addrTxs ? addrTxs.mempool.length + addrTxs.chain.length : 0
+      , shown_txs = addrTxs ? addrTxs.length : 0
 
   // @fixme indent
   return layout(
@@ -86,7 +86,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
         <div>
           <div className="transactions">
             <h3>{shown_txs && chain_stats.tx_count > perPage ? t`${shown_txs} of ${total_txs} Transactions` : t`${total_txs} Transactions`}</h3>
-            { addrTxs ? [ ...addrTxs.mempool, ...addrTxs.chain ].map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
+            { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends }))
                        : <img src="img/Loading.gif" className="loading-delay" /> }
           </div>
 

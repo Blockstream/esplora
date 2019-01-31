@@ -97,13 +97,16 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // Address and associated txs
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
   , addrTxs$ = O.merge(
-      reply('addr-txs').map(r => S => r)
-    , reply('addr-txs-chain').map(txs => S => ({ mempool: S.mempool, chain: [ ...S.chain, ...txs ] }))
+      reply('addr-txs').map(txs => S => txs)
+    , reply('addr-txs-chain').map(txs => S => [ ...S, ...txs ])
     , goAddr$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
   , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) =>
-      addr && txs && txs.chain.length && addr.chain_stats.tx_count > txs.chain.length ? last(txs.chain).txid : null)
+      (addr && txs && txs.length && addr.chain_stats.tx_count > 0 && addr.chain_stats.tx_count+addr.mempool_stats.tx_count > txs.length)
+      ? last(txs.chain).txid
+      : null
+  )
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null))
