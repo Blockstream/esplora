@@ -7,8 +7,6 @@ import { formatTime, formatHex, perPage } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-const formatHeight = height => height
-
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
 export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading, page, ...S }, txsStatus=makeStatus(b)) => b && layout(
@@ -17,7 +15,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       <div className="container">
         { search({ t, klass: 'page-search-bar' }) }
         <div>
-          <h1 className="block-header-title">{t`Block ${formatHeight(b.height)}`}</h1>
+          <h1 className="block-header-title">{t`Block ${b.height.toString()}`}</h1>
           <div className="block-hash"><span>{b.id}</span>
             { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={b.id}></div>
@@ -54,7 +52,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       <div className="block-stats-table">
         <div>
           <div>{t`Height`}</div>
-          <div><a href={`block/${b.id}`}>{b.height}</a></div>
+          <div><a href={`block/${b.id}`}>{b.height.toString()}</a></div>
         </div>
         <div>
           <div>{t`Status`}</div>
