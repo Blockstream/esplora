@@ -45,13 +45,17 @@ export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => r
           <div>
           { loading
           ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-          : <div className="load-more" role="button" data-loadmoreBlockHeight={nextMoreBlocks}>
-              <span>{t`Load more`}</span>
-              <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
-            </div> }
+          : loadMoreBtn(nextMoreBlocks, t) }
           </div>
         </div> }
       </div>
     </div>
   </div>
 , { t, ...S })
+
+const loadMoreBtn = (start_height, t) =>
+  process.browser
+? <div className="load-more" role="button" data-loadmoreBlockHeight={start_height}>{loadMoreContents(t)}</div>
+: <a className="load-more" href={`?start=${start_height}`}>{loadMoreContents(t)}</a>
+
+const loadMoreContents = t => [ <span>{t`Load more`}</span>, <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div> ]

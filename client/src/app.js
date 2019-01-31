@@ -26,7 +26,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   /// User actions
   , page$     = route()
-  , goHome$   = route('/')
+  , goHome$   = route('/').map(loc => ({ start_height: loc.query.start }))
   , goBlock$  = route('/block/:hash').map(loc => loc.params.hash)
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
@@ -167,7 +167,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                               , { category: 'addr-txs',   method: 'GET', path: `/address/${addr}/txs`, ignore_err: true }])
 
     // fetch list of blocks for homepage
-    , O.merge(goHome$.mapTo({ }), moreBlocks$)
+    , O.merge(goHome$, moreBlocks$)
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height || ''}` }))
 
     // fetch more txs for block page

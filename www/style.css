@@ -1179,7 +1179,7 @@ img.footer_container_content_onion-links_icon {
   text-align: center;
 }
 
-.load-more {
+.load-more, .load-more:link {
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
