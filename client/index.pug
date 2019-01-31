@@ -16,7 +16,7 @@ head
   meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
 
   if !noscript && process.env.NOSCRIPT_REDIR
-    noscript: meta(http-equiv='refresh', content="0; url='?nojs=1'")
+    noscript: meta(http-equiv='refresh', content="0; url='?nojs'")
 
   base(href=process.env.BASE_HREF || '/')
 
