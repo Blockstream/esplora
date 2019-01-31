@@ -7,21 +7,22 @@ COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install nginx supervisor tor git curl pkg-config libcairo2-dev libjpeg-dev libgif-dev build-essential
+ && apt-get -yqq install nginx supervisor tor git curl pkg-config libcairo2-dev libjpeg-dev libgif-dev build-essential libpixman-1-dev
 
 RUN mkdir -p /srv/explorer/static
 
-COPY ./ /tmp/explorer
+COPY ./ /srv/explorer/source
 
 ARG FOOT_HTML
 
-WORKDIR /tmp/explorer
+WORKDIR /srv/explorer/source
 
 SHELL ["/bin/bash", "-c"]
 
 # required to run some scripts as root (needed for docker)
 RUN source /root/.nvm/nvm.sh \
  && npm config set unsafe-perm true \
+ && npm install && (cd prerender-server && npm run dist) \
  && DEST=/srv/explorer/static/bitcoin-mainnet \
     npm run dist -- bitcoin-mainnet \
  && DEST=/srv/explorer/static/bitcoin-testnet \
@@ -36,12 +37,12 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- liquid-mainnet blockstream
 
 # configuration
-RUN cp /tmp/explorer/contrib/*.conf.in /tmp/explorer/contrib/*torrc /tmp/explorer/run.sh /tmp/explorer/cli.sh.in /srv/explorer/
+RUN cp /srv/explorer/source/contrib/*.conf.in /srv/explorer/source/contrib/*torrc /srv/explorer/source/run.sh /srv/explorer/source/cli.sh.in /srv/explorer/
 
 # cleanup
-RUN apt-get --auto-remove remove -yqq --purge manpages git curl build-essential pkg-config \
+RUN apt-get --auto-remove remove -yqq --purge manpages git curl \
  && apt-get clean \
  && apt-get autoclean \
- && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.nvm /root/.cargo
+ && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
 
 WORKDIR /srv/explorer

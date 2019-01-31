@@ -19,6 +19,13 @@ stderr_logfile=/data/logs/electrs-{DAEMON}.log
 stderr_logfile_maxbytes=1MB
 stderr_logfile_backups=5
 
+[program:prerenderer]
+environment=STATIC_ROOT=/{NGINX_PATH},BASE_HREF=/{NGINX_PATH}nojs/,NODE_ENV=production,API_URL=http://localhost/{NGINX_PATH}api,TZ=UTC
+command=/bin/bash -c 'source /root/.nvm/nvm.sh && cd /srv/explorer/source && npm run prerender-server -- --cluster {FLAVOR}'
+autostart={EXPLORERAUTOSTART}
+directory=/srv/explorer/source
+stopasgroup=true
+
 [program:nginx]
 command=/usr/sbin/nginx -g "daemon off;"
 autostart={EXPLORERAUTOSTART}

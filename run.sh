@@ -25,23 +25,27 @@ echo "Enabled mode ${MODE}"
 
 DAEMON=$(echo ${FLAVOR} | cut -d'-' -f1)
 NETWORK=$(echo ${FLAVOR} | cut -d'-' -f2)
+TEMPLATE=$(echo ${FLAVOR} | cut -d'-' -f3)
 STATIC_DIR=/srv/explorer/static/$FLAVOR
 
 ELECTRS_NETWORK=${NETWORK}
 
 ISLIQUID="false"
 NGINX_NOSLASH_PATH="unused"
+NGINX_REWRITE_NOJS='return 301 " /nojs$uri";'
 if [ "${DAEMON}" != "liquid" ]; then
     if [ "${NETWORK}" == "testnet" ]; then
         NGINX_PATH="testnet/"
         NGINX_NOSLASH_PATH="testnet"
         NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
+        NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent;'
     fi
 else
     ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
     NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
+    NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent;'
     NGINX_NOSLASH_PATH="liquid"
     ISLIQUID="true"
 fi
@@ -57,6 +61,8 @@ function preprocess(){
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
+       -e "s|{NGINX_REWRITE_NOJS}|$NGINX_REWRITE_NOJS|g" \
+       -e "s|{FLAVOR}|$DAEMON-$NETWORK $TEMPLATE|g" \
        -e "s|{NGINX_NOSLASH_PATH}|$NGINX_NOSLASH_PATH|g" \
        -e "s|{EXPLORERAUTOSTART}|$EXPLORERAUTOSTART|g" \
        -e "s|{TORAUTOSTART}|$TORAUTOSTART|g" \

@@ -3,6 +3,11 @@ upstream backend {
     keepalive 300;
 }
 
+upstream prerenderer {
+    server 127.0.0.1:5001;
+    keepalive 300;
+}
+
 server {
     listen 80;
     keepalive_requests 100000;
@@ -23,17 +28,32 @@ server {
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin *;
     }
+    location /{NGINX_PATH}nojs/ {
+        proxy_pass http://prerenderer/;
+    }
+
+    location = /{NGINX_PATH}nojs {
+        return 301 " /{NGINX_PATH}nojs/";
+    }
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address)/|[a-zA-Z0-9]+$) {
         expires 60m;
+        if ($args = "nojs") {
+            {NGINX_REWRITE_NOJS}
+        }
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
-        {NGINX_REWRITE}
         expires 60m;
+        if ($args = "nojs") {
+            {NGINX_REWRITE_NOJS}
+        }
+        {NGINX_REWRITE}
     }
-    location /{NGINX_NOSLASH_PATH} {
-        access_log off;
-        return 301 /{NGINX_PATH};
+    location = /{NGINX_NOSLASH_PATH} {
+        if ($args = "nojs") {
+            {NGINX_REWRITE_NOJS}
+        }
+        return 301 " /{NGINX_PATH}";
     }
     error_page 404 /{NGINX_PATH}notfound.html;
     location = /notfound.html {
