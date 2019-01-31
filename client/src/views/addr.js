@@ -41,10 +41,11 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
       </div>
       <div className="container">
         <div className="addr-stats-table">
-          <div>
+
+          { (mempool_stats.tx_count > 0 || chain_stats.tx_count == 0) && <div>
             <div>{t`Total tx count`}</div>
             <div>{total_txs}</div>
-          </div>
+          </div> }
 
           { chain_stats.tx_count > 0 && <div>
             <div>{t`Confirmed tx count`}</div>
@@ -58,7 +59,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{t`Confirmed sent`}</div>
             <div>{fmtTxos(chain_stats.spent_txo_count, chain_stats.spent_txo_sum, t)}</div>
           </div> }
-          { chain_utxo_count > 0 && <div>
+          { chain_stats.tx_count > 0 && <div>
             <div>{t`Confirmed balance`}</div>
             <div>{fmtTxos(chain_utxo_count, chain_utxo_sum, t)}</div>
           </div> }
@@ -75,7 +76,8 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{t`Unconfirmed sent`}</div>
             <div>{fmtTxos(mempool_stats.spent_txo_count, mempool_stats.spent_txo_sum, t)}</div>
           </div> }
-          { total_utxo_count > 0 && <div>
+
+          { (mempool_stats.tx_count > 0 || chain_stats.tx_count == 0) && <div>
             <div>{t`Total balance`}</div>
             <div>{fmtTxos(total_utxo_count, total_utxo_sum, t)}</div>
           </div> }
@@ -106,4 +108,4 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
 
 const fmtTxos = (count, sum, t) =>
   (t`${count} outputs`)
-+ (sum > 0 ? ' ' + t`of ${formatAmount({ value: sum })}` : '')
++ (sum > 0 ? ` (${formatAmount({ value: sum })})` : '')
