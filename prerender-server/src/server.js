@@ -15,7 +15,9 @@ const indexView = rpath('../../client/index.pug')
 const app = express()
 app.engine('pug', pug.__express)
 
-app.use(require('morgan')('dev'))
+if (app.settings.env == 'development')
+  app.use(require('morgan')('dev'))
+
 app.use(require('cookie-parser')())
 
 app.get('*', (req, res, next) => {
