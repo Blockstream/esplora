@@ -16,7 +16,7 @@ export default ({ t, theme, page }) =>
     ) }
     <li className="nav-item nav-toggler">
       { process.browser ? <div className="nav-bar_moon_icon toggle-theme"></div>
-                        : <a href={page.pathname + updateQuery(page.query, { theme: otherTheme[theme] })} className="nav-bar_moon_icon"></a>
+                        : <a href={page.pathname.substr(1) + updateQuery(page.query, { theme: otherTheme[theme] })} className="nav-bar_moon_icon"></a>
       }
     </li>
   </ul>
