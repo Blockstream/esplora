@@ -60,7 +60,7 @@ export default ({ t, addr, addrTxs, nextMoreATxs, openTx, spends, tipHeight, loa
             <div>{fmtTxos(chain_stats.spent_txo_count, chain_stats.spent_txo_sum, t)}</div>
           </div> }
           { chain_stats.tx_count > 0 && <div>
-            <div>{t`Confirmed balance`}</div>
+            <div>{t`Confirmed unspent`}</div>
             <div>{fmtTxos(chain_utxo_count, chain_utxo_sum, t)}</div>
           </div> }
 
