@@ -7,6 +7,7 @@ import render from '../client/run-server'
 
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
+    , baseHref = process.env.BASE_HREF || '/'
 
 const rpath = p => path.join(__dirname, p)
 
@@ -33,7 +34,7 @@ app.get('*', (req, res, next) => {
 
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
     if (err) return next(err)
-    if (resp.redirect) return res.redirect(303, resp.redirect)
+    if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.replace(/^\//, ''))
     if (resp.errorCode) return res.sendStatus(resp.errorCode)
 
     res.status(resp.status || 200)
