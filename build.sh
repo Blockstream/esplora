@@ -30,7 +30,7 @@ if [ -n "$BASE_URL" ]; then
 fi
 
 # RTLify CSS
-cat www/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css
+cat $DEST/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css
 
 # Browserify bundle
 (cd client && browserify -p bundle-collapser/plugin src/run-browser.js \
