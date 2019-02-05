@@ -5,7 +5,7 @@ import { formatTime } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => recentBlocks && layout(
+export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
@@ -41,11 +41,11 @@ export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => r
           </a>
           </div>
         )}
-        { nextMoreBlocks != null && <div className="load-more-container">
+        { <div className="load-more-container">
           <div>
           { loading
           ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-          : loadMoreBtn(nextMoreBlocks, t) }
+          : pagingNav({ ...S, t }) }
           </div>
         </div> }
       </div>
@@ -53,9 +53,24 @@ export default ({ t, blocks: recentBlocks, nextMoreBlocks, loading, ...S }) => r
   </div>
 , { t, ...S })
 
-const loadMoreBtn = (start_height, t) =>
+const pagingNav = ({nextBlocks, prevBlocks, t }) =>
   process.browser
-? <div className="load-more" role="button" data-loadmoreBlockHeight={start_height}>{loadMoreContents(t)}</div>
-: <a className="load-more" href={`?start=${start_height}`}>{loadMoreContents(t)}</a>
 
-const loadMoreContents = t => [ <span>{t`Load more`}</span>, <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div> ]
+? nextBlocks &&
+    <div className="load-more" role="button" data-loadmoreBlockHeight={nextBlocks}>
+      <span>{t`Load more`}</span>
+      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    </div>
+
+: [
+    prevBlocks != null &&
+      <a className="load-more" href={`?start=${prevBlocks}`}>
+        <span>{t`Prev`}</span>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+      </a>
+  , nextBlocks != null &&
+      <a className="load-more" href={`?start=${nextBlocks}`}>
+        <span>{t`Next`}</span>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+      </a>
+  ]

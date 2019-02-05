@@ -10,6 +10,7 @@ if (process.browser) {
 }
 
 const blockTxsPerPage = 25
+    , blocksPerPage = 10
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ ...r, path }) => ({ ...r, url: apiBase + path })
@@ -28,7 +29,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   /// User actions
   , page$     = route()
-  , goHome$   = route('/').map(loc => ({ start_height: loc.query.start }))
+  , goHome$   = route('/').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
@@ -81,7 +82,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , goHome$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
-  , nextMoreBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
+  , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
+  , prevBlocks$ = process.browser ? O.empty()
+      : goHome$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
 
   // Single block and associated txs
   , block$ = reply('block').merge(goBlock$.mapTo(null))
@@ -94,8 +97,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , nextBlockTxs$ = O.combineLatest(goBlock$, block$, blockTxs$, (goBlock, block, txs) =>
       block && txs && block.tx_count > goBlock.start_index+txs.length ? goBlock.start_index+txs.length : null)
 
-  , prevBlockTxs$ = O.combineLatest(goBlock$, block$, (goBlock, block) =>
-      block && goBlock.start_index > 0 ? goBlock.start_index-blockTxsPerPage: null)
+  , prevBlockTxs$ = process.browser ? O.empty()
+    : O.combineLatest(goBlock$, block$, (goBlock, block) => block && goBlock.start_index > 0 ? goBlock.start_index-blockTxsPerPage: null)
 
   // Hash by height search
   , byHeight$ = reply('height', true).map(r => r.text)
@@ -144,7 +147,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
-                     , blocks$, nextMoreBlocks$
+                     , goHome$, blocks$, nextBlocks$, prevBlocks$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
@@ -179,7 +182,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
-        .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height || ''}` }))
+        .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
     , moreBTxs$.map(d       => ({ category: 'block-txs',  method: 'GET', path: `/block/${d.block}/txs/${d.start_index}` }))
