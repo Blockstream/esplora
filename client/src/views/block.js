@@ -9,7 +9,7 @@ const staticRoot = process.env.STATIC_ROOT || ''
 
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
-export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, openTx, spends, openBlock, tipHeight, loading, page, ...S }, txsStatus=makeStatus(b)) => b && layout(
+export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, openBlock, goBlock, tipHeight, loading, page, ...S }, txsStatus=makeStatus(b)) => b && layout(
   <div>
     <div className="jumbotron jumbotron-fluid block-page">
       <div className="container">
@@ -117,24 +117,47 @@ export default ({ t, block: b, blockStatus: status, blockTxs, nextMoreBTxs, open
       </div>
 
       <div className="transactions">
-        <h3>{blockTxs && b.tx_count > perPage ? t`${blockTxs.length} of ${b.tx_count} Transactions` : t`${b.tx_count} Transactions`}</h3>
+        <h3>{txsShownText(b.tx_count, goBlock.start_index, blockTxs && blockTxs.length, t)}</h3>
         { blockTxs ? blockTxs.map(tx => txBox( { ...tx, status: txsStatus }, { openTx, tipHeight, t, spends }))
                    : <img src="img/Loading.gif" className="loading-delay" /> }
       </div>
 
-      { nextMoreBTxs && <div className="load-more-container">
+      { <div className="load-more-container">
         <div>
-          { loading
-          ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-          : <div className="load-more" role="button" data-loadmoreTxsIndex={nextMoreBTxs} data-loadmoreTxsBlock={b.id}>
-              <span>{t`Load more`}</span>
-              <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
-            </div> }
+          { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
+                    : pagingNav(b, { ...S, t }) }
         </div>
       </div> }
     </div>
   </div>
 , { t, page, ...S })
+
+const txsShownText = (total, start, shown, t) =>
+  (total > perPage && shown > 0)
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${total} Transactions`
+  : t`${total} Transactions`
+
+const pagingNav = (block, { nextBlockTxs, prevBlockTxs, t }) =>
+  process.browser
+
+? nextBlockTxs &&
+    <div className="load-more" role="button" data-loadmoreTxsIndex={nextBlockTxs} data-loadmoreTxsBlock={block.id}>
+      <span>{t`Load more`}</span>
+      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    </div>
+
+: [
+    prevBlockTxs != null &&
+      <a className="load-more" href={`block/${block.id}?start=${prevBlockTxs}`}>
+        <span>{t`Prev`}</span>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+      </a>
+  , nextBlockTxs != null &&
+      <a className="load-more" href={`block/${block.id}?start=${nextBlockTxs}`}>
+        <span>{t`Next`}</span>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+      </a>
+  ]
 
 const btnDetails = (blockhash, isOpen, query, t) => process.browser
   // dynamic button in browser env

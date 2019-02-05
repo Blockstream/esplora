@@ -9,6 +9,8 @@ if (process.browser) {
   require('bootstrap/js/dist/collapse')
 }
 
+const blockTxsPerPage = 25
+
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ ...r, path }) => ({ ...r, url: apiBase + path })
 
@@ -27,7 +29,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   /// User actions
   , page$     = route()
   , goHome$   = route('/').map(loc => ({ start_height: loc.query.start }))
-  , goBlock$  = route('/block/:hash').map(loc => loc.params.hash)
+  , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
@@ -89,7 +91,11 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , goBlock$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
-  , nextMoreBTxs$ = O.combineLatest(block$, blockTxs$, (block, txs) => block && txs && block.tx_count > txs.length ? txs.length : null)
+  , nextBlockTxs$ = O.combineLatest(goBlock$, block$, blockTxs$, (goBlock, block, txs) =>
+      block && txs && block.tx_count > goBlock.start_index+txs.length ? goBlock.start_index+txs.length : null)
+
+  , prevBlockTxs$ = O.combineLatest(goBlock$, block$, (goBlock, block) =>
+      block && goBlock.start_index > 0 ? goBlock.start_index-blockTxsPerPage: null)
 
   // Hash by height search
   , byHeight$ = reply('height', true).map(r => r.text)
@@ -139,7 +145,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , blocks$, nextMoreBlocks$
-                     , block$, blockStatus$, blockTxs$, nextMoreBTxs$, openBlock$
+                     , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , tx$, openTx$
                      , addr$, addrTxs$, nextMoreATxs$
                      , loading$, page$, view$, title$, theme$
@@ -160,9 +166,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // HTTP request sink
   , req$ = O.merge(
     // fetch single block, its status and its txs
-      goBlock$.flatMap(hash => [{ category: 'block',      method: 'GET', path: `/block/${hash}` }
-                              , { category: 'block-stat', method: 'GET', path: `/block/${hash}/status` }
-                              , { category: 'block-txs',  method: 'GET', path: `/block/${hash}/txs` } ])
+      goBlock$.flatMap(d    => [{ category: 'block',      method: 'GET', path: `/block/${d.hash}` }
+                              , { category: 'block-stat', method: 'GET', path: `/block/${d.hash}/status` }
+                              , { category: 'block-txs',  method: 'GET', path: `/block/${d.hash}/txs/${d.start_index}` } ])
 
     // fetch single tx (including confirmation status)
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
@@ -212,7 +218,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
   )
 
-  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$
+  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
       , tipHeight$, error$, loading$
