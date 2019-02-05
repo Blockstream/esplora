@@ -56,7 +56,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   /// Model
 
-  , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg && !r$.request.ignore_err))
+  , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg))
       .merge(process.browser ? O.empty() : searchResult$.filter(found => !found).mapTo('No search results found'))
       // in browser env, this is displayed as a tooltip rather than as an error
 
@@ -175,7 +175,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
     // fetch address and its txs
     , goAddr$.flatMap(addr  => [{ category: 'address',    method: 'GET', path: `/address/${addr}` }
-                              , { category: 'addr-txs',   method: 'GET', path: `/address/${addr}/txs`, ignore_err: true }])
+                              , { category: 'addr-txs',   method: 'GET', path: `/address/${addr}/txs` }])
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
