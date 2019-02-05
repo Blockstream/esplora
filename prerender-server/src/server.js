@@ -34,7 +34,7 @@ app.get('*', (req, res, next) => {
 
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
     if (err) return next(err)
-    if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.replace(/^\//, ''))
+    if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
     if (resp.errorCode) return res.sendStatus(resp.errorCode)
 
     res.status(resp.status || 200)
