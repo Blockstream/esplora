@@ -1,16 +1,16 @@
 # Re-using images that are already close to caught up with each chain
 data "google_compute_image" "btc-main" {
-  family  = "bitcoin-mainnet"
+  family  = "bitcoin-mainnet-new-index"
   project = "green-address-explorer"
 }
 
 data "google_compute_image" "btc-test" {
-  family  = "bitcoin-testnet"
+  family  = "bitcoin-testnet-new-index"
   project = "green-address-explorer"
 }
 
 data "google_compute_image" "liquid-main" {
-  family  = "liquid-mainnet"
+  family  = "liquid-mainnet-new-index"
   project = "green-address-explorer"
 }
 

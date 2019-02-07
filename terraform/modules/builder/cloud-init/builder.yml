@@ -19,6 +19,7 @@ write_files:
         echo "DATE=$(date +%d-%m-%Y)" >> /home/bs/instance
         instance_name=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google') && echo "INSTANCE_COUNT=$${instance_name##*-}" >> /home/bs/instance
         zone=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google') && echo "ZONE=$${zone##*/}" >> /home/bs/instance
+
   - path: /home/bs/healthcheck.sh
     permissions: 0644
     owner: root
@@ -60,9 +61,9 @@ write_files:
             --name create-image \
             --tmpfs /tmp \
             "${docker_tag_gcloud}" gcloud compute images \
-                create builder-${name}-data-image-$${DATE} \
+                create builders-${name}-data-image-$${DATE} \
                 --source-disk=builder-data-${name}-$${INSTANCE_COUNT} \
-                --family=${name} \
+                --family=${name}-new-index \
                 --source-disk-zone=$${ZONE}
         ExecStart=/usr/bin/docker run \
             --rm \
@@ -111,6 +112,7 @@ write_files:
 
         [Install]
         WantedBy=multi-user.target
+
   - path: /etc/systemd/system/healthcheck.timer
     permissions: 0644
     owner: root
@@ -124,6 +126,7 @@ write_files:
 
         [Install]
         WantedBy=timers.target
+
   - path: /etc/systemd/system/healthcheck.service
     permissions: 0644
     owner: root
