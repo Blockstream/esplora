@@ -9,7 +9,7 @@ import main from './app'
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
-const LOAD_TIMEOUT = process.env.PRERENDER_TIMEOUT || 15000
+const LOAD_TIMEOUT = process.env.PRERENDER_TIMEOUT || 30000
     , ROUTE_TIMEOUT = 50
     , INIT_STATE_TIMEOUT = 1000
 
