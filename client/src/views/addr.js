@@ -126,7 +126,7 @@ const txsShownText = (total, start, shown, t) =>
 const pagingNav = (addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
   process.browser
 
-? last_seen_txid != null_&&
+? last_seen_txid != null &&
     <div className="load-more" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAddr={addr.address}>
       <span>{t`Load more`}</span>
       <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
