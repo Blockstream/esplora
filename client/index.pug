@@ -15,6 +15,9 @@ head
   meta(property='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Block explorer')
   meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
 
+  if canon_url
+    link(rel="canonical", href=canon_url)
+
   if !noscript && process.env.NOSCRIPT_REDIR
     noscript: meta(http-equiv='refresh', content="0; url='?nojs'")
 

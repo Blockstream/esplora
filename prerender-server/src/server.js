@@ -8,6 +8,7 @@ import render from '../client/run-server'
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
     , baseHref = process.env.BASE_HREF || '/'
+    , canonBase = process.env.CANONICAL_URL_BASE ? process.env.CANONICAL_URL_BASE.replace(/\/$/, '') : null
 
 const rpath = p => path.join(__dirname, p)
 
@@ -41,6 +42,7 @@ app.get('*', (req, res, next) => {
     res.render(indexView, {
       prerender_title: resp.title,
       prerender_html: resp.html,
+      canon_url: canonBase ? canonBase + req.url : null,
       noscript: true,
       theme,
       t: l10n[lang],

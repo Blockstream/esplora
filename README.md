@@ -113,6 +113,7 @@ All GUI options, plus:
 All GUI options, plus:
 
 - `PORT` - port to bind pre-rendering server (defaults to `5001`)
+- `CANONICAL_BASE_URL` - set base url for canonical `<link>` tag, should match your js-enabled base url (off by default)
 
 ## How to build the Docker image
 
