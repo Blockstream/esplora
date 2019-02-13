@@ -31,7 +31,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.32.0 \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/Blockstream/electrs.git \
  && cd electrs \
- && git checkout e609dd06d62cdb101154830e0d9974475715c09b \
+ && git checkout 62975845832b5c63da72a1a0b3b9ed350915ab44 \
  && cargo install --root /srv/explorer/electrs_bitcoin --path . \
  && cargo install --root /srv/explorer/electrs_liquid --path . --features "liquid" \
  && cd .. \
