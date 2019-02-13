@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
-import { blockTxsPerPage, blockPerPage } from './const'
+import { blockTxsPerPage, blocksPerPage } from './const'
 import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256 } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
