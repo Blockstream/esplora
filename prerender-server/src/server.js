@@ -40,12 +40,12 @@ app.get('*', (req, res, next) => {
 
     res.status(resp.status || 200)
     res.render(indexView, {
-      prerender_title: resp.title,
-      prerender_html: resp.html,
-      canon_url: canonBase ? canonBase + req.url : null,
-      noscript: true,
-      theme,
-      t: l10n[lang],
+      prerender_title: resp.title
+    , prerender_html: resp.html
+    , canon_url: canonBase ? canonBase + req.url : null
+    , noscript: true
+    , theme
+    , t: l10n[lang]
     })
   })
 
