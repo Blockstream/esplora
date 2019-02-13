@@ -5,9 +5,14 @@ import assert from 'assert'
 import { Observable as O } from './rxjs'
 
 const BLIND_PREFIX = +process.env.BLIND_PREFIX || 0x0c
+    , reHash256 = /^[a-f0-9]{64}$/i
 
 // not null or undefined
 export const notNully = x => x != null
+
+export const isHash256 = str => reHash256.test(str)
+
+export const parseHashes = str => (''+str).split(',').filter(isHash256)
 
 // Transaction helpers
 

@@ -86,3 +86,5 @@ Merkle root
 %s outputs
 Block height
 Block timestamp
+Older
+Newer

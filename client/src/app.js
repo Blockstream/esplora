@@ -1,16 +1,14 @@
 import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress} from './util'
+import { blockTxsPerPage, blockPerPage } from './const'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
 if (process.browser) {
   require('bootstrap/js/dist/collapse')
 }
-
-const blockTxsPerPage = 25
-    , blocksPerPage = 10
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ ...r, path }) => ({ ...r, url: apiBase + path })
@@ -32,7 +30,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , goHome$   = route('/').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
-  , goAddr$   = route('/address/:addr').map(loc => loc.params.addr).map(tryUnconfidentialAddress)
+  , goAddr$   = route('/address/:addr').map(loc => ({ addr: tryUnconfidentialAddress(loc.params.addr)
+                                                    , last_txids: parseHashes(loc.query.txids)
+                                                    , est_chain_seen_count: +loc.query.c || 0 }))
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
 
@@ -84,7 +84,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
   , prevBlocks$ = process.browser ? O.empty()
-      : goHome$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
+      : goHome$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height != null && d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
 
   // Single block and associated txs
   , block$ = reply('block').merge(goBlock$.mapTo(null))
@@ -110,12 +110,6 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , reply('addr-txs-chain').map(txs => S => [ ...S, ...txs ])
     , goAddr$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
-
-  , nextMoreATxs$ = O.combineLatest(addr$, addrTxs$, (addr, txs) =>
-      (addr && txs && txs.length && addr.chain_stats.tx_count > 0 && addr.chain_stats.tx_count+addr.mempool_stats.tx_count > txs.length)
-      ? last(txs).txid
-      : null
-  )
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null))
@@ -150,7 +144,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                      , goHome$, blocks$, nextBlocks$, prevBlocks$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , tx$, openTx$
-                     , addr$, addrTxs$, nextMoreATxs$
+                     , goAddr$, addr$, addrTxs$
                      , loading$, page$, view$, title$, theme$
                      })
 
@@ -177,8 +171,10 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
 
     // fetch address and its txs
-    , goAddr$.flatMap(addr  => [{ category: 'address',    method: 'GET', path: `/address/${addr}` }
-                              , { category: 'addr-txs',   method: 'GET', path: `/address/${addr}/txs` }])
+    , goAddr$.flatMap(d     => [{ category: 'address',    method: 'GET', path: `/address/${d.addr}` }
+                              , d.last_txids.length
+                              ? { category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/chain/${last(d.last_txids)}` }
+                              : { category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs` }])
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)

@@ -3,7 +3,9 @@ import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
 import { updateQuery  } from '../util'
-import { formatTime, formatHex, perPage } from './util'
+import { formatTime, formatHex } from './util'
+import { blockTxsPerPage as perPage } from '../const'
+
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
@@ -122,12 +124,12 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
                    : <img src="img/Loading.gif" className="loading-delay" /> }
       </div>
 
-      { <div className="load-more-container">
+      <div className="load-more-container">
         <div>
           { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
                     : pagingNav(b, { ...S, t }) }
         </div>
-      </div> }
+      </div>
     </div>
   </div>
 , { t, page, ...S })
