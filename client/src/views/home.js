@@ -65,12 +65,12 @@ const pagingNav = ({nextBlocks, prevBlocks, t }) =>
 : [
     prevBlocks != null &&
       <a className="load-more" href={`?start=${prevBlocks}`}>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_left_blu.png`} /></div>
         <span>{t`Newer`}</span>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
       </a>
   , nextBlocks != null &&
       <a className="load-more" href={`?start=${nextBlocks}`}>
         <span>{t`Older`}</span>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]

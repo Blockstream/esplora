@@ -135,13 +135,13 @@ const pagingNav = (addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_
 : [
     prev_paging_txids != null &&
       <a className="load-more" href={`address/${addr.address}?txids=${prev_paging_txids}&c=${prev_paging_est_count}`}>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_left_blu.png`} /></div>
         <span>{t`Newer`}</span>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
       </a>
   , next_paging_txids != null &&
       <a className="load-more" href={`address/${addr.address}?txids=${next_paging_txids}&c=${est_curr_chain_seen_count}`}>
         <span>{t`Older`}</span>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+        <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]
 

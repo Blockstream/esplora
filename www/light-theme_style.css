@@ -48,7 +48,7 @@ body.theme-light {
     background-color: #fff;
 }
 
-.theme-light .load-more {
+.theme-light .load-more, .theme-light .load-more:link {
     color: #22242c;
     background-color: #fff;
 }
