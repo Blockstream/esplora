@@ -17,10 +17,16 @@ resource "google_compute_region_autoscaler" "http" {
 }
 
 resource "google_compute_region_instance_group_manager" "http" {
+  provider           = "google-beta"
   name               = "http-${var.name}-explorer-ig-${element(var.regions, count.index)}"
   base_instance_name = "http-${var.name}-explorer-ig-${element(var.regions, count.index)}"
-  instance_template  = "${google_compute_instance_template.http.self_link}"
-  region             = "${element(var.regions, count.index)}"
+
+  version {
+    instance_template = "${google_compute_instance_template.http.self_link}"
+    name              = "original"
+  }
+
+  region = "${element(var.regions, count.index)}"
 
   named_port {
     name = "http"
@@ -34,9 +40,7 @@ resource "google_compute_region_instance_group_manager" "http" {
     initial_delay_sec = 300
   }
 
-  update_strategy = "ROLLING_UPDATE"
-
-  rolling_update_policy {
+  update_policy {
     type                  = "PROACTIVE"
     minimal_action        = "REPLACE"
     max_surge_fixed       = 3

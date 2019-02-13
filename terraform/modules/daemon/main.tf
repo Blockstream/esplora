@@ -15,17 +15,21 @@ resource "google_compute_health_check" "daemon" {
 
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "daemon" {
-  name  = "${var.name}-explorer-ig-${element(var.regions, count.index)}"
-  count = "${var.create_resources > 0 ? length(var.regions) : 0}"
+  provider = "google-beta"
+  name     = "${var.name}-explorer-ig-${element(var.regions, count.index)}"
+  count    = "${var.create_resources > 0 ? length(var.regions) : 0}"
 
   base_instance_name = "${var.name}-explorer-${element(var.regions, count.index)}-${count.index}"
-  instance_template  = "${google_compute_instance_template.daemon.self_link}"
-  region             = "${element(var.regions, count.index)}"
-  target_size        = "${var.size}"
 
-  update_strategy = "ROLLING_UPDATE"
+  version {
+    instance_template = "${google_compute_instance_template.daemon.self_link}"
+    name              = "original"
+  }
 
-  rolling_update_policy {
+  region      = "${element(var.regions, count.index)}"
+  target_size = "${var.size}"
+
+  update_policy {
     type                  = "PROACTIVE"
     minimal_action        = "REPLACE"
     max_surge_fixed       = 3
