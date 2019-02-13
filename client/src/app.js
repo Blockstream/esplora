@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
 import { blockTxsPerPage, blockPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256 } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -33,7 +33,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , goAddr$   = route('/address/:addr').map(loc => ({ addr: tryUnconfidentialAddress(loc.params.addr)
                                                     , last_txids: parseHashes(loc.query.txids)
                                                     , est_chain_seen_count: +loc.query.c || 0 }))
-  , goTx$     = route('/tx/:txid').map(loc => loc.params.txid)
+  , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
+  , goPush$   = route('/tx/push')
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
 
   // auto-expand when opening with "#expand"
@@ -46,6 +47,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
+  , pushtx$   = on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=rawtx]').value)
 
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))
   , moreBTxs$   = click('[data-loadmore-txs-block]').map(d => ({ block: d.loadmoreTxsBlock, start_index: d.loadmoreTxsIndex }))
@@ -124,12 +126,16 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , page$.mapTo(S => ({}))
   ).startWith({}).scan((S, mod) => mod(S))
 
+  // Pushed tx result (txid)
+  , pushedtx$ = reply('pushtx', true).map(r => r.text)
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , blocks$.filter(notNully).mapTo('home')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
+                  , goPush$.mapTo('pushtx')
                   , error$.mapTo('error'))
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
@@ -137,7 +143,8 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   , title$ = O.merge(page$.mapTo(null)
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
-                   , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`))
+                   , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
+                   , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`))
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
@@ -189,6 +196,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
 
+    // push tx
+    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'GET', path: `/broadcast`, query: { tx: rawtx } }))
+
     // fetch spending txs when viewing advanced details
     , openTx$.filter(notNully)
         .map(txid           => ({ category: 'tx-spends',  method: 'GET', path: `/tx/${txid}/outspends`, txid }))
@@ -213,8 +223,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // Route navigation sink
   , navto$ = O.merge(
       searchResult$.filter(Boolean).map(path => ({ type: 'push', pathname: path }))
-    , byHeight$.map(hash => ({ type: 'replace', pathname:`/block/${hash}` }))
+    , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
+    , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$

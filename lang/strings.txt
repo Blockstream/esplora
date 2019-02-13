@@ -88,3 +88,5 @@ Block height
 Block timestamp
 Older
 Newer
+Broadcast transaction
+Broadcast raw transaction (hex)
