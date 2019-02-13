@@ -29,6 +29,7 @@ export default ({ t, page }) =>
                 </a>
             ) }
           </div>
+
           <form method="get">
             { !process.browser && Object.entries(page.query).map(([k, v]) =>
               k != 'lang' && <input type="hidden" name={k} value={v} />
@@ -40,6 +41,8 @@ export default ({ t, page }) =>
             </select>
             { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
           </form>
+
+          <a href="tx/push">{t`Broadcast tx`}</a>
         </div>
         <div className="footer_container_content_copyright">{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
       </div>
