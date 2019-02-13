@@ -173,6 +173,7 @@ Returns the hash of the last block.
   - `confirmed` (boolean)
   - `block_height` (available for confirmed transactions, `null` otherwise)
   - `block_hash` (available for confirmed transactions, `null` otherwise)
+  - `block_time` (available for confirmed transactions, `null` otherwise)
 
 ## Block format
 
