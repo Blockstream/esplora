@@ -1,15 +1,3 @@
-resource "google_compute_health_check" "tor" {
-  name               = "${var.name}-health-check"
-  timeout_sec        = 5
-  check_interval_sec = 10
-
-  count = "${var.create_resources}"
-
-  tcp_health_check {
-    port = "9050"
-  }
-}
-
 resource "google_compute_instance_group_manager" "tor" {
   name  = "${var.name}-ig"
   count = "${var.create_resources > 0 ? var.instances : 0}"
@@ -18,11 +6,6 @@ resource "google_compute_instance_group_manager" "tor" {
   base_instance_name = "${var.name}"
   instance_template  = "${google_compute_instance_template.tor.self_link}"
   target_size        = "${var.instances}"
-
-  auto_healing_policies {
-    health_check      = "${google_compute_health_check.tor.self_link}"
-    initial_delay_sec = "120"
-  }
 }
 
 resource "google_compute_instance_template" "tor" {
