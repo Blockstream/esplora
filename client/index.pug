@@ -28,7 +28,7 @@ head
   link(rel='stylesheet', href=staticRoot+'bootstrap.min.css')
   link(rel='stylesheet', href=staticRoot+cssPath)
 
-  if process.env.BASE_URL
+  if process.env.CANONICAL_URL
     //- open search requires the absolute URL of the explorer
     link(rel='search', href=staticRoot+'opensearch.xml', type='application/opensearchdescription+xml', title=process.env.SITE_TITLE || 'Block Explorer')
 

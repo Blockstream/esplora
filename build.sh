@@ -24,8 +24,8 @@ cp -rL www/* $CUSTOM_ASSETS $DEST/
 # Index HTML
 pug client/index.pug -o $DEST
 
-# Open search (requires absolute BASE_URL)
-if [ -n "$BASE_URL" ]; then
+# Open search (requires absolute CANONICAL_URL)
+if [ -n "$CANONICAL_URL" ]; then
   pug client/opensearch.pug -E xml -o $DEST
 fi
 

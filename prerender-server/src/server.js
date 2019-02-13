@@ -8,7 +8,7 @@ import render from '../client/run-server'
 const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
     , baseHref = process.env.BASE_HREF || '/'
-    , canonBase = process.env.BASE_URL ? process.env.BASE_URL.replace(/\/$/, '') : null
+    , canonBase = process.env.CANONICAL_URL ? process.env.CANONICAL_URL.replace(/\/$/, '') : null
 
 const rpath = p => path.join(__dirname, p)
 
