@@ -199,7 +199,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
 
     // push tx
-    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'GET', path: `/broadcast`, query: { tx: rawtx } }))
+    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'GET', path: `/broadcast`, query: { tx: rawtx.replace(/\s+/g, '') } }))
 
     // fetch spending txs when viewing advanced details
     , openTx$.filter(notNully)
