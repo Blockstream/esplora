@@ -22,7 +22,7 @@ server {
     access_log off;
     server_tokens off;
     add_header X-Frame-Options SAMEORIGIN;
-    add_header Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none' ";
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none' ";
 
     location /{NGINX_PATH}api/ {
         proxy_pass http://backend/;
