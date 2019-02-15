@@ -249,6 +249,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // @XXX side-effects outside of drivers
   if (process.browser) {
 
+    searchSubmit$.subscribe(e => e.preventDefault())
+
     // Click-to-copy
     if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
 
