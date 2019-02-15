@@ -4,7 +4,7 @@ import search from './search'
 import { formatTime } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
-const isTouch = ('ontouchstart' in window)
+const isTouch = process.browser && ('ontouchstart' in window)
 
 export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && layout(
   <div>
