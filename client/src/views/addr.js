@@ -89,7 +89,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
           </div> }
 
           { (mempool_stats.tx_count > 0 || chain_stats.tx_count == 0) && <div>
-            <div>{t`Total balance`}</div>
+            <div>{t`Total unspent`}</div>
             <div>{fmtTxos(total_utxo_count, total_utxo_sum, t)}</div>
           </div> }
         </div>

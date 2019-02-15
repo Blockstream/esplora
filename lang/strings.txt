@@ -94,3 +94,13 @@ Broadcast tx
 Scan QR
 API
 Cancel
+Total tx count
+Confirmed tx count
+Confirmed received
+Confirmed spent
+Confirmed unspent
+Unconfirmed tx count
+Unconfirmed received
+Unconfirmed spent
+Total unspent
+
