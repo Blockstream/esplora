@@ -9,7 +9,13 @@ export default ({ t, page }) =>
   <footer className="footer">
     <div className="container">
 
-      <div className="footer-logo"></div>
+      <div className="footer-logo">
+        <div className="footer-links">
+          <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
+          { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
+          <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
+        </div>
+      </div>
 
       <div className="footer_container_content">
         <div className="footer_container_content_row">
@@ -44,11 +50,6 @@ export default ({ t, page }) =>
             { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
           </form>
 
-          <div>
-            <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
-            { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
-            <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
-          </div>
         </div>
         <div className="footer_container_content_copyright">{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
       </div>

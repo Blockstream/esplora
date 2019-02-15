@@ -18,6 +18,12 @@
   content: ' ';
   display: block;
 }
+.footer-logo {
+  margin-right: 0px;
+}
+.footer-links {
+  margin-top: 5px;
+}
 .theme-light .footer-logo::before {
   background-image: url(img/blockstream-full-logo-light.svg);
 }

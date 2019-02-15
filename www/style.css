@@ -1076,6 +1076,16 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: 100%;
 }
 
+.footer-logo {
+  min-width: 215px;
+  margin-right: 15px;
+}
+
+.footer-links {
+  text-align: center;
+  margin-top: -29px;
+}
+
 .language-selector, .language-submit {
   color: #FFF;
   background-color: #111316;
