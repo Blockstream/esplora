@@ -91,3 +91,6 @@ Newer
 Broadcast transaction
 Broadcast raw transaction (hex)
 Broadcast tx
+Scan QR
+API
+Cancel
