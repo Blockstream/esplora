@@ -3,6 +3,8 @@ import Snabbdom from 'snabbdom-pragma'
 const staticRoot = process.env.STATIC_ROOT || ''
 const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { [staticRoot+'img/github_blue.png']: 'https://github.com/blockstream/esplora' }
 
+const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+
 export default ({ t, page }) =>
   <footer className="footer">
     <div className="container">
@@ -44,7 +46,7 @@ export default ({ t, page }) =>
 
           <div>
             <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
-            { process.browser ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
+            { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
             <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
           </div>
         </div>
