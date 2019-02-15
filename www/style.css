@@ -1821,7 +1821,7 @@ body.qr-scanning video.qr-video {
   position: absolute;
   width: 100%;
   text-align: center;
-  bottom: 70px;
+  bottom: 20px;
   color: #fff;
 }
 .qr-scanner .indicator {
