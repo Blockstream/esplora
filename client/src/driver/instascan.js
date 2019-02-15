@@ -5,12 +5,17 @@ const staticRoot = process.env.STATIC_ROOT || ''
 // check for WebRTC camera support
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 
-  // load instascan.js on demand, only if needed
-  const script = document.createElement('script')
-  script.src = `${staticRoot}instascan.min.js`
-  document.body.appendChild(script)
+  // load instascan.js on demand when used for the first time
+  let loaded = false
+  function load() {
+    if (loaded) return;
+    loaded = true;
+    const script = document.createElement('script')
+    script.src = `${staticRoot}instascan.min.js`
+    document.body.appendChild(script)
+  }
 
-  const Instascan$ = O.fromEvent(script, 'load').map(_ => window.Instascan).share()
+  const Instascan$ = O.fromEvent(document.body, 'load', true).filter(e => e.target.src.endsWith('/instascan.min.js')).map(_ => window.Instascan).share()
       , Scanner$   = Instascan$.map(Instascan => Instascan.Scanner)
       , Camera$    = Instascan$.map(Instascan => Instascan.Camera)
 
@@ -24,6 +29,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     document.body.appendChild(video)
 
     function startScan(Camera, scanner) {
+      load()
       Camera.getCameras().then(pickCam).then(cam => {
         document.body.classList.add('qr-scanning')
         scanner.start(cam)
@@ -37,6 +43,8 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 
     return _mode$ => {
       const mode$ = O.from(_mode$)
+
+      mode$.filter(Boolean).subscribe(load)
 
       // start/stop scanner according to mode$
       O.combineLatest(mode$, Camera$, scanner$).subscribe(([ mode, Camera, scanner  ]) =>
