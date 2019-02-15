@@ -4,6 +4,7 @@ import search from './search'
 import { formatTime } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
+const isTouch = ('ontouchstart' in window)
 
 export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && layout(
   <div>
@@ -12,7 +13,7 @@ export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && l
         <img className="explorer-title-container_logo" alt="" src={`${staticRoot}img/icons/menu-logo.svg`} />
         <h1 className="explorer-title-container_title">{t(process.env.HOME_TITLE || process.env.SITE_TITLE || 'Block Explorer')}</h1>
       </div>
-      { search({ t, autofocus: true }) }
+      { search({ t, autofocus: !isTouch }) }
     </div>
 
     <div className="title-bar-container">
