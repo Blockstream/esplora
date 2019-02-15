@@ -43,7 +43,9 @@ export default ({ t, page }) =>
           </form>
 
           <div>
-            <a href="tx/push">{t`Broadcast tx`}</a> | <a href="scan-qr">{t`Scan QR`}</a> | <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
+            <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
+            { process.browser ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
+            <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
           </div>
         </div>
         <div className="footer_container_content_copyright">{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
