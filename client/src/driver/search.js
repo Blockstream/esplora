@@ -5,6 +5,7 @@ import { Observable as O } from '../rxjs'
 const reNumber  = /^\d+$/
     , reAddr = /^([a-km-zA-HJ-NP-Z1-9]{26,35}|[a-km-zA-HJ-NP-Z1-9]{80}|[a-z]{2,5}1[ac-hj-np-z02-9]{8,87})$/ // very loose regex, might have false positive
     , trim = s => s.trim()
+    , stripUri = s => s.replace(/^bitcoin:([^?]+).*/, '$1')
 
 export default apiBase => {
   const tryResource = path =>
@@ -13,7 +14,7 @@ export default apiBase => {
 
   // Accepts a stream of query strings, returns a stream of found resource paths
   return query$ =>
-    O.from(query$).map(trim).flatMap(async query =>
+    O.from(query$).map(trim).map(stripUri).flatMap(async query =>
 
     // if its a number, assume its a block height without checking
       reNumber.test(query)

@@ -65,6 +65,7 @@ export default function render(pathname, args='', locals={}, cb) {
   , HTTP: makeHTTPDriver()
   , route: makeRouteDriver(historyDriver)
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
+  , scanner: _ => O.empty()
   , search: makeSearchDriver(apiBase)
   , state: state$ => O.from(state$).subscribe(stateUpdate)
   })

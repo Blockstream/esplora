@@ -18,7 +18,7 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 const searchSubmit$ = !process.browser ? O.empty() : O.fromEvent(document.body, 'submit')
   .filter(e => e.target.classList.contains('search'))
 
-export default function main({ DOM, HTTP, route, storage, search: searchResult$ }) {
+export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$ }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -35,7 +35,9 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                                                     , est_chain_seen_count: +loc.query.c || 0 }))
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
   , goPush$   = route('/tx/push')
+  , goScan$   = route('/scan-qr').mapTo(true)
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
+      .merge(scan$)
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -62,8 +64,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   /// Model
 
   , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg))
-      .merge(process.browser ? O.empty() : searchResult$.filter(found => !found).mapTo('No results found'))
-      // in browser env, this is displayed as a tooltip rather than as an error
+      .merge(searchResult$.filter(found => !found).mapTo('No results found'))
 
   , tipHeight$ = reply('tip-height', true).map(res => +res.text)
 
@@ -73,6 +74,13 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // Active theme
   , theme$ = storage.local.getItem('theme').first().map(theme => theme || 'dark')
       .concat(togTheme$).scan(curr => curr == 'dark' ? 'light' : 'dark')
+
+  // Scanner state (on/off)
+  , scanning$ = O.merge(
+      goScan$.mapTo(true)
+    , page$.filter(l => l.pathname != '/scan-qr').mapTo(false)
+    , scan$.mapTo(false)
+    )
 
   // Keep track of the number of active in-flight HTTP requests
   , loading$ = HTTP.select().filter(r$ => !r$.request.bg)
@@ -138,6 +146,7 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
                   , goPush$.mapTo('pushtx')
+                  , goScan$.mapTo('scan')
                   , error$.mapTo('error'))
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
@@ -240,15 +249,6 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
   // @XXX side-effects outside of drivers
   if (process.browser) {
 
-    // Display "No results found"
-    searchResult$.filter(found => !found).map(_ => document.querySelector('[name=q]'))
-      .filter(el => !!el)
-      .withLatestFrom(t$)
-      .subscribe(([el, t]) => (el.setCustomValidity(t`No results found`), el.reportValidity()))
-    on('[name=q]', 'input').subscribe(e => e.target.setCustomValidity(''))
-
-    searchSubmit$.subscribe(e => e.preventDefault())
-
     // Click-to-copy
     if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
 
@@ -286,5 +286,5 @@ export default function main({ DOM, HTTP, route, storage, search: searchResult$ 
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, title: title$, state: state$ }
+  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, scanner: scanning$, title: title$, state: state$ }
 }

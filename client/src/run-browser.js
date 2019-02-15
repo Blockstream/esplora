@@ -5,6 +5,7 @@ import { makeDOMDriver } from '@cycle/dom'
 import { makeHistoryDriver, captureClicks } from '@cycle/history'
 import makeRouteDriver from './driver/route'
 import makeSearchDriver from './driver/search'
+import makeScanDriver from './driver/instascan'
 
 import { Observable as O } from './rxjs'
 
@@ -24,4 +25,5 @@ run(main, {
 , storage: storageDriver
 , search: makeSearchDriver(apiBase)
 , title: titleDriver
+, scanner: makeScanDriver()
 })
