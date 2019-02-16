@@ -17,7 +17,9 @@ const parseQuery = loc => {
               : {}
 
   // Convert value-less args to true
-  Object.keys(query).forEach(key => (query[key] === '') && (query[key] = true))
+  Object.keys(query).filter(key => key !== 'q' && query[key] === '')
+    .forEach(key => query[key] = true)
+
   return query
 }
 

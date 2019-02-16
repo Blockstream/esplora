@@ -37,7 +37,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goPush$   = route('/tx/push')
   , goScan$   = route('/scan-qr').mapTo(true)
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
-      .merge(scan$).map(String)
+      .merge(scan$)
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
