@@ -1250,7 +1250,7 @@ img.footer_container_content_onion-links_icon {
 }
 
 .block-hash span, .block-stats-table a, .addr-stats-table a, .transaction-box .header a {
-  word-break: break-all;
+  word-wrap: break-word;
 }
 
 
