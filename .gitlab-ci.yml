@@ -102,7 +102,7 @@ plan:
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -input=false)
 
-deploy:
+deploy_main:
   except:
     - schedules
   stage: deploy
@@ -110,7 +110,7 @@ deploy:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
     entrypoint: [""]
   only:
-    - master@greenaddress/esplora
+    - /^main_v.*/
   script:
     - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)

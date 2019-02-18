@@ -28,8 +28,6 @@ write_files:
 
         ControlSocket /var/run/tor/control GroupWritable RelaxDirModeCheck
         ControlSocketsGroupWritable 1
-        SocksPort unix:/var/run/tor/socks WorldWritable
-        SocksPort 9050
 
         CookieAuthentication 1
         CookieAuthFileGroupReadable 1
