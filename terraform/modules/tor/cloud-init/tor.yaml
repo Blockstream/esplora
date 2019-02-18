@@ -37,6 +37,9 @@ write_files:
 
         Log [handshake]debug [*]notice stderr
 
+        SOCKSPort 0
+        HiddenServiceNonAnonymousMode 1
+        HiddenServiceSingleHopMode 1
         HiddenServiceDir /home/tor/tor/hidden_service/
         HiddenServiceVersion  2
         HiddenServicePort 80 ${tor_lb}:80
