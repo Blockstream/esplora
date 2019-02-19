@@ -147,7 +147,7 @@ deploy_bitcoin_mainnet:
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=2400"
+        -var "min_ready_sec=300"
         -var "initial_delay_sec=2400"
         -input=false -auto-approve)
 
@@ -169,7 +169,7 @@ deploy_bitcoin_testnet:
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=600"
+        -var "min_ready_sec=60"
         -var "initial_delay_sec=600"
         -input=false -auto-approve)
 
@@ -191,13 +191,14 @@ deploy_liquid_mainnet:
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=1200"
+        -var "min_ready_sec=120"
         -var "initial_delay_sec=1200"
         -input=false -auto-approve)
 
 build_images:on-schedule:
   only:
     - schedules
+    - /^image_builder_v.*/
   stage: deploy
   image:
     name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a

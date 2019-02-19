@@ -62,7 +62,7 @@ module "tor" {
 module "bitcoin-testnet" {
   source = "modules/daemon"
 
-  regions                  = "${var.regions}"
+  regions                  = ["${var.regions[0]}"]
   name                     = "bitcoin-testnet"
   daemon                   = "bitcoin"
   network                  = "testnet"
@@ -82,7 +82,7 @@ module "bitcoin-testnet" {
 module "bitcoin-testnet-http" {
   source = "modules/http-tor"
 
-  regions                  = ["${element(var.regions, 0)}"]
+  regions                  = ["${var.regions[0]}"]
   name                     = "bitcoin-testnet"
   network                  = "testnet"
   project                  = "${var.project}"
@@ -132,7 +132,7 @@ module "bitcoin-mainnet-http" {
 module "liquid-mainnet" {
   source = "modules/daemon"
 
-  regions                  = "${var.regions}"
+  regions                  = ["${var.regions[0]}"]
   name                     = "liquid-mainnet"
   daemon                   = "liquid"
   network                  = "mainnet"
