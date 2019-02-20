@@ -37,7 +37,7 @@ const confirmationText = (status, tipHeight, t) =>
 export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
   const vopt = { isOpen: (openTx == tx.txid), query, t }
 
-  return <div className="transaction-box">
+  return <div className="transaction-box" id="transaction-box">
     <div className="header">
       <div className="txn"><a href={`tx/${tx.txid}`}>{tx.txid}</a></div>
       {btnDetails(tx.txid, vopt.isOpen, query, t)}
