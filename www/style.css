@@ -716,7 +716,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
 
 .addr-stats-table > div > div:nth-child(2) {
   text-align: right;
-  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .transaction-stats {
