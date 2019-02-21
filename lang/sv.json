@@ -1,13 +1,11 @@
 {
   "lang_name": "Svenska",
   "%s Confirmations": [
-    "",
     "1 bekräftelse",
     "%0 bekräftelser"
   ],
   "Unconfirmed": "Obekräftad",
   "In best chain (%s confirmations)": [
-    "",
     "I bästa kedjan (1 bekräftelse)",
     "I bästa kedjan (%0 bekräftelse"
   ],

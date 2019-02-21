@@ -84,6 +84,7 @@ Bits
 Nonce
 Merkle root
 %s outputs
+No outputs
 Block height
 Block timestamp
 Older

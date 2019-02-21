@@ -1,13 +1,11 @@
 {
   "lang_name": "中文(简体)",
   "%s Confirmations": [
-    "",
     "确认数 1",
     "确认数 %0"
   ],
   "Unconfirmed": "没确认",
   "In best chain (%s confirmations)": [
-    "",
     "在最正式的链 (确认数 1)",
     "在最正式的链 (确认数 %0)"
   ],

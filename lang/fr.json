@@ -1,13 +1,11 @@
 {
   "lang_name": "Français",
   "%s Confirmations": [
-    "",
     "1 confirmation",
     "%0 confirmations"
   ],
   "Unconfirmed": "Non confirmée",
   "In best chain (%s confirmations)": [
-    "",
     "Dans la chaine la plus longue (1 confirmation)",
     "Dans la chaine la plus longue (%0 confirmations)"
   ],

@@ -3,18 +3,15 @@
   "style.css": "style-rtl.css",
   "ltr": "rtl",
   "%s Confirmations": [
-    "",
     "אישור אחד",
     "%0 אישורים"
   ],
   "Unconfirmed": "לא מאושר",
   "In best chain (%s confirmations)": [
-    "",
     "בשרשרת הכי טובה (אישור אחד)",
     "בשרשרת הכי טובה (%0 אישורים)"
   ],
   "%s outputs": [
-    "ללא פלטים",
     "פלט 1",
     "%0 פלטים"
   ],
@@ -29,7 +26,7 @@
   "Block %s": "בלוק %0",
   "Previous": "קודם",
   "Status": "סטטוס",
-  "%s Transactions": ["ללא טרנזקציות","טרנזקציה אחת","%0 טרנזקציות"],
+  "%s Transactions": ["טרנזקציה אחת","%0 טרנזקציות"],
   "Next": "הבא",
   "%s of %s Transactions": "%0 מתוך %1 טרנזקציות",
   "Details": "פרטים",
@@ -66,7 +63,6 @@
   "Output in parent chain": "מטבע משרשרת אם",
   "Coinbase": "פרס כרייה",
   "Spending tx": "נוצל ע\"י",
-
   "Asset ID": "מזהה נכס",
   "Issuance": "הנפקה",
   "New asset": "נכס חדש",
@@ -74,5 +70,4 @@
   "Issuance amount": "כמות הנפקה",
   "Reissuance keys": "מפתחות הנפקה מחדש",
   "No reissuance": "ללא הנפקה מחדש"
-
 }

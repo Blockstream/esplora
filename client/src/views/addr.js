@@ -115,7 +115,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
 }
 
 const fmtTxos = (count, sum, t) =>
-  (t`${count} outputs`)
+  (count > 0 ? t`${count} outputs` : t`No outputs`)
 + (sum > 0 ? ` (${formatAmount({ value: sum })})` : '')
 
 const txsShownText = (total, start, shown, t) =>

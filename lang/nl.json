@@ -1,13 +1,11 @@
 {
   "lang_name": "Nederlands",
   "%s Confirmations": [
-    "",
     "1 Bevestiging",
     "%0 Bevestigd"
   ],
   "Unconfirmed": "Niet Bevestigd",
   "In best chain (%s confirmations)": [
-    "",
     "In de beste keten (1 bevestigd)",
     "In de beste keten (%0 bevestigd)"
   ],

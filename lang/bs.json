@@ -1,13 +1,11 @@
 {
   "lang_name": "Bosanski",
   "%s Confirmations": [
-    "",
     "1 Potvrda",
     "%0 Potvrda"
   ],
   "Unconfirmed": "Nema Potvrda",
   "In best chain (%s confirmations)": [
-    "",
     "U najnoljem lancu (1 conferma)",
     "U najnoljem lancu (%0 conferme)"
   ],
