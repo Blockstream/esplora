@@ -1,13 +1,21 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Russian (https://www.transifex.com/blockstream/teams/92972/ru/)\n"
 "Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid "lang_id"
 msgstr "ru"
 
 msgid "lang_name"
 msgstr "Русский"
+
+msgid "style.css"
+msgstr ""
 
 msgid "Page Not Found"
 msgstr "Страница Не Найдена"
@@ -99,6 +107,9 @@ msgstr "Единицы веса (WU)"
 msgid "Transaction fees"
 msgstr "Комиссия за транзакцию"
 
+msgid "%s (%s sat/vB)"
+msgstr ""
+
 msgid "Version"
 msgstr "Версия"
 
@@ -114,8 +125,20 @@ msgstr "Адрес"
 msgid "Transaction count"
 msgstr "Количество транзакций"
 
+msgid "Received"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
 msgid "We encountered an error. Please try again later."
 msgstr "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже."
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
 
 msgid "Type"
 msgstr "Тип"
@@ -123,11 +146,44 @@ msgstr "Тип"
 msgid "OP_RETURN data"
 msgstr "Данные OP_RETURN"
 
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
 msgid "Witness"
 msgstr "Свидетельство"
 
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Поиск высоты блока, хэшов, транзакций или адресов"
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr ""
+
+msgid "Transaction: %s"
+msgstr ""
+
+msgid "Address: %s"
+msgstr ""
 
 msgid "Spent by"
 msgstr "Потраченный"
@@ -141,11 +197,83 @@ msgstr "Закрепить"
 msgid "Peg-out to"
 msgstr "Закрепить к"
 
+msgid "Peg-out ASM"
+msgstr ""
+
 msgid "Peg-out address"
 msgstr "Закрепительный адрес"
 
 msgid "Output in parent chain"
 msgstr "Выходные данные в родительской цепи"
+
+msgid "Coinbase"
+msgstr ""
+
+msgid "Orphan"
+msgstr ""
+
+msgid "Confidential"
+msgstr ""
+
+msgid "Unconfirmed"
+msgstr ""
+
+msgid "Block not found"
+msgstr ""
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
+msgid "Asset ID"
+msgstr ""
+
+msgid "Issuance"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Amount commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
 
 msgid "%s outputs (singular)"
 msgstr ""
@@ -153,3 +281,62 @@ msgstr ""
 msgid "%s outputs (plural)"
 msgstr ""
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""

@@ -1,13 +1,21 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Korean (https://www.transifex.com/blockstream/teams/92972/ko/)\n"
 "Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "lang_id"
 msgstr "ko"
 
 msgid "lang_name"
 msgstr "한국어"
+
+msgid "style.css"
+msgstr ""
 
 msgid "Page Not Found"
 msgstr "페이지를 찾을 수 없음"
@@ -117,8 +125,20 @@ msgstr "주소"
 msgid "Transaction count"
 msgstr "거래량"
 
+msgid "Received"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
 msgid "We encountered an error. Please try again later."
 msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
 
 msgid "Type"
 msgstr "유형"
@@ -126,11 +146,35 @@ msgstr "유형"
 msgid "OP_RETURN data"
 msgstr "OP_RETURN 데이터"
 
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
 msgid "Witness"
 msgstr "서명"
 
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요"
+
+msgid "Powered by esplora"
+msgstr ""
 
 msgid "Block #%s: %s"
 msgstr "블록 #%0: %1"
@@ -165,9 +209,134 @@ msgstr "부모 체인 아웃풋"
 msgid "Coinbase"
 msgstr "코인베이스"
 
+msgid "Orphan"
+msgstr ""
+
+msgid "Confidential"
+msgstr ""
+
+msgid "Unconfirmed"
+msgstr ""
+
+msgid "Block not found"
+msgstr ""
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
+msgid "Asset ID"
+msgstr ""
+
+msgid "Issuance"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Amount commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
 msgid "%s outputs (singular)"
 msgstr ""
 
 msgid "%s outputs (plural)"
 msgstr ""
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""

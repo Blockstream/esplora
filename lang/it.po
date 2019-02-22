@@ -1,13 +1,21 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Italian (https://www.transifex.com/blockstream/teams/92972/it/)\n"
 "Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "lang_id"
 msgstr "it"
 
 msgid "lang_name"
 msgstr "Italiano"
+
+msgid "style.css"
+msgstr ""
 
 msgid "Page Not Found"
 msgstr "Pagina Non Trovata"
@@ -81,6 +89,9 @@ msgstr "%0 di %1 Transazioni"
 msgid "Details"
 msgstr "Dettagli"
 
+msgid "Nonstandard"
+msgstr ""
+
 msgid "Transaction"
 msgstr "Transazione"
 
@@ -96,8 +107,14 @@ msgstr "Unità di peso (WU)"
 msgid "Transaction fees"
 msgstr "Commissione transazione"
 
+msgid "%s (%s sat/vB)"
+msgstr ""
+
 msgid "Version"
 msgstr "Versione"
+
+msgid "Lock time"
+msgstr ""
 
 msgid "Included in Block"
 msgstr "Inclusa in Blocco"
@@ -108,11 +125,56 @@ msgstr "Indirizzo"
 msgid "Transaction count"
 msgstr "Numero transazioni"
 
+msgid "Received"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
 msgid "Type"
 msgstr "Tipologia"
 
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Witness"
+msgstr ""
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Cerca per altezza blocco, hash, transazione o indirizzo"
+
+msgid "Powered by esplora"
+msgstr ""
 
 msgid "Block #%s: %s"
 msgstr "Blocco #%0: %1"
@@ -129,6 +191,24 @@ msgstr "Spesa da"
 msgid "Unspent"
 msgstr "Non spesa"
 
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Coinbase"
+msgstr ""
+
 msgid "Orphan"
 msgstr "Orfano"
 
@@ -138,9 +218,125 @@ msgstr "Confidenziale"
 msgid "Unconfirmed"
 msgstr "Non confermata"
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
+msgid "Asset ID"
+msgstr ""
+
+msgid "Issuance"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Amount commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
 msgid "%s outputs (singular)"
 msgstr ""
 
 msgid "%s outputs (plural)"
 msgstr ""
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""

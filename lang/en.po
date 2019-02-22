@@ -1,7 +1,6 @@
-
+# 
 msgid ""
-msgstr ""
-"Language: en\n"
+msgstr "Language: en\n"
 
 msgid "lang_id"
 msgstr "en"
@@ -335,4 +334,3 @@ msgstr "Unconfirmed spent"
 
 msgid "Total unspent"
 msgstr "Total unspent"
-

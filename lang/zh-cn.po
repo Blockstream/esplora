@@ -1,13 +1,21 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
-"Language: zh-cn\n"
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Chinese (https://www.transifex.com/blockstream/teams/92972/zh/)\n"
+"Language: zh\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "lang_id"
 msgstr "zh-cn"
 
 msgid "lang_name"
 msgstr "中文(简体)"
+
+msgid "style.css"
+msgstr ""
 
 msgid "Page Not Found"
 msgstr "网页未找到"
@@ -48,6 +56,12 @@ msgstr "前一个块"
 msgid "Status"
 msgstr "状态"
 
+msgid "Virtual Size (KVB)"
+msgstr ""
+
+msgid "Weight units (KWU)"
+msgstr ""
+
 msgid "%s Transactions (singular)"
 msgstr "交易数量 %0"
 
@@ -75,17 +89,32 @@ msgstr "交易 %0 / %1"
 msgid "Details"
 msgstr "细节"
 
+msgid "Nonstandard"
+msgstr ""
+
 msgid "Transaction"
 msgstr "交易"
 
 msgid "Size (bytes)"
 msgstr "大小 (bytes)"
 
+msgid "Virtual size (vbytes)"
+msgstr ""
+
+msgid "Weight units (WU)"
+msgstr ""
+
 msgid "Transaction fees"
 msgstr "矿工手续费"
 
+msgid "%s (%s sat/vB)"
+msgstr ""
+
 msgid "Version"
 msgstr "版本"
+
+msgid "Lock time"
+msgstr ""
 
 msgid "Included in Block"
 msgstr "在区块"
@@ -96,11 +125,56 @@ msgstr "地址"
 msgid "Transaction count"
 msgstr "交易数量"
 
+msgid "Received"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
 msgid "Type"
 msgstr "类型"
 
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Witness"
+msgstr ""
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "高度、哈希、交易或地址..."
+
+msgid "Powered by esplora"
+msgstr ""
 
 msgid "Block #%s: %s"
 msgstr "区块 #%0: %1"
@@ -111,6 +185,30 @@ msgstr "交易: %0"
 msgid "Address: %s"
 msgstr "地址: %0"
 
+msgid "Spent by"
+msgstr ""
+
+msgid "Unspent"
+msgstr ""
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Coinbase"
+msgstr ""
+
 msgid "Orphan"
 msgstr "孤块"
 
@@ -120,9 +218,125 @@ msgstr "保密"
 msgid "Unconfirmed"
 msgstr "没确认"
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
+msgid "Asset ID"
+msgstr ""
+
+msgid "Issuance"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Amount commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
 msgid "%s outputs (singular)"
 msgstr ""
 
 msgid "%s outputs (plural)"
 msgstr ""
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""

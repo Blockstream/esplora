@@ -1,7 +1,12 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Hebrew (https://www.transifex.com/blockstream/teams/92972/he/)\n"
 "Language: he\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 msgid "lang_id"
 msgstr "he"
@@ -102,6 +107,9 @@ msgstr "יחידות משקל (WU)"
 msgid "Transaction fees"
 msgstr "עמלת טרנזקציה"
 
+msgid "%s (%s sat/vB)"
+msgstr ""
+
 msgid "Version"
 msgstr "גירסה"
 
@@ -126,14 +134,47 @@ msgstr "נשלח"
 msgid "We encountered an error. Please try again later."
 msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
 
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
 msgid "Type"
 msgstr "סוג"
 
 msgid "OP_RETURN data"
 msgstr "מידע OP_RETURN"
 
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Witness"
+msgstr ""
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת"
+
+msgid "Powered by esplora"
+msgstr ""
 
 msgid "Block #%s: %s"
 msgstr "בלוק #%0: %1"
@@ -149,6 +190,18 @@ msgstr "נוצל ע\"י"
 
 msgid "Unspent"
 msgstr "לא נוצל"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
 
 msgid "Output in parent chain"
 msgstr "מטבע משרשרת אם"
@@ -174,6 +227,12 @@ msgstr "טרנזקציה לא נמצאה"
 msgid "Spending tx"
 msgstr "נוצל ע\"י"
 
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
 msgid "Asset ID"
 msgstr "מזהה נכס"
 
@@ -186,14 +245,35 @@ msgstr "נכס חדש"
 msgid "Reissuance"
 msgstr "הנפקה נוספת"
 
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
 msgid "Issuance amount"
 msgstr "כמות הנפקה"
+
+msgid "Amount commitment"
+msgstr ""
 
 msgid "Reissuance keys"
 msgstr "מפתחות הנפקה מחדש"
 
+msgid "Reissuance commitment"
+msgstr ""
+
 msgid "No reissuance"
 msgstr "ללא הנפקה מחדש"
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
 
 msgid "%s outputs (singular)"
 msgstr "פלט 1"
@@ -201,3 +281,62 @@ msgstr "פלט 1"
 msgid "%s outputs (plural)"
 msgstr "%0 פלטים"
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr "סרוק QR"
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""

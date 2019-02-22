@@ -1,13 +1,21 @@
-
+# Translators:
+# Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# 
 msgid ""
 msgstr ""
-"Language: me\n"
+"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Language-Team: Serbian (Montenegro) (https://www.transifex.com/blockstream/teams/92972/sr_ME/)\n"
+"Language: sr_ME\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "lang_id"
 msgstr "me"
 
 msgid "lang_name"
 msgstr "Црногорски"
+
+msgid "style.css"
+msgstr ""
 
 msgid "Page Not Found"
 msgstr "Strana nije pronadjena"
@@ -81,6 +89,9 @@ msgstr "%0 od %1 Transakicja"
 msgid "Details"
 msgstr "Detalji"
 
+msgid "Nonstandard"
+msgstr ""
+
 msgid "Transaction"
 msgstr "Transakcija"
 
@@ -93,8 +104,17 @@ msgstr "Virtualna Velicina (vbytes)"
 msgid "Weight units (WU)"
 msgstr "Jedinica Tezine (WU)"
 
+msgid "Transaction fees"
+msgstr ""
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
 msgid "Version"
 msgstr "Verzija"
+
+msgid "Lock time"
+msgstr ""
 
 msgid "Included in Block"
 msgstr "Ukljuceno u blok"
@@ -105,11 +125,56 @@ msgstr "Adresa"
 msgid "Transaction count"
 msgstr "Broj transakcija"
 
+msgid "Received"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
 msgid "Type"
 msgstr "Tip"
 
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Witness"
+msgstr ""
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "Previous output address"
+msgstr ""
+
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Pretraga po visini bloka, hash, transakciji ili adresi"
+
+msgid "Powered by esplora"
+msgstr ""
 
 msgid "Block #%s: %s"
 msgstr "Blok #%0: %1"
@@ -126,6 +191,24 @@ msgstr "Potroseni od strane"
 msgid "Unspent"
 msgstr "Nepotroseni"
 
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Coinbase"
+msgstr ""
+
 msgid "Orphan"
 msgstr "Orfan"
 
@@ -135,9 +218,125 @@ msgstr "Poverljivo"
 msgid "Unconfirmed"
 msgstr "Nema Potvrda"
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Asset commitment"
+msgstr ""
+
+msgid "Asset ID"
+msgstr ""
+
+msgid "Issuance"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Amount commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "Bits"
+msgstr ""
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
 msgid "%s outputs (singular)"
 msgstr ""
 
 msgid "%s outputs (plural)"
 msgstr ""
 
+msgid "No outputs"
+msgstr ""
+
+msgid "Block height"
+msgstr ""
+
+msgid "Block timestamp"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Broadcast transaction"
+msgstr ""
+
+msgid "Broadcast raw transaction (hex)"
+msgstr ""
+
+msgid "Broadcast tx"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Confirmed tx count"
+msgstr ""
+
+msgid "Confirmed received"
+msgstr ""
+
+msgid "Confirmed spent"
+msgstr ""
+
+msgid "Confirmed unspent"
+msgstr ""
+
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unconfirmed received"
+msgstr ""
+
+msgid "Unconfirmed spent"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
