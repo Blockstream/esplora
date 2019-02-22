@@ -14,7 +14,7 @@ for file in lang/*.po; do
   [ "$lang" == "jp" ] && lang=ja
 
   echo "Downloading $lang from transifex to $file"
-  curl -s -L -u api:$TRANSIFEX_KEY https://www.transifex.com/api/2/project/$TRANSIFEX_PROJECT/resource/$TRANSIFEX_RESOURCE/translation/$lang?file=po > $file
+  curl -s -L -u api:$TRANSIFEX_KEY "https://www.transifex.com/api/2/project/$TRANSIFEX_PROJECT/resource/$TRANSIFEX_RESOURCE/translation/$lang?file=po&mode=reviewed" > $file
 
   echo "Generating json from $file"
   ./lang/po2json.js < $file > ${file%.*}.json
