@@ -1,51 +1,51 @@
 {
   "lang_id": "fr",
   "lang_name": "Français",
-  "%s Confirmations": [
-    "1 confirmation",
-    "%0 confirmations"
-  ],
-  "Unconfirmed": "Non confirmée",
-  "In best chain (%s confirmations)": [
-    "Dans la chaine la plus longue (1 confirmation)",
-    "Dans la chaine la plus longue (%0 confirmations)"
-  ],
   "Page Not Found": "Page non trouvée",
   "Loading...": "Chargement...",
   "Recent Blocks": "Blocs récents",
+  "Height": "Hauteur",
+  "Timestamp": "Date",
   "Transactions": "Transactions",
+  "Size (KB)": "Taille (Ko)",
+  "Weight (KWU)": "Poids (KWU)",
   "Load more": "Afficher plus",
   "No results found": "Aucun résultat",
   "Block %s": "Bloc %0",
   "Previous": "Précédent",
   "Status": "Statut",
-  "%s Transactions": "%0 Transactions",
+  "Virtual Size (KVB)": "Taille virtuelle (KVB)",
+  "Weight units (KWU)": "Unité de poids (KWU)",
+  "%s Transactions": [
+    "%0 Transactions",
+    "%0 Transactions"
+  ],
   "Next": "Suivant",
+  "In best chain (%s confirmations)": [
+    "Dans la chaine la plus longue (1 confirmation)",
+    "Dans la chaine la plus longue (%0 confirmations)"
+  ],
+  "%s Confirmations": [
+    "1 confirmation",
+    "%0 confirmations"
+  ],
   "%s of %s Transactions": "%0 sur %1 Transactions",
   "Details": "Détails",
   "Transaction": "Transaction",
+  "Size (bytes)": "Taille (octets)",
+  "Virtual size (vbytes)": "Taille virtuelle (vbytes)",
+  "Weight units (WU)": "Unité de poids (WU)",
+  "Transaction fees": "Frais de transaction",
   "Included in Block": "Inclue dans le bloc",
   "Address": "Adresse",
   "Transaction count": "Nombre de transactions",
-  "Total received": "Total reçu",
-  "Confirmed balance": "Solde confirmé",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "Désolé ! Les adresses ayant un grand nombre de transactions ne sont pas encore supportées.",
-  "Orphan": "Orphelin",
   "Search for block height, hash, transaction, or address": "Numéro de bloc, hash, transaction ou adresse",
   "Block #%s: %s": "Bloc #%0: %1",
   "Transaction: %s": "Transaction: %0",
   "Address: %s": "Adresse: %0",
-  "Size (bytes)": "Taille (octets)",
-  "Size (KB)": "Taille (Ko)",
-  "Height": "Hauteur",
-  "Virtual Size (KVB)": "Taille virtuelle (KVB)",
-  "Weight units (KWU)": "Unité de poids (KWU)",
-  "Virtual size (vbytes)": "Taille virtuelle (vbytes)",
-  "Weight units (WU)": "Unité de poids (WU)",
-  "Transaction fees": "Frais de transaction",
-  "Confidential": "Confidentiel",
-  "Timestamp": "Date",
-  "Weight (KWU)": "Poids (KWU)",
   "Spent by": "Dépensé par",
-  "Unspent": "Non dépensé"
+  "Unspent": "Non dépensé",
+  "Orphan": "Orphelin",
+  "Confidential": "Confidentiel",
+  "Unconfirmed": "Non confirmée"
 }

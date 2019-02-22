@@ -1,49 +1,49 @@
 {
   "lang_id": "nl",
   "lang_name": "Nederlands",
-  "%s Confirmations": [
-    "1 Bevestiging",
-    "%0 Bevestigd"
-  ],
-  "Unconfirmed": "Niet Bevestigd",
-  "In best chain (%s confirmations)": [
-    "In de beste keten (1 bevestigd)",
-    "In de beste keten (%0 bevestigd)"
-  ],
   "Page Not Found": "Pagina Niet Gevonden",
   "Loading...": "Bezig met laden...",
   "Recent Blocks": "Recente Blokken",
+  "Height": "Hoogte",
   "Transactions": "Transacties",
+  "Size (KB)": "Grootte (KB)",
   "Load more": "Meer laden",
   "No results found": "Geen Resultaten Gevonden",
   "Block %s": "Blokken %0",
   "Previous": "Vorige",
   "Status": "Status",
-  "%s Transactions": "%0 Transacties",
+  "Virtual Size (KVB)": "Virtuele Grootte (KVB)",
+  "Weight units (KWU)": "Eenheid van Gewicht (KWU)",
+  "%s Transactions": [
+    "%0 Transacties",
+    "%0 Transacties"
+  ],
   "Next": "Volgende",
+  "In best chain (%s confirmations)": [
+    "In de beste keten (1 bevestigd)",
+    "In de beste keten (%0 bevestigd)"
+  ],
+  "%s Confirmations": [
+    "1 Bevestiging",
+    "%0 Bevestigd"
+  ],
   "%s of %s Transactions": "%0 van %1 Transacties",
   "Details": "Details",
   "Transaction": "Transacties",
+  "Size (bytes)": "Grootte (bytes)",
+  "Virtual size (vbytes)": "Virtuele Grootte (vbytes)",
+  "Weight units (WU)": "Eenheid van Gewicht (WU)",
+  "Transaction fees": "Kosten",
+  "Version": "Versie",
   "Included in Block": "Bevind zich in Blok",
   "Address": "Adres",
   "Transaction count": "Aantal Transacties",
-  "Total received": "Totaal Ontvangen",
-  "Confirmed balance": "Totaal Bevestigd",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "Sorry! Adressen met veel transacties worden momenteel niet ondersteund",
-  "Orphan": "Orphan",
+  "Type": "Type",
   "Search for block height, hash, transaction, or address": "Zoek naar blokhoogte, hash, transactie of adres",
   "Block #%s: %s": "Blok #%0: %1",
   "Transaction: %s": "Transactie: %0",
   "Address: %s": "Adres: %0",
-  "Size (bytes)": "Grootte (bytes)",
-  "Size (KB)": "Grootte (KB)",
-  "Height": "Hoogte",
-  "Virtual Size (KVB)": "Virtuele Grootte (KVB)",
-  "Weight units (KWU)": "Eenheid van Gewicht (KWU)",
-  "Virtual size (vbytes)": "Virtuele Grootte (vbytes)",
-  "Weight units (WU)": "Eenheid van Gewicht (WU)",
-  "Version": "Versie",
-  "Transaction fees": "Kosten",
-  "Type": "Type",
-  "Confidential": "Vertrouwelijk"
+  "Orphan": "Orphan",
+  "Confidential": "Vertrouwelijk",
+  "Unconfirmed": "Niet Bevestigd"
 }

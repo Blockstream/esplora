@@ -16,9 +16,15 @@
   "Status": "Статус",
   "Virtual Size (KVB)": "Виртуальный Объем (kVB)",
   "Weight units (KWU)": "Единицы Веса (kWU)",
-  "%s Transactions": "Процент (%0) Транзакций",
+  "%s Transactions": [
+    "Процент (%0) Транзакций",
+    "Процент (%0) Транзакций"
+  ],
   "Next": "Следующий",
-  "In best chain (%s confirmations)": "В лучшей цепи (процент потверждений)",
+  "In best chain (%s confirmations)": [
+    "В лучшей цепи (процент потверждений)",
+    "В лучшей цепи (процент потверждений)"
+  ],
   "%s of %s Transactions": "%0 от %1 Транзакций",
   "Details": "Подробные детали",
   "Nonstandard": "Нестандартный",
@@ -32,10 +38,6 @@
   "Included in Block": "Включенный в Блоке",
   "Address": "Адрес",
   "Transaction count": "Количество транзакций",
-  "Total received": "Всего получено",
-  "Confirmed balance": "Подтвержденный баланс",
-  "Unconfirmed balance": "Неподтвержденный баланс",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "Приносим извенения, но к сожалению адреса с большим количеством транзакций в настоящее время не поддерживаются.",
   "We encountered an error. Please try again later.": "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже.",
   "Type": "Тип",
   "OP_RETURN data": "Данные OP_RETURN",

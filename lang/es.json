@@ -16,9 +16,15 @@
   "Status": "Estatus",
   "Virtual Size (KVB)": "Tamaño Virtual (KVB)",
   "Weight units (KWU)": "Unidades de Peso (KWU)",
-  "%s Transactions": "Transacciones %0",
+  "%s Transactions": [
+    "Transacciones %0",
+    "Transacciones %0"
+  ],
   "Next": "Siguiente",
-  "In best chain (%s confirmations)": "En cadena más larga (%0 confirmaciones)",
+  "In best chain (%s confirmations)": [
+    "En cadena más larga (%0 confirmaciones)",
+    "En cadena más larga (%0 confirmaciones)"
+  ],
   "%s of %s Transactions": "Transacciones %0 de %1",
   "Details": "Detalles",
   "Nonstandard": "No estándar",
@@ -31,10 +37,6 @@
   "Included in Block": "Incluida en bloque",
   "Address": "Dirección",
   "Transaction count": "Total de transacciones",
-  "Total received": "Total recibido",
-  "Confirmed balance": "Balance confirmado",
-  "Unconfirmed balance": "Balance sin confirmar",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "Lo sentimos! Direciones con un largo número de transacciones no son soportadas en este momento.",
   "We encountered an error. Please try again later.": "Encontramos un error. Por favor intenta nuevamente más tarde.",
   "Type": "Tipo",
   "OP_RETURN data": "Datos OP_RETURN",

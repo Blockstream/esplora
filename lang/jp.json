@@ -16,9 +16,15 @@
   "Status": "ステータス",
   "Virtual Size (KVB)": "バーチャルサイズ(KVB)",
   "Weight units (KWU)": "ウェイトユニット(KWU)",
-  "%s Transactions": "%0 トランザクション",
+  "%s Transactions": [
+    "%0 トランザクション",
+    "%0 トランザクション"
+  ],
   "Next": "次へ",
-  "In best chain (%s confirmations)": "最長チェーン(%0 検証)",
+  "In best chain (%s confirmations)": [
+    "最長チェーン(%0 検証)",
+    "最長チェーン(%0 検証)"
+  ],
   "%s of %s Transactions": "トランザクション数 %0 / %1",
   "Details": "詳細",
   "Nonstandard": "ノン・スタンダード",
@@ -32,10 +38,6 @@
   "Included in Block": "ブロック内容",
   "Address": "アドレス",
   "Transaction count": "トランザクション数",
-  "Total received": "総入金額",
-  "Confirmed balance": "検証済み残高",
-  "Unconfirmed balance": "未検証残高",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "大変申し訳ありません。多数のトランザクションを保有するアドレスは現在表示できません。",
   "We encountered an error. Please try again later.": "エラーが発生しました。後ほどもう一度お試し下さい。",
   "Type": "タイプ",
   "OP_RETURN data": "OP_RETURN データ",

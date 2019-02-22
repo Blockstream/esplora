@@ -16,9 +16,15 @@
   "Status": "상태",
   "Virtual Size (KVB)": "가상 사이즈 (KVB)",
   "Weight units (KWU)": "무게 단위 (KWU)",
-  "%s Transactions": "%0 거래들",
+  "%s Transactions": [
+    "%0 거래들",
+    "%0 거래들"
+  ],
   "Next": "다음",
-  "In best chain (%s confirmations)": "현 체인 (%0 컨펌)",
+  "In best chain (%s confirmations)": [
+    "현 체인 (%0 컨펌)",
+    "현 체인 (%0 컨펌)"
+  ],
   "%s of %s Transactions": "%0 의 %1 거래들",
   "Details": "자세히",
   "Nonstandard": "비표준",
@@ -33,12 +39,7 @@
   "Included in Block": "포함되어 있는 블록",
   "Address": "주소",
   "Transaction count": "거래량",
-  "Total received": "합계",
-  "Confirmed balance": "컨펌된 합계",
-  "Unconfirmed balance": "컨펌되지 않은 합계",
-  "Sorry! Addresses with a large number of transactions aren't currently supported.": "죄송합니다. 많은 양의 거래가있는 주소는 현재 지원하지 않습니다.",
   "We encountered an error. Please try again later.": "오류가 발생했습니다. 나중에 다시 시도하십시시오.",
-  "scriptPubKey.asm": "scriptPubkey.asm",
   "Type": "유형",
   "OP_RETURN data": "OP_RETURN 데이터",
   "Witness": "서명",
