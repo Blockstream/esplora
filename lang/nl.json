@@ -11,7 +11,6 @@
   "No results found": "Geen Resultaten Gevonden",
   "Block %s": "Blokken %0",
   "Previous": "Vorige",
-  "Status": "Status",
   "Virtual Size (KVB)": "Virtuele Grootte (KVB)",
   "Weight units (KWU)": "Eenheid van Gewicht (KWU)",
   "%s Transactions": [
@@ -28,7 +27,6 @@
     "%0 Bevestigd"
   ],
   "%s of %s Transactions": "%0 van %1 Transacties",
-  "Details": "Details",
   "Transaction": "Transacties",
   "Size (bytes)": "Grootte (bytes)",
   "Virtual size (vbytes)": "Virtuele Grootte (vbytes)",
@@ -38,12 +36,10 @@
   "Included in Block": "Bevind zich in Blok",
   "Address": "Adres",
   "Transaction count": "Aantal Transacties",
-  "Type": "Type",
   "Search for block height, hash, transaction, or address": "Zoek naar blokhoogte, hash, transactie of adres",
   "Block #%s: %s": "Blok #%0: %1",
   "Transaction: %s": "Transactie: %0",
   "Address: %s": "Adres: %0",
-  "Orphan": "Orphan",
   "Confidential": "Vertrouwelijk",
   "Unconfirmed": "Niet Bevestigd"
 }

@@ -42,7 +42,6 @@
   "OP_RETURN data": "OP_RETURN данни",
   "Witness": "Подпис",
   "Search for block height, hash, transaction, or address": "Въведете височина на блок, хаш, транзакция или адрес",
-  "Powered by esplora": "Powered by esplora",
   "Block #%s: %s": "Блок #%0: %1",
   "Transaction: %s": "Транзакция: %0",
   "Address: %s": "Адрес: %0",

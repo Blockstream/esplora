@@ -13,7 +13,6 @@
   "No results found": "Keine Ergebnisse gefunden",
   "Block %s": "Block %0",
   "Previous": "Vorheriger",
-  "Status": "Status",
   "Virtual Size (KVB)": "Virtuelle Größe (KVB)",
   "Weight units (KWU)": "Gewichtseinheiten (KWU)",
   "%s Transactions": [
@@ -30,17 +29,14 @@
     "%0 Bestätigungen"
   ],
   "%s of %s Transactions": "%0 von %1 Transaktionen",
-  "Details": "Details",
   "Transaction": "Transaktion",
   "Size (bytes)": "Größe (bytes)",
   "Virtual size (vbytes)": "Virtuelle Größe (vbytes)",
   "Weight units (WU)": "Gewichtseinheiten (WU)",
   "Transaction fees": "Gebühr",
-  "Version": "Version",
   "Included in Block": "Beinhaltet in Block",
   "Address": "Adresse",
   "Transaction count": "Anzahl von Transaktionen",
-  "Type": "Type",
   "Search for block height, hash, transaction, or address": "Suche nach Blockhöhe, Hash, Transaktion oder Adresse",
   "Block #%s: %s": "Block #%0: %1",
   "Transaction: %s": "Transaktion: %0",
@@ -48,6 +44,5 @@
   "Spent by": "Ausgegeben von",
   "Unspent": "Nicht ausgegeben",
   "Orphan": "Orfano",
-  "Confidential": "Confidential",
   "Unconfirmed": "Unbestätigt"
 }

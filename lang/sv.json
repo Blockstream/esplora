@@ -13,7 +13,6 @@
   "No results found": "Inga resultat hittade",
   "Block %s": "Block %0",
   "Previous": "Föregående",
-  "Status": "Status",
   "Virtual Size (KVB)": "Virtuell storlek (KVB)",
   "Weight units (KWU)": "Viktenheter (KWU)",
   "%s Transactions": [
@@ -36,7 +35,6 @@
   "Virtual size (vbytes)": "Virtuell storlek (vbytes)",
   "Weight units (WU)": "Viktenheter (WU)",
   "Transaction fees": "Miningavgift",
-  "Version": "Version",
   "Included in Block": "Inkluderad i block",
   "Address": "Adress",
   "Transaction count": "Antal transaktioner",
