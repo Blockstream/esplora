@@ -1,0 +1,173 @@
+
+msgid ""
+msgstr ""
+"Language: ko\n"
+
+msgid "lang_id"
+msgstr "ko"
+
+msgid "lang_name"
+msgstr "한국어"
+
+msgid "Page Not Found"
+msgstr "페이지를 찾을 수 없음"
+
+msgid "Loading..."
+msgstr "로딩..."
+
+msgid "Recent Blocks"
+msgstr "최근 블록"
+
+msgid "Height"
+msgstr "블록 높이"
+
+msgid "Timestamp"
+msgstr "타임 스탬프"
+
+msgid "Transactions"
+msgstr "거래"
+
+msgid "Size (KB)"
+msgstr "사이즈 (KB)"
+
+msgid "Weight (KWU)"
+msgstr "무게 (KWU)"
+
+msgid "Load more"
+msgstr "더 보기"
+
+msgid "No results found"
+msgstr "검색결과가 없습니다"
+
+msgid "Block %s"
+msgstr "블록 %0"
+
+msgid "Previous"
+msgstr "이전"
+
+msgid "Status"
+msgstr "상태"
+
+msgid "Virtual Size (KVB)"
+msgstr "가상 사이즈 (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "무게 단위 (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 거래들"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 거래들"
+
+msgid "Next"
+msgstr "다음"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "현 체인 (%0 컨펌)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "현 체인 (%0 컨펌)"
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "%s of %s Transactions"
+msgstr "%0 의 %1 거래들"
+
+msgid "Details"
+msgstr "자세히"
+
+msgid "Nonstandard"
+msgstr "비표준"
+
+msgid "Transaction"
+msgstr "거래"
+
+msgid "Size (bytes)"
+msgstr "사이즈 (바이트)"
+
+msgid "Virtual size (vbytes)"
+msgstr "가상 사이즈 (v바이트)"
+
+msgid "Weight units (WU)"
+msgstr "무게 단위 (WU)"
+
+msgid "Transaction fees"
+msgstr "수수료"
+
+msgid "%s (%s sat/vB)"
+msgstr "%0 (%1 사토시/vB)"
+
+msgid "Version"
+msgstr "버전"
+
+msgid "Lock time"
+msgstr "잠금 시간"
+
+msgid "Included in Block"
+msgstr "포함되어 있는 블록"
+
+msgid "Address"
+msgstr "주소"
+
+msgid "Transaction count"
+msgstr "거래량"
+
+msgid "We encountered an error. Please try again later."
+msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
+
+msgid "Type"
+msgstr "유형"
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN 데이터"
+
+msgid "Witness"
+msgstr "서명"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요"
+
+msgid "Block #%s: %s"
+msgstr "블록 #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "거래: %0"
+
+msgid "Address: %s"
+msgstr "주소: %0"
+
+msgid "Spent by"
+msgstr "사용한 유저"
+
+msgid "Unspent"
+msgstr "사용안됨"
+
+msgid "Peg-out"
+msgstr "페그 아웃"
+
+msgid "Peg-out to"
+msgstr "페그 아웃할 곳"
+
+msgid "Peg-out ASM"
+msgstr "페그 아웃 ASM"
+
+msgid "Peg-out address"
+msgstr "페그 아웃 주소"
+
+msgid "Output in parent chain"
+msgstr "부모 체인 아웃풋"
+
+msgid "Coinbase"
+msgstr "코인베이스"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

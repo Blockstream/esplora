@@ -1,0 +1,164 @@
+
+msgid ""
+msgstr ""
+"Language: es\n"
+
+msgid "lang_id"
+msgstr "es"
+
+msgid "lang_name"
+msgstr "Español"
+
+msgid "Page Not Found"
+msgstr "Página No Encontrada"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Recent Blocks"
+msgstr "Bloques Recientes"
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "Timestamp"
+msgstr "Fecha y Hora"
+
+msgid "Transactions"
+msgstr "Transacciones"
+
+msgid "Size (KB)"
+msgstr "Tamaño (KB)"
+
+msgid "Weight (KWU)"
+msgstr "Peso (KWU)"
+
+msgid "Load more"
+msgstr "Mostrar siguiente"
+
+msgid "No results found"
+msgstr "No se encontraron resultados para su búsqueda"
+
+msgid "Block %s"
+msgstr "Bloque %0"
+
+msgid "Previous"
+msgstr "Previo"
+
+msgid "Status"
+msgstr "Estatus"
+
+msgid "Virtual Size (KVB)"
+msgstr "Tamaño Virtual (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Unidades de Peso (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "Transacciones %0"
+
+msgid "%s Transactions (plural)"
+msgstr "Transacciones %0"
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "En cadena más larga (%0 confirmaciones)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "En cadena más larga (%0 confirmaciones)"
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "%s of %s Transactions"
+msgstr "Transacciones %0 de %1"
+
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Nonstandard"
+msgstr "No estándar"
+
+msgid "Transaction"
+msgstr "Transacción"
+
+msgid "Size (bytes)"
+msgstr "Tamaño (bytes)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Tamaño virtual (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "Unidades de peso (WU)"
+
+msgid "Transaction fees"
+msgstr "Tarifa for transacción"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Included in Block"
+msgstr "Incluida en bloque"
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "Transaction count"
+msgstr "Total de transacciones"
+
+msgid "We encountered an error. Please try again later."
+msgstr "Encontramos un error. Por favor intenta nuevamente más tarde."
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "OP_RETURN data"
+msgstr "Datos OP_RETURN"
+
+msgid "Witness"
+msgstr "testigo"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Busca por altura de bloque, hash, transacción o dirección"
+
+msgid "Powered by esplora"
+msgstr "Desarrollado por esplora"
+
+msgid "Block #%s: %s"
+msgstr "Bloque #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Transacción: %0"
+
+msgid "Address: %s"
+msgstr "Dirección %0"
+
+msgid "Spent by"
+msgstr "Gastado por"
+
+msgid "Unspent"
+msgstr "No gastado"
+
+msgid "Peg-out"
+msgstr "Peg-Out"
+
+msgid "Peg-out to"
+msgstr "Peg-out a"
+
+msgid "Peg-out address"
+msgstr "Dirección de Peg-out "
+
+msgid "Output in parent chain"
+msgstr "Salida en cadena principal"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

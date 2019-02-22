@@ -1,0 +1,146 @@
+
+msgid ""
+msgstr ""
+"Language: de\n"
+
+msgid "lang_id"
+msgstr "de"
+
+msgid "lang_name"
+msgstr "Deutsch"
+
+msgid "Page Not Found"
+msgstr "Seite nicht gefunden"
+
+msgid "Loading..."
+msgstr "Wird geladen..."
+
+msgid "Recent Blocks"
+msgstr "Neuste Blöcke"
+
+msgid "Height"
+msgstr "Höhe"
+
+msgid "Timestamp"
+msgstr "Zeitstempel"
+
+msgid "Transactions"
+msgstr "Transaktionen"
+
+msgid "Size (KB)"
+msgstr "Grösse (KB)"
+
+msgid "Weight (KWU)"
+msgstr "Gewicht (KWU)"
+
+msgid "Load more"
+msgstr "Mehr laden"
+
+msgid "No results found"
+msgstr "Keine Ergebnisse gefunden"
+
+msgid "Block %s"
+msgstr "Block %0"
+
+msgid "Previous"
+msgstr "Vorheriger"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtuelle Größe (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Gewichtseinheiten (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transaktionen"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transaktionen"
+
+msgid "Next"
+msgstr "Nächster"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "In bester Chain (1 Bestätigung)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "In bester Chain (%0 Bestätigungen)"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Bestätigung"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Bestätigungen"
+
+msgid "%s of %s Transactions"
+msgstr "%0 von %1 Transaktionen"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Transaction"
+msgstr "Transaktion"
+
+msgid "Size (bytes)"
+msgstr "Größe (bytes)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtuelle Größe (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "Gewichtseinheiten (WU)"
+
+msgid "Transaction fees"
+msgstr "Gebühr"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Included in Block"
+msgstr "Beinhaltet in Block"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Transaction count"
+msgstr "Anzahl von Transaktionen"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Suche nach Blockhöhe, Hash, Transaktion oder Adresse"
+
+msgid "Block #%s: %s"
+msgstr "Block #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Transaktion: %0"
+
+msgid "Address: %s"
+msgstr "Adresse: %0"
+
+msgid "Spent by"
+msgstr "Ausgegeben von"
+
+msgid "Unspent"
+msgstr "Nicht ausgegeben"
+
+msgid "Orphan"
+msgstr "Orfano"
+
+msgid "Confidential"
+msgstr "Confidential"
+
+msgid "Unconfirmed"
+msgstr "Unbestätigt"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

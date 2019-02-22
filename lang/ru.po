@@ -1,0 +1,155 @@
+
+msgid ""
+msgstr ""
+"Language: ru\n"
+
+msgid "lang_id"
+msgstr "ru"
+
+msgid "lang_name"
+msgstr "Русский"
+
+msgid "Page Not Found"
+msgstr "Страница Не Найдена"
+
+msgid "Loading..."
+msgstr "Идёт Загрузка..."
+
+msgid "Recent Blocks"
+msgstr "Последние Блоки"
+
+msgid "Height"
+msgstr "Высота"
+
+msgid "Timestamp"
+msgstr "Штамп Времени"
+
+msgid "Transactions"
+msgstr "Транзакции"
+
+msgid "Size (KB)"
+msgstr "Объем (Кбайт)"
+
+msgid "Weight (KWU)"
+msgstr "Вес (kWU)"
+
+msgid "Load more"
+msgstr "Смотреть больше"
+
+msgid "No results found"
+msgstr "Результаты Не Найдены"
+
+msgid "Block %s"
+msgstr "Процент (%0) Блока"
+
+msgid "Previous"
+msgstr "Предыдущий"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Virtual Size (KVB)"
+msgstr "Виртуальный Объем (kVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Единицы Веса (kWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "Процент (%0) Транзакций"
+
+msgid "%s Transactions (plural)"
+msgstr "Процент (%0) Транзакций"
+
+msgid "Next"
+msgstr "Следующий"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "В лучшей цепи (процент потверждений)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "В лучшей цепи (процент потверждений)"
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "%s of %s Transactions"
+msgstr "%0 от %1 Транзакций"
+
+msgid "Details"
+msgstr "Подробные детали"
+
+msgid "Nonstandard"
+msgstr "Нестандартный"
+
+msgid "Transaction"
+msgstr "Транзакция"
+
+msgid "Size (bytes)"
+msgstr "Объем (байт)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Виртуалный обьем (вБайт)"
+
+msgid "Weight units (WU)"
+msgstr "Единицы веса (WU)"
+
+msgid "Transaction fees"
+msgstr "Комиссия за транзакцию"
+
+msgid "Version"
+msgstr "Версия"
+
+msgid "Lock time"
+msgstr "Время блокировки"
+
+msgid "Included in Block"
+msgstr "Включенный в Блоке"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Transaction count"
+msgstr "Количество транзакций"
+
+msgid "We encountered an error. Please try again later."
+msgstr "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже."
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "OP_RETURN data"
+msgstr "Данные OP_RETURN"
+
+msgid "Witness"
+msgstr "Свидетельство"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Поиск высоты блока, хэшов, транзакций или адресов"
+
+msgid "Spent by"
+msgstr "Потраченный"
+
+msgid "Unspent"
+msgstr "Неизрасходованные"
+
+msgid "Peg-out"
+msgstr "Закрепить"
+
+msgid "Peg-out to"
+msgstr "Закрепить к"
+
+msgid "Peg-out address"
+msgstr "Закрепительный адрес"
+
+msgid "Output in parent chain"
+msgstr "Выходные данные в родительской цепи"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

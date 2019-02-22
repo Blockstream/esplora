@@ -1,0 +1,203 @@
+
+msgid ""
+msgstr ""
+"Language: he\n"
+
+msgid "lang_id"
+msgstr "he"
+
+msgid "lang_name"
+msgstr "עברית"
+
+msgid "style.css"
+msgstr "style-rtl.css"
+
+msgid "Page Not Found"
+msgstr "עמוד לא נמצא"
+
+msgid "Loading..."
+msgstr "טוען..."
+
+msgid "Recent Blocks"
+msgstr "בלוקים אחרונים"
+
+msgid "Height"
+msgstr "גובה"
+
+msgid "Timestamp"
+msgstr "זמן"
+
+msgid "Transactions"
+msgstr "טרנזקציות"
+
+msgid "Size (KB)"
+msgstr "גודל (KB)"
+
+msgid "Weight (KWU)"
+msgstr "משקל (KWU)"
+
+msgid "Load more"
+msgstr "טען עוד"
+
+msgid "No results found"
+msgstr "לא נמצאו תוצאות"
+
+msgid "Block %s"
+msgstr "בלוק %0"
+
+msgid "Previous"
+msgstr "קודם"
+
+msgid "Status"
+msgstr "סטטוס"
+
+msgid "Virtual Size (KVB)"
+msgstr "גודל וירטואלי (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "יחידות משקל (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "טרנזקציה אחת"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 טרנזקציות"
+
+msgid "Next"
+msgstr "הבא"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "בשרשרת הכי טובה (אישור אחד)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "בשרשרת הכי טובה (%0 אישורים)"
+
+msgid "%s Confirmations (singular)"
+msgstr "אישור אחד"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 אישורים"
+
+msgid "%s of %s Transactions"
+msgstr "%0 מתוך %1 טרנזקציות"
+
+msgid "Details"
+msgstr "פרטים"
+
+msgid "Nonstandard"
+msgstr "לא סטנדרטי"
+
+msgid "Transaction"
+msgstr "טרנזקציה"
+
+msgid "Size (bytes)"
+msgstr "גודל (בייטים)"
+
+msgid "Virtual size (vbytes)"
+msgstr "גודל וירטואלי (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "יחידות משקל (WU)"
+
+msgid "Transaction fees"
+msgstr "עמלת טרנזקציה"
+
+msgid "Version"
+msgstr "גירסה"
+
+msgid "Lock time"
+msgstr "נעילת זמן"
+
+msgid "Included in Block"
+msgstr "כלול בבלוק"
+
+msgid "Address"
+msgstr "כתובת"
+
+msgid "Transaction count"
+msgstr "מספר טרנזקציות"
+
+msgid "Received"
+msgstr "התקבל"
+
+msgid "Sent"
+msgstr "נשלח"
+
+msgid "We encountered an error. Please try again later."
+msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
+
+msgid "Type"
+msgstr "סוג"
+
+msgid "OP_RETURN data"
+msgstr "מידע OP_RETURN"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת"
+
+msgid "Block #%s: %s"
+msgstr "בלוק #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "טרנזקציה: %0"
+
+msgid "Address: %s"
+msgstr "כתובת: %0"
+
+msgid "Spent by"
+msgstr "נוצל ע\"י"
+
+msgid "Unspent"
+msgstr "לא נוצל"
+
+msgid "Output in parent chain"
+msgstr "מטבע משרשרת אם"
+
+msgid "Coinbase"
+msgstr "פרס כרייה"
+
+msgid "Orphan"
+msgstr "יתום"
+
+msgid "Confidential"
+msgstr "חסוי"
+
+msgid "Unconfirmed"
+msgstr "לא מאושר"
+
+msgid "Block not found"
+msgstr "בלוק לא נמצא"
+
+msgid "Transaction not found"
+msgstr "טרנזקציה לא נמצאה"
+
+msgid "Spending tx"
+msgstr "נוצל ע\"י"
+
+msgid "Asset ID"
+msgstr "מזהה נכס"
+
+msgid "Issuance"
+msgstr "הנפקה"
+
+msgid "New asset"
+msgstr "נכס חדש"
+
+msgid "Reissuance"
+msgstr "הנפקה נוספת"
+
+msgid "Issuance amount"
+msgstr "כמות הנפקה"
+
+msgid "Reissuance keys"
+msgstr "מפתחות הנפקה מחדש"
+
+msgid "No reissuance"
+msgstr "ללא הנפקה מחדש"
+
+msgid "%s outputs (singular)"
+msgstr "פלט 1"
+
+msgid "%s outputs (plural)"
+msgstr "%0 פלטים"
+

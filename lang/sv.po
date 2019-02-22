@@ -1,0 +1,146 @@
+
+msgid ""
+msgstr ""
+"Language: sv\n"
+
+msgid "lang_id"
+msgstr "sv"
+
+msgid "lang_name"
+msgstr "Svenska"
+
+msgid "Page Not Found"
+msgstr "Sida inte hittad"
+
+msgid "Loading..."
+msgstr "Laddar..."
+
+msgid "Recent Blocks"
+msgstr "Senaste block"
+
+msgid "Height"
+msgstr "Höjd"
+
+msgid "Timestamp"
+msgstr "Tidpunkt"
+
+msgid "Transactions"
+msgstr "Transaktioner"
+
+msgid "Size (KB)"
+msgstr "Storlek (KB)"
+
+msgid "Weight (KWU)"
+msgstr "Vikt (KWU)"
+
+msgid "Load more"
+msgstr "Ladda fler"
+
+msgid "No results found"
+msgstr "Inga resultat hittade"
+
+msgid "Block %s"
+msgstr "Block %0"
+
+msgid "Previous"
+msgstr "Föregående"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtuell storlek (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Viktenheter (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 transaktioner"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 transaktioner"
+
+msgid "Next"
+msgstr "Nästa"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "I bästa kedjan (1 bekräftelse)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "I bästa kedjan (%0 bekräftelse"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 bekräftelse"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 bekräftelser"
+
+msgid "%s of %s Transactions"
+msgstr "%0 av %1 transaktioner"
+
+msgid "Details"
+msgstr "Detaljer"
+
+msgid "Transaction"
+msgstr "Transaktion"
+
+msgid "Size (bytes)"
+msgstr "Storlek (bytes)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtuell storlek (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "Viktenheter (WU)"
+
+msgid "Transaction fees"
+msgstr "Miningavgift"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Included in Block"
+msgstr "Inkluderad i block"
+
+msgid "Address"
+msgstr "Adress"
+
+msgid "Transaction count"
+msgstr "Antal transaktioner"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Sök efter blockhöjd, hash, transaktion eller adress"
+
+msgid "Block #%s: %s"
+msgstr "Böpcl #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Transaktion: %0"
+
+msgid "Address: %s"
+msgstr "Adress: %0"
+
+msgid "Spent by"
+msgstr "Spenderat av"
+
+msgid "Unspent"
+msgstr "Ospenderad"
+
+msgid "Orphan"
+msgstr "Föräldralös"
+
+msgid "Confidential"
+msgstr "Konfidentiell"
+
+msgid "Unconfirmed"
+msgstr "Obekräftad"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

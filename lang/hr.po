@@ -1,0 +1,143 @@
+
+msgid ""
+msgstr ""
+"Language: hr\n"
+
+msgid "lang_id"
+msgstr "hr"
+
+msgid "lang_name"
+msgstr "Hrvatski"
+
+msgid "Page Not Found"
+msgstr "Strana nije pronadjena"
+
+msgid "Loading..."
+msgstr "Ucitavanje..."
+
+msgid "Recent Blocks"
+msgstr "Novi blokovi"
+
+msgid "Height"
+msgstr "Visina"
+
+msgid "Timestamp"
+msgstr "Vreme"
+
+msgid "Transactions"
+msgstr "Transakcije"
+
+msgid "Size (KB)"
+msgstr "Velicina (KB)"
+
+msgid "Weight (KWU)"
+msgstr "Tezina (KWU)"
+
+msgid "Load more"
+msgstr "Ucitaj jos"
+
+msgid "No results found"
+msgstr "Nema rezultata"
+
+msgid "Block %s"
+msgstr "blok %0"
+
+msgid "Previous"
+msgstr "Prethodni"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtualna velicina (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Virtuelna jedinica (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transakcija"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transakcija"
+
+msgid "Next"
+msgstr "Sledece"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "U najnoljem lancu (1 conferma)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "U najnoljem lancu (%0 conferme)"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Potvrda"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Potvrda"
+
+msgid "%s of %s Transactions"
+msgstr "%0 od %1 Transakicja"
+
+msgid "Details"
+msgstr "Detalji"
+
+msgid "Transaction"
+msgstr "Transakcija"
+
+msgid "Size (bytes)"
+msgstr "Velicina (bytes)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtualna Velicina (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "Jedinica Tezine (WU)"
+
+msgid "Version"
+msgstr "Verzija"
+
+msgid "Included in Block"
+msgstr "Ukljuceno u blok"
+
+msgid "Address"
+msgstr "Adresa"
+
+msgid "Transaction count"
+msgstr "Broj transakcija"
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Pretraga po visini bloka, hash, transakciji ili adresi"
+
+msgid "Block #%s: %s"
+msgstr "Blok #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Transakcija: %0"
+
+msgid "Address: %s"
+msgstr "Adresa: %0"
+
+msgid "Spent by"
+msgstr "Potroseni od strane"
+
+msgid "Unspent"
+msgstr "Nepotroseni"
+
+msgid "Orphan"
+msgstr "Orfan"
+
+msgid "Confidential"
+msgstr "Poverljivo"
+
+msgid "Unconfirmed"
+msgstr "Nema Potvrda"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

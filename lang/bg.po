@@ -1,0 +1,164 @@
+
+msgid ""
+msgstr ""
+"Language: bg\n"
+
+msgid "lang_id"
+msgstr "bg"
+
+msgid "lang_name"
+msgstr "Български"
+
+msgid "Page Not Found"
+msgstr "Страницата не е намерена"
+
+msgid "Loading..."
+msgstr "Зарежда се…"
+
+msgid "Recent Blocks"
+msgstr "Последни блокове"
+
+msgid "Height"
+msgstr "Височина"
+
+msgid "Timestamp"
+msgstr "Времeви печат"
+
+msgid "Transactions"
+msgstr "Транзакции"
+
+msgid "Size (KB)"
+msgstr "Размер (KB)"
+
+msgid "Weight (KWU)"
+msgstr "Тегло (KWU)"
+
+msgid "Load more"
+msgstr "Още резултати"
+
+msgid "No results found"
+msgstr "Няма намерени резултати"
+
+msgid "Block %s"
+msgstr "Блок %0"
+
+msgid "Previous"
+msgstr "Предишен"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Virtual Size (KVB)"
+msgstr "Действителен размер (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Eдиница за тегло (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "1 Транзакция"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Транзакции"
+
+msgid "Next"
+msgstr "Следващ"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "Най-дългата верига (1 потвърждение)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "Най-дългата верига (%0 потвърждения)"
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "%s of %s Transactions"
+msgstr "%0 от %1 Транзакции"
+
+msgid "Details"
+msgstr "Детайли"
+
+msgid "Nonstandard"
+msgstr "Нестандартна"
+
+msgid "Transaction"
+msgstr "Транзакция"
+
+msgid "Size (bytes)"
+msgstr "Размер (байти)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Действителен размер (в. байти)"
+
+msgid "Weight units (WU)"
+msgstr "Eдиница за тегло (WU)"
+
+msgid "Transaction fees"
+msgstr "Такси за транзакция"
+
+msgid "Version"
+msgstr "Версия"
+
+msgid "Included in Block"
+msgstr "Включена в блок"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Transaction count"
+msgstr "Брой транзакции"
+
+msgid "We encountered an error. Please try again later."
+msgstr "Изникна грешка. Моля, опитайте по-късно."
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN данни"
+
+msgid "Witness"
+msgstr "Подпис"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Въведете височина на блок, хаш, транзакция или адрес"
+
+msgid "Powered by esplora"
+msgstr "Powered by esplora"
+
+msgid "Block #%s: %s"
+msgstr "Блок #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Транзакция: %0"
+
+msgid "Address: %s"
+msgstr "Адрес: %0"
+
+msgid "Spent by"
+msgstr "Похарчен от"
+
+msgid "Unspent"
+msgstr "Не e похарчен"
+
+msgid "Peg-out"
+msgstr "Peg-оut"
+
+msgid "Peg-out to"
+msgstr "Peg-out до"
+
+msgid "Peg-out address"
+msgstr "Peg-out адрес"
+
+msgid "Output in parent chain"
+msgstr "Дериват от веригата източник"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

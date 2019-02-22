@@ -1,0 +1,128 @@
+
+msgid ""
+msgstr ""
+"Language: zh-cn\n"
+
+msgid "lang_id"
+msgstr "zh-cn"
+
+msgid "lang_name"
+msgstr "中文(简体)"
+
+msgid "Page Not Found"
+msgstr "网页未找到"
+
+msgid "Loading..."
+msgstr "页面加载..."
+
+msgid "Recent Blocks"
+msgstr "最近出块"
+
+msgid "Height"
+msgstr "块高度"
+
+msgid "Timestamp"
+msgstr "时间戳"
+
+msgid "Transactions"
+msgstr "交易"
+
+msgid "Size (KB)"
+msgstr "大小 (KB)"
+
+msgid "Weight (KWU)"
+msgstr "重量 (KWU)"
+
+msgid "Load more"
+msgstr "更多"
+
+msgid "No results found"
+msgstr "未找到结果"
+
+msgid "Block %s"
+msgstr "块 %0"
+
+msgid "Previous"
+msgstr "前一个块"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "%s Transactions (singular)"
+msgstr "交易数量 %0"
+
+msgid "%s Transactions (plural)"
+msgstr "交易数量 %0"
+
+msgid "Next"
+msgstr "后一个块"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "在最正式的链 (确认数 1)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "在最正式的链 (确认数 %0)"
+
+msgid "%s Confirmations (singular)"
+msgstr "确认数 1"
+
+msgid "%s Confirmations (plural)"
+msgstr "确认数 %0"
+
+msgid "%s of %s Transactions"
+msgstr "交易 %0 / %1"
+
+msgid "Details"
+msgstr "细节"
+
+msgid "Transaction"
+msgstr "交易"
+
+msgid "Size (bytes)"
+msgstr "大小 (bytes)"
+
+msgid "Transaction fees"
+msgstr "矿工手续费"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "Included in Block"
+msgstr "在区块"
+
+msgid "Address"
+msgstr "地址"
+
+msgid "Transaction count"
+msgstr "交易数量"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "高度、哈希、交易或地址..."
+
+msgid "Block #%s: %s"
+msgstr "区块 #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "交易: %0"
+
+msgid "Address: %s"
+msgstr "地址: %0"
+
+msgid "Orphan"
+msgstr "孤块"
+
+msgid "Confidential"
+msgstr "保密"
+
+msgid "Unconfirmed"
+msgstr "没确认"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

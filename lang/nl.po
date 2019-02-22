@@ -1,0 +1,134 @@
+
+msgid ""
+msgstr ""
+"Language: nl\n"
+
+msgid "lang_id"
+msgstr "nl"
+
+msgid "lang_name"
+msgstr "Nederlands"
+
+msgid "Page Not Found"
+msgstr "Pagina Niet Gevonden"
+
+msgid "Loading..."
+msgstr "Bezig met laden..."
+
+msgid "Recent Blocks"
+msgstr "Recente Blokken"
+
+msgid "Height"
+msgstr "Hoogte"
+
+msgid "Transactions"
+msgstr "Transacties"
+
+msgid "Size (KB)"
+msgstr "Grootte (KB)"
+
+msgid "Load more"
+msgstr "Meer laden"
+
+msgid "No results found"
+msgstr "Geen Resultaten Gevonden"
+
+msgid "Block %s"
+msgstr "Blokken %0"
+
+msgid "Previous"
+msgstr "Vorige"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtuele Grootte (KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "Eenheid van Gewicht (KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transacties"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transacties"
+
+msgid "Next"
+msgstr "Volgende"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "In de beste keten (1 bevestigd)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "In de beste keten (%0 bevestigd)"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Bevestiging"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Bevestigd"
+
+msgid "%s of %s Transactions"
+msgstr "%0 van %1 Transacties"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Transaction"
+msgstr "Transacties"
+
+msgid "Size (bytes)"
+msgstr "Grootte (bytes)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtuele Grootte (vbytes)"
+
+msgid "Weight units (WU)"
+msgstr "Eenheid van Gewicht (WU)"
+
+msgid "Transaction fees"
+msgstr "Kosten"
+
+msgid "Version"
+msgstr "Versie"
+
+msgid "Included in Block"
+msgstr "Bevind zich in Blok"
+
+msgid "Address"
+msgstr "Adres"
+
+msgid "Transaction count"
+msgstr "Aantal Transacties"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Zoek naar blokhoogte, hash, transactie of adres"
+
+msgid "Block #%s: %s"
+msgstr "Blok #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "Transactie: %0"
+
+msgid "Address: %s"
+msgstr "Adres: %0"
+
+msgid "Orphan"
+msgstr "Orphan"
+
+msgid "Confidential"
+msgstr "Vertrouwelijk"
+
+msgid "Unconfirmed"
+msgstr "Niet Bevestigd"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+

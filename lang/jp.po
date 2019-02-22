@@ -1,0 +1,161 @@
+
+msgid ""
+msgstr ""
+"Language: jp\n"
+
+msgid "lang_id"
+msgstr "jp"
+
+msgid "lang_name"
+msgstr "日本語"
+
+msgid "Page Not Found"
+msgstr "ページが見つかりません。"
+
+msgid "Loading..."
+msgstr "ローディング中"
+
+msgid "Recent Blocks"
+msgstr "最新のブロック"
+
+msgid "Height"
+msgstr "ブロック高"
+
+msgid "Timestamp"
+msgstr "タイムスタンプ"
+
+msgid "Transactions"
+msgstr "トランザクション"
+
+msgid "Size (KB)"
+msgstr "サイズ(バイト)"
+
+msgid "Weight (KWU)"
+msgstr "ブロックウェイト"
+
+msgid "Load more"
+msgstr "さらに表示"
+
+msgid "No results found"
+msgstr "結果がありません"
+
+msgid "Block %s"
+msgstr "ブロック %0"
+
+msgid "Previous"
+msgstr "前に"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Virtual Size (KVB)"
+msgstr "バーチャルサイズ(KVB)"
+
+msgid "Weight units (KWU)"
+msgstr "ウェイトユニット(KWU)"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 トランザクション"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 トランザクション"
+
+msgid "Next"
+msgstr "次へ"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "最長チェーン(%0 検証)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "最長チェーン(%0 検証)"
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "%s of %s Transactions"
+msgstr "トランザクション数 %0 / %1"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Nonstandard"
+msgstr "ノン・スタンダード"
+
+msgid "Transaction"
+msgstr "トランザクション"
+
+msgid "Size (bytes)"
+msgstr "サイズ(バイト)"
+
+msgid "Virtual size (vbytes)"
+msgstr "バーチャルサイズ(vバイト)"
+
+msgid "Weight units (WU)"
+msgstr "ウェイトユニット(KWU)"
+
+msgid "Transaction fees"
+msgstr "トランザクション手数料"
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid "Lock time"
+msgstr "ロックタイム"
+
+msgid "Included in Block"
+msgstr "ブロック内容"
+
+msgid "Address"
+msgstr "アドレス"
+
+msgid "Transaction count"
+msgstr "トランザクション数"
+
+msgid "We encountered an error. Please try again later."
+msgstr "エラーが発生しました。後ほどもう一度お試し下さい。"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN データ"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "ブロック高、ハッシュ、トランザクション又はアドレスを検索する"
+
+msgid "Block #%s: %s"
+msgstr "ブロック #%0: %1"
+
+msgid "Transaction: %s"
+msgstr "トランザクション: %0"
+
+msgid "Address: %s"
+msgstr "アドレス: %0"
+
+msgid "Spent by"
+msgstr "使用者"
+
+msgid "Unspent"
+msgstr "未使用"
+
+msgid "Peg-out to"
+msgstr "Peg-out先"
+
+msgid "Peg-out address"
+msgstr "Peg-out アドレス"
+
+msgid "Output in parent chain"
+msgstr "親チェーンのアウトプット"
+
+msgid "Coinbase"
+msgstr "コインベース"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
