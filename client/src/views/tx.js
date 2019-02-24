@@ -4,7 +4,7 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
-import { formatAmount, formatTime } from './util'
+import { formatAmount, formatTime, getMempoolDepth, getConfEstimate } from './util'
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
@@ -25,7 +25,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && layou
       </div>
     </div>
     <div className="container">
-      {txHeader(tx, { t, tipHeight })}
+      {txHeader(tx, { t, tipHeight, ...S })}
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query })}
     </div>
   </div>
@@ -83,13 +83,18 @@ const btnDetailsContent = (isOpen, t) =>
     <div className={isOpen?'minus':'plus'}></div>
   </div>
 
-const txHeader = (tx, { tipHeight, t }) =>
+const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
+  const feerate = tx.fee ? tx.fee/tx.weight*4 : null
+       , mempoolDepth = !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
+       , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
+
+  return (
   <div className="stats-table">
     <div>
       <div>{t`Status`}</div>
       <div>{confirmationText(tx.status, tipHeight, t)}</div>
     </div>
-   {tx.status.confirmed && [
+    {tx.status.confirmed && [
      <div>
         <div>{t`Included in Block`}</div>
         <div><a href={`block/${tx.status.block_hash}`} className="mono">{tx.status.block_hash}</a></div>
@@ -103,6 +108,18 @@ const txHeader = (tx, { tipHeight, t }) =>
         <div>{formatTime(tx.status.block_time, t)}</div>
       </div>
     ]}
+
+    { !tx.status.confirmed && feerate != null && <div>
+      <div>{t`ETA`}</div>
+      <div>{confEstimate == null || mempoolDepth == null ? t`Loading...`
+           : t`in ${confEstimate} blocks (${(mempoolDepth/1000000).toFixed(1)} vMB from tip)`}</div>
+    </div> }
+
+    { feerate != null && <div>
+      <div>{t`Transaction fees`}</div>
+      <div className="amount">{t`${formatAmount({ value: tx.fee })} (${feerate.toFixed(1)} sat/vB)`}</div>
+    </div> }
+
     <div>
       <div>{t`Size (bytes)`}</div>
       <div>{tx.size}</div>
@@ -115,10 +132,6 @@ const txHeader = (tx, { tipHeight, t }) =>
       <div>{t`Weight units (WU)`}</div>
       <div>{tx.weight}</div>
     </div>
-   {tx.fee != null && <div>
-      <div>{t`Transaction fees`}</div>
-      <div className="amount">{t`${formatAmount({ value: tx.fee })} (${Math.round(tx.fee/tx.weight*4, 1)} sat/vB)`}</div>
-    </div>}
     <div>
       <div>{t`Version`}</div>
       <div>{tx.version}</div>
@@ -131,4 +144,5 @@ const txHeader = (tx, { tipHeight, t }) =>
       <div>{t`Replace by fee`}</div>
       <div>{t`Opted in`}</div>
     </div> }
-  </div>
+  </div>)
+}

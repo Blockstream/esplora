@@ -24,11 +24,13 @@ Confirmed spent
 Confirmed tx count
 Confirmed unspent
 Details
+ETA
 Go
 Height
 In best chain
 In best chain (%s confirmations)
 Included in Block
+in %s blocks (%s vMB from tip)
 Issuance
 Issuance amount
 Issuance blinding nonce
