@@ -1,7 +1,6 @@
-
+# 
 msgid ""
-msgstr ""
-"Language: en\n"
+msgstr "Language: en\n"
 
 msgid "Address"
 msgstr "Address"
@@ -353,4 +352,3 @@ msgstr "Weight units (WU)"
 
 msgid "Witness"
 msgstr "Witness"
-

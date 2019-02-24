@@ -8,226 +8,16 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "lang_id"
-msgstr "fr"
-
-msgid "lang_name"
-msgstr "Français"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "Page non trouvée"
-
-msgid "Loading..."
-msgstr "Chargement..."
-
-msgid "Recent Blocks"
-msgstr "Blocs récents"
-
-msgid "Height"
-msgstr "Hauteur"
-
-msgid "Timestamp"
-msgstr "Date"
-
-msgid "Transactions"
-msgstr "Transactions"
-
-msgid "Size (KB)"
-msgstr "Taille (Ko)"
-
-msgid "Weight (KWU)"
-msgstr "Poids (KWU)"
-
-msgid "Load more"
-msgstr "Afficher plus"
-
-msgid "No results found"
-msgstr "Aucun résultat"
-
-msgid "Block %s"
-msgstr "Bloc %0"
-
-msgid "Previous"
-msgstr "Précédent"
-
-msgid "Status"
-msgstr "Statut"
-
-msgid "Virtual Size (KVB)"
-msgstr "Taille virtuelle (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "Unité de poids (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 Transactions"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 Transactions"
-
-msgid "Next"
-msgstr "Suivant"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "Dans la chaine la plus longue (1 confirmation)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "Dans la chaine la plus longue (%0 confirmations)"
-
-msgid "%s Confirmations (singular)"
-msgstr "1 confirmation"
-
-msgid "%s Confirmations (plural)"
-msgstr "%0 confirmations"
-
-msgid "%s of %s Transactions"
-msgstr "%0 sur %1 Transactions"
-
-msgid "Details"
-msgstr "Détails"
-
-msgid "Nonstandard"
-msgstr ""
-
-msgid "Transaction"
-msgstr "Transaction"
-
-msgid "Size (bytes)"
-msgstr "Taille (octets)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Taille virtuelle (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "Unité de poids (WU)"
-
-msgid "Transaction fees"
-msgstr "Frais de transaction"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr ""
-
-msgid "Lock time"
-msgstr ""
-
-msgid "Included in Block"
-msgstr "Inclue dans le bloc"
-
 msgid "Address"
 msgstr "Adresse"
-
-msgid "Transaction count"
-msgstr "Nombre de transactions"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr ""
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr ""
-
-msgid "OP_RETURN data"
-msgstr ""
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "Numéro de bloc, hash, transaction ou adresse"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "Bloc #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "Transaction: %0"
 
 msgid "Address: %s"
 msgstr "Adresse: %0"
 
-msgid "Spent by"
-msgstr "Dépensé par"
-
-msgid "Unspent"
-msgstr "Non dépensé"
-
-msgid "Peg-out"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out to"
-msgstr ""
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr ""
-
-msgid "Output in parent chain"
-msgstr ""
-
-msgid "Coinbase"
-msgstr ""
-
-msgid "Orphan"
-msgstr "Orphelin"
-
-msgid "Confidential"
-msgstr "Confidentiel"
-
-msgid "Unconfirmed"
-msgstr "Non confirmée"
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "Bloc %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "Bloc #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr "Confidentiel"
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,11 +77,248 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "Détails"
+
+msgid "Go"
 msgstr ""
+
+msgid "Height"
+msgstr "Hauteur"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "Dans la chaine la plus longue (1 confirmation)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "Dans la chaine la plus longue (%0 confirmations)"
+
+msgid "Included in Block"
+msgstr "Inclue dans le bloc"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "fr"
+
+msgid "lang_name"
+msgstr "Français"
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "Load more"
+msgstr "Afficher plus"
+
+msgid "Lock time"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr ""
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "Aucun résultat"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Page Not Found"
+msgstr "Page non trouvée"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "Blocs récents"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr "1 confirmation"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 confirmations"
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Numéro de bloc, hash, transaction ou adresse"
+
+msgid "Size (bytes)"
+msgstr "Taille (octets)"
+
+msgid "Size (KB)"
+msgstr "Taille (Ko)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 sur %1 Transactions"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "Dépensé par"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transactions"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transactions"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "Date"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "Transaction"
+
+msgid "Transaction fees"
+msgstr "Frais de transaction"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "Transactions"
+
+msgid "Transaction: %s"
+msgstr "Transaction: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Unconfirmed"
+msgstr "Non confirmée"
 
 msgid "Unconfirmed received"
 msgstr ""
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr "Non dépensé"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Virtual Size (KVB)"
+msgstr "Taille virtuelle (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Taille virtuelle (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "Weight (KWU)"
+msgstr "Poids (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "Unité de poids (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "Unité de poids (WU)"
+
+msgid "Witness"
 msgstr ""

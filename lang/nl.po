@@ -8,226 +8,16 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "lang_id"
-msgstr "nl"
-
-msgid "lang_name"
-msgstr "Nederlands"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "Pagina Niet Gevonden"
-
-msgid "Loading..."
-msgstr "Bezig met laden..."
-
-msgid "Recent Blocks"
-msgstr "Recente Blokken"
-
-msgid "Height"
-msgstr "Hoogte"
-
-msgid "Timestamp"
-msgstr ""
-
-msgid "Transactions"
-msgstr "Transacties"
-
-msgid "Size (KB)"
-msgstr "Grootte (KB)"
-
-msgid "Weight (KWU)"
-msgstr ""
-
-msgid "Load more"
-msgstr "Meer laden"
-
-msgid "No results found"
-msgstr "Geen Resultaten Gevonden"
-
-msgid "Block %s"
-msgstr "Blokken %0"
-
-msgid "Previous"
-msgstr "Vorige"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Virtual Size (KVB)"
-msgstr "Virtuele Grootte (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "Eenheid van Gewicht (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 Transacties"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 Transacties"
-
-msgid "Next"
-msgstr "Volgende"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "In de beste keten (1 bevestigd)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "In de beste keten (%0 bevestigd)"
-
-msgid "%s Confirmations (singular)"
-msgstr "1 Bevestiging"
-
-msgid "%s Confirmations (plural)"
-msgstr "%0 Bevestigd"
-
-msgid "%s of %s Transactions"
-msgstr "%0 van %1 Transacties"
-
-msgid "Details"
-msgstr "Details"
-
-msgid "Nonstandard"
-msgstr ""
-
-msgid "Transaction"
-msgstr "Transacties"
-
-msgid "Size (bytes)"
-msgstr "Grootte (bytes)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Virtuele Grootte (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "Eenheid van Gewicht (WU)"
-
-msgid "Transaction fees"
-msgstr "Kosten"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "Versie"
-
-msgid "Lock time"
-msgstr ""
-
-msgid "Included in Block"
-msgstr "Bevind zich in Blok"
-
 msgid "Address"
 msgstr "Adres"
-
-msgid "Transaction count"
-msgstr "Aantal Transacties"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr ""
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "Type"
-
-msgid "OP_RETURN data"
-msgstr ""
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "Zoek naar blokhoogte, hash, transactie of adres"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "Blok #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "Transactie: %0"
 
 msgid "Address: %s"
 msgstr "Adres: %0"
 
-msgid "Spent by"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Unspent"
-msgstr ""
-
-msgid "Peg-out"
-msgstr ""
-
-msgid "Peg-out to"
-msgstr ""
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr ""
-
-msgid "Output in parent chain"
-msgstr ""
-
-msgid "Coinbase"
-msgstr ""
-
-msgid "Orphan"
-msgstr "Orphan"
-
-msgid "Confidential"
-msgstr "Vertrouwelijk"
-
-msgid "Unconfirmed"
-msgstr "Niet Bevestigd"
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "Blokken %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "Blok #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr "Vertrouwelijk"
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,11 +77,248 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "Details"
+
+msgid "Go"
 msgstr ""
+
+msgid "Height"
+msgstr "Hoogte"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "In de beste keten (1 bevestigd)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "In de beste keten (%0 bevestigd)"
+
+msgid "Included in Block"
+msgstr "Bevind zich in Blok"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "nl"
+
+msgid "lang_name"
+msgstr "Nederlands"
+
+msgid "Loading..."
+msgstr "Bezig met laden..."
+
+msgid "Load more"
+msgstr "Meer laden"
+
+msgid "Lock time"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "Volgende"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr ""
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "Geen Resultaten Gevonden"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Page Not Found"
+msgstr "Pagina Niet Gevonden"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "Vorige"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "Recente Blokken"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Bevestiging"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Bevestigd"
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Zoek naar blokhoogte, hash, transactie of adres"
+
+msgid "Size (bytes)"
+msgstr "Grootte (bytes)"
+
+msgid "Size (KB)"
+msgstr "Grootte (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 van %1 Transacties"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr ""
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "Status"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transacties"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transacties"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr ""
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "Transacties"
+
+msgid "Transaction fees"
+msgstr "Kosten"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "Transacties"
+
+msgid "Transaction: %s"
+msgstr "Transactie: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Unconfirmed"
+msgstr "Niet Bevestigd"
 
 msgid "Unconfirmed received"
 msgstr ""
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr ""
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "Versie"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtuele Grootte (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtuele Grootte (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "Weight (KWU)"
+msgstr ""
+
+msgid "Weight units (KWU)"
+msgstr "Eenheid van Gewicht (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "Eenheid van Gewicht (WU)"
+
+msgid "Witness"
 msgstr ""

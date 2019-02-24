@@ -8,226 +8,16 @@ msgstr ""
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-msgid "lang_id"
-msgstr "sr"
-
-msgid "lang_name"
-msgstr "Српски"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "Strana nije pronadjena"
-
-msgid "Loading..."
-msgstr "Ucitavanje..."
-
-msgid "Recent Blocks"
-msgstr "Novi blokovi"
-
-msgid "Height"
-msgstr "Visina"
-
-msgid "Timestamp"
-msgstr "Vreme"
-
-msgid "Transactions"
-msgstr "Transakcije"
-
-msgid "Size (KB)"
-msgstr "Velicina (KB)"
-
-msgid "Weight (KWU)"
-msgstr "Tezina (KWU)"
-
-msgid "Load more"
-msgstr "Ucitaj jos"
-
-msgid "No results found"
-msgstr "Nema rezultata"
-
-msgid "Block %s"
-msgstr "blok %0"
-
-msgid "Previous"
-msgstr "Prethodni"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Virtual Size (KVB)"
-msgstr "Virtualna velicina (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "Virtuelna jedinica (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 Transakcija"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 Transakcija"
-
-msgid "Next"
-msgstr "Sledece"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "U najnoljem lancu (1 conferma)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "U najnoljem lancu (%0 conferme)"
-
-msgid "%s Confirmations (singular)"
-msgstr "1 Potvrda"
-
-msgid "%s Confirmations (plural)"
-msgstr "%0 Potvrda"
-
-msgid "%s of %s Transactions"
-msgstr "%0 od %1 Transakicja"
-
-msgid "Details"
-msgstr "Detalji"
-
-msgid "Nonstandard"
-msgstr ""
-
-msgid "Transaction"
-msgstr "Transakcija"
-
-msgid "Size (bytes)"
-msgstr "Velicina (bytes)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Virtualna Velicina (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "Jedinica Tezine (WU)"
-
-msgid "Transaction fees"
-msgstr "Komosija za kopanje"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "Verzija"
-
-msgid "Lock time"
-msgstr ""
-
-msgid "Included in Block"
-msgstr "Ukljuceno u blok"
-
 msgid "Address"
 msgstr "Adresa"
-
-msgid "Transaction count"
-msgstr "Broj transakcija"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr ""
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "Tip"
-
-msgid "OP_RETURN data"
-msgstr ""
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "Pretraga po visini bloka, hash, transakciji ili adresi"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "Blok #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "Transakcija: %0"
 
 msgid "Address: %s"
 msgstr "Adresa: %0"
 
-msgid "Spent by"
-msgstr "Potroseni od strane"
-
-msgid "Unspent"
-msgstr "Nepotroseni"
-
-msgid "Peg-out"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out to"
-msgstr ""
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr ""
-
-msgid "Output in parent chain"
-msgstr ""
-
-msgid "Coinbase"
-msgstr ""
-
-msgid "Orphan"
-msgstr "Orfan"
-
-msgid "Confidential"
-msgstr "Poverljivo"
-
-msgid "Unconfirmed"
-msgstr "Nema Potvrda"
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "blok %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "Blok #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr "Poverljivo"
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,11 +77,248 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "Detalji"
+
+msgid "Go"
 msgstr ""
+
+msgid "Height"
+msgstr "Visina"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "U najnoljem lancu (1 conferma)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "U najnoljem lancu (%0 conferme)"
+
+msgid "Included in Block"
+msgstr "Ukljuceno u blok"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "sr"
+
+msgid "lang_name"
+msgstr "Српски"
+
+msgid "Loading..."
+msgstr "Ucitavanje..."
+
+msgid "Load more"
+msgstr "Ucitaj jos"
+
+msgid "Lock time"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "Sledece"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr ""
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "Nema rezultata"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Page Not Found"
+msgstr "Strana nije pronadjena"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "Prethodni"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "Novi blokovi"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Potvrda"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Potvrda"
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Pretraga po visini bloka, hash, transakciji ili adresi"
+
+msgid "Size (bytes)"
+msgstr "Velicina (bytes)"
+
+msgid "Size (KB)"
+msgstr "Velicina (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 od %1 Transakicja"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "Potroseni od strane"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "Status"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 Transakcija"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transakcija"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "Vreme"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "Transakcija"
+
+msgid "Transaction fees"
+msgstr "Komosija za kopanje"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "Transakcije"
+
+msgid "Transaction: %s"
+msgstr "Transakcija: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "Tip"
+
+msgid "Unconfirmed"
+msgstr "Nema Potvrda"
 
 msgid "Unconfirmed received"
 msgstr ""
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr "Nepotroseni"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "Verzija"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtualna velicina (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtualna Velicina (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "Weight (KWU)"
+msgstr "Tezina (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "Virtuelna jedinica (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "Jedinica Tezine (WU)"
+
+msgid "Witness"
 msgstr ""

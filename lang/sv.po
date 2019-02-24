@@ -8,226 +8,16 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "lang_id"
-msgstr "sv"
-
-msgid "lang_name"
-msgstr "Svenska"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "Sida inte hittad"
-
-msgid "Loading..."
-msgstr "Laddar..."
-
-msgid "Recent Blocks"
-msgstr "Senaste block"
-
-msgid "Height"
-msgstr "Höjd"
-
-msgid "Timestamp"
-msgstr "Tidpunkt"
-
-msgid "Transactions"
-msgstr "Transaktioner"
-
-msgid "Size (KB)"
-msgstr "Storlek (KB)"
-
-msgid "Weight (KWU)"
-msgstr "Vikt (KWU)"
-
-msgid "Load more"
-msgstr "Ladda fler"
-
-msgid "No results found"
-msgstr "Inga resultat hittade"
-
-msgid "Block %s"
-msgstr "Block %0"
-
-msgid "Previous"
-msgstr "Föregående"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Virtual Size (KVB)"
-msgstr "Virtuell storlek (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "Viktenheter (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 transaktioner"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 transaktioner"
-
-msgid "Next"
-msgstr "Nästa"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "I bästa kedjan (1 bekräftelse)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "I bästa kedjan (%0 bekräftelse"
-
-msgid "%s Confirmations (singular)"
-msgstr "1 bekräftelse"
-
-msgid "%s Confirmations (plural)"
-msgstr "%0 bekräftelser"
-
-msgid "%s of %s Transactions"
-msgstr "%0 av %1 transaktioner"
-
-msgid "Details"
-msgstr "Detaljer"
-
-msgid "Nonstandard"
-msgstr ""
-
-msgid "Transaction"
-msgstr "Transaktion"
-
-msgid "Size (bytes)"
-msgstr "Storlek (bytes)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Virtuell storlek (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "Viktenheter (WU)"
-
-msgid "Transaction fees"
-msgstr "Miningavgift"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "Version"
-
-msgid "Lock time"
-msgstr ""
-
-msgid "Included in Block"
-msgstr "Inkluderad i block"
-
 msgid "Address"
 msgstr "Adress"
-
-msgid "Transaction count"
-msgstr "Antal transaktioner"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr ""
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "Typ"
-
-msgid "OP_RETURN data"
-msgstr ""
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "Sök efter blockhöjd, hash, transaktion eller adress"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "Böpcl #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "Transaktion: %0"
 
 msgid "Address: %s"
 msgstr "Adress: %0"
 
-msgid "Spent by"
-msgstr "Spenderat av"
-
-msgid "Unspent"
-msgstr "Ospenderad"
-
-msgid "Peg-out"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out to"
-msgstr ""
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr ""
-
-msgid "Output in parent chain"
-msgstr ""
-
-msgid "Coinbase"
-msgstr ""
-
-msgid "Orphan"
-msgstr "Föräldralös"
-
-msgid "Confidential"
-msgstr "Konfidentiell"
-
-msgid "Unconfirmed"
-msgstr "Obekräftad"
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "Block %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "Böpcl #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr "Konfidentiell"
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,11 +77,248 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "Detaljer"
+
+msgid "Go"
 msgstr ""
+
+msgid "Height"
+msgstr "Höjd"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "I bästa kedjan (1 bekräftelse)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "I bästa kedjan (%0 bekräftelse"
+
+msgid "Included in Block"
+msgstr "Inkluderad i block"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "sv"
+
+msgid "lang_name"
+msgstr "Svenska"
+
+msgid "Loading..."
+msgstr "Laddar..."
+
+msgid "Load more"
+msgstr "Ladda fler"
+
+msgid "Lock time"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "Nästa"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr ""
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "Inga resultat hittade"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr ""
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr ""
+
+msgid "Page Not Found"
+msgstr "Sida inte hittad"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "Föregående"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "Senaste block"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr "1 bekräftelse"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 bekräftelser"
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Sök efter blockhöjd, hash, transaktion eller adress"
+
+msgid "Size (bytes)"
+msgstr "Storlek (bytes)"
+
+msgid "Size (KB)"
+msgstr "Storlek (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 av %1 transaktioner"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "Spenderat av"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "Status"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 transaktioner"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 transaktioner"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "Tidpunkt"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "Transaktion"
+
+msgid "Transaction fees"
+msgstr "Miningavgift"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "Transaktioner"
+
+msgid "Transaction: %s"
+msgstr "Transaktion: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Unconfirmed"
+msgstr "Obekräftad"
 
 msgid "Unconfirmed received"
 msgstr ""
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr "Ospenderad"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Virtual Size (KVB)"
+msgstr "Virtuell storlek (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Virtuell storlek (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr ""
+
+msgid "Weight (KWU)"
+msgstr "Vikt (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "Viktenheter (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "Viktenheter (WU)"
+
+msgid "Witness"
 msgstr ""

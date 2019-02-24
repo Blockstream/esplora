@@ -8,226 +8,16 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
-msgid "lang_id"
-msgstr "he"
-
-msgid "lang_name"
-msgstr "עברית"
-
-msgid "style.css"
-msgstr "style-rtl.css"
-
-msgid "Page Not Found"
-msgstr "עמוד לא נמצא"
-
-msgid "Loading..."
-msgstr "טוען..."
-
-msgid "Recent Blocks"
-msgstr "בלוקים אחרונים"
-
-msgid "Height"
-msgstr "גובה"
-
-msgid "Timestamp"
-msgstr "זמן"
-
-msgid "Transactions"
-msgstr "טרנזקציות"
-
-msgid "Size (KB)"
-msgstr "גודל (KB)"
-
-msgid "Weight (KWU)"
-msgstr "משקל (KWU)"
-
-msgid "Load more"
-msgstr "טען עוד"
-
-msgid "No results found"
-msgstr "לא נמצאו תוצאות"
-
-msgid "Block %s"
-msgstr "בלוק %0"
-
-msgid "Previous"
-msgstr "קודם"
-
-msgid "Status"
-msgstr "סטטוס"
-
-msgid "Virtual Size (KVB)"
-msgstr "גודל וירטואלי (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "יחידות משקל (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "טרנזקציה אחת"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 טרנזקציות"
-
-msgid "Next"
-msgstr "הבא"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "בשרשרת הכי טובה (אישור אחד)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "בשרשרת הכי טובה (%0 אישורים)"
-
-msgid "%s Confirmations (singular)"
-msgstr "אישור אחד"
-
-msgid "%s Confirmations (plural)"
-msgstr "%0 אישורים"
-
-msgid "%s of %s Transactions"
-msgstr "%0 מתוך %1 טרנזקציות"
-
-msgid "Details"
-msgstr "פרטים"
-
-msgid "Nonstandard"
-msgstr "לא סטנדרטי"
-
-msgid "Transaction"
-msgstr "טרנזקציה"
-
-msgid "Size (bytes)"
-msgstr "גודל (בייטים)"
-
-msgid "Virtual size (vbytes)"
-msgstr "גודל וירטואלי (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "יחידות משקל (WU)"
-
-msgid "Transaction fees"
-msgstr "עמלת טרנזקציה"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "גירסה"
-
-msgid "Lock time"
-msgstr "נעילת זמן"
-
-msgid "Included in Block"
-msgstr "כלול בבלוק"
-
 msgid "Address"
 msgstr "כתובת"
-
-msgid "Transaction count"
-msgstr "מספר טרנזקציות"
-
-msgid "Received"
-msgstr "התקבל"
-
-msgid "Sent"
-msgstr "נשלח"
-
-msgid "We encountered an error. Please try again later."
-msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "סוג"
-
-msgid "OP_RETURN data"
-msgstr "מידע OP_RETURN"
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "בלוק #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "טרנזקציה: %0"
 
 msgid "Address: %s"
 msgstr "כתובת: %0"
 
-msgid "Spent by"
-msgstr "נוצל ע\"י"
-
-msgid "Unspent"
-msgstr "לא נוצל"
-
-msgid "Peg-out"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out to"
-msgstr ""
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr ""
-
-msgid "Output in parent chain"
-msgstr "מטבע משרשרת אם"
-
-msgid "Coinbase"
-msgstr "פרס כרייה"
-
-msgid "Orphan"
-msgstr "יתום"
-
-msgid "Confidential"
-msgstr "חסוי"
-
-msgid "Unconfirmed"
-msgstr "לא מאושר"
-
-msgid "Block not found"
-msgstr "בלוק לא נמצא"
-
-msgid "Transaction not found"
-msgstr "טרנזקציה לא נמצאה"
-
-msgid "Spending tx"
-msgstr "נוצל ע\"י"
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr "מזהה נכס"
 
-msgid "Issuance"
-msgstr "הנפקה"
-
-msgid "New asset"
-msgstr "נכס חדש"
-
-msgid "Reissuance"
-msgstr "הנפקה נוספת"
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr "כמות הנפקה"
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr "מפתחות הנפקה מחדש"
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr "ללא הנפקה מחדש"
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr "פלט 1"
-
-msgid "%s outputs (plural)"
-msgstr "%0 פלטים"
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr "בלוק לא נמצא"
+
+msgid "Block %s"
+msgstr "בלוק %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "בלוק #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
-msgid "Broadcast tx"
+msgid "Broadcast transaction"
 msgstr ""
 
-msgid "Scan QR"
-msgstr "סרוק QR"
-
-msgid "API"
+msgid "Broadcast tx"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
-msgstr ""
+msgid "Coinbase"
+msgstr "פרס כרייה"
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr "חסוי"
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,11 +77,248 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "פרטים"
+
+msgid "Go"
 msgstr ""
+
+msgid "Height"
+msgstr "גובה"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "בשרשרת הכי טובה (אישור אחד)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "בשרשרת הכי טובה (%0 אישורים)"
+
+msgid "Included in Block"
+msgstr "כלול בבלוק"
+
+msgid "Issuance"
+msgstr "הנפקה"
+
+msgid "Issuance amount"
+msgstr "כמות הנפקה"
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "he"
+
+msgid "lang_name"
+msgstr "עברית"
+
+msgid "Loading..."
+msgstr "טוען..."
+
+msgid "Load more"
+msgstr "טען עוד"
+
+msgid "Lock time"
+msgstr "נעילת זמן"
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr "נכס חדש"
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "הבא"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr "לא סטנדרטי"
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr "ללא הנפקה מחדש"
+
+msgid "No results found"
+msgstr "לא נמצאו תוצאות"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr "מידע OP_RETURN"
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr "מטבע משרשרת אם"
+
+msgid "Page Not Found"
+msgstr "עמוד לא נמצא"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr ""
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr ""
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "קודם"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "בלוקים אחרונים"
+
+msgid "Reissuance"
+msgstr "הנפקה נוספת"
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr "מפתחות הנפקה מחדש"
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr "סרוק QR"
+
+msgid "%s Confirmations (singular)"
+msgstr "אישור אחד"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 אישורים"
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת"
+
+msgid "Size (bytes)"
+msgstr "גודל (בייטים)"
+
+msgid "Size (KB)"
+msgstr "גודל (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 מתוך %1 טרנזקציות"
+
+msgid "%s outputs (singular)"
+msgstr "פלט 1"
+
+msgid "%s outputs (plural)"
+msgstr "%0 פלטים"
+
+msgid "Spending tx"
+msgstr "נוצל ע\"י"
+
+msgid "Spent by"
+msgstr "נוצל ע\"י"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "סטטוס"
+
+msgid "%s Transactions (singular)"
+msgstr "טרנזקציה אחת"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 טרנזקציות"
+
+msgid "style.css"
+msgstr "style-rtl.css"
+
+msgid "Timestamp"
+msgstr "זמן"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "טרנזקציה"
+
+msgid "Transaction fees"
+msgstr "עמלת טרנזקציה"
+
+msgid "Transaction not found"
+msgstr "טרנזקציה לא נמצאה"
+
+msgid "Transactions"
+msgstr "טרנזקציות"
+
+msgid "Transaction: %s"
+msgstr "טרנזקציה: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "סוג"
+
+msgid "Unconfirmed"
+msgstr "לא מאושר"
 
 msgid "Unconfirmed received"
 msgstr ""
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr "לא נוצל"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "גירסה"
+
+msgid "Virtual Size (KVB)"
+msgstr "גודל וירטואלי (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "גודל וירטואלי (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
+
+msgid "Weight (KWU)"
+msgstr "משקל (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "יחידות משקל (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "יחידות משקל (WU)"
+
+msgid "Witness"
 msgstr ""

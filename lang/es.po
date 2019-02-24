@@ -8,226 +8,16 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "lang_id"
-msgstr "es"
-
-msgid "lang_name"
-msgstr "Español"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "Página No Encontrada"
-
-msgid "Loading..."
-msgstr "Cargando..."
-
-msgid "Recent Blocks"
-msgstr "Bloques Recientes"
-
-msgid "Height"
-msgstr "Altura"
-
-msgid "Timestamp"
-msgstr "Fecha y Hora"
-
-msgid "Transactions"
-msgstr "Transacciones"
-
-msgid "Size (KB)"
-msgstr "Tamaño (KB)"
-
-msgid "Weight (KWU)"
-msgstr "Peso (KWU)"
-
-msgid "Load more"
-msgstr "Mostrar siguiente"
-
-msgid "No results found"
-msgstr "No se encontraron resultados para su búsqueda"
-
-msgid "Block %s"
-msgstr "Bloque %0"
-
-msgid "Previous"
-msgstr "Previo"
-
-msgid "Status"
-msgstr "Estatus"
-
-msgid "Virtual Size (KVB)"
-msgstr "Tamaño Virtual (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "Unidades de Peso (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "Transacciones %0"
-
-msgid "%s Transactions (plural)"
-msgstr "Transacciones %0"
-
-msgid "Next"
-msgstr "Siguiente"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "En cadena más larga (%0 confirmaciones)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "En cadena más larga (%0 confirmaciones)"
-
-msgid "%s Confirmations (singular)"
-msgstr ""
-
-msgid "%s Confirmations (plural)"
-msgstr ""
-
-msgid "%s of %s Transactions"
-msgstr "Transacciones %0 de %1"
-
-msgid "Details"
-msgstr "Detalles"
-
-msgid "Nonstandard"
-msgstr "No estándar"
-
-msgid "Transaction"
-msgstr "Transacción"
-
-msgid "Size (bytes)"
-msgstr "Tamaño (bytes)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Tamaño virtual (vbytes)"
-
-msgid "Weight units (WU)"
-msgstr "Unidades de peso (WU)"
-
-msgid "Transaction fees"
-msgstr "Tarifa for transacción"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "Versión"
-
-msgid "Lock time"
-msgstr ""
-
-msgid "Included in Block"
-msgstr "Incluida en bloque"
-
 msgid "Address"
 msgstr "Dirección"
-
-msgid "Transaction count"
-msgstr "Total de transacciones"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr "Encontramos un error. Por favor intenta nuevamente más tarde."
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "Tipo"
-
-msgid "OP_RETURN data"
-msgstr "Datos OP_RETURN"
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr "testigo"
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "Busca por altura de bloque, hash, transacción o dirección"
-
-msgid "Powered by esplora"
-msgstr "Desarrollado por esplora"
-
-msgid "Block #%s: %s"
-msgstr "Bloque #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "Transacción: %0"
 
 msgid "Address: %s"
 msgstr "Dirección %0"
 
-msgid "Spent by"
-msgstr "Gastado por"
-
-msgid "Unspent"
-msgstr "No gastado"
-
-msgid "Peg-out"
-msgstr "Peg-Out"
-
-msgid "Peg-out to"
-msgstr "Peg-out a"
-
-msgid "Peg-out ASM"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out address"
-msgstr "Dirección de Peg-out "
-
-msgid "Output in parent chain"
-msgstr "Salida en cadena principal"
-
-msgid "Coinbase"
-msgstr ""
-
-msgid "Orphan"
-msgstr ""
-
-msgid "Confidential"
-msgstr ""
-
-msgid "Unconfirmed"
-msgstr ""
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "Bloque %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "Bloque #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confidential"
+msgstr ""
+
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,10 +77,247 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Go"
+msgstr ""
+
+msgid "Height"
+msgstr "Altura"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "En cadena más larga (%0 confirmaciones)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "En cadena más larga (%0 confirmaciones)"
+
+msgid "Included in Block"
+msgstr "Incluida en bloque"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "es"
+
+msgid "lang_name"
+msgstr "Español"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Load more"
+msgstr "Mostrar siguiente"
+
+msgid "Lock time"
+msgstr ""
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "Siguiente"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr "No estándar"
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "No se encontraron resultados para su búsqueda"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr "Datos OP_RETURN"
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr "Salida en cadena principal"
+
+msgid "Page Not Found"
+msgstr "Página No Encontrada"
+
+msgid "Peg-out"
+msgstr "Peg-Out"
+
+msgid "Peg-out address"
+msgstr "Dirección de Peg-out "
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr "Peg-out a"
+
+msgid "Powered by esplora"
+msgstr "Desarrollado por esplora"
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "Previo"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "Bloques Recientes"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Busca por altura de bloque, hash, transacción o dirección"
+
+msgid "Size (bytes)"
+msgstr "Tamaño (bytes)"
+
+msgid "Size (KB)"
+msgstr "Tamaño (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "Transacciones %0 de %1"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "Gastado por"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "Estatus"
+
+msgid "%s Transactions (singular)"
+msgstr "Transacciones %0"
+
+msgid "%s Transactions (plural)"
+msgstr "Transacciones %0"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "Fecha y Hora"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "Transacción"
+
+msgid "Transaction fees"
+msgstr "Tarifa for transacción"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "Transacciones"
+
+msgid "Transaction: %s"
+msgstr "Transacción: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Unconfirmed"
 msgstr ""
 
 msgid "Unconfirmed received"
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
 msgstr ""
+
+msgid "Unspent"
+msgstr "No gastado"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Virtual Size (KVB)"
+msgstr "Tamaño Virtual (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "Tamaño virtual (vbytes)"
+
+msgid "We encountered an error. Please try again later."
+msgstr "Encontramos un error. Por favor intenta nuevamente más tarde."
+
+msgid "Weight (KWU)"
+msgstr "Peso (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "Unidades de Peso (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "Unidades de peso (WU)"
+
+msgid "Witness"
+msgstr "testigo"

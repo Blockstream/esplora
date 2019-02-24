@@ -8,226 +8,16 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid "lang_id"
-msgstr "jp"
-
-msgid "lang_name"
-msgstr "日本語"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "ページが見つかりません。"
-
-msgid "Loading..."
-msgstr "ローディング中"
-
-msgid "Recent Blocks"
-msgstr "最新のブロック"
-
-msgid "Height"
-msgstr "ブロック高"
-
-msgid "Timestamp"
-msgstr "タイムスタンプ"
-
-msgid "Transactions"
-msgstr "トランザクション"
-
-msgid "Size (KB)"
-msgstr "サイズ(バイト)"
-
-msgid "Weight (KWU)"
-msgstr "ブロックウェイト"
-
-msgid "Load more"
-msgstr "さらに表示"
-
-msgid "No results found"
-msgstr "結果がありません"
-
-msgid "Block %s"
-msgstr "ブロック %0"
-
-msgid "Previous"
-msgstr "前に"
-
-msgid "Status"
-msgstr "ステータス"
-
-msgid "Virtual Size (KVB)"
-msgstr "バーチャルサイズ(KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "ウェイトユニット(KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 トランザクション"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 トランザクション"
-
-msgid "Next"
-msgstr "次へ"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "最長チェーン(%0 検証)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "最長チェーン(%0 検証)"
-
-msgid "%s Confirmations (singular)"
-msgstr ""
-
-msgid "%s Confirmations (plural)"
-msgstr ""
-
-msgid "%s of %s Transactions"
-msgstr "トランザクション数 %0 / %1"
-
-msgid "Details"
-msgstr "詳細"
-
-msgid "Nonstandard"
-msgstr "ノン・スタンダード"
-
-msgid "Transaction"
-msgstr "トランザクション"
-
-msgid "Size (bytes)"
-msgstr "サイズ(バイト)"
-
-msgid "Virtual size (vbytes)"
-msgstr "バーチャルサイズ(vバイト)"
-
-msgid "Weight units (WU)"
-msgstr "ウェイトユニット(KWU)"
-
-msgid "Transaction fees"
-msgstr "トランザクション手数料"
-
-msgid "%s (%s sat/vB)"
-msgstr ""
-
-msgid "Version"
-msgstr "バージョン"
-
-msgid "Lock time"
-msgstr "ロックタイム"
-
-msgid "Included in Block"
-msgstr "ブロック内容"
-
 msgid "Address"
 msgstr "アドレス"
-
-msgid "Transaction count"
-msgstr "トランザクション数"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr "エラーが発生しました。後ほどもう一度お試し下さい。"
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "タイプ"
-
-msgid "OP_RETURN data"
-msgstr "OP_RETURN データ"
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr ""
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "ブロック高、ハッシュ、トランザクション又はアドレスを検索する"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "ブロック #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "トランザクション: %0"
 
 msgid "Address: %s"
 msgstr "アドレス: %0"
 
-msgid "Spent by"
-msgstr "使用者"
-
-msgid "Unspent"
-msgstr "未使用"
-
-msgid "Peg-out"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Peg-out to"
-msgstr "Peg-out先"
-
-msgid "Peg-out ASM"
-msgstr ""
-
-msgid "Peg-out address"
-msgstr "Peg-out アドレス"
-
-msgid "Output in parent chain"
-msgstr "親チェーンのアウトプット"
-
-msgid "Coinbase"
-msgstr "コインベース"
-
-msgid "Orphan"
-msgstr ""
-
-msgid "Confidential"
-msgstr ""
-
-msgid "Unconfirmed"
-msgstr ""
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "ブロック %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "ブロック #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
+msgstr "コインベース"
+
+msgid "Confidential"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,10 +77,247 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "詳細"
+
+msgid "Go"
+msgstr ""
+
+msgid "Height"
+msgstr "ブロック高"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "最長チェーン(%0 検証)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "最長チェーン(%0 検証)"
+
+msgid "Included in Block"
+msgstr "ブロック内容"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "jp"
+
+msgid "lang_name"
+msgstr "日本語"
+
+msgid "Loading..."
+msgstr "ローディング中"
+
+msgid "Load more"
+msgstr "さらに表示"
+
+msgid "Lock time"
+msgstr "ロックタイム"
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "次へ"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr "ノン・スタンダード"
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "結果がありません"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN データ"
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr "親チェーンのアウトプット"
+
+msgid "Page Not Found"
+msgstr "ページが見つかりません。"
+
+msgid "Peg-out"
+msgstr ""
+
+msgid "Peg-out address"
+msgstr "Peg-out アドレス"
+
+msgid "Peg-out ASM"
+msgstr ""
+
+msgid "Peg-out to"
+msgstr "Peg-out先"
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "前に"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "最新のブロック"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "ブロック高、ハッシュ、トランザクション又はアドレスを検索する"
+
+msgid "Size (bytes)"
+msgstr "サイズ(バイト)"
+
+msgid "Size (KB)"
+msgstr "サイズ(バイト)"
+
+msgid "%s of %s Transactions"
+msgstr "トランザクション数 %0 / %1"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "使用者"
+
+msgid "%s (%s sat/vB)"
+msgstr ""
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 トランザクション"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 トランザクション"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "タイムスタンプ"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "トランザクション"
+
+msgid "Transaction fees"
+msgstr "トランザクション手数料"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "トランザクション"
+
+msgid "Transaction: %s"
+msgstr "トランザクション: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Unconfirmed"
 msgstr ""
 
 msgid "Unconfirmed received"
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
+msgstr ""
+
+msgid "Unspent"
+msgstr "未使用"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid "Virtual Size (KVB)"
+msgstr "バーチャルサイズ(KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "バーチャルサイズ(vバイト)"
+
+msgid "We encountered an error. Please try again later."
+msgstr "エラーが発生しました。後ほどもう一度お試し下さい。"
+
+msgid "Weight (KWU)"
+msgstr "ブロックウェイト"
+
+msgid "Weight units (KWU)"
+msgstr "ウェイトユニット(KWU)"
+
+msgid "Weight units (WU)"
+msgstr "ウェイトユニット(KWU)"
+
+msgid "Witness"
 msgstr ""

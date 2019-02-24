@@ -8,226 +8,16 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid "lang_id"
-msgstr "ko"
-
-msgid "lang_name"
-msgstr "한국어"
-
-msgid "style.css"
-msgstr ""
-
-msgid "Page Not Found"
-msgstr "페이지를 찾을 수 없음"
-
-msgid "Loading..."
-msgstr "로딩..."
-
-msgid "Recent Blocks"
-msgstr "최근 블록"
-
-msgid "Height"
-msgstr "블록 높이"
-
-msgid "Timestamp"
-msgstr "타임 스탬프"
-
-msgid "Transactions"
-msgstr "거래"
-
-msgid "Size (KB)"
-msgstr "사이즈 (KB)"
-
-msgid "Weight (KWU)"
-msgstr "무게 (KWU)"
-
-msgid "Load more"
-msgstr "더 보기"
-
-msgid "No results found"
-msgstr "검색결과가 없습니다"
-
-msgid "Block %s"
-msgstr "블록 %0"
-
-msgid "Previous"
-msgstr "이전"
-
-msgid "Status"
-msgstr "상태"
-
-msgid "Virtual Size (KVB)"
-msgstr "가상 사이즈 (KVB)"
-
-msgid "Weight units (KWU)"
-msgstr "무게 단위 (KWU)"
-
-msgid "%s Transactions (singular)"
-msgstr "%0 거래들"
-
-msgid "%s Transactions (plural)"
-msgstr "%0 거래들"
-
-msgid "Next"
-msgstr "다음"
-
-msgid "In best chain (%s confirmations) (singular)"
-msgstr "현 체인 (%0 컨펌)"
-
-msgid "In best chain (%s confirmations) (plural)"
-msgstr "현 체인 (%0 컨펌)"
-
-msgid "%s Confirmations (singular)"
-msgstr ""
-
-msgid "%s Confirmations (plural)"
-msgstr ""
-
-msgid "%s of %s Transactions"
-msgstr "%0 의 %1 거래들"
-
-msgid "Details"
-msgstr "자세히"
-
-msgid "Nonstandard"
-msgstr "비표준"
-
-msgid "Transaction"
-msgstr "거래"
-
-msgid "Size (bytes)"
-msgstr "사이즈 (바이트)"
-
-msgid "Virtual size (vbytes)"
-msgstr "가상 사이즈 (v바이트)"
-
-msgid "Weight units (WU)"
-msgstr "무게 단위 (WU)"
-
-msgid "Transaction fees"
-msgstr "수수료"
-
-msgid "%s (%s sat/vB)"
-msgstr "%0 (%1 사토시/vB)"
-
-msgid "Version"
-msgstr "버전"
-
-msgid "Lock time"
-msgstr "잠금 시간"
-
-msgid "Included in Block"
-msgstr "포함되어 있는 블록"
-
 msgid "Address"
 msgstr "주소"
-
-msgid "Transaction count"
-msgstr "거래량"
-
-msgid "Received"
-msgstr ""
-
-msgid "Sent"
-msgstr ""
-
-msgid "We encountered an error. Please try again later."
-msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
-
-msgid "scriptPubKey (asm)"
-msgstr ""
-
-msgid "scriptPubKey (hex)"
-msgstr ""
-
-msgid "Type"
-msgstr "유형"
-
-msgid "OP_RETURN data"
-msgstr "OP_RETURN 데이터"
-
-msgid "txid:vout"
-msgstr ""
-
-msgid "Outpoint"
-msgstr ""
-
-msgid "scriptSig (asm)"
-msgstr ""
-
-msgid "scriptSig (hex)"
-msgstr ""
-
-msgid "Witness"
-msgstr "서명"
-
-msgid "nSequence"
-msgstr ""
-
-msgid "Previous output script"
-msgstr ""
-
-msgid "Previous output address"
-msgstr ""
-
-msgid "Search for block height, hash, transaction, or address"
-msgstr "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요"
-
-msgid "Powered by esplora"
-msgstr ""
-
-msgid "Block #%s: %s"
-msgstr "블록 #%0: %1"
-
-msgid "Transaction: %s"
-msgstr "거래: %0"
 
 msgid "Address: %s"
 msgstr "주소: %0"
 
-msgid "Spent by"
-msgstr "사용한 유저"
-
-msgid "Unspent"
-msgstr "사용안됨"
-
-msgid "Peg-out"
-msgstr "페그 아웃"
-
-msgid "Peg-out to"
-msgstr "페그 아웃할 곳"
-
-msgid "Peg-out ASM"
-msgstr "페그 아웃 ASM"
-
-msgid "Peg-out address"
-msgstr "페그 아웃 주소"
-
-msgid "Output in parent chain"
-msgstr "부모 체인 아웃풋"
-
-msgid "Coinbase"
-msgstr "코인베이스"
-
-msgid "Orphan"
+msgid "Amount commitment"
 msgstr ""
 
-msgid "Confidential"
-msgstr ""
-
-msgid "Unconfirmed"
-msgstr ""
-
-msgid "Block not found"
-msgstr ""
-
-msgid "Transaction not found"
-msgstr ""
-
-msgid "Spending tx"
-msgstr ""
-
-msgid "Value commitment"
+msgid "API"
 msgstr ""
 
 msgid "Asset commitment"
@@ -236,88 +26,49 @@ msgstr ""
 msgid "Asset ID"
 msgstr ""
 
-msgid "Issuance"
-msgstr ""
-
-msgid "New asset"
-msgstr ""
-
-msgid "Reissuance"
-msgstr ""
-
-msgid "Issuance entropy"
-msgstr ""
-
-msgid "Issuance blinding nonce"
-msgstr ""
-
-msgid "Issuance amount"
-msgstr ""
-
-msgid "Amount commitment"
-msgstr ""
-
-msgid "Reissuance keys"
-msgstr ""
-
-msgid "Reissuance commitment"
-msgstr ""
-
-msgid "No reissuance"
-msgstr ""
-
 msgid "Bits"
 msgstr ""
 
-msgid "Nonce"
-msgstr ""
-
-msgid "Merkle root"
-msgstr ""
-
-msgid "%s outputs (singular)"
-msgstr ""
-
-msgid "%s outputs (plural)"
-msgstr ""
-
-msgid "No outputs"
+msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
 msgstr ""
 
+msgid "Block not found"
+msgstr ""
+
+msgid "Block %s"
+msgstr "블록 %0"
+
+msgid "Block Solution"
+msgstr ""
+
+msgid "Block #%s: %s"
+msgstr "블록 #%0: %1"
+
 msgid "Block timestamp"
-msgstr ""
-
-msgid "Older"
-msgstr ""
-
-msgid "Newer"
-msgstr ""
-
-msgid "Broadcast transaction"
 msgstr ""
 
 msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
+msgid "Broadcast transaction"
+msgstr ""
+
 msgid "Broadcast tx"
-msgstr ""
-
-msgid "Scan QR"
-msgstr ""
-
-msgid "API"
 msgstr ""
 
 msgid "Cancel"
 msgstr ""
 
-msgid "Total tx count"
+msgid "Coinbase"
+msgstr "코인베이스"
+
+msgid "Confidential"
 msgstr ""
 
-msgid "Confirmed tx count"
+msgid "Confirmed"
 msgstr ""
 
 msgid "Confirmed received"
@@ -326,10 +77,247 @@ msgstr ""
 msgid "Confirmed spent"
 msgstr ""
 
+msgid "Confirmed tx count"
+msgstr ""
+
 msgid "Confirmed unspent"
 msgstr ""
 
-msgid "Unconfirmed tx count"
+msgid "Details"
+msgstr "자세히"
+
+msgid "Go"
+msgstr ""
+
+msgid "Height"
+msgstr "블록 높이"
+
+msgid "In best chain"
+msgstr ""
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "현 체인 (%0 컨펌)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "현 체인 (%0 컨펌)"
+
+msgid "Included in Block"
+msgstr "포함되어 있는 블록"
+
+msgid "Issuance"
+msgstr ""
+
+msgid "Issuance amount"
+msgstr ""
+
+msgid "Issuance blinding nonce"
+msgstr ""
+
+msgid "Issuance entropy"
+msgstr ""
+
+msgid "lang_id"
+msgstr "ko"
+
+msgid "lang_name"
+msgstr "한국어"
+
+msgid "Loading..."
+msgstr "로딩..."
+
+msgid "Load more"
+msgstr "더 보기"
+
+msgid "Lock time"
+msgstr "잠금 시간"
+
+msgid "Merkle root"
+msgstr ""
+
+msgid "New asset"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Next"
+msgstr "다음"
+
+msgid "Nonce"
+msgstr ""
+
+msgid "Nonstandard"
+msgstr "비표준"
+
+msgid "No outputs"
+msgstr ""
+
+msgid "No reissuance"
+msgstr ""
+
+msgid "No results found"
+msgstr "검색결과가 없습니다"
+
+msgid "nSequence"
+msgstr ""
+
+msgid "Older"
+msgstr ""
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN 데이터"
+
+msgid "Opted in"
+msgstr ""
+
+msgid "Orphaned"
+msgstr ""
+
+msgid "Outpoint"
+msgstr ""
+
+msgid "Output in parent chain"
+msgstr "부모 체인 아웃풋"
+
+msgid "Page Not Found"
+msgstr "페이지를 찾을 수 없음"
+
+msgid "Peg-out"
+msgstr "페그 아웃"
+
+msgid "Peg-out address"
+msgstr "페그 아웃 주소"
+
+msgid "Peg-out ASM"
+msgstr "페그 아웃 ASM"
+
+msgid "Peg-out to"
+msgstr "페그 아웃할 곳"
+
+msgid "Powered by esplora"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Previous"
+msgstr "이전"
+
+msgid "Previous output address"
+msgstr ""
+
+msgid "Previous output script"
+msgstr ""
+
+msgid "(RBF)"
+msgstr ""
+
+msgid "Recent Blocks"
+msgstr "최근 블록"
+
+msgid "Reissuance"
+msgstr ""
+
+msgid "Reissuance commitment"
+msgstr ""
+
+msgid "Reissuance keys"
+msgstr ""
+
+msgid "Replace by fee"
+msgstr ""
+
+msgid "Scan QR"
+msgstr ""
+
+msgid "%s Confirmations (singular)"
+msgstr ""
+
+msgid "%s Confirmations (plural)"
+msgstr ""
+
+msgid "scriptPubKey (asm)"
+msgstr ""
+
+msgid "scriptPubKey (hex)"
+msgstr ""
+
+msgid "scriptSig (asm)"
+msgstr ""
+
+msgid "scriptSig (hex)"
+msgstr ""
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요"
+
+msgid "Size (bytes)"
+msgstr "사이즈 (바이트)"
+
+msgid "Size (KB)"
+msgstr "사이즈 (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%0 의 %1 거래들"
+
+msgid "%s outputs (singular)"
+msgstr ""
+
+msgid "%s outputs (plural)"
+msgstr ""
+
+msgid "Spending tx"
+msgstr ""
+
+msgid "Spent by"
+msgstr "사용한 유저"
+
+msgid "%s (%s sat/vB)"
+msgstr "%0 (%1 사토시/vB)"
+
+msgid "Status"
+msgstr "상태"
+
+msgid "%s Transactions (singular)"
+msgstr "%0 거래들"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 거래들"
+
+msgid "style.css"
+msgstr ""
+
+msgid "Timestamp"
+msgstr "타임 스탬프"
+
+msgid "Total tx count"
+msgstr ""
+
+msgid "Total unspent"
+msgstr ""
+
+msgid "Transaction"
+msgstr "거래"
+
+msgid "Transaction fees"
+msgstr "수수료"
+
+msgid "Transaction not found"
+msgstr ""
+
+msgid "Transactions"
+msgstr "거래"
+
+msgid "Transaction: %s"
+msgstr "거래: %0"
+
+msgid "txid:vout"
+msgstr ""
+
+msgid "Type"
+msgstr "유형"
+
+msgid "Unconfirmed"
 msgstr ""
 
 msgid "Unconfirmed received"
@@ -338,5 +326,35 @@ msgstr ""
 msgid "Unconfirmed spent"
 msgstr ""
 
-msgid "Total unspent"
+msgid "Unconfirmed tx count"
 msgstr ""
+
+msgid "Unspent"
+msgstr "사용안됨"
+
+msgid "Value commitment"
+msgstr ""
+
+msgid "Version"
+msgstr "버전"
+
+msgid "Virtual Size (KVB)"
+msgstr "가상 사이즈 (KVB)"
+
+msgid "Virtual size (vbytes)"
+msgstr "가상 사이즈 (v바이트)"
+
+msgid "We encountered an error. Please try again later."
+msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
+
+msgid "Weight (KWU)"
+msgstr "무게 (KWU)"
+
+msgid "Weight units (KWU)"
+msgstr "무게 단위 (KWU)"
+
+msgid "Weight units (WU)"
+msgstr "무게 단위 (WU)"
+
+msgid "Witness"
+msgstr "서명"
