@@ -29,6 +29,8 @@ API documentation [is available here](API.md).
 
 - Light and dark themes
 
+- Noscript support
+
 - For Liquid and other Elements-based chains: support for CT, peg-in/out transactions and multi-asset
 
 ## Developing
