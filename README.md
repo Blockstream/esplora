@@ -1,5 +1,11 @@
 # Esplora Block Explorer
 
+[![build status](https://api.travis-ci.org/Blockstream/electrs.svg)](https://travis-ci.org/Blockstream/electrs)
+[![docker release](https://img.shields.io/docker/pulls/blockstream/esplora.svg)](https://hub.docker.com/r/blockstream/esplora)
+[![MIT license](https://img.shields.io/github/license/blockstream/esplora.svg)](https://github.com/blockstream/esplora/blob/master/LICENSE)
+[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![IRC](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://webchat.freenode.net/?channels=bitcoin-explorers)
+
 Block explorer web interface based on the [esplora-electrs](https://github.com/Blockstream/electrs) HTTP API.
 
 Written as a single-page app in a reactive and functional style using
