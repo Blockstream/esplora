@@ -139,6 +139,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Pushed tx result (txid)
   , pushedtx$ = reply('pushtx', true).map(r => r.text)
 
+  // Mempool backlog stats
+  , mempool$ = reply('mempool')
+
+  // Fee estimates
+  , feeEst$ = reply('fee-est')
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , blocks$.filter(notNully).mapTo('home')
@@ -147,6 +153,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , addr$.filter(notNully).mapTo('addr')
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
+                  , goMempool$.mapTo('mempool')
                   , error$.mapTo('error'))
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
@@ -155,7 +162,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
-                   , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`))
+                   , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
+                   , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`))
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
@@ -163,6 +171,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , tx$, openTx$
                      , goAddr$, addr$, addrTxs$
+                     , mempool$, feeEst$
                      , loading$, page$, view$, title$, theme$
                      })
 
@@ -217,8 +226,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     // in server env, just get it once
     , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
-                      : O.of(1)
+                       : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
+
+    // get mempool backlog stats and fee estimates when viewing the single tx page, update every 30s
+    , O.merge(goTx$, process.browser ? O.timer(0, 30000).withLatestFrom(view$).filter(([ _, view ]) => (view == 'tx') && document.hasFocus()) : O.empty()
+      ).flatMap(_ =>           [{ category: 'mempool',    method: 'GET', path: '/mempool/stats', bg: !!process.browser }
+                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
 
     ).map(setBase)
 
@@ -243,7 +257,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
       , tipHeight$, error$, loading$
-      , query$, searchResult$, copy$, store$, navto$
+      , query$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers
