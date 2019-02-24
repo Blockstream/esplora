@@ -6,7 +6,7 @@
     "prerender-server": "cd prerender-server && npm start",
     "postinstall": "(cd client && npm install) && (cd prerender-server && npm install)",
     "dist": "./build.sh",
-    "fetch-transifex": "./lang/fetch-transifex.sh"
+    "fetch-transifex": "./lang/util/fetch-transifex.sh"
   },
   "author": "Nadav Ivgi",
   "license": "MIT",

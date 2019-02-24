@@ -7,6 +7,9 @@ const fs = require('fs')
 const jsStr = fs.readFileSync('/dev/stdin').toString()
     , jsAst = parser.parse(jsStr, { sourceType: 'module', plugins: [ "jsx" ] })
 
+// Extracts translation strings from source files by looking
+// for t`...` template strings
+
 traverse(jsAst, {
   TemplateLiteral(path) {
     if (path.container.tag && path.container.tag.name == 't') {

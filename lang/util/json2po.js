@@ -7,9 +7,9 @@ const escape = str => !str ? '' : str.replace(/[\\"]/g, "\\$&")
 
 const lang_strs = JSON.parse(fs.readFileSync('/dev/stdin'))
     , lang_id = lang_strs.lang_id
-    , eng_strs = require('./en.json')
+    , eng_strs = require('../en.json')
 
-const poStr = fs.readFileSync(path.join(__dirname, 'strings.txt')).toString('utf8')
+const poStr = fs.readFileSync(path.join(__dirname, '..', 'strings.txt')).toString('utf8')
   .split("\n")
   .filter(Boolean)
   .map(str => {
