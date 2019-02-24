@@ -1,108 +1,113 @@
-lang_id
-lang_name
-style.css
-Page Not Found
-Loading...
-Recent Blocks
-Height
-Timestamp
-Transactions
-Size (KB)
-Weight (KWU)
-Load more
-No results found
-Block %s
-Previous
-Status
-Virtual Size (KVB)
-Weight units (KWU)
-%s Transactions
-Next
-In best chain (%s confirmations)
-%s Confirmations
-%s of %s Transactions
-Details
-Nonstandard
-Transaction
-Size (bytes)
-Virtual size (vbytes)
-Weight units (WU)
-Transaction fees
-%s (%s sat/vB)
-Version
-Lock time
-Included in Block
 Address
-Transaction count
-Received
-Sent
-We encountered an error. Please try again later.
-scriptPubKey (asm)
-scriptPubKey (hex)
-Type
-OP_RETURN data
-txid:vout
-Outpoint
-scriptSig (asm)
-scriptSig (hex)
-Witness
-nSequence
-Previous output script
-Previous output address
-Search for block height, hash, transaction, or address
-Powered by esplora
-Block #%s: %s
-Transaction: %s
 Address: %s
-Spent by
-Unspent
-Peg-out
-Peg-out to
-Peg-out ASM
-Peg-out address
-Output in parent chain
-Coinbase
-Orphan
-Confidential
-Unconfirmed
-Block not found
-Transaction not found
-Spending tx
-Value commitment
+Amount commitment
+API
 Asset commitment
 Asset ID
-Issuance
-New asset
-Reissuance
-Issuance entropy
-Issuance blinding nonce
-Issuance amount
-Amount commitment
-Reissuance keys
-Reissuance commitment
-No reissuance
 Bits
-Nonce
-Merkle root
-%s outputs
-No outputs
+Block Challenge
 Block height
+Block not found
+Block %s
+Block Solution
+Block #%s: %s
 Block timestamp
-Older
-Newer
-Broadcast transaction
 Broadcast raw transaction (hex)
+Broadcast transaction
 Broadcast tx
-Scan QR
-API
 Cancel
-Total tx count
-Confirmed tx count
+Coinbase
+Confidential
+Confirmed
 Confirmed received
 Confirmed spent
+Confirmed tx count
 Confirmed unspent
-Unconfirmed tx count
+Details
+Go
+Height
+In best chain
+In best chain (%s confirmations)
+Included in Block
+Issuance
+Issuance amount
+Issuance blinding nonce
+Issuance entropy
+lang_id
+lang_name
+Loading...
+Load more
+Lock time
+Merkle root
+New asset
+Newer
+Next
+Nonce
+Nonstandard
+No outputs
+No reissuance
+No results found
+nSequence
+Older
+OP_RETURN data
+Opted in
+Orphaned
+Outpoint
+Output in parent chain
+Page Not Found
+Peg-out
+Peg-out address
+Peg-out ASM
+Peg-out to
+Powered by esplora
+Prev
+Previous
+Previous output address
+Previous output script
+(RBF)
+Recent Blocks
+Reissuance
+Reissuance commitment
+Reissuance keys
+Replace by fee
+Scan QR
+%s Confirmations
+scriptPubKey (asm)
+scriptPubKey (hex)
+scriptSig (asm)
+scriptSig (hex)
+Search for block height, hash, transaction, or address
+Size (bytes)
+Size (KB)
+%s of %s Transactions
+%s outputs
+Spending tx
+Spent by
+%s (%s sat/vB)
+Status
+%s Transactions
+style.css
+Timestamp
+Total tx count
+Total unspent
+Transaction
+Transaction fees
+Transaction not found
+Transactions
+Transaction: %s
+txid:vout
+Type
+Unconfirmed
 Unconfirmed received
 Unconfirmed spent
-Total unspent
-
+Unconfirmed tx count
+Unspent
+Value commitment
+Version
+Virtual Size (KVB)
+Virtual size (vbytes)
+We encountered an error. Please try again later.
+Weight (KWU)
+Weight units (KWU)
+Weight units (WU)
+Witness
