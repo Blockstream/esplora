@@ -9,6 +9,8 @@ See live at [Blockstream.info](https://blockstream.info/).
 
 API documentation [is available here](API.md).
 
+Join the translation efforts on [Transifex](https://transifex.com/blockstream/esplora/).
+
 ![Esplora](https://raw.githubusercontent.com/Blockstream/esplora/master/flavors/blockstream/www/img/social-sharing.png)
 
 ## Features
