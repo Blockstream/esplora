@@ -11,7 +11,7 @@ if (process.browser) {
 }
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
-    , setBase = ({ ...r, path }) => ({ ...r, url: apiBase + path })
+    , setBase = ({ path, ...r }) => ({ ...r, url: apiBase + path })
 
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.

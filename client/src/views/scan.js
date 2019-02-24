@@ -1,7 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 
-export default ({ ...S, t }) => layout(
+export default ({ t, ...S }) => layout(
   <div>
     <div className="qr-scanner">
       <div className="indicator">
