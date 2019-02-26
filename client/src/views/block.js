@@ -51,7 +51,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
     <div className="container">
       {btnDetails(b.id, openBlock == b.id, page.query, t)}
 
-      <div className="block-stats-table">
+      <div className="stats-table">
         <div>
           <div>{t`Height`}</div>
           <div><a href={`block/${b.id}`}>{b.height.toString()}</a></div>

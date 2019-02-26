@@ -51,7 +51,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
         </div>
       </div>
       <div className="container">
-        <div className="addr-stats-table">
+        <div className="stats-table">
 
           { (mempool_stats.tx_count > 0 || chain_stats.tx_count == 0) && <div>
             <div>{t`Total tx count`}</div>

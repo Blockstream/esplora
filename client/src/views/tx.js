@@ -84,7 +84,7 @@ const btnDetailsContent = (isOpen, t) =>
   </div>
 
 const txHeader = (tx, { tipHeight, t }) =>
-  <div className="block-stats-table">
+  <div className="stats-table">
     <div>
       <div>{t`Status`}</div>
       <div>{confirmationText(tx.status, tipHeight, t)}</div>

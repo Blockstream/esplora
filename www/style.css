@@ -654,121 +654,36 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: 30px;
 }
 
-.block-stats-table > div {
+.stats-table > div {
   height: 52px;
   border-top: 1px solid #22242c;
   font-size: 16px;
 }
 
-.block-stats-table > div {
+.stats-table > div {
   display: table;
   table-layout: fixed;
   width: 100%;
 }
 
-.block-stats-table > div > * {
+.stats-table > div > * {
   display: table-cell;
   vertical-align: middle;
 }
 
-.block-stats-table > div:last-child {
+.stats-table > div:last-child {
   border-bottom: 1px solid #22242c;
 }
 
-.block-stats-table > div > div:nth-child(1) {
-  width: 200px;
+.stats-table > div > div:nth-child(1) {
   text-transform: uppercase;
   color: #78838e;
   width: auto;
 }
 
-.block-stats-table > div > div:nth-child(2) {
+.stats-table > div > div:nth-child(2) {
   text-align: right;
   word-break: break-word;
-}
-
-.addr-stats-table > div {
-  height: 52px;
-  border-top: 1px solid #22242c;
-  font-size: 16px;
-}
-
-.addr-stats-table > div {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-
-.addr-stats-table > div > * {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.addr-stats-table > div:last-child {
-  border-bottom: 1px solid #22242c;
-}
-
-.addr-stats-table > div > div:nth-child(1) {
-  width: 200px;
-  text-transform: uppercase;
-  color: #78838e;
-}
-
-.addr-stats-table > div > div:nth-child(2) {
-  text-align: right;
-  word-wrap: break-word;
-}
-
-.transaction-stats {
-  margin-top: 84px;
-}
-
-.transaction-stats > .transaction-stats-boxes {
-  margin: 32px -10px 30px;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper {
-  flex: 1;
-  margin: 0 10px;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-header {
-  border-radius: 5px 5px 0 0;
-  background-color: #22242c;
-  height: 52px;
-  line-height: 52px;
-  text-transform: uppercase;
-  padding: 0 46px;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body {
-  border-radius: 0 0 5px 5px;
-  background-color: #15191e;
-  padding: 0 46px;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body > div {
-  height: 57px;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body > div {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body > div > * {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body > div > span:nth-child(1) {
-  text-transform: uppercase;
-  color: #78838e;
-}
-
-.transaction-stats > .transaction-stats-boxes > .box-wrapper > .transaction-stats-box .box-body > div > span:nth-child(2) {
-  text-align: right;
 }
 
 .transactions {
@@ -1249,7 +1164,7 @@ img.footer_container_content_onion-links_icon {
   margin-left: 15px;
 }
 
-.block-hash span, .block-stats-table a, .addr-stats-table a, .transaction-box .header a {
+.block-hash span, .stats-table a, .transaction-box .header a {
   word-wrap: break-word;
 }
 
