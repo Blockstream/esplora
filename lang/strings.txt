@@ -40,6 +40,7 @@ lang_name
 Loading...
 Load more
 Lock time
+Mempool
 Merkle root
 New asset
 Newer
@@ -90,6 +91,9 @@ Status
 %s Transactions
 style.css
 Timestamp
+Total fees
+Total size (vKB)
+Total transactions
 Total tx count
 Total unspent
 Transaction

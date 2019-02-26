@@ -13,6 +13,8 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: apiBase + path })
 
+const reservedPaths = [ 'mempool' ]
+
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.
 const searchSubmit$ = !process.browser ? O.empty() : O.fromEvent(document.body, 'submit')
@@ -36,7 +38,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
   , goPush$   = route('/tx/push')
   , goScan$   = route('/scan-qr').mapTo(true)
+  , goMempool$= route('/mempool')
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
+      .filter(q => !reservedPaths.includes(q))
       .merge(scan$)
 
   // auto-expand when opening with "#expand"
@@ -229,8 +233,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
 
-    // get mempool backlog stats and fee estimates when viewing the single tx page, update every 30s
-    , O.merge(goTx$, process.browser ? O.timer(0, 30000).withLatestFrom(view$).filter(([ _, view ]) => (view == 'tx') && document.hasFocus()) : O.empty()
+    // get mempool backlog stats and fee estimates when viewing the single tx page or the mempool page, update every 30s
+    , O.merge(goTx$, goMempool$
+      , process.browser ? O.timer(0, 30000).withLatestFrom(view$).filter(([ _, view ]) => (view == 'tx' || view == 'mempool') && document.hasFocus()) : O.empty()
       ).flatMap(_ =>           [{ category: 'mempool',    method: 'GET', path: '/mempool/stats', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
 
