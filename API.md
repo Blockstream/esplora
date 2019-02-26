@@ -135,6 +135,48 @@ Returns the height of the last block.
 
 Returns the hash of the last block.
 
+## Mempool
+
+### `GET /mempool`
+
+Get mempool backlog statistics. Returns an object with:
+
+- `count`: the number of transactions in the mempool
+- `vsize`: the total size of the mempool in virtual bytes
+- `total_fee`: the total fee paid by mempool transactions
+- `fee_histogram`: fee-rate distribution histogram (see below)
+
+### `GET /mempool/fee-histogram`
+
+Get mempool fee-rate distribution histogram.
+
+Returns an array of `(feerate, vsize)` tuples, where each entry's `vsize` is the total vsize of transactions
+paying more than `feerate` but less than the previous entry's `feerate` (except for the first entry, which has no upper bound).
+This matches the format used by the Electrum RPC protocol for `mempool.get_fee_histogram`.
+
+For example: `[[53, 102131], [38, 110990], [34, 138976], [24, 112619], [3, 246346], [2, 239701], [1, 775272]]`
+
+### `GET /mempool/txids`
+
+Get the full list of txids in the mempool as an array.
+
+The order of the txids is undefined and does not match bitcoind's ordering.
+
+### `GET /mempool/txs`
+
+Get a sample of up to 50 mempool transactions.
+
+## Fee estimates
+
+### `GET /fee-estimates`
+
+Get an object where the key is the confirmation target (in number of blocks)
+and the value is the estimated feerate (in sat/vB).
+
+The available confirmation targets are 2, 3, 4, 6, 10, 20, 144, 504 and 1008 blocks.
+
+For example: `{ 2: 36.183, 3: 34.841, 4: 34.841, 6: 34.841, 10: 22.164, 20: 9.692, 144: 1, 501: 1, 1008:1 }`
+
 ## Transaction format
 
 - `txid`
