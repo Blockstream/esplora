@@ -1867,3 +1867,70 @@ body.qr-scanning .qr-scanner {
     transform: translateY(200px);
   }
 }
+
+
+/* Mempool histogram */
+dl.mempool-histogram {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+dl.mempool-histogram .text {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  width: 55px;
+  position: absolute;
+  left: 0;
+  justify-content: flex-end;
+  text-align: right;
+}
+dl.mempool-histogram dd {
+  font-size: .8em;
+  line-height: 1;
+  width: 100%;
+  height: 40px;
+  padding-left: 55px;
+  margin-bottom: 0.25rem;
+}
+dl.mempool-histogram dd.label,
+dl.mempool-histogram dd.label .text {
+  height: 15px;
+}
+dl.mempool-histogram dd.label .text {
+  margin-left: 3px;
+  font-weight: normal;
+}
+dl.mempool-histogram .bar {
+  display: block;
+  background-color: #3d9970;
+  width: 50px;
+  margin-bottom: 10px;
+  height: 90%;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  transition: background-color .3s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 36px;
+  transition: width 0.5s;
+}
+dl.mempool-histogram dd:hover .bar, dl.mempool-histogram dd:focus .bar {
+  background-color: #aaa;
+}
+dl.mempool-histogram .bar:before {
+  content: '';
+  width: 7px;
+  display: inline-block;
+}
+/* Fee estimates */
+.fee-estimates {
+  font-size: 0.9em;
+}
+.fee-estimates th, .fee-estimates td {
+  border: 0 !important;
+  padding: 0.6rem 0.2rem;
+}
