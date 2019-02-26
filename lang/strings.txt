@@ -57,6 +57,7 @@ Opted in
 Orphaned
 Outpoint
 Output in parent chain
+overpaying by %s%
 Page Not Found
 Peg-out
 Peg-out address

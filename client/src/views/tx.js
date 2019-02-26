@@ -6,6 +6,9 @@ import voutView from './tx-vout'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 import { formatAmount, formatTime, getMempoolDepth, getConfEstimate } from './util'
 
+// show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
+const OVERPAYMENT_WARN = 1.2
+
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
 export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && layout(
@@ -87,6 +90,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
   const feerate = tx.fee ? tx.fee/tx.weight*4 : null
        , mempoolDepth = !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
        , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
+       , overpaying = !tx.status.confirmed && feerate != null && feeEst && feerate / feeEst[2]
 
   return (
   <div className="stats-table">
@@ -112,12 +116,16 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
     { !tx.status.confirmed && feerate != null && <div>
       <div>{t`ETA`}</div>
       <div>{confEstimate == null || mempoolDepth == null ? t`Loading...`
-           : t`in ${confEstimate} blocks (${(mempoolDepth/1000000).toFixed(1)} vMB from tip)`}</div>
+           : t`in ${confEstimate} blocks (${(mempoolDepth/1000000).toFixed(1)} vMB from tip)` }
+      </div>
     </div> }
 
     { feerate != null && <div>
       <div>{t`Transaction fees`}</div>
-      <div className="amount">{t`${formatAmount({ value: tx.fee })} (${feerate.toFixed(1)} sat/vB)`}</div>
+      <div>
+        <span className="amount">{t`${formatAmount({ value: tx.fee })} (${feerate.toFixed(1)} sat/vB)`}</span>
+        { overpaying > OVERPAYMENT_WARN && <p className="text-danger small mb-0">{t`overpaying by ${Math.round((overpaying-1)*100)}%`}</p> }
+      </div>
     </div> }
 
     <div>
