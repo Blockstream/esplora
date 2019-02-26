@@ -14,7 +14,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
       </div>
     </div>
     <div className="container">
-      <div className="block-stats-table">
+      <div className="stats-table">
         <div>
           <div>{t`Total transactions`}</div>
           <div>{mempool.count}</div>
