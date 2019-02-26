@@ -686,6 +686,13 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   word-break: break-word;
 }
 
+.jumbotron .stats-table > div:first-child {
+  border-top: 0;
+}
+.jumbotron .stats-table > div:last-child {
+  border-bottom: 0;
+}
+
 .transactions {
   margin-top: 84px;
 }
