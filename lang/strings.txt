@@ -73,6 +73,8 @@ Reissuance
 Reissuance commitment
 Reissuance keys
 Replace by fee
+sat/vbyte
+%s blocks
 Scan QR
 %s Confirmations
 scriptPubKey (asm)
@@ -90,9 +92,12 @@ Spent by
 Status
 %s Transactions
 style.css
+%s vMB
+%s vMB from tip
 Timestamp
 Total fees
 Total size (vKB)
+Total size (vMB)
 Total transactions
 Total tx count
 Total unspent

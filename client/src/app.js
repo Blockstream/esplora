@@ -128,7 +128,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     ).startWith(null).scan((S, mod) => mod(S))
 
   // Single TX
-  , tx$ = reply('tx').merge(goTx$.mapTo(null))
+  , tx$ = reply('tx').merge(goTx$.mapTo(null)).startWith(null)
 
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
@@ -233,10 +233,16 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
 
-    // get mempool backlog stats and fee estimates when viewing the single tx page or the mempool page, update every 30s
-    , O.merge(goTx$, goMempool$
-      , process.browser ? O.timer(0, 30000).withLatestFrom(view$).filter(([ _, view ]) => (view == 'tx' || view == 'mempool') && document.hasFocus()) : O.empty()
-      ).flatMap(_ =>           [{ category: 'mempool',    method: 'GET', path: '/mempool/stats', bg: !!process.browser }
+    // fetch mempool backlog stats as a foreground request when opening the mempool page
+    , goMempool$.flatMap(_ =>  [{ category: 'mempool',    method: 'GET', path: '/mempool' }
+                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
+
+    // also, fetch it in the background when opening a tx, or every 30 seconds while the mempool/tx page remains active
+    , goTx$.merge(process.browser ? O.timer(0, 3000).withLatestFrom(view$, tx$)
+                                                    .filter(([ _, view, tx ]) => view == 'mempool' || (view == 'tx' && tx && !tx.status.confirmed))
+                                                    .filter(_ => document.hasFocus())
+                                  : O.empty())
+        .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
 
     ).map(setBase)
