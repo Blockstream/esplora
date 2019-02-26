@@ -30,7 +30,7 @@ export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
 
 export const getMempoolDepth = (fee_histogram, feerate) => {
   let depth = 0
-  for (let i=0; fee_histogram[i][0] > feerate; i++, depth += fee_hisogram[i][1]);
+  for (let i=0; fee_histogram[i][0] > feerate; depth += fee_histogram[i++][1]);
   return depth
 }
 
