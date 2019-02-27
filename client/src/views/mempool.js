@@ -21,8 +21,8 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
             <div>{formatAmount({ value: mempool.total_fee })}</div>
           </div>
           <div>
-            <div>{t`Total size (vMB)`}</div>
-            <div>{(mempool.vsize / 1000000).toFixed(2)}</div>
+            <div>{t`Total size`}</div>
+            <div>{mempool.vsize > 10000 ? `${(mempool.vsize / 1000000).toFixed(2)} vMB` : `< 0.01 MB`}</div>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           { mempool.fee_histogram.map(([ rangeStart, binSize ], i) =>
             <dd>
               <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+mempool.fee_histogram[i-1][0].toFixed(1)}`}</span>
-              <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{t`${(binSize/1000000).toFixed(2)} vMB`}</span>
+              <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{`${(binSize/1000000).toFixed(2)} vMB`}</span>
             </dd>
           )}
           <dd className="label"><span className="text">{t`sat/vbyte`}</span></dd>

@@ -65,16 +65,16 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
           <div>{formatTime(b.timestamp, t)}</div>
         </div>
         <div>
-          <div>{t`Size (KB)`}</div>
-          <div>{b.size/1000}</div>
+          <div>{t`Size`}</div>
+          <div>{`${b.size/1000} KB`}</div>
         </div>
         <div>
-          <div>{t`Virtual Size (KVB)`}</div>
-          <div>{Math.ceil(b.weight/4/1000)}</div>
+          <div>{t`Virtual size`}</div>
+          <div>{`${Math.ceil(b.weight/4/1000)} vKB`}</div>
         </div>
         <div>
-          <div>{t`Weight units (KWU)`}</div>
-          <div>{b.weight/1000}</div>
+          <div>{t`Weight units`}</div>
+          <div>{`${b.weight/1000} KWU`}</div>
         </div>
 
         { /* advanced details */ }
