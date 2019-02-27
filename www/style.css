@@ -1891,7 +1891,7 @@ dl.mempool-histogram dd {
   line-height: 1;
   width: 100%;
   height: 40px;
-  padding-left: 55px;
+  padding-left: 65px;
   margin-bottom: 0.25rem;
 }
 dl.mempool-histogram dd.label,
@@ -1905,7 +1905,7 @@ dl.mempool-histogram dd.label .text {
 dl.mempool-histogram .bar {
   display: block;
   background-color: #3d9970;
-  width: 50px;
+  width: 60px;
   margin-bottom: 10px;
   height: 90%;
   position: relative;
