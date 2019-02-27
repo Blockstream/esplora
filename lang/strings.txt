@@ -1,3 +1,4 @@
+< 0.01 MB
 Address
 Address: %s
 Amount commitment
@@ -40,6 +41,7 @@ lang_name
 Loading...
 Load more
 Lock time
+ltr
 Mempool
 Merkle root
 New asset
@@ -83,7 +85,7 @@ scriptPubKey (hex)
 scriptSig (asm)
 scriptSig (hex)
 Search for block height, hash, transaction, or address
-Size (bytes)
+Size
 Size (KB)
 %s of %s Transactions
 %s outputs
@@ -93,12 +95,10 @@ Spent by
 Status
 %s Transactions
 style.css
-%s vMB
 %s vMB from tip
 Timestamp
 Total fees
-Total size (vKB)
-Total size (vMB)
+Total size
 Total transactions
 Total tx count
 Total unspent
@@ -116,10 +116,8 @@ Unconfirmed tx count
 Unspent
 Value commitment
 Version
-Virtual Size (KVB)
-Virtual size (vbytes)
+Virtual size
 We encountered an error. Please try again later.
 Weight (KWU)
-Weight units (KWU)
-Weight units (WU)
+Weight units
 Witness

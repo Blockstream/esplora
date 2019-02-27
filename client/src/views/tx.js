@@ -129,16 +129,16 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
     </div> }
 
     <div>
-      <div>{t`Size (bytes)`}</div>
-      <div>{tx.size}</div>
+      <div>{t`Size`}</div>
+      <div>{`${tx.size} B`}</div>
     </div>
     <div>
-      <div>{t`Virtual size (vbytes)`}</div>
-      <div>{Math.ceil(tx.weight/4)}</div>
+      <div>{t`Virtual size`}</div>
+      <div>{`${Math.ceil(tx.weight/4)} vB`}</div>
     </div>
     <div>
-      <div>{t`Weight units (WU)`}</div>
-      <div>{tx.weight}</div>
+      <div>{t`Weight units`}</div>
+      <div>{`${tx.weight} WU`}</div>
     </div>
     <div>
       <div>{t`Version`}</div>
