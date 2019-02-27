@@ -4,6 +4,8 @@ import { formatAmount } from './util'
 import layout from './layout'
 import search from './search'
 
+let squashed
+
 export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
@@ -32,9 +34,9 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
       <div className="row">
         <dl className="mempool-histogram col-md-8 col-sm-6">
           <h4 className="text-center mb-3">Fee rate distribution</h4>
-          { mempool.fee_histogram.map(([ rangeStart, binSize ], i) => binSize > 0 &&
+          { squashed = squashFeeHistogram(mempool.fee_histogram), squashed.map(([ rangeStart, binSize ], i) => binSize > 0 &&
             <dd>
-              <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+mempool.fee_histogram[i-1][0].toFixed(1)}`}</span>
+              <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+squashed[i-1][0].toFixed(1)}`}</span>
               <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{`${(binSize/1000000).toFixed(2)} vMB`}</span>
             </dd>
           )}
