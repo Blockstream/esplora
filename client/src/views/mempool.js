@@ -33,7 +33,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           <h4 className="text-center mb-3">Fee rate distribution</h4>
           { mempool.fee_histogram.map(([ rangeStart, binSize ], i) =>
             <dd>
-              <span className="text">{`${rangeStart}${i == 0 ? '+' : ' - '+mempool.fee_histogram[i-1][0]}`}</span>
+              <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+mempool.fee_histogram[i-1][0].toFixed(1)}`}</span>
               <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{t`${(binSize/1000000).toFixed(2)} vMB`}</span>
             </dd>
           )}
