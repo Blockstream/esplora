@@ -1880,7 +1880,7 @@ dl.mempool-histogram .text {
   display: flex;
   align-items: center;
   height: 40px;
-  width: 55px;
+  width: 65px;
   position: absolute;
   left: 0;
   justify-content: flex-end;
@@ -1905,7 +1905,7 @@ dl.mempool-histogram dd.label .text {
 dl.mempool-histogram .bar {
   display: block;
   background-color: #3d9970;
-  width: 60px;
+  width: 50px;
   margin-bottom: 10px;
   height: 90%;
   position: relative;
