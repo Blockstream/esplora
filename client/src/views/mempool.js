@@ -1,5 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
-import { formatAmount, getMempoolDepth } from './util'
+import { getMempoolDepth, squashFeeHistogram, lowestFeerateInLimit } from '../util'
+import { formatAmount } from './util'
 import layout from './layout'
 import search from './search'
 

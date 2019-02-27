@@ -27,15 +27,3 @@ export const linkToParentAddr = (addr, label=addr) =>
 export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
 
 export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
-
-export const getMempoolDepth = (fee_histogram, feerate) => {
-  let depth = 0
-  for (let i=0; i < fee_histogram.length && fee_histogram[i][0] > feerate; depth += fee_histogram[i++][1]);
-  return depth
-}
-
-export const getConfEstimate = (fee_estimates, feerate) => {
-  const target_est = Object.entries(fee_estimates)
-    .find(([ target, target_feerate ]) => target_feerate <= feerate)
-  return target_est ? target_est[0] : null
-}

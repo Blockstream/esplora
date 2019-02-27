@@ -7,6 +7,9 @@ import { Observable as O } from './rxjs'
 const BLIND_PREFIX = +process.env.BLIND_PREFIX || 0x0c
     , reHash256 = /^[a-f0-9]{64}$/i
 
+const MAX_BLOCK_VSIZE = 1000000
+const SQUASH_RATES = [ 70, 40, 35, 30, 25, 20, 10, 8, 6, 4, 3, 2, 1.5, 1.1, 1, 0 ]
+
 // not null or undefined
 export const notNully = x => x != null
 
@@ -80,6 +83,7 @@ export const dbg = (obj, label='stream', dbg=debug(label)) =>
   , err => dbg(`${k} \x1b[91mError:\x1b[0m`, err.stack || err)
   , _   => dbg(`${k} completed`)))
 
+// Update query string with opts, return as encoded string or as an object
 export const updateQuery = (query, opts, as_obj) => {
   const new_query = Object.entries(opts).reduce((acc, [ key, val ]) => {
     if (val === true) { acc[key] = '' }
@@ -95,4 +99,37 @@ export const updateQuery = (query, opts, as_obj) => {
     .replace(/%3A/g, ':') // use literal colon for prettier urls
 
   return `${new_qs.length ? '?' : ''}${new_qs}`
+}
+
+// Fee helpers
+
+export const getMempoolDepth = (fee_histogram, feerate) => {
+  let depth = 0
+  for (let i=0; i < fee_histogram.length && fee_histogram[i][0] > feerate; depth += fee_histogram[i++][1]);
+  return depth
+}
+
+export const getConfEstimate = (fee_estimates, feerate) => {
+  const target_est = Object.entries(fee_estimates)
+    .find(([ target, target_feerate ]) => target_feerate <= feerate)
+  return target_est ? target_est[0] : null
+}
+
+export const squashFeeHistogram = histogram => {
+  let i = 0
+  return SQUASH_RATES.map(feerate => {
+    let binSize = 0
+    for (; i < histogram.length && histogram[i][0] >= feerate; binSize += histogram[i++][1]);
+    return [ feerate, binSize ]
+  })
+}
+
+export const lowestFeerateInLimit = histogram => {
+  let lastRate, totalSize=0
+  for (const [ feerate, vsize ] of histogram) {
+    totalSize += vsize
+    if (totalSize >= MAX_BLOCK_VSIZE) return lastRate;
+    lastRate = feerate
+  }
+  return 0
 }
