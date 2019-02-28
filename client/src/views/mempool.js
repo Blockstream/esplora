@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { getMempoolDepth, squashFeeHistogram, lowestFeerateInLimit } from '../util'
+import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
 import { formatAmount } from './util'
 import layout from './layout'
 import search from './search'

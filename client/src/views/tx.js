@@ -3,8 +3,9 @@ import layout from './layout'
 import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
-import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, getMempoolDepth, getConfEstimate, updateQuery } from '../util'
 import { formatAmount, formatTime } from './util'
+import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
+import { getMempoolDepth, getConfEstimate } from '../lib/fees'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
