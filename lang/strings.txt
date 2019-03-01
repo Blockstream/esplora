@@ -97,6 +97,7 @@ scriptPubKey (hex)
 scriptSig (asm)
 scriptSig (hex)
 Search for block height, hash, transaction, or address
+SegWit fee savings
 Sending exact amounts (with no change) is an indication the bitcoins likely didn't change hands.
 Sending to a different script type
 %s from tip
@@ -110,8 +111,11 @@ Spent by
 Status
 %s Transactions
 style.css
+This transaction could save %s on fees by upgrading to native SegWit-Bech32 or %s by upgrading to Segwit-P2SH
 This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
+This transaction saved %s on fees by upgrading to native SegWit-Bech32
+This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native Segwit-Bech32
 Timestamp
 Total fees
 Total size

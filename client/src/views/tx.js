@@ -4,9 +4,10 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import privacyIssuesView from './tx-privacy-issues'
+import segwitGainsView from './tx-segwit-gains'
 import { formatAmount, formatTime, formatVMB } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
-import { getMempoolDepth, getConfEstimate } from '../lib/fees'
+import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from '../lib/fees'
 import detectPrivacyIssues from '../lib/privacy-analysis'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
@@ -95,6 +96,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
        , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
        , overpaying = !tx.status.confirmed && feerate != null && feeEst && feerate / feeEst[2]
        , privacyIssues = detectPrivacyIssues(tx)
+       , segwitGains = calcSegwitFeeGains(tx)
 
   return (
   <div className="stats-table">
@@ -161,9 +163,15 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
       <div>{t`Opted in`}</div>
     </div> }
 
+    { (segwitGains.realizedGains || segwitGains.potentialBech32Gains) && <div>
+      <div>{t`SegWit fee savings`}</div>
+      <div>{segwitGainsView(segwitGains, t)}</div>
+    </div> }
+
     <div>
       <div>{t`Privacy gotchas`}</div>
       <div>{privacyIssuesView(privacyIssues, t)}</div>
     </div>
+
   </div>)
 }
