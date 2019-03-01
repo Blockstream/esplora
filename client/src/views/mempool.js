@@ -6,7 +6,7 @@ import search from './search'
 
 let squashed
 
-export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
+export default ({ t, mempool, mempoolRecent, feeEst, ...S }) => mempool && feeEst && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="container">
@@ -57,6 +57,25 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           </div>
         }
       </div>
+
+      <h3>{t`Recent transactions`}</h3>
+      { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
+      : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
+      : <table className="table table-sm">
+          <thead><tr><th>{t`TXID`}</th><th>{t`Value`}</th><th>{t`Size`}</th><th>{t`Fee`}</th><th>{t`Depth`}</th></tr></thead>
+          <tbody>
+            {mempoolRecent.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
+              <tr>
+                <td><a href={`tx/${txOverview.txid}`}>{txOverview.txid}</a></td>
+                <td>{formatAmount({ value: txOverview.value })}</td>
+                <td>{`${txOverview.vsize} vB`}</td>
+                <td>{`${feerate.toFixed(1)} sat/vB`}</td>
+                <td>{formatVMB(getMempoolDepth(mempool.fee_histogram, feerate))}</td>
+              </tr>
+            )})}
+          </tbody>
+        </table>
+      }
     </div>
   </div>
 , { ...S, t, mempool, feeEst })

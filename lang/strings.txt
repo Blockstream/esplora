@@ -26,8 +26,10 @@ Confirmed received
 Confirmed spent
 Confirmed tx count
 Confirmed unspent
+Depth
 Details
 ETA
+Fee
 Go
 Height
 In best chain
@@ -56,6 +58,7 @@ Next
 Nonce
 Nonstandard
 No outputs
+No recent transactions
 No reissuance
 No results found
 nSequence
@@ -79,6 +82,7 @@ Previous output script
 Privacy gotchas
 (RBF)
 Recent Blocks
+Recent transactions
 Reissuance
 Reissuance commitment
 Reissuance keys
@@ -95,6 +99,7 @@ scriptSig (hex)
 Search for block height, hash, transaction, or address
 Sending exact amounts (with no change) is an indication the bitcoins likely didn't change hands.
 Sending to a different script type
+%s from tip
 Size
 Size (KB)
 %s of %s Transactions
@@ -105,7 +110,6 @@ Spent by
 Status
 %s Transactions
 style.css
-%s from tip
 This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 Timestamp
@@ -119,6 +123,7 @@ Transaction fees
 Transaction not found
 Transactions
 Transaction: %s
+TXID
 txid:vout
 Type
 Unconfirmed
@@ -127,6 +132,7 @@ Unconfirmed spent
 Unconfirmed tx count
 Unnecessary input heuristic
 Unspent
+Value
 Value commitment
 Version
 Virtual size

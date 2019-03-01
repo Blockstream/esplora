@@ -145,6 +145,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Mempool backlog stats
   , mempool$ = reply('mempool')
+  , mempoolRecent$ = reply('recent')
 
   // Fee estimates
   , feeEst$ = reply('fee-est')
@@ -175,7 +176,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , tx$, openTx$
                      , goAddr$, addr$, addrTxs$
-                     , mempool$, feeEst$
+                     , mempool$, mempoolRecent$, feeEst$
                      , loading$, page$, view$, title$, theme$
                      })
 
@@ -233,17 +234,23 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
-    // fetch mempool backlog stats as a foreground request when opening the mempool page
+    // fetch mempool backlog stats, fee estimates and recent txs as foregrounds request when opening the mempool page
     , goMempool$.flatMap(_ =>  [{ category: 'mempool',    method: 'GET', path: '/mempool' }
+                              , { category: 'recent',     method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
 
-    // also, fetch it in the background when opening a tx, or every 30 seconds while the mempool/tx page remains active
-    , goTx$.merge(process.browser ? O.timer(0, 3000).withLatestFrom(view$, tx$)
+    // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool/tx page remains active
+    , goTx$.merge(process.browser ? O.timer(0, 30000).withLatestFrom(view$, tx$)
                                                     .filter(([ _, view, tx ]) => view == 'mempool' || (view == 'tx' && tx && !tx.status.confirmed))
                                                     .filter(_ => document.hasFocus())
                                   : O.empty())
         .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
+
+    // fetch recent mempool txs in the background every 10 seconds while the mempool page is active
+    , !process.browser ? O.empty()
+      : O.timer(0, 10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'mempool' && document.hasFocus())
+          .mapTo(               { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
     ).map(setBase)
 
