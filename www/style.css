@@ -686,6 +686,10 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   word-break: break-word;
 }
 
+.stats-table ul, .stats-table ul > li:last-child {
+  margin-bottom: 0;
+}
+
 .jumbotron .stats-table > div:first-child {
   border-top: 0;
 }
