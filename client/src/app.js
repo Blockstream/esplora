@@ -231,7 +231,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // in server env, just get it once
     , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
                        : O.of(1)
-        ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: true } )
+        ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
     // fetch mempool backlog stats as a foreground request when opening the mempool page
     , goMempool$.flatMap(_ =>  [{ category: 'mempool',    method: 'GET', path: '/mempool' }

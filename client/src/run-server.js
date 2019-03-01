@@ -50,7 +50,7 @@ export default function render(pathname, args='', locals={}, cb) {
         timeout = setTimeout(_ => done({ errorCode: 504 }), LOAD_TIMEOUT)
       }
     }
-    else if (seenLoading && S.tipHeight) done()
+    else if (seenLoading) done()
   }
 
   const historyDriver = goto$ => {
