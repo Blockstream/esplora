@@ -32,7 +32,7 @@ Height
 In best chain
 In best chain (%s confirmations)
 Included in Block
-in %s blocks (%s vMB from tip)
+in %s blocks (%s from tip)
 Issuance
 Issuance amount
 Issuance blinding nonce
@@ -104,7 +104,7 @@ Spent by
 Status
 %s Transactions
 style.css
-%s vMB from tip
+%s from tip
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 Timestamp
 Total fees
