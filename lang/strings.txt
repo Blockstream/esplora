@@ -1,5 +1,6 @@
 < 0.01 MB
 Address
+Address reuse
 Address: %s
 Amount commitment
 API
@@ -36,8 +37,12 @@ Issuance
 Issuance amount
 Issuance blinding nonce
 Issuance entropy
+It is possible to tell the change output apart because it has more decimal precision. To avoid this, pad the payment amount to use all available precision.
+It is possible to tell the change output apart because some inputs would've been unnecessary if it was the payment.
+It is possible to tell the change output apart because you're sending to a different script type than the one you're spending from.
 lang_id
 lang_name
+Likely self-transfer
 Loading...
 Load more
 Lock time
@@ -70,12 +75,14 @@ Prev
 Previous
 Previous output address
 Previous output script
+Privacy gotchas
 (RBF)
 Recent Blocks
 Reissuance
 Reissuance commitment
 Reissuance keys
 Replace by fee
+Round payment amount
 sat/vbyte
 %s blocks
 Scan QR
@@ -85,6 +92,8 @@ scriptPubKey (hex)
 scriptSig (asm)
 scriptSig (hex)
 Search for block height, hash, transaction, or address
+Sending exact amounts (with no change) is an indication the bitcoins likely didn't change hands.
+Sending to a different script type
 Size
 Size (KB)
 %s of %s Transactions
@@ -96,6 +105,7 @@ Status
 %s Transactions
 style.css
 %s vMB from tip
+This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 Timestamp
 Total fees
 Total size
@@ -113,6 +123,7 @@ Unconfirmed
 Unconfirmed received
 Unconfirmed spent
 Unconfirmed tx count
+Unnecessary input heuristic
 Unspent
 Value commitment
 Version
