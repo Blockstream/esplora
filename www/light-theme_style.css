@@ -76,3 +76,7 @@ body.theme-light {
 .theme-light .jumbotron {
     color: #fff;
 }
+
+.theme-light table th, .theme-light table td {
+  border-color: #dee2e6 !important;
+}

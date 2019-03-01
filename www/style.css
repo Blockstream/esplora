@@ -79,6 +79,10 @@ a, a:link, a:visited, a:hover, a:focus {
   font-size: 1.5rem;
 }
 
+/* tables */
+table th, table td {
+  border-color: #333 !important;
+}
 
 /* header title / search bar */
 .explorer-title-container {
