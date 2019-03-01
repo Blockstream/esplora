@@ -3,9 +3,11 @@ import layout from './layout'
 import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
+import privacyIssuesView from './tx-privacy-issues'
 import { formatAmount, formatTime } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 import { getMempoolDepth, getConfEstimate } from '../lib/fees'
+import detectPrivacyIssues from '../lib/privacy-analysis'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
@@ -92,6 +94,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
        , mempoolDepth = !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
        , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
        , overpaying = !tx.status.confirmed && feerate != null && feeEst && feerate / feeEst[2]
+       , privacyIssues = detectPrivacyIssues(tx)
 
   return (
   <div className="stats-table">
@@ -152,6 +155,10 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
     { isRbf(tx) && <div>
       <div>{t`Replace by fee`}</div>
       <div>{t`Opted in`}</div>
+    </div> }
+    { privacyIssues.length && <div>
+      <div>{t`Privacy gotchas`}</div>
+      <div>{privacyIssuesView(privacyIssues, t)}</div>
     </div> }
   </div>)
 }
