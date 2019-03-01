@@ -160,11 +160,13 @@ For example: `[[53, 102131], [38, 110990], [34, 138976], [24, 112619], [3, 24634
 
 Get the full list of txids in the mempool as an array.
 
-The order of the txids is undefined and does not match bitcoind's ordering.
+The order of the txids is arbitrary and does not match bitcoind's.
 
-### `GET /mempool/txs`
+### `GET /mempool/recent`
 
-Get a sample of up to 50 mempool transactions.
+Get a list of last 25 transactions to enter the mempool.
+
+Each transaction object contains simplified overview data, with the following fields: `txid`, `fee`, `vsize` and `value`
 
 ## Fee estimates
 
