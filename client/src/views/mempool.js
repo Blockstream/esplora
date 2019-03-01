@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
-import { formatAmount, formatMb } from './util'
+import { formatAmount, formatVMB } from './util'
 import layout from './layout'
 import search from './search'
 
@@ -25,7 +25,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           </div>
           <div>
             <div>{t`Total size`}</div>
-            <div>{mempool.vsize > 10000 ? `${formatMb(mempool)} vMB` : `< 0.01 MB`}</div>
+            <div>{mempool.vsize > 10000 ? `${formatVMB(mempool.vsize)} vMB` : `< 0.01 vMB`}</div>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
             { squashed = squashFeeHistogram(mempool.fee_histogram), squashed.map(([ rangeStart, binSize ], i) => binSize > 0 &&
               <dd>
                 <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+squashed[i-1][0].toFixed(1)}`}</span>
-                <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{`${formatMb(binSize)} vMB`}</span>
+                <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{formatVMB(binSize)}</span>
               </dd>
             )}
             <dd className="label"><span className="text">{t`sat/vbyte`}</span></dd>
@@ -51,7 +51,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
             <table className="table table-sm">
                 <thead><tr><th>Target</th><th>sat/vB</th><th>Mempool depth</th></tr></thead>
                 { sortEst(feeEst).map(([ target, feerate ]) =>
-                  <tr><td>{t`${target} blocks`}</td><td>{feerate.toFixed(2)}</td><td>{t`${formatMb(getMempoolDepth(mempool.fee_histogram, feerate))} vMB from tip`}</td></tr>
+                  <tr><td>{t`${target} blocks`}</td><td>{feerate.toFixed(2)}</td><td>{t`${formatVMB(getMempoolDepth(mempool.fee_histogram, feerate))} from tip`}</td></tr>
                 )}
             </table>
           </div>

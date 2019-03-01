@@ -4,7 +4,7 @@ import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import privacyIssuesView from './tx-privacy-issues'
-import { formatAmount, formatTime } from './util'
+import { formatAmount, formatTime, formatVMB } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 import { getMempoolDepth, getConfEstimate } from '../lib/fees'
 import detectPrivacyIssues from '../lib/privacy-analysis'
@@ -120,7 +120,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
     { !tx.status.confirmed && feerate != null && <div>
       <div>{t`ETA`}</div>
       <div>{confEstimate == null || mempoolDepth == null ? t`Loading...`
-           : t`in ${confEstimate} blocks (${(mempoolDepth/1000000).toFixed(1)} vMB from tip)` }
+           : t`in ${confEstimate} blocks (${formatVMB(mempoolDepth)} from tip)` }
       </div>
     </div> }
 
