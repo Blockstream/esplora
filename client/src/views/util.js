@@ -29,5 +29,5 @@ export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
 export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
 
 export const formatVMB = bytes =>
-  bytes > 1000 || bytes == 0 ? `${(bytes / 1000000).toFixed(2)} vMB`
+  bytes >= 10000 || bytes == 0 ? `${(bytes / 1000000).toFixed(2)} vMB`
 : '< 0.01 vMB'
