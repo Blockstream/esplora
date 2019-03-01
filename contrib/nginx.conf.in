@@ -30,7 +30,7 @@ server {
 
     location /{NGINX_PATH}api/ {
         proxy_pass http://backend/;
-        add_header Access-Control-Allow-Origin *;
+        add_header Access-Control-Allow-Origin * always;
     }
     location /{NGINX_PATH}nojs/ {
         proxy_pass http://prerenderer/;
