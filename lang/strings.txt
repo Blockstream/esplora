@@ -105,6 +105,7 @@ Status
 %s Transactions
 style.css
 %s from tip
+This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 Timestamp
 Total fees

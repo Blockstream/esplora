@@ -45,11 +45,14 @@ const issueTypes = {
 const issueOrdering = Object.values(issueTypes)
 
 export default (issues, t) =>
-  <ul className="list-unstyled">
-    { issues.map(issue => issueTypes[issue])
+  issues.length ? <ul className="list-unstyled">
+    {issues.map(issue => issueTypes[issue])
       .sort((a, b) => issueOrdering.indexOf(a) - issueOrdering.indexOf(b))
       .map(([ type, title, desc, url ]) =>
-        <li title={t(desc)}><a className={`text-${type}`} href={url}>{t(title) + '➚'}</a></li>
-      )
+        <li title={t(desc)}><a className={`text-${type}`} href={url}>{t(title) + '➚'}</a></li>)
     }
   </ul>
+
+  : <a className="text-success" href="https://en.bitcoin.it/wiki/Privacy#Blockchain_attacks_on_privacy">
+      {t`This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.`}➚
+    </a>

@@ -156,9 +156,10 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
       <div>{t`Replace by fee`}</div>
       <div>{t`Opted in`}</div>
     </div> }
-    { privacyIssues.length && <div>
+
+    <div>
       <div>{t`Privacy gotchas`}</div>
       <div>{privacyIssuesView(privacyIssues, t)}</div>
-    </div> }
+    </div>
   </div>)
 }
