@@ -27,10 +27,17 @@ const issueTypes = {
   , 'https://en.bitcoin.it/wiki/Privacy#Sending_to_a_different_script_type'
   ]
 
-, 'change-detection-uih': [
+, 'change-detection-uih1': [
     'warning'
   , 'Unnecessary input heuristic'
-  , 'It is possible to tell the change output apart because some inputs would\'ve been unnecessary if it was the payment.'
+  , 'There\'s an indication that one output is more likely to be the change because some inputs would\'ve been unnecessary if it was the payment.'
+  , 'https://en.bitcoin.it/wiki/Privacy#Unnecessary_input_heuristic'
+  ]
+
+, 'exotic-detection-uih2': [
+    'warning'
+  , 'Unnecessary input heuristic'
+  , 'This transaction has unnecessary inputs that are not typically added by wallet software.'
   , 'https://en.bitcoin.it/wiki/Privacy#Unnecessary_input_heuristic'
   ]
 
