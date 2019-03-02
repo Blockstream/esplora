@@ -25,7 +25,7 @@ export default ({ t, mempool, mempoolRecent, feeEst, ...S }) => mempool && feeEs
           </div>
           <div>
             <div>{t`Total size`}</div>
-            <div>{mempool.vsize > 10000 ? `${formatVMB(mempool.vsize)} vMB` : `< 0.01 vMB`}</div>
+            <div>{formatVMB(mempool.vsize)}</div>
           </div>
         </div>
       </div>
