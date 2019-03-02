@@ -45,7 +45,7 @@ export default ({ t, mempool, mempoolRecent, feeEst, ...S }) => mempool && feeEs
           </dl>
         }
 
-        { Object.keys(feeEst).length &&
+        { !!Object.keys(feeEst).length &&
           <div className="fee-estimates col-md-4 col-sm-6 text-center">
             <h4 className="mb-3">Fee rate estimates</h4>
             <table className="table table-sm">
