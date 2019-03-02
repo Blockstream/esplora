@@ -109,12 +109,12 @@ Status
 %s Transactions
 style.css
 There's an indication that one output is more likely to be the change because some inputs would've been unnecessary if it was the payment.
-This transaction could save %s on fees by upgrading to native SegWit-Bech32 or %s by upgrading to Segwit-P2SH
+This transaction could save %s on fees by upgrading to native SegWit-Bech32 or %s by upgrading to SegWit-P2SH
 This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.
 This transaction has unnecessary inputs that are not typically added by wallet software.
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 This transaction saved %s on fees by upgrading to native SegWit-Bech32
-This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native Segwit-Bech32
+This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native SegWit-Bech32
 Timestamp
 Total fees
 Total size
