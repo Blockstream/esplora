@@ -23,7 +23,7 @@ export default function detectPrivacyIssues(tx) {
 
   // Issues relating to obvious change output, only applies to txs with exactly 2 spendable outputs
   if (outs.length == 2 && isSpendable(outs[0]) && isSpendable(outs[1])) {
-    let [ o1, o2 ] = outs
+    const [ o1, o2 ] = outs
 
     // Obvious change due to one output having more precision than the other
     if (!hasCT && Math.abs(lostPrecision(o1.value) - lostPrecision(o2.value)) >= 3) {
@@ -41,11 +41,23 @@ export default function detectPrivacyIssues(tx) {
       }
     }
 
-    // Obvious change due to the unnecessary input heuristic (UIH)
-    // if we could've avoided the smallest input and still have enough to fund the smaller
-    // output and fees, then the smaller output is most likely the change and not the payment
-    if (!hasCT && sumInputs(tx.vin) - smallestInput(tx.vin) > smallestOutput(outs) + tx.fee) {
-      issues.push('change-detection-uih')
+    // Unnecessary input heuristic (UIH)
+    if (!hasCT && tx.vin.length > 1) {
+      // if the transaction could've avoided the smallest input and still have enough to fund
+      // any of the two outputs, the transaction has what appears to be an unnecessary input.
+      const minusSmallestIn = sumInputs(tx.vin) - smallestInput(tx.vin)
+          , largeOut = Math.max(o1.value, o2.value)
+          , smallOut = Math.min(o1.value, o2.value)
+
+      if (minusSmallestIn >= largeOut + tx.fee) {
+        // UIH2: if it still covers the larger output and fee, this implies this was
+        // a non-standard transaction that added extra inputs for exotic reasons
+        issues.push('exotic-detection-uih2')
+      } else if (minusSmallestIn >= smallOut + tx.fee) {
+        // UIH1: if it still covers the small output and fee, this implies the smaller
+        // output was the change and not the payment
+        issues.push('change-detection-uih1')
+      }
     }
   }
 
@@ -68,7 +80,6 @@ export default function detectPrivacyIssues(tx) {
 
 const sumInputs = ins => ins.reduce((T, vin) => T + (vin.prevout && vin.prevout.value || 0), 0)
     , smallestInput = ins => Math.min(...ins.map(vin => vin.prevout && vin.prevout.value || Math.Infinity))
-    , smallestOutput = outs => Math.min(...outs.map(vout => vout.value))
 
 // checks if there's at least one previous output of this type
 const inputsHasType = (ins, scriptpubkey_type) =>
