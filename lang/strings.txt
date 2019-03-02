@@ -137,6 +137,7 @@ Unconfirmed spent
 Unconfirmed tx count
 Unnecessary input heuristic
 Unspent
+Using round payment amounts gives an indication of which output is the payment and which is the change. Padding payment amounts to use all available precision resolves this issue.
 Value
 Value commitment
 Version
