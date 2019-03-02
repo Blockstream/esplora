@@ -1363,6 +1363,13 @@ body::after{
   color: #c3cbd3;
 }
 
+@media (max-width: 767.98px) {
+  .small-sm {
+    font-size: 80%;
+    font-weight: 400;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   .blocks-table .blocks-table-row > div:nth-child(2) {
     width: 250px;
