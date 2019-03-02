@@ -33,7 +33,7 @@ msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
-msgstr ""
+msgstr "גובה בלוק"
 
 msgid "Block not found"
 msgstr "בלוק לא נמצא"
@@ -48,19 +48,19 @@ msgid "Block #%s: %s"
 msgstr "בלוק #%0: %1"
 
 msgid "Block timestamp"
-msgstr ""
+msgstr "זמן בלוק"
 
 msgid "Broadcast raw transaction (hex)"
-msgstr ""
+msgstr "פרסום טרנזקציה גולמית (hex)"
 
 msgid "Broadcast transaction"
-msgstr ""
+msgstr "פרסם טרנזקציה"
 
 msgid "Broadcast tx"
-msgstr ""
+msgstr "פרסם טרנזקציה"
 
 msgid "Cancel"
-msgstr ""
+msgstr "בטל"
 
 msgid "Coinbase"
 msgstr "פרס כרייה"
@@ -69,19 +69,19 @@ msgid "Confidential"
 msgstr "חסוי"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "מאושר"
 
 msgid "Confirmed received"
-msgstr ""
+msgstr "התקבל (מאושר)"
 
 msgid "Confirmed spent"
 msgstr ""
 
 msgid "Confirmed tx count"
-msgstr ""
+msgstr "מספר טרנזקציות מאושרות"
 
 msgid "Confirmed unspent"
-msgstr ""
+msgstr "לא מנוצל (מאושר)"
 
 msgid "Details"
 msgstr "פרטים"
@@ -93,7 +93,7 @@ msgid "Height"
 msgstr "גובה"
 
 msgid "In best chain"
-msgstr ""
+msgstr "בשרשרת הכי טובה"
 
 msgid "In best chain (%s confirmations) (singular)"
 msgstr "בשרשרת הכי טובה (אישור אחד)"
@@ -132,13 +132,13 @@ msgid "Lock time"
 msgstr "נעילת זמן"
 
 msgid "Merkle root"
-msgstr ""
+msgstr "שורש מרקל"
 
 msgid "New asset"
 msgstr "נכס חדש"
 
 msgid "Newer"
-msgstr ""
+msgstr "חדש יותר"
 
 msgid "Next"
 msgstr "הבא"
@@ -150,7 +150,7 @@ msgid "Nonstandard"
 msgstr "לא סטנדרטי"
 
 msgid "No outputs"
-msgstr ""
+msgstr "ללא פלטים"
 
 msgid "No reissuance"
 msgstr "ללא הנפקה מחדש"
@@ -162,19 +162,19 @@ msgid "nSequence"
 msgstr ""
 
 msgid "Older"
-msgstr ""
+msgstr "ישן יותר"
 
 msgid "OP_RETURN data"
 msgstr "מידע OP_RETURN"
 
 msgid "Opted in"
-msgstr ""
+msgstr "מופעל"
 
 msgid "Orphaned"
-msgstr ""
+msgstr "יתום"
 
 msgid "Outpoint"
-msgstr ""
+msgstr "מזהה פלט"
 
 msgid "Output in parent chain"
 msgstr "מטבע משרשרת אם"
@@ -198,16 +198,16 @@ msgid "Powered by esplora"
 msgstr ""
 
 msgid "Prev"
-msgstr ""
+msgstr "הקודם"
 
 msgid "Previous"
 msgstr "קודם"
 
 msgid "Previous output address"
-msgstr ""
+msgstr "כתובת פלט קודם"
 
 msgid "Previous output script"
-msgstr ""
+msgstr "סקריפט פלט קודם"
 
 msgid "(RBF)"
 msgstr ""
@@ -291,10 +291,10 @@ msgid "Timestamp"
 msgstr "זמן"
 
 msgid "Total tx count"
-msgstr ""
+msgstr "סה\"כ טרנזקציות"
 
 msgid "Total unspent"
-msgstr ""
+msgstr "סה\"כ לא מנוצל"
 
 msgid "Transaction"
 msgstr "טרנזקציה"
@@ -321,13 +321,13 @@ msgid "Unconfirmed"
 msgstr "לא מאושר"
 
 msgid "Unconfirmed received"
-msgstr ""
+msgstr "התקבל (לא מאושר)"
 
 msgid "Unconfirmed spent"
-msgstr ""
+msgstr "נשלח (לא מאושר)"
 
 msgid "Unconfirmed tx count"
-msgstr ""
+msgstr "מספר טרנזקציות לא מאושרות"
 
 msgid "Unspent"
 msgstr "לא נוצל"
