@@ -160,7 +160,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , addr$.filter(notNully).mapTo('addr')
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
-                  , goMempool$.mapTo('mempool')
+                  , mempool$.mapTo('mempool')
                   , error$.mapTo('error'))
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
