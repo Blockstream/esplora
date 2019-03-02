@@ -37,6 +37,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                                                     , est_chain_seen_count: +loc.query.c || 0 }))
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
   , goPush$   = route('/tx/push')
+  , goRecent$ = route('/tx/recent')
   , goScan$   = route('/scan-qr').mapTo(true)
   , goMempool$= route('/mempool')
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
@@ -152,7 +153,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
-                  , blocks$.filter(notNully).mapTo('home')
+                  , blocks$.filter(notNully).mapTo('recentBlocks')
+                  , mempoolRecent$.mapTo('recentTxs')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
@@ -168,7 +170,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
-                   , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`))
+                   , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
+                   , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
@@ -234,12 +237,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
-    // fetch mempool backlog stats, fee estimates and recent txs as foregrounds request when opening the mempool page
+    // fetch mempool backlog stats and fee estimates as foregrounds request when opening the mempool page
     , goMempool$.flatMap(_ =>  [{ category: 'mempool',    method: 'GET', path: '/mempool' }
-                              , { category: 'recent',     method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
 
-    // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool/tx page remains active
+    // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool or unconfirmed tx page remains open
     , goTx$.merge(process.browser ? O.timer(0, 30000).withLatestFrom(view$, tx$)
                                                     .filter(([ _, view, tx ]) => view == 'mempool' || (view == 'tx' && tx && !tx.status.confirmed))
                                                     .filter(_ => document.hasFocus())
@@ -247,10 +249,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
 
-    // fetch recent mempool txs in the background every 10 seconds while the mempool page is active
-    , !process.browser ? O.empty()
-      : O.timer(0, 10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'mempool' && document.hasFocus())
-          .mapTo(               { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    // fetch recent mempool txs when opening the recent txs page
+    , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
+    // ... and every 10 seconds while it remains open
+    , !process.browser ? O.empty() : O.timer(0, 10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs' && document.hasFocus())
+        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
     ).map(setBase)
 

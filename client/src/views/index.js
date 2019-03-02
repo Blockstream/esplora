@@ -1,4 +1,5 @@
-export { default as home }    from './home'
+export { recentBlocks }       from './home'
+export { recentTxs }          from './home'
 export { default as block }   from './block'
 export { default as addr }    from './addr'
 export { default as tx }      from './tx'
