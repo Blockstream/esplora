@@ -1,6 +1,7 @@
 {
   "Address": "地址",
   "Address: %s": "地址: %0",
+  "Block height": "区块高度",
   "Block %s": "块 %0",
   "Block #%s: %s": "区块 #%0: %1",
   "Confidential": "保密",

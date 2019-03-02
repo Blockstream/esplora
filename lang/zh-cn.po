@@ -1,9 +1,10 @@
 # Translators:
 # Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# Simin Han <simin@blockstream.io>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Last-Translator: Simin Han <simin@blockstream.io>, 2019\n"
 "Language-Team: Chinese (https://www.transifex.com/blockstream/teams/92972/zh/)\n"
 "Language: zh\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -18,7 +19,7 @@ msgid "Amount commitment"
 msgstr ""
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 msgid "Asset commitment"
 msgstr ""
@@ -27,13 +28,13 @@ msgid "Asset ID"
 msgstr ""
 
 msgid "Bits"
-msgstr ""
+msgstr "Bits"
 
 msgid "Block Challenge"
 msgstr ""
 
 msgid "Block height"
-msgstr ""
+msgstr "区块高度"
 
 msgid "Block not found"
 msgstr ""

@@ -1,9 +1,11 @@
 # Translators:
 # Nadav Ivgi <nadav+transifex1@shesek.info>, 2019
+# Domenico Gabriele <domenico@blockstream.com>, 2019
+# Alessandro Saglimbeni <alessandro@blockstream.io>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Nadav Ivgi <nadav+transifex1@shesek.info>, 2019\n"
+"Last-Translator: Alessandro Saglimbeni <alessandro@blockstream.io>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/blockstream/teams/92972/it/)\n"
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -15,79 +17,79 @@ msgid "Address: %s"
 msgstr "Indirizzo: %0"
 
 msgid "Amount commitment"
-msgstr ""
+msgstr "Commitment dell'Importo"
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 msgid "Asset commitment"
-msgstr ""
+msgstr "Commitment dell'Asset"
 
 msgid "Asset ID"
-msgstr ""
+msgstr "Asset ID"
 
 msgid "Bits"
-msgstr ""
+msgstr "Bits"
 
 msgid "Block Challenge"
-msgstr ""
+msgstr "Challenge del Blocco"
 
 msgid "Block height"
-msgstr ""
+msgstr "Altezza del Blocco"
 
 msgid "Block not found"
-msgstr ""
+msgstr "Blocco Non Trovato"
 
 msgid "Block %s"
 msgstr "Blocco %0"
 
 msgid "Block Solution"
-msgstr ""
+msgstr "Soluzione del Blocco"
 
 msgid "Block #%s: %s"
 msgstr "Blocco #%0: %1"
 
 msgid "Block timestamp"
-msgstr ""
+msgstr "Timestamp del Blocco"
 
 msgid "Broadcast raw transaction (hex)"
-msgstr ""
+msgstr "Trasmetti una Raw Transaction (hex)"
 
 msgid "Broadcast transaction"
-msgstr ""
+msgstr "Trasmetti transazione"
 
 msgid "Broadcast tx"
-msgstr ""
+msgstr "Trasmetti TX"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 msgid "Coinbase"
-msgstr ""
+msgstr "Coinbase"
 
 msgid "Confidential"
 msgstr "Confidenziale"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Confermata"
 
 msgid "Confirmed received"
-msgstr ""
+msgstr "Output confermati ricevuti"
 
 msgid "Confirmed spent"
-msgstr ""
+msgstr "Output confermati spesi"
 
 msgid "Confirmed tx count"
-msgstr ""
+msgstr "Numero di transazioni confermate"
 
 msgid "Confirmed unspent"
-msgstr ""
+msgstr "Output confermati non spesi"
 
 msgid "Details"
 msgstr "Dettagli"
 
 msgid "Go"
-msgstr ""
+msgstr "Vai"
 
 msgid "Height"
 msgstr "Altezza"
@@ -105,16 +107,16 @@ msgid "Included in Block"
 msgstr "Inclusa in Blocco"
 
 msgid "Issuance"
-msgstr ""
+msgstr "Emissione"
 
 msgid "Issuance amount"
 msgstr ""
 
 msgid "Issuance blinding nonce"
-msgstr ""
+msgstr "Blinding nonce di emissione"
 
 msgid "Issuance entropy"
-msgstr ""
+msgstr "Entropia di emissione"
 
 msgid "lang_id"
 msgstr "it"
@@ -129,106 +131,106 @@ msgid "Load more"
 msgstr "Continua"
 
 msgid "Lock time"
-msgstr ""
+msgstr "Lock time"
 
 msgid "Merkle root"
-msgstr ""
+msgstr "Merkle root"
 
 msgid "New asset"
-msgstr ""
+msgstr "Nuovo Asset"
 
 msgid "Newer"
-msgstr ""
+msgstr "Più recente"
 
 msgid "Next"
 msgstr "Prossimo"
 
 msgid "Nonce"
-msgstr ""
+msgstr "Nonce"
 
 msgid "Nonstandard"
-msgstr ""
+msgstr "Nonstandard"
 
 msgid "No outputs"
-msgstr ""
+msgstr "Nessun Output"
 
 msgid "No reissuance"
-msgstr ""
+msgstr "Nessuna Riemissione"
 
 msgid "No results found"
 msgstr "Nessun risultato trovato"
 
 msgid "nSequence"
-msgstr ""
+msgstr "nSequence"
 
 msgid "Older"
-msgstr ""
+msgstr "Più vecchio"
 
 msgid "OP_RETURN data"
-msgstr ""
+msgstr "Dati di OP_RETURN"
 
 msgid "Opted in"
-msgstr ""
+msgstr "Opted in"
 
 msgid "Orphaned"
-msgstr ""
+msgstr "Orfano"
 
 msgid "Outpoint"
-msgstr ""
+msgstr "Outpoint"
 
 msgid "Output in parent chain"
-msgstr ""
+msgstr "Output nella catena padre"
 
 msgid "Page Not Found"
 msgstr "Pagina Non Trovata"
 
 msgid "Peg-out"
-msgstr ""
+msgstr "Peg-out"
 
 msgid "Peg-out address"
-msgstr ""
+msgstr "Indirizzo di peg-out"
 
 msgid "Peg-out ASM"
-msgstr ""
+msgstr "Peg-out ASM"
 
 msgid "Peg-out to"
-msgstr ""
+msgstr "Peg-out verso"
 
 msgid "Powered by esplora"
-msgstr ""
+msgstr "Powered by esplora"
 
 msgid "Prev"
-msgstr ""
+msgstr "Precedente"
 
 msgid "Previous"
 msgstr "Precedente"
 
 msgid "Previous output address"
-msgstr ""
+msgstr "Indirizzo dell'output precedente"
 
 msgid "Previous output script"
-msgstr ""
+msgstr "Script dell'output precedente"
 
 msgid "(RBF)"
-msgstr ""
+msgstr "(RBF)"
 
 msgid "Recent Blocks"
 msgstr "Blocchi Recenti"
 
 msgid "Reissuance"
-msgstr ""
+msgstr "Riemissione"
 
 msgid "Reissuance commitment"
-msgstr ""
+msgstr "Commitment di riemissione"
 
 msgid "Reissuance keys"
-msgstr ""
+msgstr "Chiavi di riemissione"
 
 msgid "Replace by fee"
-msgstr ""
+msgstr "Replace by fee "
 
 msgid "Scan QR"
-msgstr ""
+msgstr "Scansiona QR"
 
 msgid "%s Confirmations (singular)"
 msgstr "1 Conferma"
@@ -237,16 +239,16 @@ msgid "%s Confirmations (plural)"
 msgstr "%0 Conferme"
 
 msgid "scriptPubKey (asm)"
-msgstr ""
+msgstr "scriptPubKey (asm)"
 
 msgid "scriptPubKey (hex)"
-msgstr ""
+msgstr "scriptPubKey (hex)"
 
 msgid "scriptSig (asm)"
-msgstr ""
+msgstr "scriptSig (asm)"
 
 msgid "scriptSig (hex)"
-msgstr ""
+msgstr "scriptSig (hex)"
 
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Cerca per altezza blocco, hash, transazione o indirizzo"
@@ -261,19 +263,19 @@ msgid "%s of %s Transactions"
 msgstr "%0 di %1 Transazioni"
 
 msgid "%s outputs (singular)"
-msgstr ""
+msgstr "1 output"
 
 msgid "%s outputs (plural)"
-msgstr ""
+msgstr "%0 outputs"
 
 msgid "Spending tx"
-msgstr ""
+msgstr "Speso nella transazione"
 
 msgid "Spent by"
 msgstr "Spesa da"
 
 msgid "%s (%s sat/vB)"
-msgstr ""
+msgstr "%s (%s sat/vB)"
 
 msgid "Status"
 msgstr "Stato"
@@ -285,16 +287,16 @@ msgid "%s Transactions (plural)"
 msgstr "%0 Transazioni"
 
 msgid "style.css"
-msgstr ""
+msgstr "style.css"
 
 msgid "Timestamp"
 msgstr "Data"
 
 msgid "Total tx count"
-msgstr ""
+msgstr "Numero di transazioni totali"
 
 msgid "Total unspent"
-msgstr ""
+msgstr "Totale output non spesi"
 
 msgid "Transaction"
 msgstr "Transazione"
@@ -303,7 +305,7 @@ msgid "Transaction fees"
 msgstr "Commissione transazione"
 
 msgid "Transaction not found"
-msgstr ""
+msgstr "Transazione non trovata"
 
 msgid "Transactions"
 msgstr "Transazioni"
@@ -312,7 +314,7 @@ msgid "Transaction: %s"
 msgstr "Transazione: %0"
 
 msgid "txid:vout"
-msgstr ""
+msgstr "txid:vout"
 
 msgid "Type"
 msgstr "Tipologia"
@@ -321,19 +323,19 @@ msgid "Unconfirmed"
 msgstr "Non confermata"
 
 msgid "Unconfirmed received"
-msgstr ""
+msgstr "Output non confermeti ricevuti"
 
 msgid "Unconfirmed spent"
-msgstr ""
+msgstr "Output non confermati spesi"
 
 msgid "Unconfirmed tx count"
-msgstr ""
+msgstr "Numero transazioni non confermate"
 
 msgid "Unspent"
 msgstr "Non spesa"
 
 msgid "Value commitment"
-msgstr ""
+msgstr "Commitment dell'importo"
 
 msgid "Version"
 msgstr "Versione"
@@ -345,7 +347,7 @@ msgid "Virtual size (vbytes)"
 msgstr "Dimensione Virtuale (vbytes)"
 
 msgid "We encountered an error. Please try again later."
-msgstr ""
+msgstr "C'è stato un problema. Per piacere riprova più tardi."
 
 msgid "Weight (KWU)"
 msgstr "Peso (KWU)"
@@ -357,4 +359,4 @@ msgid "Weight units (WU)"
 msgstr "Unità di peso (WU)"
 
 msgid "Witness"
-msgstr ""
+msgstr "Witness"
