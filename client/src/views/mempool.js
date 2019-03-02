@@ -62,12 +62,18 @@ export default ({ t, mempool, mempoolRecent, feeEst, ...S }) => mempool && feeEs
       { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
       : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
       : <table className="table table-sm">
-          <thead><tr><th>{t`TXID`}</th><th>{t`Value`}</th><th>{t`Size`}</th><th>{t`Fee`}</th><th>{t`Depth`}</th></tr></thead>
+          <thead><tr>
+            <th>{t`TXID`}</th>
+            { mempoolRecent[0].value != null && <th>{t`Value`}</th> }
+            <th>{t`Size`}</th>
+            <th>{t`Fee`}</th>
+            <th>{t`Depth`}</th>
+          </tr></thead>
           <tbody>
             {mempoolRecent.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
               <tr>
                 <td><a href={`tx/${txOverview.txid}`}>{txOverview.txid}</a></td>
-                <td>{formatAmount({ value: txOverview.value })}</td>
+                { txOverview.value != null && <td>{formatAmount({ value: txOverview.value })}</td> }
                 <td>{`${txOverview.vsize} vB`}</td>
                 <td>{`${feerate.toFixed(1)} sat/vB`}</td>
                 <td>{formatVMB(getMempoolDepth(mempool.fee_histogram, feerate))}</td>
