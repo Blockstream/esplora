@@ -16,7 +16,7 @@ const issueTypes = {
 , 'change-detection-precision': [
     'danger'
   , 'Round payment amount'
-  , 'It is possible to tell the change output apart because it has more decimal precision. To avoid this, pad the payment amount to use all available precision.'
+  , 'Using round payment amounts gives an indication of which output is the payment and which is the change. Padding payment amounts to use all available precision resolves this issue.'
   , 'https://en.bitcoin.it/wiki/Privacy#Round_numbers'
   ]
 
