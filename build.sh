@@ -37,6 +37,5 @@ cat $DEST/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/d
   | ( [[ "$NODE_ENV" != "development" ]] && uglifyjs -cm || cat ) ) \
   > $DEST/app.js
 
-# Pre-render notfound.html and unavailable.html
+# Pre-render notfound.html
 babel-node render-view.js '{"view":"error","error":"Page Not Found"}' > $DEST/notfound.html
-babel-node render-view.js '{"view":"error","error":"Esplora is currently unavailable, please try again later."}' > $DEST/unavailable.html
