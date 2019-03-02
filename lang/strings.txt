@@ -1,4 +1,3 @@
-< 0.01 MB
 Address
 Address reuse
 Address: %s
@@ -40,7 +39,6 @@ Issuance
 Issuance amount
 Issuance blinding nonce
 Issuance entropy
-It is possible to tell the change output apart because it has more decimal precision. To avoid this, pad the payment amount to use all available precision.
 It is possible to tell the change output apart because you're sending to a different script type than the one you're spending from.
 lang_id
 lang_name
