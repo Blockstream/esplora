@@ -3,12 +3,12 @@ import layout from './layout'
 import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
-import privacyIssuesView from './tx-privacy-issues'
+import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
 import { formatAmount, formatTime, formatVMB } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from '../lib/fees'
-import detectPrivacyIssues from '../lib/privacy-analysis'
+import getPrivacyAnalysis from '../lib/privacy-analysis'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
@@ -95,7 +95,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
        , mempoolDepth = !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
        , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
        , overpaying = !tx.status.confirmed && feerate != null && feeEst && feerate / feeEst[2]
-       , privacyIssues = detectPrivacyIssues(tx)
+       , privacyAnalysis = getPrivacyAnalysis(tx)
        , segwitGains = calcSegwitFeeGains(tx)
 
   return (
@@ -169,8 +169,8 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
     </div> }
 
     <div>
-      <div>{t`Privacy gotchas`}</div>
-      <div className="small-sm">{privacyIssuesView(privacyIssues, t)}</div>
+      <div>{t`Privacy analysis`}</div>
+      <div className="small-sm">{privacyAnalysisView(privacyAnalysis, t)}</div>
     </div>
 
   </div>)

@@ -5,7 +5,7 @@ import Snabbdom from 'snabbdom-pragma'
 // the issues marked as "danger" (displayed in red) are the ones where it is relatively trivial
 // to avoid the issue by changing habits and/or changing wallet software. the ones marked as "warning"
 // (displayed in orange) are more difficult to do something about.
-const issueTypes = {
+const messages = {
   'internal-address-reuse': [
     'danger'
   , 'Address reuse'
@@ -47,14 +47,21 @@ const issueTypes = {
   , 'Sending exact amounts (with no change) is an indication the bitcoins likely didn\'t change hands.'
   , 'https://en.bitcoin.it/wiki/Privacy#Exact_payment_amounts_.28no_change.29'
   ]
+
+, 'coinjoin': [
+    'success'
+  , 'Possibly a CoinJoin transaction'
+  , 'CoinJoin transactions hides the link between inputs and outputs and improves Bitcoin\'s overall privacy and fungibility for everyone.'
+  , 'https://en.bitcoin.it/wiki/Privacy#CoinJoin'
+  ]
 }
 
-const issueOrdering = Object.values(issueTypes)
+const msgOrdering = Object.values(messages)
 
-export default (issues, t) =>
-  issues.length ? <ul className="list-unstyled">
-    {issues.map(issue => issueTypes[issue])
-      .sort((a, b) => issueOrdering.indexOf(a) - issueOrdering.indexOf(b))
+export default (analysis, t) =>
+  analysis.length ? <ul className="list-unstyled">
+    {analysis.map(msg => messages[msg])
+      .sort((a, b) => msgOrdering.indexOf(a) - msgOrdering.indexOf(b))
       .map(([ type, title, desc, url ]) =>
         <li title={t(desc)}><a className={`text-${type}`} href={url}>{t(title) + '➚'}</a></li>)
     }
