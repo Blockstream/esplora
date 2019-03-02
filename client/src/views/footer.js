@@ -12,6 +12,7 @@ export default ({ t, page }) =>
       <div className="footer-logo">
         <div className="footer-links">
           <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
+          <a href="mempool">{t`Mempool`}</a> {' | '}
           { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
           <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
         </div>
