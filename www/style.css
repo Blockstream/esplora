@@ -81,7 +81,12 @@ a, a:link, a:visited, a:hover, a:focus {
 
 /* tables */
 table th, table td {
-  border-color: #333 !important;
+  border-color: #22242c !important;
+}
+
+table th {
+  border-top: none !important;
+  color: #78838e;
 }
 
 /* header title / search bar */
@@ -1939,6 +1944,5 @@ dl.mempool-histogram .bar:before {
   font-size: 0.9em;
 }
 .fee-estimates th, .fee-estimates td {
-  border: 0 !important;
   padding: 0.6rem 0.2rem;
 }

@@ -61,7 +61,7 @@ export default ({ t, mempool, mempoolRecent, feeEst, ...S }) => mempool && feeEs
       <h3>{t`Recent transactions`}</h3>
       { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
       : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
-      : <table className="table table-sm">
+      : <table className="table">
           <thead><tr>
             <th>{t`TXID`}</th>
             { mempoolRecent[0].value != null && <th>{t`Value`}</th> }
