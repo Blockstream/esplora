@@ -163,7 +163,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
       <div>{t`Opted in`}</div>
     </div> }
 
-    { (segwitGains.realizedGains || segwitGains.potentialBech32Gains) && <div>
+    { !!(segwitGains.realizedGains || segwitGains.potentialBech32Gains) && <div>
       <div>{t`SegWit fee savings`}</div>
       <div className="small-sm">{segwitGainsView(segwitGains, t)}</div>
     </div> }
