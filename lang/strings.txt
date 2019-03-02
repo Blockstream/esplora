@@ -19,7 +19,7 @@ Broadcast transaction
 Broadcast tx
 Cancel
 Coinbase
-compared to the suggested fee of %s sat/vB for confirmation within 2 blocks
+compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 blocks
 Confidential
 Confirmed
 Confirmed received
