@@ -60,7 +60,7 @@ server {
         return 301 " /{NGINX_PATH}";
     }
     error_page 404 /{NGINX_PATH}notfound.html;
-    error_page 502 /{NGINX_PATH}unavailable.html;
-    location = /notfonud.html { internal; }
-    location = /unavailable.html { internal; }
+    location = /notfound.html {
+        internal;
+    }
 }
