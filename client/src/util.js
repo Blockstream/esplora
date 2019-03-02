@@ -67,7 +67,7 @@ export const dropErrors = r$$ => r$$.switchMap(r$ => r$.catch(_ => O.empty()))
 
 export const extractErrors = r$$ =>
   r$$.flatMap(r$ => r$.flatMap(_ => O.empty()).catch(err => O.of(err)))
-    .map(e => e.response ? parseError(e.response) : e)
+    .map(e => e.response && e.status != 502 ? parseError(e.response) : e)
 
 const parseError = res =>
   (res.body && Object.keys(res.body).length)
