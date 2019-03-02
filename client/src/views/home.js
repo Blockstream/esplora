@@ -1,12 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
-import { formatTime } from './util'
+import { formatTime, formatAmount } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const isTouch = process.browser && ('ontouchstart' in window)
 
-export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && layout(
+const homeLayout = (body, { t, activeTab, ...S }) => layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
@@ -17,42 +17,50 @@ export default ({ t, blocks: recentBlocks, loading, ...S }) => recentBlocks && l
     </div>
 
     <div className="title-bar-container">
-      <div className="title-bar-recent-blocks">
-        <h1>{t`Recent Blocks`}</h1>
+      <div className="title-bar-recent">
+        <h1>
+          {t`Recent`} {' '}
+          <a href="." class={{ active: activeTab == 'recentBlocks' }}>Blocks</a> {' '}
+          <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
+        </h1>
       </div>
     </div>
 
-    <div className="container">
-      <div className="blocks-table">
-        <div className="blocks-table-row header">
-          <div className="blocks-table-cell">{t`Height`}</div>
-          <div className="blocks-table-cell">{t`Timestamp`}</div>
-          <div className="blocks-table-cell">{t`Transactions`}</div>
-          <div className="blocks-table-cell">{t`Size (KB)`}</div>
-          <div className="blocks-table-cell">{t`Weight (KWU)`}</div>
-        </div>
-        { recentBlocks.map(b =>
-          <div className="blocks-table-link-row">
-          <a className="blocks-table-row block-data" href={`block/${b.id}`}>
-            <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{b.height.toString()}</div>
-            <div className="blocks-table-cell" data-label={t`Timestamp`}>{formatTime(b.timestamp, t)}</div>
-            <div className="blocks-table-cell" data-label={t`Transactions`}>{b.tx_count}</div>
-            <div className="blocks-table-cell" data-label={t`Size (KB)`}>{b.size/1000}</div>
-            <div className="blocks-table-cell" data-label={t`Weight (KWU)`}>{b.weight/1000}</div>
-          </a>
-          </div>
-        )}
-        { <div className="load-more-container">
-          <div>
-          { loading
-          ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
-          : pagingNav({ ...S, t }) }
-          </div>
-        </div> }
-      </div>
-    </div>
+    { body }
   </div>
 , { t, ...S })
+
+export const recentBlocks = ({ t, blocks, loading, ...S }) => homeLayout(
+  <div className="container">
+    <div className="blocks-table">
+      <div className="blocks-table-row header">
+        <div className="blocks-table-cell">{t`Height`}</div>
+        <div className="blocks-table-cell">{t`Timestamp`}</div>
+        <div className="blocks-table-cell">{t`Transactions`}</div>
+        <div className="blocks-table-cell">{t`Size (KB)`}</div>
+        <div className="blocks-table-cell">{t`Weight (KWU)`}</div>
+      </div>
+      { blocks && blocks.map(b =>
+        <div className="blocks-table-link-row">
+        <a className="blocks-table-row block-data" href={`block/${b.id}`}>
+          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{b.height.toString()}</div>
+          <div className="blocks-table-cell" data-label={t`Timestamp`}>{formatTime(b.timestamp, t)}</div>
+          <div className="blocks-table-cell" data-label={t`Transactions`}>{b.tx_count}</div>
+          <div className="blocks-table-cell" data-label={t`Size (KB)`}>{b.size/1000}</div>
+          <div className="blocks-table-cell" data-label={t`Weight (KWU)`}>{b.weight/1000}</div>
+        </a>
+        </div>
+      )}
+      { <div className="load-more-container">
+        <div>
+        { loading
+        ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
+        : pagingNav({ ...S, t }) }
+        </div>
+      </div> }
+    </div>
+  </div>
+, { ...S, t, activeTab: 'recentBlocks' })
 
 const pagingNav = ({nextBlocks, prevBlocks, t }) =>
   process.browser
@@ -75,3 +83,29 @@ const pagingNav = ({nextBlocks, prevBlocks, t }) =>
         <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]
+
+export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
+  <div className="container">
+    { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
+    : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
+    : <table className="table">
+        <thead><tr>
+          <th>{t`TXID`}</th>
+          { mempoolRecent[0].value != null && <th>{t`Value`}</th> }
+          <th>{t`Size`}</th>
+          <th>{t`Fee`}</th>
+        </tr></thead>
+        <tbody>
+          {mempoolRecent.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
+            <tr>
+              <td><a href={`tx/${txOverview.txid}`}>{txOverview.txid}</a></td>
+              { txOverview.value != null && <td>{formatAmount({ value: txOverview.value })}</td> }
+              <td>{`${txOverview.vsize} vB`}</td>
+              <td>{`${feerate.toFixed(1)} sat/vB`}</td>
+            </tr>
+          )})}
+        </tbody>
+      </table>
+    }
+  </div>
+, { ...S, t, activeTab: 'recentTxs' })

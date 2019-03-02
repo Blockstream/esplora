@@ -87,6 +87,7 @@ table th, table td {
 table th {
   border-top: none !important;
   color: #78838e;
+  text-transform: uppercase;
 }
 
 /* header title / search bar */
@@ -1237,17 +1238,19 @@ body::after{
   padding-left: 27px;
 }
 
-.title-bar-recent-blocks {
+.title-bar-recent {
   display: inline-block;
   height: 50px;
   width: auto;
   margin: 0 auto;
-  border-bottom: solid 3px rgba(0, 195, 255, 1);
   height: 42px;
 }
 
-.title-bar-recent-blocks h1 {
+.title-bar-recent h1 {
   font-size: 28px;
+}
+.title-bar-recent h1 .active {
+  border-bottom: solid 3px rgba(0, 195, 255, 1);
 }
 
 
