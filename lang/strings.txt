@@ -18,6 +18,7 @@ Broadcast transaction
 Broadcast tx
 Cancel
 Coinbase
+CoinJoin transactions hide the link between inputs and outputs and improves Bitcoin's overall privacy and fungibility for everyone.
 compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 blocks
 Confidential
 Confirmed
@@ -71,12 +72,13 @@ Peg-out
 Peg-out address
 Peg-out ASM
 Peg-out to
+Possibly a CoinJoin transaction
 Powered by esplora
 Prev
 Previous
 Previous output address
 Previous output script
-Privacy gotchas
+Privacy analysis
 (RBF)
 Recent Blocks
 Recent transactions
