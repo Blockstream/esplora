@@ -41,7 +41,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
                 <span className="bar" style={`width: ${binSize/mempool.vsize*100}%`}>{formatVMB(binSize)}</span>
               </dd>
             )}
-            <dd className="label"><span className="text">{t`sat/vbyte`}</span></dd>
+            <span className="label">{t`sat/vbyte`}</span>
           </dl>
         }
 
