@@ -142,19 +142,25 @@ Returns the hash of the last block.
 Get mempool backlog statistics. Returns an object with:
 
 - `count`: the number of transactions in the mempool
+
 - `vsize`: the total size of the mempool in virtual bytes
-- `total_fee`: the total fee paid by mempool transactions
-- `fee_histogram`: fee-rate distribution histogram (see below)
 
-### `GET /mempool/fee-histogram`
+- `total_fee`: the total fee paid by mempool transactions (in satoshis)
 
-Get mempool fee-rate distribution histogram.
+- `fee_histogram`: mempool fee-rate distribution histogram (see below)
 
-Returns an array of `(feerate, vsize)` tuples, where each entry's `vsize` is the total vsize of transactions
-paying more than `feerate` but less than the previous entry's `feerate` (except for the first entry, which has no upper bound).
-This matches the format used by the Electrum RPC protocol for `mempool.get_fee_histogram`.
+  An array of `(feerate, vsize)` tuples, where each entry's `vsize` is the total vsize of transactions
+  paying more than `feerate` but less than the previous entry's `feerate` (except for the first entry, which has no upper bound).
+  This matches the format used by the Electrum RPC protocol for `mempool.get_fee_histogram`.
 
-For example: `[[53, 102131], [38, 110990], [34, 138976], [24, 112619], [3, 246346], [2, 239701], [1, 775272]]`
+```
+{
+  "count": 8134,
+  "vsize": 3444604,
+  "total_fee":29204625,
+  "fee_histogram": [[53, 102131], [38, 110990], [34, 138976], [24, 112619], [3, 246346], [2, 239701], [1, 775272]]
+}
+```
 
 ### `GET /mempool/txids`
 
