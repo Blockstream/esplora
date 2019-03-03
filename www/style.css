@@ -1917,12 +1917,9 @@ dl.mempool-histogram dd {
   padding-left: 65px;
   margin-bottom: 0.25rem;
 }
-dl.mempool-histogram dd.label,
-dl.mempool-histogram dd.label .text {
-  height: 15px;
-}
-dl.mempool-histogram dd.label .text {
+dl.mempool-histogram .label {
   margin-left: 3px;
+  font-size: .8em;
   font-weight: normal;
 }
 dl.mempool-histogram .bar {
