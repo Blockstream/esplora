@@ -153,8 +153,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
-                  , blocks$.filter(notNully).mapTo('recentBlocks')
-                  , mempoolRecent$.mapTo('recentTxs')
+                  , goHome$.mapTo('recentBlocks')
+                  , goRecent$.mapTo('recentTxs')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
