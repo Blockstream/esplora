@@ -76,6 +76,11 @@ export default function getPrivacyAnalysis(tx) {
     detected.push('self-transfer')
   }
 
+  // Detect non BIP69 lexicographically ordered transactions
+  if (tx.vin.length+tx.vout.length > 2 && !isLexicographicallyOrdered(tx)) {
+    detected.push('non-lexicographical')
+  }
+
   // Detect CoinJoin-looking transactions
   if (!hasCT && isCoinJoinLike(tx)) {
     detected.push('coinjoin')
@@ -120,3 +125,16 @@ const isCoinJoinLike = tx => {
   const inc = counter(), target = Math.max(Math.min(tx.vout.length/2|0, 2), 5)
   return tx.vout.some(out => inc(out.value) >= target)
 }
+
+// check compatibility with BIP 69 lexicographical ordering
+// TODO: how to treat CT's explicit fee outputs?
+const isLexicographicallyOrdered = tx => {
+  const sortedIns = tx.vin.slice().sort(compareIns)
+      , sortedOuts = tx.vout.slice().sort(compareOuts)
+
+  return tx.vin.map(vin => `${vin.txid}:${vin.vout}`).join(',') == sortedIns.map(vin => `${vin.txid}:${vin.vout}`).join(',')
+      && tx.vout.map(out => `${out.scriptpubkey}:${out.value}`).join(',') == sortedOuts.map(out => `${out.scriptpubkey}:${out.value}`).join(',')
+}
+
+const compareIns = (a, b) => a.txid.localeCompare(b.txid) || a.vout - b.vout
+    , compareOuts = (a, b) => a.value - b.value || Buffer.from(a.scriptpubkey, 'hex').compare(Buffer.from(b.scriptpubkey, 'hex'))
