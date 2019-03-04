@@ -1,6 +1,8 @@
 import 'babel-polyfill'
 import { Observable as O } from './rxjs'
 
+import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
+import getPrivacyAnalysis from './lib/privacy-analysis'
 import { blockTxsPerPage, blocksPerPage } from './const'
 import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256 } from './util'
 import l10n, { defaultLang } from './l10n'
@@ -100,6 +102,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     ).startWith(null).scan((S, mod) => mod(S))
 
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
+
   , prevBlocks$ = process.browser ? O.empty()
       : goHome$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height != null && d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
 
@@ -145,11 +148,24 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , pushedtx$ = reply('pushtx', true).map(r => r.text)
 
   // Mempool backlog stats
-  , mempool$ = reply('mempool')
+  , mempool$ = reply('mempool').startWith(null)
   , mempoolRecent$ = reply('recent')
 
   // Fee estimates
-  , feeEst$ = reply('fee-est')
+  , feeEst$ = reply('fee-est').startWith(null)
+
+  // Transaction analysis
+  , txAnalysis$ = tx$.filter(Boolean)
+      .combineLatest(mempool$, feeEst$, (tx, mempool, feeEst) =>
+          ({ tx, mempool, feeEst, feerate: tx.fee ? tx.fee / tx.weight * 4 : null }))
+      .map(({ tx, feerate, mempool, feeEst }) => ({
+        feerate
+      , privacyAnalysis: getPrivacyAnalysis(tx)
+      , segwitGains: calcSegwitFeeGains(tx)
+      , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
+      , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
+      , overpaying: !tx.status.confirmed && feerate != null && feeEst ? feerate/feeEst[2] : null
+      }))
 
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
@@ -177,9 +193,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , goHome$, blocks$, nextBlocks$, prevBlocks$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
-                     , tx$, openTx$
-                     , goAddr$, addr$, addrTxs$
                      , mempool$, mempoolRecent$, feeEst$
+                     , tx$, txAnalysis$, openTx$
+                     , goAddr$, addr$, addrTxs$
                      , loading$, page$, view$, title$, theme$
                      })
 
