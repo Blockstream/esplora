@@ -527,6 +527,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   text-align: center;
 }
 
+/* recent table */
 .blocks-table .blocks-table-row {
   display: table;
   table-layout: fixed;
@@ -582,6 +583,71 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
 }
 
 .blocks-table-row {
+  color: #FFF !important;
+}
+
+
+
+/* transactions table */
+.transactions-table .transactions-table-row {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.transactions-table .transactions-table-row > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.transactions-table .transactions-table-row.header, .transactions-table .transactions-table-row.transaction-data {
+  height: 52px;
+}
+
+.transactions-table .transactions-table-row.header > *, .transactions-table .transactions-table-row.transaction-data > * {
+  font-size: 16px;
+}
+
+.transactions-table .transactions-table-row.header > * {
+  text-transform: uppercase;
+  color: #78838e;
+  font-weight: 600;
+}
+
+.transactions-table .transactions-table-row.transaction-data {
+  border-top: 1px #22242c solid;
+}
+
+.transactions-table .transactions-table-row.transaction-data:not(.loading):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.transactions-table .transactions-table-row.transaction-data > * {
+  font-size: 16px;
+}
+
+.transactions-table .transactions-table-row.loading img {
+  display: block;
+  margin: auto;
+  height: 45px;
+  width: 45px;
+  padding: 3px 0;
+}
+
+.transactions-table .transactions-table-row > div:nth-child(1) {
+  width: 590px;
+  padding-left: 12px;
+}
+
+.transactions-table .transactions-table-row > div:nth-child(2) {
+  width: 170px;
+}
+
+.transactions-table .transactions-table-row > div:nth-child(3) {
+  width: 100px;
+}
+
+.transactions-table-row {
   color: #FFF !important;
 }
 
@@ -1247,10 +1313,19 @@ body::after{
 }
 
 .title-bar-recent h1 {
-  font-size: 28px;
+  font-size: 24px;
+  font-weight: bold;
 }
+
+.title-bar-recent h1 a {
+  color: #a9b1b6;
+  margin-right: 25px;
+  cursor: pointer;
+}
+
 .title-bar-recent h1 .active {
-  border-bottom: solid 3px rgba(0, 195, 255, 1);
+  border-bottom: solid 2px #00c3ff;
+  color: #ffffff;
 }
 
 
@@ -1377,8 +1452,77 @@ body::after{
   .blocks-table .blocks-table-row > div:nth-child(2) {
     width: 250px;
   }
-
 }
+
+
+@media only screen and (max-width: 995px) {
+
+    /* transactions table  */
+
+    div.transactions-table-row.header {
+      display:none !important;
+    }
+
+    /* table row (transaction) */
+    .transactions-table-row {
+      margin: 0 0 1rem 0;
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      padding: 20px;
+    }
+
+    .transactions-table-link-row {
+      margin-bottom: 20px;
+    }
+
+    .transactions-table-link-row:nth-child(odd) {
+      background: #22242c;
+    }
+
+    /* table row (transaction item) */
+    .transactions-table .transactions-table-row.block-data > * {
+      border: none;
+      position: relative;
+      padding-left: 0 !important;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100% !important;
+      text-align: right;
+      /* border-top: 1px solid #22242C; */
+    }
+
+    .transactions-table-row {
+      /* Behave  like a "row" */
+      display: block;
+    }
+
+    div.transactions-table-cell {
+      display: flex !important;
+      justify-content: space-between;
+      width: 100% !important;
+      padding: 10px;
+      word-break: break-all;
+      text-align: right;
+    }
+
+    div.transactions-table-cell:before {
+      width: 45%;
+      padding-right: 10px;
+      font-weight: 600;
+      color: #78838e;
+      margin-right: 50px;
+      word-break: keep-all;
+    }
+
+    /*
+    Label the data
+    */
+    div.transactions-table-cell:before { content: attr(data-label); text-align: left; width: auto;}
+}
+
 
 @media only screen and (max-width: 990px) {
 
@@ -1414,6 +1558,8 @@ body::after{
 
 
 @media only screen and (max-width: 850px) {
+
+    /* blocks table */
 
     div.blocks-table-row.header {
       display:none;
@@ -1469,7 +1615,7 @@ body::after{
 }
 
 
-/* mobile optimization - TRANSACTION - Matthias */
+/* TRANSACTION*/
 @media only screen and (max-width: 850px) {
   .transaction-box .header {
     display: flex;
@@ -1643,6 +1789,15 @@ body::after{
     text-align: left !important;
     margin: 0 !important;
     padding: 3px 0;
+  }
+
+
+  .title-bar-recent h1 {
+    font-size: 18px;
+  }
+  
+  .title-bar-recent h1 a {
+    margin-right: 20px;
   }
 }
 

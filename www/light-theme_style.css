@@ -7,6 +7,10 @@ body.theme-light {
     color: rgba(21, 24, 28, 1) !important;
 }
 
+.theme-light .transactions-table-row {
+    color: rgba(21, 24, 28, 1) !important;
+}
+
 .theme-light .jumbotron-fluid {
     background-color: rgba(238, 242, 245, 1) !important;
 }
@@ -41,6 +45,10 @@ body.theme-light {
 }
 
 .theme-light .blocks-table-link-row:nth-child(odd) {
+    background: #fff;
+}
+
+.theme-light .transactions-table-link-row:nth-child(odd) {
     background: #fff;
 }
 

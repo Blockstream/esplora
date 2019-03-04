@@ -19,8 +19,7 @@ const homeLayout = (body, { t, activeTab, ...S }) => layout(
     <div className="title-bar-container">
       <div className="title-bar-recent">
         <h1>
-          {t`Recent`} {' '}
-          <a href="." class={{ active: activeTab == 'recentBlocks' }}>Blocks</a> {' '}
+          <a href="." class={{ active: activeTab == 'recentBlocks' }}>{t`Recent`} {' '}Blocks</a> {' '}
           <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
         </h1>
       </div>
@@ -88,24 +87,24 @@ export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
   <div className="container">
     { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
     : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
-    : <table className="table">
-        <thead><tr>
-          <th>{t`TXID`}</th>
-          { mempoolRecent[0].value != null && <th>{t`Value`}</th> }
-          <th>{t`Size`}</th>
-          <th>{t`Fee`}</th>
-        </tr></thead>
-        <tbody>
+    : <div className="transactions-table">
+          <div className="transactions-table-row header">
+            <div className="transactions-table-cell">{t`TXID`}</div>
+            { mempoolRecent[0].value != null && <div className="transactions-table-cell">{t`Value`}</div> }
+            <div className="transactions-table-cell">{t`Size`}</div>
+            <div className="transactions-table-cell">{t`Fee`}</div>
+          </div>
           {mempoolRecent.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
-            <tr>
-              <td><a href={`tx/${txOverview.txid}`}>{txOverview.txid}</a></td>
-              { txOverview.value != null && <td>{formatAmount({ value: txOverview.value })}</td> }
-              <td>{`${txOverview.vsize} vB`}</td>
-              <td>{`${feerate.toFixed(1)} sat/vB`}</td>
-            </tr>
+            <div className="transactions-table-link-row">
+              <a className="transactions-table-row transaction-data" href={`tx/${txOverview.txid}`}>
+                <div className="transactions-table-cell highlighted-text" data-label={t`TXID`}>{txOverview.txid}</div>
+                { txOverview.value != null && <div className="transactions-table-cell highlighted-text" data-label={t`Value`}>{formatAmount({ value: txOverview.value })}</div> }
+                <div className="transactions-table-cell" data-label={t`Size`}>{`${txOverview.vsize} vB`}</div>
+                <div className="transactions-table-cell" data-label={t`Fee`}>{`${feerate.toFixed(1)} sat/vB`}</div>
+              </a>
+            </div>
           )})}
-        </tbody>
-      </table>
+      </div>
     }
   </div>
 , { ...S, t, activeTab: 'recentTxs' })
