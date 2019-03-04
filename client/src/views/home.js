@@ -19,7 +19,7 @@ const homeLayout = (body, { t, activeTab, ...S }) => layout(
     <div className="title-bar-container">
       <div className="title-bar-recent">
         <h1>
-          <a href="." class={{ active: activeTab == 'recentBlocks' }}>{t`Recent`} {' '}Blocks</a> {' '}
+          <a href="." class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>
           <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
         </h1>
       </div>
