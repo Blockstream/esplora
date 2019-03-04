@@ -1,5 +1,7 @@
 const MAX_BLOCK_VSIZE = 1000000
-const SQUASH_RATES = [ 70, 40, 35, 30, 25, 20, 10, 8, 6, 4, 3, 2, 1.5, 1.1, 1, 0 ]
+
+// Squash fee buckets into fixed fee-rates ranges, with steps of 50% (1, 1.5, 2.25, ..)
+const SQUASH_BUCKETS = Array.from(Array(20)).map((_,i) => 1*Math.pow(1.5, i)).reverse().concat(0)
 
 // Get the total vsize of mempool transactions paying more than `feerate`
 export function getMempoolDepth(fee_histogram, feerate) {
@@ -101,6 +103,8 @@ export function calcSegwitFeeGains(tx) {
         potentialBech32Gains += fullGains
         potentialP2shGains += fullGains - (isP2pkh ? P2SH_P2WPKH_COST : P2SH_P2WSH_COST)
         break
+
+    // TODO: should we also consider P2PK and pay-to-bare-script (non-p2sh-wrapped) as upgradable to P2WPKH and P2WSH?
     }
   }
 
