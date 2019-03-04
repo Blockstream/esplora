@@ -51,7 +51,7 @@ const messages = {
 , 'coinjoin': [
     'success'
   , 'Possibly a CoinJoin transaction'
-  , 'CoinJoin transactions hides the link between inputs and outputs and improves Bitcoin\'s overall privacy and fungibility for everyone.'
+  , 'CoinJoin transactions hide the link between inputs and outputs and improves Bitcoin\'s overall privacy and fungibility for everyone.'
   , 'https://en.bitcoin.it/wiki/Privacy#CoinJoin'
   ]
 }
