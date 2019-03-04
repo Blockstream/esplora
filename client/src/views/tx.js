@@ -7,15 +7,13 @@ import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
 import { formatAmount, formatTime, formatVMB } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
-import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from '../lib/fees'
-import getPrivacyAnalysis from '../lib/privacy-analysis'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
-export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && layout(
+export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txAnalysis && layout(
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
@@ -55,7 +53,6 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
 
       <div className="ins-and-outs_spacer">
         <div className="direction-arrow-container">
-          {/* <i class="far fa-long-arrow-right"></i> */}
           <div className="direction-arrow"></div>
         </div>
       </div>
@@ -90,13 +87,8 @@ const btnDetailsContent = (isOpen, t) =>
     <div className={isOpen?'minus':'plus'}></div>
   </div>
 
-const txHeader = (tx, { tipHeight, mempool, feeEst, t }) => {
-  const feerate = tx.fee ? tx.fee/tx.weight*4 : null
-       , mempoolDepth = !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
-       , confEstimate = !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
-       , overpaying = !tx.status.confirmed && feerate != null && feeEst && feerate / feeEst[2]
-       , privacyAnalysis = getPrivacyAnalysis(tx)
-       , segwitGains = calcSegwitFeeGains(tx)
+const txHeader = (tx, { tipHeight, mempool, feeEst, t
+                      , txAnalysis: { feerate, mempoolDepth, confEstimate, overpaying, privacyAnalysis, segwitGains } }) => {
 
   return (
   <div className="stats-table">
