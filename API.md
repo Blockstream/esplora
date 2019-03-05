@@ -21,13 +21,13 @@ Available fields: `confirmed` (boolean), `block_height` (optional) and `block_ha
 
 Returns the raw transaction in hex.
 
-<!--
 ### `GET /tx/:txid/merkle-proof`
 
 Returns a merkle inclusion proof for the transaction.
 
-*Currently uses Electrum's merkle proof format, will eventually be changed to use the `merkleblock` format.*
--->
+Currently matches the merkle proof format used by Electrum's
+[`blockchain.transaction.get_merkle`](https://electrumx.readthedocs.io/en/latest/protocol-methods.html#blockchain-transaction-get-merkle).
+*Will eventually be changed to use bitcoind's `merkleblock` format instead.*
 
 ### `GET /tx/:txid/outspend/:vout`
 
