@@ -143,15 +143,17 @@ Get mempool backlog statistics. Returns an object with:
 
 - `count`: the number of transactions in the mempool
 
-- `vsize`: the total size of the mempool in virtual bytes
+- `vsize`: the total size of mempool transactions in virtual bytes
 
-- `total_fee`: the total fee paid by mempool transactions (in satoshis)
+- `total_fee`: the total fee paid by mempool transactions in satoshis
 
-- `fee_histogram`: mempool fee-rate distribution histogram (see below)
+- `fee_histogram`: mempool fee-rate distribution histogram
 
   An array of `(feerate, vsize)` tuples, where each entry's `vsize` is the total vsize of transactions
   paying more than `feerate` but less than the previous entry's `feerate` (except for the first entry, which has no upper bound).
   This matches the format used by the Electrum RPC protocol for `mempool.get_fee_histogram`.
+
+Example output:
 
 ```
 {
@@ -162,6 +164,10 @@ Get mempool backlog statistics. Returns an object with:
 }
 ```
 
+> In this example, there are transactions weighting a total of 102,131 vbytes that are paying more than 53 sat/vB,
+110,990 vbytes of transactions paying between 38 and 53 sat/vB, 138,976 vbytes paying between 34 and 38, etc.
+
+
 ### `GET /mempool/txids`
 
 Get the full list of txids in the mempool as an array.
@@ -170,7 +176,7 @@ The order of the txids is arbitrary and does not match bitcoind's.
 
 ### `GET /mempool/recent`
 
-Get a list of last 25 transactions to enter the mempool.
+Get a list of the last 10 transactions to enter the mempool.
 
 Each transaction object contains simplified overview data, with the following fields: `txid`, `fee`, `vsize` and `value`
 
