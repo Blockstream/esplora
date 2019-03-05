@@ -3,7 +3,7 @@ import { last } from '../util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatAmount, addressQR } from './util'
+import { formatAmount, addressQR, commaify } from './util'
 import { addrTxsPerPage as perPage, maxMempoolTxs } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
@@ -60,7 +60,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
 
           { chain_stats.tx_count > 0 && <div>
             <div>{t`Confirmed tx count`}</div>
-            <div>{chain_stats.tx_count}</div>
+            <div>{commaify(chain_stats.tx_count)}</div>
           </div> }
           { chain_stats.funded_txo_count > 0 && <div>
             <div>{t`Confirmed received`}</div>
@@ -77,7 +77,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
 
           { mempool_stats.tx_count > 0 && <div>
             <div>{t`Unconfirmed tx count`}</div>
-            <div>{mempool_stats.tx_count}</div>
+            <div>{commaify(mempool_stats.tx_count)}</div>
           </div> }
           { mempool_stats.funded_txo_count > 0 && <div>
             <div>{t`Unconfirmed received`}</div>
@@ -115,12 +115,12 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
 }
 
 const fmtTxos = (count, sum, t) =>
-  (count > 0 ? t`${count} outputs` : t`No outputs`)
+  (count > 0 ? t`${commaify(count)} outputs` : t`No outputs`)
 + (sum > 0 ? ` (${formatAmount({ value: sum })})` : '')
 
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${total} Transactions`
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${commaify(total)} Transactions`
   : t`${total} Transactions`
 
 const pagingNav = (addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
