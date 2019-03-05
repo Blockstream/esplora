@@ -10,7 +10,7 @@ RUN wget $TORGZ.asc && wget $TORGZ
 
 # Verify tar signature
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 0x6AFEE6D49E92B601 \
-  && gpg --verify tor-$TOR_VER.tar.gz.asc
+  && gpg --verify tor-$TOR_VER.tar.gz.asc \
   # Install tor
   && tar xfz tor-$TOR_VER.tar.gz && cd tor-$TOR_VER \
   && ./configure && make install
