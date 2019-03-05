@@ -27,13 +27,6 @@ const messages = {
   , 'https://en.bitcoin.it/wiki/Privacy#Sending_to_a_different_script_type'
   ]
 
-, 'non-lexicographical': [
-    'warning'
-  , 'Non-lexicographical ordering'
-  , 'This transaction does not follow the lexicographical ordering defined in BIP 69. This makes it easier to fingerprint behaviours by specific wallets and identify transactions made by them.'
-  , 'https://en.bitcoin.it/wiki/Privacy#Wallet_fingerprinting'
-  ]
-
 , 'change-detection-uih1': [
     'warning'
   , 'Unnecessary input heuristic'
