@@ -61,6 +61,10 @@ body.theme-light {
     background-color: #fff;
 }
 
+.theme-light .title-bar-recent h1 .active {
+    color: #000000;
+}
+
 /* keep this for now - dark menu button */
 /* .theme-light .navbar-toggler {
   border-color: rgba(17, 19, 22, 0.5);

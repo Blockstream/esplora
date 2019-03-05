@@ -1441,6 +1441,21 @@ body::after{
   color: #c3cbd3;
 }
 
+/* transactions list */
+.stats-table .list-unstyled li {
+  margin: 15px 0 15px 10px;
+}
+
+.stats-table .text-danger {
+  display: block;
+  margin: 15px 0 15px 10px;
+}
+
+.stats-table .text-warning {
+  display: block;
+  margin: 15px 0 15px 10px;
+}
+
 @media (max-width: 767.98px) {
   .small-sm {
     font-size: 80%;
