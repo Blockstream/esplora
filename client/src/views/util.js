@@ -15,6 +15,11 @@ export const formatHex = num => {
   return '0x' + (str.length%2 ? '0' : '') + str
 }
 
+export const commaify  = s => {
+  const [ whole, dec ] = s.toString().split('.')
+  return whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (dec != null ? '.'+dec : '')
+}
+
 const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}?output:{vout}'
 const parentChainExplorerAddr  = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
 

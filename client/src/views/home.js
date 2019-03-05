@@ -1,7 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
-import { formatTime, formatAmount } from './util'
+import { formatTime, formatAmount, commaify } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const isTouch = process.browser && ('ontouchstart' in window)
@@ -42,11 +42,11 @@ export const recentBlocks = ({ t, blocks, loading, ...S }) => homeLayout(
       { blocks && blocks.map(b =>
         <div className="blocks-table-link-row">
         <a className="blocks-table-row block-data" href={`block/${b.id}`}>
-          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{b.height.toString()}</div>
+          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{commaify(b.height)}</div>
           <div className="blocks-table-cell" data-label={t`Timestamp`}>{formatTime(b.timestamp, t)}</div>
-          <div className="blocks-table-cell" data-label={t`Transactions`}>{b.tx_count}</div>
-          <div className="blocks-table-cell" data-label={t`Size (KB)`}>{b.size/1000}</div>
-          <div className="blocks-table-cell" data-label={t`Weight (KWU)`}>{b.weight/1000}</div>
+          <div className="blocks-table-cell" data-label={t`Transactions`}>{commaify(b.tx_count)}</div>
+          <div className="blocks-table-cell" data-label={t`Size (KB)`}>{commaify(b.size/1000)}</div>
+          <div className="blocks-table-cell" data-label={t`Weight (KWU)`}>{commaify(b.weight/1000)}</div>
         </a>
         </div>
       )}
@@ -99,7 +99,7 @@ export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
               <a className="transactions-table-row transaction-data" href={`tx/${txOverview.txid}`}>
                 <div className="transactions-table-cell highlighted-text" data-label={t`TXID`}>{txOverview.txid}</div>
                 { txOverview.value != null && <div className="transactions-table-cell" data-label={t`Value`}>{formatAmount({ value: txOverview.value })}</div> }
-                <div className="transactions-table-cell" data-label={t`Size`}>{`${txOverview.vsize} vB`}</div>
+                <div className="transactions-table-cell" data-label={t`Size`}>{`${commaify(txOverview.vsize)} vB`}</div>
                 <div className="transactions-table-cell" data-label={t`Fee`}>{`${feerate.toFixed(1)} sat/vB`}</div>
               </a>
             </div>
