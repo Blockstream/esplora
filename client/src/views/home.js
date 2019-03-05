@@ -98,7 +98,7 @@ export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
             <div className="transactions-table-link-row">
               <a className="transactions-table-row transaction-data" href={`tx/${txOverview.txid}`}>
                 <div className="transactions-table-cell highlighted-text" data-label={t`TXID`}>{txOverview.txid}</div>
-                { txOverview.value != null && <div className="transactions-table-cell highlighted-text" data-label={t`Value`}>{formatAmount({ value: txOverview.value })}</div> }
+                { txOverview.value != null && <div className="transactions-table-cell" data-label={t`Value`}>{formatAmount({ value: txOverview.value })}</div> }
                 <div className="transactions-table-cell" data-label={t`Size`}>{`${txOverview.vsize} vB`}</div>
                 <div className="transactions-table-cell" data-label={t`Fee`}>{`${feerate.toFixed(1)} sat/vB`}</div>
               </a>
