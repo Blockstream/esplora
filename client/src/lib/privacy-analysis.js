@@ -78,7 +78,7 @@ export default function getPrivacyAnalysis(tx) {
 
   // Detect CoinJoin-looking transactions
   if (!hasCT && isCoinJoinLike(tx)) {
-    detected.push('coinjoin')
+    detected.push('coinjoin-equal-outputs')
   }
 
   return detected

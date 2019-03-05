@@ -48,7 +48,7 @@ const messages = {
   , 'https://en.bitcoin.it/wiki/Privacy#Exact_payment_amounts_.28no_change.29'
   ]
 
-, 'coinjoin': [
+, 'coinjoin-equal-outputs': [
     'success'
   , 'Possibly a CoinJoin transaction'
   , 'CoinJoin transactions hide the link between inputs and outputs and improves Bitcoin\'s overall privacy and fungibility for everyone.'
