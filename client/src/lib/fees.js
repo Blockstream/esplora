@@ -20,7 +20,7 @@ export function getConfEstimate(fee_estimates, feerate) {
 // Squash the fee histogram into fixed feerate ranges
 export function squashFeeHistogram(histogram) {
   let i = 0
-  return SQUASH_RATES.map(feerate => {
+  return SQUASH_BUCKETS.map(feerate => {
     let binSize = 0
     for (; i < histogram.length && histogram[i][0] >= feerate; binSize += histogram[i++][1]);
     return [ feerate, binSize ]
