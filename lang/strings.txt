@@ -26,8 +26,10 @@ Confirmed received
 Confirmed spent
 Confirmed tx count
 Confirmed unspent
+Currently unavailable
 Depth
 Details
+Esplora is currently unavailable, please try again later.
 ETA
 Fee
 Go
@@ -80,7 +82,6 @@ Previous output address
 Previous output script
 Privacy analysis
 (RBF)
-Recent Blocks
 Recent transactions
 Reissuance
 Reissuance commitment

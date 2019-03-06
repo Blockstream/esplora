@@ -164,7 +164,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , segwitGains: calcSegwitFeeGains(tx)
       , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
       , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
-      , overpaying: !tx.status.confirmed && feerate != null && feeEst ? feerate/feeEst[2] : null
+      , overpaying: !tx.status.confirmed && feerate != null && feeEst && feeEst[2] != null ? feerate/feeEst[2] : null
       }))
 
   // Currently visible view
@@ -292,7 +292,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
       , openTx$, openBlock$, updateQuery$
-      , state$, view$, block$, blockTxs$, blocks$, tx$, spends$
+      , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$
       , tipHeight$, error$, loading$
       , query$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
