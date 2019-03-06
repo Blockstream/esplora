@@ -52,7 +52,6 @@
   "Previous": "Precedente",
   "Previous output address": "Indirizzo dell'output precedente",
   "Previous output script": "Script dell'output precedente",
-  "Recent Blocks": "Blocchi Recenti",
   "Reissuance": "Riemissione",
   "Reissuance commitment": "Commitment di riemissione",
   "Reissuance keys": "Chiavi di riemissione",
@@ -63,7 +62,6 @@
     "%0 Conferme"
   ],
   "Search for block height, hash, transaction, or address": "Cerca per altezza blocco, hash, transazione o indirizzo",
-  "Size (bytes)": "Dimensione (bytes)",
   "Size (KB)": "Dimensione (KB)",
   "%s of %s Transactions": "%0 di %1 Transazioni",
   "%s outputs": [
@@ -93,10 +91,6 @@
   "Unspent": "Non spesa",
   "Value commitment": "Commitment dell'importo",
   "Version": "Versione",
-  "Virtual Size (KVB)": "Dimensione Virtuale (KVB)",
-  "Virtual size (vbytes)": "Dimensione Virtuale (vbytes)",
   "We encountered an error. Please try again later.": "C'è stato un problema. Per piacere riprova più tardi.",
-  "Weight (KWU)": "Peso (KWU)",
-  "Weight units (KWU)": "Unità di peso (KWU)",
-  "Weight units (WU)": "Unità di peso (WU)"
+  "Weight (KWU)": "Peso (KWU)"
 }

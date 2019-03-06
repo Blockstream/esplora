@@ -19,13 +19,11 @@
   "No results found": "Nema rezultata",
   "Page Not Found": "Strana nije pronadjena",
   "Previous": "Prethodni",
-  "Recent Blocks": "Novi blokovi",
   "%s Confirmations": [
     "1 Potvrda",
     "%0 Potvrda"
   ],
   "Search for block height, hash, transaction, or address": "Pretraga po visini bloka, hash, transakciji ili adresi",
-  "Size (bytes)": "Velicina (bytes)",
   "Size (KB)": "Velicina (KB)",
   "%s of %s Transactions": "%0 od %1 Transakicja",
   "Spent by": "Potroseni od strane",
@@ -42,9 +40,5 @@
   "Unconfirmed": "Nema Potvrda",
   "Unspent": "Nepotroseni",
   "Version": "Verzija",
-  "Virtual Size (KVB)": "Virtualna velicina (KVB)",
-  "Virtual size (vbytes)": "Virtualna Velicina (vbytes)",
-  "Weight (KWU)": "Tezina (KWU)",
-  "Weight units (KWU)": "Virtuelna jedinica (KWU)",
-  "Weight units (WU)": "Jedinica Tezine (WU)"
+  "Weight (KWU)": "Tezina (KWU)"
 }

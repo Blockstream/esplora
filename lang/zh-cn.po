@@ -12,6 +12,9 @@ msgstr ""
 msgid "Address"
 msgstr "地址"
 
+msgid "Address reuse"
+msgstr ""
+
 msgid "Address: %s"
 msgstr "地址: %0"
 
@@ -66,6 +69,16 @@ msgstr ""
 msgid "Coinbase"
 msgstr ""
 
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+
 msgid "Confidential"
 msgstr "保密"
 
@@ -84,8 +97,20 @@ msgstr ""
 msgid "Confirmed unspent"
 msgstr ""
 
+msgid "Currently unavailable"
+msgstr ""
+
 msgid "Details"
 msgstr "细节"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr ""
+
+msgid "ETA"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
 
 msgid "Go"
 msgstr ""
@@ -105,6 +130,9 @@ msgstr "在最正式的链 (确认数 %0)"
 msgid "Included in Block"
 msgstr "在区块"
 
+msgid "in %s blocks (%s from tip)"
+msgstr ""
+
 msgid "Issuance"
 msgstr ""
 
@@ -117,11 +145,19 @@ msgstr ""
 msgid "Issuance entropy"
 msgstr ""
 
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+
 msgid "lang_id"
 msgstr "zh-cn"
 
 msgid "lang_name"
 msgstr "中文(简体)"
+
+msgid "Likely self-transfer"
+msgstr ""
 
 msgid "Loading..."
 msgstr "页面加载..."
@@ -130,6 +166,12 @@ msgid "Load more"
 msgstr "更多"
 
 msgid "Lock time"
+msgstr ""
+
+msgid "ltr"
+msgstr ""
+
+msgid "Mempool"
 msgstr ""
 
 msgid "Merkle root"
@@ -151,6 +193,9 @@ msgid "Nonstandard"
 msgstr ""
 
 msgid "No outputs"
+msgstr ""
+
+msgid "No recent transactions"
 msgstr ""
 
 msgid "No reissuance"
@@ -180,6 +225,9 @@ msgstr ""
 msgid "Output in parent chain"
 msgstr ""
 
+msgid "overpaying by %s%"
+msgstr ""
+
 msgid "Page Not Found"
 msgstr "网页未找到"
 
@@ -193,6 +241,9 @@ msgid "Peg-out ASM"
 msgstr ""
 
 msgid "Peg-out to"
+msgstr ""
+
+msgid "Possibly a CoinJoin transaction"
 msgstr ""
 
 msgid "Powered by esplora"
@@ -210,11 +261,14 @@ msgstr ""
 msgid "Previous output script"
 msgstr ""
 
+msgid "Privacy analysis"
+msgstr ""
+
 msgid "(RBF)"
 msgstr ""
 
-msgid "Recent Blocks"
-msgstr "最近出块"
+msgid "Recent transactions"
+msgstr ""
 
 msgid "Reissuance"
 msgstr ""
@@ -226,6 +280,15 @@ msgid "Reissuance keys"
 msgstr ""
 
 msgid "Replace by fee"
+msgstr ""
+
+msgid "Round payment amount"
+msgstr ""
+
+msgid "sat/vbyte"
+msgstr ""
+
+msgid "%s blocks"
 msgstr ""
 
 msgid "Scan QR"
@@ -252,8 +315,22 @@ msgstr ""
 msgid "Search for block height, hash, transaction, or address"
 msgstr "高度、哈希、交易或地址..."
 
-msgid "Size (bytes)"
-msgstr "大小 (bytes)"
+msgid "SegWit fee savings"
+msgstr ""
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+
+msgid "Sending to a different script type"
+msgstr ""
+
+msgid "%s from tip"
+msgstr ""
+
+msgid "Size"
+msgstr ""
 
 msgid "Size (KB)"
 msgstr "大小 (KB)"
@@ -288,8 +365,51 @@ msgstr "交易数量 %0"
 msgid "style.css"
 msgstr ""
 
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+
 msgid "Timestamp"
 msgstr "时间戳"
+
+msgid "Total fees"
+msgstr ""
+
+msgid "Total size"
+msgstr ""
+
+msgid "Total transactions"
+msgstr ""
 
 msgid "Total tx count"
 msgstr ""
@@ -312,6 +432,9 @@ msgstr "交易"
 msgid "Transaction: %s"
 msgstr "交易: %0"
 
+msgid "TXID"
+msgstr ""
+
 msgid "txid:vout"
 msgstr ""
 
@@ -330,7 +453,19 @@ msgstr ""
 msgid "Unconfirmed tx count"
 msgstr ""
 
+msgid "Unnecessary input heuristic"
+msgstr ""
+
 msgid "Unspent"
+msgstr ""
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+
+msgid "Value"
 msgstr ""
 
 msgid "Value commitment"
@@ -339,10 +474,7 @@ msgstr ""
 msgid "Version"
 msgstr "版本"
 
-msgid "Virtual Size (KVB)"
-msgstr ""
-
-msgid "Virtual size (vbytes)"
+msgid "Virtual size"
 msgstr ""
 
 msgid "We encountered an error. Please try again later."
@@ -351,10 +483,7 @@ msgstr ""
 msgid "Weight (KWU)"
 msgstr "重量 (KWU)"
 
-msgid "Weight units (KWU)"
-msgstr ""
-
-msgid "Weight units (WU)"
+msgid "Weight units"
 msgstr ""
 
 msgid "Witness"

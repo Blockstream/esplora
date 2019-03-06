@@ -12,6 +12,9 @@ msgstr ""
 msgid "Address"
 msgstr "Адрес"
 
+msgid "Address reuse"
+msgstr ""
+
 msgid "Address: %s"
 msgstr ""
 
@@ -66,6 +69,16 @@ msgstr ""
 msgid "Coinbase"
 msgstr ""
 
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+
 msgid "Confidential"
 msgstr ""
 
@@ -84,8 +97,20 @@ msgstr ""
 msgid "Confirmed unspent"
 msgstr ""
 
+msgid "Currently unavailable"
+msgstr ""
+
 msgid "Details"
 msgstr "Подробные детали"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr ""
+
+msgid "ETA"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
 
 msgid "Go"
 msgstr ""
@@ -105,6 +130,9 @@ msgstr "В лучшей цепи (процент потверждений)"
 msgid "Included in Block"
 msgstr "Включенный в Блоке"
 
+msgid "in %s blocks (%s from tip)"
+msgstr ""
+
 msgid "Issuance"
 msgstr ""
 
@@ -117,11 +145,19 @@ msgstr ""
 msgid "Issuance entropy"
 msgstr ""
 
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+
 msgid "lang_id"
 msgstr "ru"
 
 msgid "lang_name"
 msgstr "Русский"
+
+msgid "Likely self-transfer"
+msgstr ""
 
 msgid "Loading..."
 msgstr "Идёт Загрузка..."
@@ -131,6 +167,12 @@ msgstr "Смотреть больше"
 
 msgid "Lock time"
 msgstr "Время блокировки"
+
+msgid "ltr"
+msgstr ""
+
+msgid "Mempool"
+msgstr ""
 
 msgid "Merkle root"
 msgstr ""
@@ -151,6 +193,9 @@ msgid "Nonstandard"
 msgstr "Нестандартный"
 
 msgid "No outputs"
+msgstr ""
+
+msgid "No recent transactions"
 msgstr ""
 
 msgid "No reissuance"
@@ -180,6 +225,9 @@ msgstr ""
 msgid "Output in parent chain"
 msgstr "Выходные данные в родительской цепи"
 
+msgid "overpaying by %s%"
+msgstr ""
+
 msgid "Page Not Found"
 msgstr "Страница Не Найдена"
 
@@ -194,6 +242,9 @@ msgstr ""
 
 msgid "Peg-out to"
 msgstr "Закрепить к"
+
+msgid "Possibly a CoinJoin transaction"
+msgstr ""
 
 msgid "Powered by esplora"
 msgstr ""
@@ -210,11 +261,14 @@ msgstr ""
 msgid "Previous output script"
 msgstr ""
 
+msgid "Privacy analysis"
+msgstr ""
+
 msgid "(RBF)"
 msgstr ""
 
-msgid "Recent Blocks"
-msgstr "Последние Блоки"
+msgid "Recent transactions"
+msgstr ""
 
 msgid "Reissuance"
 msgstr ""
@@ -226,6 +280,15 @@ msgid "Reissuance keys"
 msgstr ""
 
 msgid "Replace by fee"
+msgstr ""
+
+msgid "Round payment amount"
+msgstr ""
+
+msgid "sat/vbyte"
+msgstr ""
+
+msgid "%s blocks"
 msgstr ""
 
 msgid "Scan QR"
@@ -252,8 +315,22 @@ msgstr ""
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Поиск высоты блока, хэшов, транзакций или адресов"
 
-msgid "Size (bytes)"
-msgstr "Объем (байт)"
+msgid "SegWit fee savings"
+msgstr ""
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+
+msgid "Sending to a different script type"
+msgstr ""
+
+msgid "%s from tip"
+msgstr ""
+
+msgid "Size"
+msgstr ""
 
 msgid "Size (KB)"
 msgstr "Объем (Кбайт)"
@@ -288,8 +365,51 @@ msgstr "Процент (%0) Транзакций"
 msgid "style.css"
 msgstr ""
 
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+
 msgid "Timestamp"
 msgstr "Штамп Времени"
+
+msgid "Total fees"
+msgstr ""
+
+msgid "Total size"
+msgstr ""
+
+msgid "Total transactions"
+msgstr ""
 
 msgid "Total tx count"
 msgstr ""
@@ -312,6 +432,9 @@ msgstr "Транзакции"
 msgid "Transaction: %s"
 msgstr ""
 
+msgid "TXID"
+msgstr ""
+
 msgid "txid:vout"
 msgstr ""
 
@@ -330,8 +453,20 @@ msgstr ""
 msgid "Unconfirmed tx count"
 msgstr ""
 
+msgid "Unnecessary input heuristic"
+msgstr ""
+
 msgid "Unspent"
 msgstr "Неизрасходованные"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+
+msgid "Value"
+msgstr ""
 
 msgid "Value commitment"
 msgstr ""
@@ -339,11 +474,8 @@ msgstr ""
 msgid "Version"
 msgstr "Версия"
 
-msgid "Virtual Size (KVB)"
-msgstr "Виртуальный Объем (kVB)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Виртуалный обьем (вБайт)"
+msgid "Virtual size"
+msgstr ""
 
 msgid "We encountered an error. Please try again later."
 msgstr "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже."
@@ -351,11 +483,8 @@ msgstr "Мы столкнулись с ошибкой. Пожалуйста, п�
 msgid "Weight (KWU)"
 msgstr "Вес (kWU)"
 
-msgid "Weight units (KWU)"
-msgstr "Единицы Веса (kWU)"
-
-msgid "Weight units (WU)"
-msgstr "Единицы веса (WU)"
+msgid "Weight units"
+msgstr ""
 
 msgid "Witness"
 msgstr "Свидетельство"

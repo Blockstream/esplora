@@ -19,13 +19,11 @@
   "No results found": "Nenhum resultado encontrado",
   "Page Not Found": "Página Não Encontrada",
   "Previous": "Anterior",
-  "Recent Blocks": "Blocos Recentes",
   "%s Confirmations": [
     "1 Confirmação",
     "%0 Confirmações"
   ],
   "Search for block height, hash, transaction, or address": "Pesquise por altura do bloco, hash, transação ou endereço",
-  "Size (bytes)": "Tamanho (bytes)",
   "Size (KB)": "Tamanho (KB)",
   "%s of %s Transactions": "%0 de %1 Confirmações",
   "Spent by": "Gasto por",
@@ -42,9 +40,5 @@
   "Unconfirmed": "Não confirmada",
   "Unspent": "Não gasto",
   "Version": "Versão",
-  "Virtual Size (KVB)": "Tamanho Virtual (KVB)",
-  "Virtual size (vbytes)": "Tamanho Virtual (vbytes)",
-  "Weight (KWU)": "Peso (KWU)",
-  "Weight units (KWU)": "Unidades de peso (KWU)",
-  "Weight units (WU)": "Unidades de peso (WU)"
+  "Weight (KWU)": "Peso (KWU)"
 }

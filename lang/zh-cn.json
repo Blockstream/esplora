@@ -20,13 +20,11 @@
   "No results found": "未找到结果",
   "Page Not Found": "网页未找到",
   "Previous": "前一个块",
-  "Recent Blocks": "最近出块",
   "%s Confirmations": [
     "确认数 1",
     "确认数 %0"
   ],
   "Search for block height, hash, transaction, or address": "高度、哈希、交易或地址...",
-  "Size (bytes)": "大小 (bytes)",
   "Size (KB)": "大小 (KB)",
   "%s of %s Transactions": "交易 %0 / %1",
   "Status": "状态",

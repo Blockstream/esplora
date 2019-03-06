@@ -23,9 +23,7 @@
   "Peg-out address": "Закрепительный адрес",
   "Peg-out to": "Закрепить к",
   "Previous": "Предыдущий",
-  "Recent Blocks": "Последние Блоки",
   "Search for block height, hash, transaction, or address": "Поиск высоты блока, хэшов, транзакций или адресов",
-  "Size (bytes)": "Объем (байт)",
   "Size (KB)": "Объем (Кбайт)",
   "%s of %s Transactions": "%0 от %1 Транзакций",
   "Spent by": "Потраченный",
@@ -41,11 +39,7 @@
   "Type": "Тип",
   "Unspent": "Неизрасходованные",
   "Version": "Версия",
-  "Virtual Size (KVB)": "Виртуальный Объем (kVB)",
-  "Virtual size (vbytes)": "Виртуалный обьем (вБайт)",
   "We encountered an error. Please try again later.": "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже.",
   "Weight (KWU)": "Вес (kWU)",
-  "Weight units (KWU)": "Единицы Веса (kWU)",
-  "Weight units (WU)": "Единицы веса (WU)",
   "Witness": "Свидетельство"
 }

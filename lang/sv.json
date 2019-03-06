@@ -19,13 +19,11 @@
   "No results found": "Inga resultat hittade",
   "Page Not Found": "Sida inte hittad",
   "Previous": "Föregående",
-  "Recent Blocks": "Senaste block",
   "%s Confirmations": [
     "1 bekräftelse",
     "%0 bekräftelser"
   ],
   "Search for block height, hash, transaction, or address": "Sök efter blockhöjd, hash, transaktion eller adress",
-  "Size (bytes)": "Storlek (bytes)",
   "Size (KB)": "Storlek (KB)",
   "%s of %s Transactions": "%0 av %1 transaktioner",
   "Spent by": "Spenderat av",
@@ -41,9 +39,5 @@
   "Type": "Typ",
   "Unconfirmed": "Obekräftad",
   "Unspent": "Ospenderad",
-  "Virtual Size (KVB)": "Virtuell storlek (KVB)",
-  "Virtual size (vbytes)": "Virtuell storlek (vbytes)",
-  "Weight (KWU)": "Vikt (KWU)",
-  "Weight units (KWU)": "Viktenheter (KWU)",
-  "Weight units (WU)": "Viktenheter (WU)"
+  "Weight (KWU)": "Vikt (KWU)"
 }

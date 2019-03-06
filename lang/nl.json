@@ -18,13 +18,11 @@
   "No results found": "Geen Resultaten Gevonden",
   "Page Not Found": "Pagina Niet Gevonden",
   "Previous": "Vorige",
-  "Recent Blocks": "Recente Blokken",
   "%s Confirmations": [
     "1 Bevestiging",
     "%0 Bevestigd"
   ],
   "Search for block height, hash, transaction, or address": "Zoek naar blokhoogte, hash, transactie of adres",
-  "Size (bytes)": "Grootte (bytes)",
   "Size (KB)": "Grootte (KB)",
   "%s of %s Transactions": "%0 van %1 Transacties",
   "%s Transactions": [
@@ -36,9 +34,5 @@
   "Transactions": "Transacties",
   "Transaction: %s": "Transactie: %0",
   "Unconfirmed": "Niet Bevestigd",
-  "Version": "Versie",
-  "Virtual Size (KVB)": "Virtuele Grootte (KVB)",
-  "Virtual size (vbytes)": "Virtuele Grootte (vbytes)",
-  "Weight units (KWU)": "Eenheid van Gewicht (KWU)",
-  "Weight units (WU)": "Eenheid van Gewicht (WU)"
+  "Version": "Versie"
 }

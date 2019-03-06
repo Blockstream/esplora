@@ -11,6 +11,9 @@ msgstr ""
 msgid "Address"
 msgstr "כתובת"
 
+msgid "Address reuse"
+msgstr "שימוש חוזר בכתובות"
+
 msgid "Address: %s"
 msgstr "כתובת: %0"
 
@@ -65,6 +68,19 @@ msgstr "בטל"
 msgid "Coinbase"
 msgstr "פרס כרייה"
 
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+"טרנזקציות CoinJoin מסתירות את הקשר בין קלטים לפלטים ומשפרים את הפרטיות "
+"והפאנג'יבילות של ביטקוין עבור כולם."
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+"בהשוואה לעמלה המומלצת של bitcoind של %s סטושי/בייט עבור אישור תוך 2 בלוקים"
+
 msgid "Confidential"
 msgstr "חסוי"
 
@@ -75,7 +91,7 @@ msgid "Confirmed received"
 msgstr "התקבל (מאושר)"
 
 msgid "Confirmed spent"
-msgstr ""
+msgstr "נשלח (מאושר)"
 
 msgid "Confirmed tx count"
 msgstr "מספר טרנזקציות מאושרות"
@@ -83,8 +99,20 @@ msgstr "מספר טרנזקציות מאושרות"
 msgid "Confirmed unspent"
 msgstr "לא מנוצל (מאושר)"
 
+msgid "Currently unavailable"
+msgstr "לא זמין כעת"
+
 msgid "Details"
 msgstr "פרטים"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr "אספלורה לא זמין כעת, אנא נסה שוב מאוחר יותר."
+
+msgid "ETA"
+msgstr "זמן אישור משוער"
+
+msgid "Fee"
+msgstr "עמלה"
 
 msgid "Go"
 msgstr ""
@@ -104,6 +132,9 @@ msgstr "בשרשרת הכי טובה (%0 אישורים)"
 msgid "Included in Block"
 msgstr "כלול בבלוק"
 
+msgid "in %s blocks (%s from tip)"
+msgstr "בתוך %s בלוקים (עומק mempool של %s)"
+
 msgid "Issuance"
 msgstr "הנפקה"
 
@@ -116,11 +147,19 @@ msgstr ""
 msgid "Issuance entropy"
 msgstr ""
 
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+
 msgid "lang_id"
 msgstr "he"
 
 msgid "lang_name"
 msgstr "עברית"
+
+msgid "Likely self-transfer"
+msgstr "העברה עצמית בסבירות גבוהה"
 
 msgid "Loading..."
 msgstr "טוען..."
@@ -130,6 +169,12 @@ msgstr "טען עוד"
 
 msgid "Lock time"
 msgstr "נעילת זמן"
+
+msgid "ltr"
+msgstr ""
+
+msgid "Mempool"
+msgstr ""
 
 msgid "Merkle root"
 msgstr "שורש מרקל"
@@ -151,6 +196,9 @@ msgstr "לא סטנדרטי"
 
 msgid "No outputs"
 msgstr "ללא פלטים"
+
+msgid "No recent transactions"
+msgstr "אין טרנזקציות אחרונות"
 
 msgid "No reissuance"
 msgstr "ללא הנפקה מחדש"
@@ -179,6 +227,9 @@ msgstr "מזהה פלט"
 msgid "Output in parent chain"
 msgstr "מטבע משרשרת אם"
 
+msgid "overpaying by %s%"
+msgstr "עמלת יתר של %s%"
+
 msgid "Page Not Found"
 msgstr "עמוד לא נמצא"
 
@@ -193,6 +244,9 @@ msgstr ""
 
 msgid "Peg-out to"
 msgstr ""
+
+msgid "Possibly a CoinJoin transaction"
+msgstr "נראה כמו טרנזקציית CoinJoin"
 
 msgid "Powered by esplora"
 msgstr ""
@@ -209,11 +263,14 @@ msgstr "כתובת פלט קודם"
 msgid "Previous output script"
 msgstr "סקריפט פלט קודם"
 
+msgid "Privacy analysis"
+msgstr "ניתוח פרטיות"
+
 msgid "(RBF)"
 msgstr ""
 
-msgid "Recent Blocks"
-msgstr "בלוקים אחרונים"
+msgid "Recent transactions"
+msgstr "טרנזקציות אחרונות"
 
 msgid "Reissuance"
 msgstr "הנפקה נוספת"
@@ -226,6 +283,15 @@ msgstr "מפתחות הנפקה מחדש"
 
 msgid "Replace by fee"
 msgstr ""
+
+msgid "Round payment amount"
+msgstr "סכום תשלום עגול"
+
+msgid "sat/vbyte"
+msgstr ""
+
+msgid "%s blocks"
+msgstr "%s בלוקים"
 
 msgid "Scan QR"
 msgstr "סרוק QR"
@@ -251,8 +317,22 @@ msgstr ""
 msgid "Search for block height, hash, transaction, or address"
 msgstr "חפש לפי גובה בלוק, האש בלוק, טרנזקציה או כתובת"
 
-msgid "Size (bytes)"
-msgstr "גודל (בייטים)"
+msgid "SegWit fee savings"
+msgstr "חסכון עמלות של סגוויט"
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr "לשלוח סכום מדויק (ללא עודף) זו אינדקציה שהביטקוינים לא עברו בעלות."
+
+msgid "Sending to a different script type"
+msgstr "שליחה לסוג סקריפט שונה"
+
+msgid "%s from tip"
+msgstr ""
+
+msgid "Size"
+msgstr "גודל"
 
 msgid "Size (KB)"
 msgstr "גודל (KB)"
@@ -287,8 +367,64 @@ msgstr "%0 טרנזקציות"
 msgid "style.css"
 msgstr "style-rtl.css"
 
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+"קיימת אינדקציה שאחד הפלטים הוא ככל הנראה העודף, מכיוון שחלק מהקלטים לא היו "
+"נדרשים אם הוא היה התשלום."
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+"טרנזקציה זו יכולה לחסוך %s% בעמלות אם תשדרג לסגוויט-Bech32, או %s% אם תשדרג "
+"לסגוויט-P2SH"
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+"טרנזקציה זו לא מפרה את בעיות הפרטיות שאנחנו מזהים. קרא על דרכים אחרות "
+"שהטרנזקציה עלולה לחשוף מידע פרטי."
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+"טרנזקציה זו מכילה קלטים לא הכרחיים שלרוב לא מוכנסים ע\"י תוכנות ארנק "
+"סטנדרטיות."
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+"טרנזקציה זו עושה שימוש חוזר בכתובות. שימוש חזור בכתובות הופך מעקב אחרי "
+"הטרנזקציות שלך לטריוויאלי. שים לב שאנחנו כרגע בודקים שימוש חזור בכתובות בתוך"
+" הטרנזקציה בלבד, לא לאורך ההיסטוריה."
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr "טרנזקציה זו חסכה %s% בעמלות ע\"י שדרוג לסגוויט-Bech32"
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+"טרנזקציה זו חסכה %s% בעמלות ע\"י שדרוג לסגוויט ויכולה לחסוך %s% יותר ע\"י "
+"שדרוג מלא לסגוויט-Bech33"
+
 msgid "Timestamp"
 msgstr "זמן"
+
+msgid "Total fees"
+msgstr ""
+
+msgid "Total size"
+msgstr ""
+
+msgid "Total transactions"
+msgstr ""
 
 msgid "Total tx count"
 msgstr "סה\"כ טרנזקציות"
@@ -311,6 +447,9 @@ msgstr "טרנזקציות"
 msgid "Transaction: %s"
 msgstr "טרנזקציה: %0"
 
+msgid "TXID"
+msgstr ""
+
 msgid "txid:vout"
 msgstr ""
 
@@ -329,8 +468,22 @@ msgstr "נשלח (לא מאושר)"
 msgid "Unconfirmed tx count"
 msgstr "מספר טרנזקציות לא מאושרות"
 
+msgid "Unnecessary input heuristic"
+msgstr "קלט לא הכרחי"
+
 msgid "Unspent"
 msgstr "לא נוצל"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+"שימוש בסכומי תשלום עגולים נותנת אינדקציה להבחנה בין הפלט עודף לפלט תשלום. "
+"שימוש במלוא הדיוק האפשרי בסכום התשלום פותר את הבעיה."
+
+msgid "Value"
+msgstr "שווי"
 
 msgid "Value commitment"
 msgstr ""
@@ -338,11 +491,8 @@ msgstr ""
 msgid "Version"
 msgstr "גירסה"
 
-msgid "Virtual Size (KVB)"
-msgstr "גודל וירטואלי (KVB)"
-
-msgid "Virtual size (vbytes)"
-msgstr "גודל וירטואלי (vbytes)"
+msgid "Virtual size"
+msgstr "גודל וירטואלי"
 
 msgid "We encountered an error. Please try again later."
 msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
@@ -350,11 +500,8 @@ msgstr "התרחשה שגיאה. נא לנסות שוב מאוחר יותר."
 msgid "Weight (KWU)"
 msgstr "משקל (KWU)"
 
-msgid "Weight units (KWU)"
-msgstr "יחידות משקל (KWU)"
-
-msgid "Weight units (WU)"
-msgstr "יחידות משקל (WU)"
+msgid "Weight units"
+msgstr "יחידות משקל"
 
 msgid "Witness"
 msgstr ""

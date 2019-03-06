@@ -27,9 +27,7 @@
   "Peg-out ASM": "페그 아웃 ASM",
   "Peg-out to": "페그 아웃할 곳",
   "Previous": "이전",
-  "Recent Blocks": "최근 블록",
   "Search for block height, hash, transaction, or address": "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요",
-  "Size (bytes)": "사이즈 (바이트)",
   "Size (KB)": "사이즈 (KB)",
   "%s of %s Transactions": "%0 의 %1 거래들",
   "Spent by": "사용한 유저",
@@ -47,11 +45,7 @@
   "Type": "유형",
   "Unspent": "사용안됨",
   "Version": "버전",
-  "Virtual Size (KVB)": "가상 사이즈 (KVB)",
-  "Virtual size (vbytes)": "가상 사이즈 (v바이트)",
   "We encountered an error. Please try again later.": "오류가 발생했습니다. 나중에 다시 시도하십시시오.",
   "Weight (KWU)": "무게 (KWU)",
-  "Weight units (KWU)": "무게 단위 (KWU)",
-  "Weight units (WU)": "무게 단위 (WU)",
   "Witness": "서명"
 }

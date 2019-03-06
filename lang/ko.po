@@ -11,6 +11,9 @@ msgstr ""
 msgid "Address"
 msgstr "주소"
 
+msgid "Address reuse"
+msgstr ""
+
 msgid "Address: %s"
 msgstr "주소: %0"
 
@@ -65,6 +68,16 @@ msgstr ""
 msgid "Coinbase"
 msgstr "코인베이스"
 
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+
 msgid "Confidential"
 msgstr ""
 
@@ -83,8 +96,20 @@ msgstr ""
 msgid "Confirmed unspent"
 msgstr ""
 
+msgid "Currently unavailable"
+msgstr ""
+
 msgid "Details"
 msgstr "자세히"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr ""
+
+msgid "ETA"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
 
 msgid "Go"
 msgstr ""
@@ -104,6 +129,9 @@ msgstr "현 체인 (%0 컨펌)"
 msgid "Included in Block"
 msgstr "포함되어 있는 블록"
 
+msgid "in %s blocks (%s from tip)"
+msgstr ""
+
 msgid "Issuance"
 msgstr ""
 
@@ -116,11 +144,19 @@ msgstr ""
 msgid "Issuance entropy"
 msgstr ""
 
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+
 msgid "lang_id"
 msgstr "ko"
 
 msgid "lang_name"
 msgstr "한국어"
+
+msgid "Likely self-transfer"
+msgstr ""
 
 msgid "Loading..."
 msgstr "로딩..."
@@ -130,6 +166,12 @@ msgstr "더 보기"
 
 msgid "Lock time"
 msgstr "잠금 시간"
+
+msgid "ltr"
+msgstr ""
+
+msgid "Mempool"
+msgstr ""
 
 msgid "Merkle root"
 msgstr ""
@@ -150,6 +192,9 @@ msgid "Nonstandard"
 msgstr "비표준"
 
 msgid "No outputs"
+msgstr ""
+
+msgid "No recent transactions"
 msgstr ""
 
 msgid "No reissuance"
@@ -179,6 +224,9 @@ msgstr ""
 msgid "Output in parent chain"
 msgstr "부모 체인 아웃풋"
 
+msgid "overpaying by %s%"
+msgstr ""
+
 msgid "Page Not Found"
 msgstr "페이지를 찾을 수 없음"
 
@@ -193,6 +241,9 @@ msgstr "페그 아웃 ASM"
 
 msgid "Peg-out to"
 msgstr "페그 아웃할 곳"
+
+msgid "Possibly a CoinJoin transaction"
+msgstr ""
 
 msgid "Powered by esplora"
 msgstr ""
@@ -209,11 +260,14 @@ msgstr ""
 msgid "Previous output script"
 msgstr ""
 
+msgid "Privacy analysis"
+msgstr ""
+
 msgid "(RBF)"
 msgstr ""
 
-msgid "Recent Blocks"
-msgstr "최근 블록"
+msgid "Recent transactions"
+msgstr ""
 
 msgid "Reissuance"
 msgstr ""
@@ -225,6 +279,15 @@ msgid "Reissuance keys"
 msgstr ""
 
 msgid "Replace by fee"
+msgstr ""
+
+msgid "Round payment amount"
+msgstr ""
+
+msgid "sat/vbyte"
+msgstr ""
+
+msgid "%s blocks"
 msgstr ""
 
 msgid "Scan QR"
@@ -251,8 +314,22 @@ msgstr ""
 msgid "Search for block height, hash, transaction, or address"
 msgstr "블록 높이, 해시, 주소, 또는 거래로 검색해 보세요"
 
-msgid "Size (bytes)"
-msgstr "사이즈 (바이트)"
+msgid "SegWit fee savings"
+msgstr ""
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+
+msgid "Sending to a different script type"
+msgstr ""
+
+msgid "%s from tip"
+msgstr ""
+
+msgid "Size"
+msgstr ""
 
 msgid "Size (KB)"
 msgstr "사이즈 (KB)"
@@ -287,8 +364,51 @@ msgstr "%0 거래들"
 msgid "style.css"
 msgstr ""
 
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+
 msgid "Timestamp"
 msgstr "타임 스탬프"
+
+msgid "Total fees"
+msgstr ""
+
+msgid "Total size"
+msgstr ""
+
+msgid "Total transactions"
+msgstr ""
 
 msgid "Total tx count"
 msgstr ""
@@ -311,6 +431,9 @@ msgstr "거래"
 msgid "Transaction: %s"
 msgstr "거래: %0"
 
+msgid "TXID"
+msgstr ""
+
 msgid "txid:vout"
 msgstr ""
 
@@ -329,8 +452,20 @@ msgstr ""
 msgid "Unconfirmed tx count"
 msgstr ""
 
+msgid "Unnecessary input heuristic"
+msgstr ""
+
 msgid "Unspent"
 msgstr "사용안됨"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+
+msgid "Value"
+msgstr ""
 
 msgid "Value commitment"
 msgstr ""
@@ -338,11 +473,8 @@ msgstr ""
 msgid "Version"
 msgstr "버전"
 
-msgid "Virtual Size (KVB)"
-msgstr "가상 사이즈 (KVB)"
-
-msgid "Virtual size (vbytes)"
-msgstr "가상 사이즈 (v바이트)"
+msgid "Virtual size"
+msgstr ""
 
 msgid "We encountered an error. Please try again later."
 msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
@@ -350,11 +482,8 @@ msgstr "오류가 발생했습니다. 나중에 다시 시도하십시시오."
 msgid "Weight (KWU)"
 msgstr "무게 (KWU)"
 
-msgid "Weight units (KWU)"
-msgstr "무게 단위 (KWU)"
-
-msgid "Weight units (WU)"
-msgstr "무게 단위 (WU)"
+msgid "Weight units"
+msgstr ""
 
 msgid "Witness"
 msgstr "서명"

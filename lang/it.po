@@ -13,6 +13,9 @@ msgstr ""
 msgid "Address"
 msgstr "Indirizzo"
 
+msgid "Address reuse"
+msgstr ""
+
 msgid "Address: %s"
 msgstr "Indirizzo: %0"
 
@@ -67,6 +70,16 @@ msgstr "Annulla"
 msgid "Coinbase"
 msgstr "Coinbase"
 
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+
 msgid "Confidential"
 msgstr "Confidenziale"
 
@@ -85,8 +98,20 @@ msgstr "Numero di transazioni confermate"
 msgid "Confirmed unspent"
 msgstr "Output confermati non spesi"
 
+msgid "Currently unavailable"
+msgstr ""
+
 msgid "Details"
 msgstr "Dettagli"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr ""
+
+msgid "ETA"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
 
 msgid "Go"
 msgstr "Vai"
@@ -106,6 +131,9 @@ msgstr "Nella migliore catena (%0 conferme)"
 msgid "Included in Block"
 msgstr "Inclusa in Blocco"
 
+msgid "in %s blocks (%s from tip)"
+msgstr ""
+
 msgid "Issuance"
 msgstr "Emissione"
 
@@ -118,11 +146,19 @@ msgstr "Blinding nonce di emissione"
 msgid "Issuance entropy"
 msgstr "Entropia di emissione"
 
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+
 msgid "lang_id"
 msgstr "it"
 
 msgid "lang_name"
 msgstr "Italiano"
+
+msgid "Likely self-transfer"
+msgstr ""
 
 msgid "Loading..."
 msgstr "Caricamento in corso..."
@@ -132,6 +168,12 @@ msgstr "Continua"
 
 msgid "Lock time"
 msgstr "Lock time"
+
+msgid "ltr"
+msgstr ""
+
+msgid "Mempool"
+msgstr ""
 
 msgid "Merkle root"
 msgstr "Merkle root"
@@ -153,6 +195,9 @@ msgstr "Nonstandard"
 
 msgid "No outputs"
 msgstr "Nessun Output"
+
+msgid "No recent transactions"
+msgstr ""
 
 msgid "No reissuance"
 msgstr "Nessuna Riemissione"
@@ -181,6 +226,9 @@ msgstr "Outpoint"
 msgid "Output in parent chain"
 msgstr "Output nella catena padre"
 
+msgid "overpaying by %s%"
+msgstr ""
+
 msgid "Page Not Found"
 msgstr "Pagina Non Trovata"
 
@@ -195,6 +243,9 @@ msgstr "Peg-out ASM"
 
 msgid "Peg-out to"
 msgstr "Peg-out verso"
+
+msgid "Possibly a CoinJoin transaction"
+msgstr ""
 
 msgid "Powered by esplora"
 msgstr "Powered by esplora"
@@ -211,11 +262,14 @@ msgstr "Indirizzo dell'output precedente"
 msgid "Previous output script"
 msgstr "Script dell'output precedente"
 
+msgid "Privacy analysis"
+msgstr ""
+
 msgid "(RBF)"
 msgstr "(RBF)"
 
-msgid "Recent Blocks"
-msgstr "Blocchi Recenti"
+msgid "Recent transactions"
+msgstr ""
 
 msgid "Reissuance"
 msgstr "Riemissione"
@@ -228,6 +282,15 @@ msgstr "Chiavi di riemissione"
 
 msgid "Replace by fee"
 msgstr "Replace by fee "
+
+msgid "Round payment amount"
+msgstr ""
+
+msgid "sat/vbyte"
+msgstr ""
+
+msgid "%s blocks"
+msgstr ""
 
 msgid "Scan QR"
 msgstr "Scansiona QR"
@@ -253,8 +316,22 @@ msgstr "scriptSig (hex)"
 msgid "Search for block height, hash, transaction, or address"
 msgstr "Cerca per altezza blocco, hash, transazione o indirizzo"
 
-msgid "Size (bytes)"
-msgstr "Dimensione (bytes)"
+msgid "SegWit fee savings"
+msgstr ""
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+
+msgid "Sending to a different script type"
+msgstr ""
+
+msgid "%s from tip"
+msgstr ""
+
+msgid "Size"
+msgstr ""
 
 msgid "Size (KB)"
 msgstr "Dimensione (KB)"
@@ -289,8 +366,51 @@ msgstr "%0 Transazioni"
 msgid "style.css"
 msgstr "style.css"
 
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+
 msgid "Timestamp"
 msgstr "Data"
+
+msgid "Total fees"
+msgstr ""
+
+msgid "Total size"
+msgstr ""
+
+msgid "Total transactions"
+msgstr ""
 
 msgid "Total tx count"
 msgstr "Numero di transazioni totali"
@@ -313,6 +433,9 @@ msgstr "Transazioni"
 msgid "Transaction: %s"
 msgstr "Transazione: %0"
 
+msgid "TXID"
+msgstr ""
+
 msgid "txid:vout"
 msgstr "txid:vout"
 
@@ -331,8 +454,20 @@ msgstr "Output non confermati spesi"
 msgid "Unconfirmed tx count"
 msgstr "Numero transazioni non confermate"
 
+msgid "Unnecessary input heuristic"
+msgstr ""
+
 msgid "Unspent"
 msgstr "Non spesa"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+
+msgid "Value"
+msgstr ""
 
 msgid "Value commitment"
 msgstr "Commitment dell'importo"
@@ -340,11 +475,8 @@ msgstr "Commitment dell'importo"
 msgid "Version"
 msgstr "Versione"
 
-msgid "Virtual Size (KVB)"
-msgstr "Dimensione Virtuale (KVB)"
-
-msgid "Virtual size (vbytes)"
-msgstr "Dimensione Virtuale (vbytes)"
+msgid "Virtual size"
+msgstr ""
 
 msgid "We encountered an error. Please try again later."
 msgstr "C'è stato un problema. Per piacere riprova più tardi."
@@ -352,11 +484,8 @@ msgstr "C'è stato un problema. Per piacere riprova più tardi."
 msgid "Weight (KWU)"
 msgstr "Peso (KWU)"
 
-msgid "Weight units (KWU)"
-msgstr "Unità di peso (KWU)"
-
-msgid "Weight units (WU)"
-msgstr "Unità di peso (WU)"
+msgid "Weight units"
+msgstr ""
 
 msgid "Witness"
 msgstr "Witness"

@@ -25,9 +25,7 @@
   "Peg-out address": "Peg-out アドレス",
   "Peg-out to": "Peg-out先",
   "Previous": "前に",
-  "Recent Blocks": "最新のブロック",
   "Search for block height, hash, transaction, or address": "ブロック高、ハッシュ、トランザクション又はアドレスを検索する",
-  "Size (bytes)": "サイズ(バイト)",
   "Size (KB)": "サイズ(バイト)",
   "%s of %s Transactions": "トランザクション数 %0 / %1",
   "Spent by": "使用者",
@@ -44,10 +42,6 @@
   "Type": "タイプ",
   "Unspent": "未使用",
   "Version": "バージョン",
-  "Virtual Size (KVB)": "バーチャルサイズ(KVB)",
-  "Virtual size (vbytes)": "バーチャルサイズ(vバイト)",
   "We encountered an error. Please try again later.": "エラーが発生しました。後ほどもう一度お試し下さい。",
-  "Weight (KWU)": "ブロックウェイト",
-  "Weight units (KWU)": "ウェイトユニット(KWU)",
-  "Weight units (WU)": "ウェイトユニット(KWU)"
+  "Weight (KWU)": "ブロックウェイト"
 }
