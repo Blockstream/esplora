@@ -31,8 +31,7 @@ const poStr = fs.readFileSync(path.join(__dirname, '..', 'strings.txt')).toStrin
 
 console.log(`
 msgid ""
-msgstr ""
-"Language: ${lang_id}\\n"
+msgstr "Language: ${lang_id}\\n"
 
 ${poStr}
 `)
