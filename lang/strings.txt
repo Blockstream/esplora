@@ -27,7 +27,6 @@ Confirmed spent
 Confirmed tx count
 Confirmed unspent
 Currently unavailable
-Depth
 Details
 Esplora is currently unavailable, please try again later.
 ETA

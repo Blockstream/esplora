@@ -89,9 +89,6 @@ msgstr "Confirmed unspent"
 msgid "Currently unavailable"
 msgstr "Currently unavailable"
 
-msgid "Depth"
-msgstr "Depth"
-
 msgid "Details"
 msgstr "Details"
 
