@@ -5,7 +5,10 @@ const langs = require('../../lang/index')
 
 // use the plural form as the zero form
 Object.entries(langs).forEach(([ lang_id, strs ]) =>
-  Array.isArray(strs) && strs.unshift(strs[1]))
+  Object.entries(strs).forEach(([ str, translation ]) =>
+    Array.isArray(translation) && translation.unshift(translation[1])
+  )
+)
 
 export default createL10ns(langs, { debug: console.error })
 
