@@ -45,7 +45,12 @@ export default function getPrivacyAnalysis(tx) {
     }
 
     // Unnecessary input heuristic (UIH)
-    if (!hasCT && tx.vin.length > 1) {
+    if (!hasCT && tx.vin.length > 1 && !hasMultiplePrevoutSameScript(tx)) {
+      // transactions with multiple inputs of the same previous output's script are possibly
+      // due to the preference to always spend all inputs of the same script together, which
+      // improves privacy and is implemented by (at least) Bitcoin Core and Electrum.
+      // we skip checking these transactions for UIH.
+
       // if the transaction could've avoided the smallest input and still have enough to fund
       // any of the two outputs, the transaction has what appears to be an unnecessary input.
       const minusSmallestIn = sumInputs(tx.vin) - smallestInput(tx.vin)
@@ -102,6 +107,14 @@ const lostPrecision = num => {
 }
 
 const counter = (T={}) => key => T[key] = (T[key] || 0) + 1
+
+// Checks if the transaction has multiple inputs with the same previous output's script
+const hasMultiplePrevoutSameScript = tx => {
+  const inc = counter()
+  return tx.vin
+    .filter(vin => vin.prevout && vin.prevout.scriptpubkey)
+    .some(vin => inc(vin.prevout.scriptpubkey) > 1)
+}
 
 // Checks if the transaction sends funds back to any of the previous output's scripts
 const hasInternalReuse = tx => {
