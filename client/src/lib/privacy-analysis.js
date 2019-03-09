@@ -91,7 +91,7 @@ const sumInputs = ins => ins.reduce((T, vin) => T + (vin.prevout && vin.prevout.
 
 // checks if there's at least one previous output of this type
 const inputsHasType = (ins, scriptpubkey_type) =>
-        ins.some(vin => vin.prevout && vin.prevout.scriptpubkey_type == scriptpubkey_type)
+  ins.some(vin => vin.prevout && vin.prevout.scriptpubkey_type == scriptpubkey_type)
 
 const isSpendable = out => ![ 'empty', 'op_return', 'provably_unspendable', 'fee' ].includes(out.scriptpubkey_type)
 
@@ -103,19 +103,20 @@ const lostPrecision = num => {
 
 const counter = (T={}) => key => T[key] = (T[key] || 0) + 1
 
-// checks if the transaction has internal address reuse
-// (normally means its sending the change back to itself)
+// Checks if the transaction sends funds back to any of the previous output's scripts
 const hasInternalReuse = tx => {
-  const inc = counter()
-  return tx.vin.filter(vin => vin.prevout && vin.prevout.scriptpubkey)
-               .some(vin => inc(vin.prevout.scriptpubkey) > 1)
-      || tx.vout.filter(out => out.scriptpubkey)
-               .some(out => inc(out.scriptpubkey) > 1)
+  const sourceScripts = tx.vin
+    .filter(vin => vin.prevout && vin.prevout.scriptpubkey)
+    .reduce((S, vin) => ({ ...S, [vin.prevout.scriptpubkey]: 1 }), {})
+
+  return tx.vout
+    .filter(out => out.scriptpubkey)
+    .some(out => !!sourceScripts[out.scriptpubkey])
 }
 
-// a transaction is considered to be "looking like a coinjoin"
-// if more than N outputs are of the same size, where N is half the
-// number of outputs capped to be between 2 and 5
+// Detect transactions that looks like equal-output CoinJoin
+// checks if more than N outputs are of the same size, where N is half the
+// number of outputs capped between 2 and 5
 const isCoinJoinLike = tx => {
   const inc = counter(), target = Math.min(Math.max(tx.vout.length/2|0, 2), 5)
   return tx.vout.some(out => inc(out.value) >= target)
