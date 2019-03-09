@@ -3,6 +3,7 @@ set -eo pipefail
 
 FLAVOR=$1
 MODE=$2
+DEBUG=$3
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-testnet, bitcoin-mainnet or liquid-mainnet as a parameter"
@@ -32,22 +33,29 @@ ELECTRS_NETWORK=${NETWORK}
 
 ISLIQUID="false"
 NGINX_NOSLASH_PATH="unused"
-NGINX_REWRITE_NOJS='return 301 " /nojs$uri";'
+NGINX_REWRITE_NOJS='return 301 " /nojs$uri"'
 if [ "${DAEMON}" != "liquid" ]; then
     if [ "${NETWORK}" == "testnet" ]; then
         NGINX_PATH="testnet/"
         NGINX_NOSLASH_PATH="testnet"
-        NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
-        NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent;'
+        NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break'
+        NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent'
     fi
 else
     ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
-    NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
-    NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent;'
+    NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break'
+    NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
     NGINX_NOSLASH_PATH="liquid"
     ISLIQUID="true"
+fi
+
+NGINX_LOGGING="access_log off"
+
+if [ "${DEBUG}" == "verbose" ]; then
+    ELECTRS_DEBUG="-vvvv"
+    NGINX_LOGGING="access_log /data/logs/nginx-access-debug-${FLAVOR}.log"
 fi
 
 function preprocess(){
@@ -59,6 +67,8 @@ function preprocess(){
        -e "s|{STATIC_DIR}|$STATIC_DIR|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
+       -e "s|{ELECTRS_DEBUG}|$ELECTRS_DEBUG|g" \
+       -e "s|{NGINX_LOGGING}|$NGINX_LOGGING|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
        -e "s|{NGINX_REWRITE_NOJS}|$NGINX_REWRITE_NOJS|g" \

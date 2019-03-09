@@ -19,7 +19,7 @@ server {
     tcp_nopush on;
     tcp_nodelay on;
     keepalive_timeout 15;
-    access_log off;
+    {NGINX_LOGGING};
     server_tokens off;
     add_header X-Frame-Options SAMEORIGIN always;
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'" always;
@@ -42,20 +42,20 @@ server {
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address)/|[a-zA-Z0-9]+$) {
         expires 60m;
         if ($args = "nojs") {
-            {NGINX_REWRITE_NOJS}
+            {NGINX_REWRITE_NOJS};
         }
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
         expires 60m;
         if ($args = "nojs") {
-            {NGINX_REWRITE_NOJS}
+            {NGINX_REWRITE_NOJS};
         }
-        {NGINX_REWRITE}
+        {NGINX_REWRITE};
     }
     location = /{NGINX_NOSLASH_PATH} {
         if ($args = "nojs") {
-            {NGINX_REWRITE_NOJS}
+            {NGINX_REWRITE_NOJS};
         }
         return 301 " /{NGINX_PATH}";
     }
