@@ -37,7 +37,7 @@ const messages = {
 , 'exotic-detection-uih2': [
     'warning'
   , 'Unnecessary input heuristic'
-  , 'This transaction has unnecessary inputs that are not typically added by wallet software.'
+  , 'This transaction has unnecessary inputs that are not typically added by consumer wallet software.'
   , 'https://en.bitcoin.it/wiki/Privacy#Unnecessary_input_heuristic'
   ]
 
