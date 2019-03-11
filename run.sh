@@ -80,6 +80,10 @@ if [ -f /data/public_nodes ]; then
     cat /data/public_nodes >> /data/.${DAEMON}.conf
 fi
 
+if [ -f /data/private_nodes ]; then
+    cat /data/private_nodes >> /data/.${DAEMON}.conf
+fi
+
 TORRCFILE="/srv/explorer/${DAEMON}-${NETWORK}-${MODE}-torrc"
 if [ -f $TORRCFILE ]; then
     cp $TORRCFILE /etc/tor/torrc
