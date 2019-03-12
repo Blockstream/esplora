@@ -19,11 +19,11 @@ RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.17.1/b
  && ln -s /srv/explorer/bitcoin-0.17.1 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_LIQUID=9bca50796526e8cd33738ad22ecf21e6d2696aecb4d4e45eb7982d2c6c40beae
-RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.22/liquid-3.14.1.22-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_LIQUID=cb135d60407fd4fcd04d1f021cd314e9f8f50a8f0a660551f5ea251b0fea3ffc
+RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.23/liquid-3.14.1.23-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_LIQUID}  liquid.tar.gz" | sha256sum --check \
  && tar xzf liquid.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/liquid-3.14.1.22 /srv/explorer/liquid \
+ && ln -s /srv/explorer/liquid-3.14.1.23 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.32.0 \
