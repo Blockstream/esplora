@@ -6,3 +6,4 @@ disablewallet=1
 prune=550
 blocksonly=1
 persistmempool=0
+listen=0

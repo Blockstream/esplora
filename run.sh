@@ -12,10 +12,8 @@ if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
 fi
 
 EXPLORERAUTOSTART="false"
-TORAUTOSTART="true"
 
 if [ "$MODE" == "explorer" ]; then
-    TORAUTOSTART="false"
     EXPLORERAUTOSTART="true"
 elif [ "$MODE" != "private-bridge" ] && [ "$MODE" != "public-bridge" ]; then
     echo "Mode can only be private-bridge, public-bridge or explorer"
@@ -75,7 +73,6 @@ function preprocess(){
        -e "s|{FLAVOR}|$DAEMON-$NETWORK $TEMPLATE|g" \
        -e "s|{NGINX_NOSLASH_PATH}|$NGINX_NOSLASH_PATH|g" \
        -e "s|{EXPLORERAUTOSTART}|$EXPLORERAUTOSTART|g" \
-       -e "s|{TORAUTOSTART}|$TORAUTOSTART|g" \
        -e "s|{ISLIQUID}|$ISLIQUID|g" \
    >$out_file
 }
@@ -102,6 +99,8 @@ if [ -f $TORRCFILE ]; then
         shuf -n 4 /data/torrc >> /etc/tor/torrc
         tail -4 /etc/tor/torrc | awk '{print "connect="$2":10100"}' >> /data/.${DAEMON}.conf
     fi
+else
+    echo "ControlPort 9051" >> /etc/tor/torrc
 fi
 
 preprocess /srv/explorer/nginx.conf.in /etc/nginx/sites-enabled/default
