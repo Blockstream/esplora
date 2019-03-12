@@ -242,7 +242,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
 
     // push tx
-    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'POST', path: `/tx`, send: rawtx }))
+    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'POST', path: `/tx`, send: rawtx, type: 'text/plain' }))
 
     // fetch spending txs when viewing advanced details
     , openTx$.filter(notNully)
