@@ -51,7 +51,7 @@ server {
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
         }
-        {NGINX_REWRITE};
+        {NGINX_REWRITE}
     }
     location = /{NGINX_NOSLASH_PATH} {
         if ($args = "nojs") {

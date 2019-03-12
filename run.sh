@@ -38,14 +38,14 @@ if [ "${DAEMON}" != "liquid" ]; then
     if [ "${NETWORK}" == "testnet" ]; then
         NGINX_PATH="testnet/"
         NGINX_NOSLASH_PATH="testnet"
-        NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break'
+        NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent'
     fi
 else
     ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
-    NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break'
+    NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
     NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
     NGINX_NOSLASH_PATH="liquid"
     ISLIQUID="true"
