@@ -56,9 +56,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
-  , pushtx$   = process.browser
+  , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
-      : goPush$.filter(loc => !!loc.query.tx).map(loc => loc.query.tx)
+      : goPush$.filter(loc => !!loc.query.tx).map(loc => loc.query.tx) // XXX
+      ).map(hex => hex.replace(/\s+/g, ''))
 
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))
   , moreBTxs$   = click('[data-loadmore-txs-block]').map(d => ({ block: d.loadmoreTxsBlock, start_index: d.loadmoreTxsIndex }))
@@ -241,7 +242,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
 
     // push tx
-    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'GET', path: `/broadcast`, query: { tx: rawtx.replace(/\s+/g, '') } }))
+    , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'POST', path: `/tx`, send: rawtx }))
 
     // fetch spending txs when viewing advanced details
     , openTx$.filter(notNully)
