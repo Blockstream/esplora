@@ -39,10 +39,12 @@ Available fields: `spent` (boolean), `txid` (optional), `vin` (optional) and `st
 
 Returns the spending status of all transaction outputs.
 
-### `GET /broadcast?tx=<rawtx>`
+### `POST /tx`
 
-Broadcast `<rawtx>` (the raw transaction in hex) to the network.
-Returns the `txid` on success.
+Broadcast a raw transaction to the network.
+
+The transaction should be provided as hex in the request body.
+The `txid` will be returned on success.
 
 ## Addresses
 
