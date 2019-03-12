@@ -32,4 +32,3 @@ autostart={EXPLORERAUTOSTART}
 
 [program:tor]
 command=/usr/bin/tor
-autostart={TORAUTOSTART}
