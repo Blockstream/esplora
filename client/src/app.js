@@ -58,7 +58,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
   , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
-      : goPush$.filter(loc => !!loc.query.tx).map(loc => loc.query.tx) // XXX
+      : goPush$.filter(loc => loc.body && loc.body.tx).map(loc => loc.body.tx)
       ).map(hex => hex.replace(/\s+/g, ''))
 
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))

@@ -1,6 +1,7 @@
 import pug from 'pug'
 import path from 'path'
 import express from 'express'
+import request from 'superagent'
 
 import l10n from '../client/l10n'
 import render from '../client/run-server'
@@ -9,6 +10,7 @@ const themes = [ 'light', 'dark' ]
     , langs = Object.keys(l10n)
     , baseHref = process.env.BASE_HREF || '/'
     , canonBase = process.env.CANONICAL_URL ? process.env.CANONICAL_URL.replace(/\/$/, '') : null
+    , apiUrl = process.env.API_URL.replace(/\/$/, '')
 
 const rpath = p => path.join(__dirname, p)
 
@@ -21,8 +23,9 @@ if (app.settings.env == 'development')
   app.use(require('morgan')('dev'))
 
 app.use(require('cookie-parser')())
+app.use(require('body-parser').urlencoded())
 
-app.get('*', (req, res, next) => {
+app.use((req, res, next) => {
   // TODO: optimize /block-height/nnn (no need to render the whole app just to get the redirect)
 
   let theme = req.query.theme || req.cookies.theme || 'dark'
@@ -33,7 +36,7 @@ app.get('*', (req, res, next) => {
   if (!langs.includes(lang)) lang = 'en'
   if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
 
-  render(req._parsedUrl.pathname, req._parsedUrl.query || '', { theme, lang }, (err, resp) => {
+  render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang }, (err, resp) => {
     if (err) return next(err)
     if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
     if (resp.errorCode) return res.sendStatus(resp.errorCode)

@@ -4,7 +4,9 @@
   "author": "Nadav Ivgi",
   "license": "MIT",
   "dependencies": {
-    "cookie-parser": "^1.4.3"
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "superagent": "^4.1.0"
   },
   "scripts": {
     "start": "./start.sh",

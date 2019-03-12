@@ -16,7 +16,7 @@ const LOAD_TIMEOUT = process.env.PRERENDER_TIMEOUT || 30000
 // should not be necessary following https://github.com/cyclejs/cyclejs/pull/874
 const ModulesForHTML = Object.values(require('snabbdom-to-html/modules'))
 
-export default function render(pathname, args='', locals={}, cb) {
+export default function render(pathname, args='', body, locals={}, cb) {
 
   let lastHtml, lastState, seenLoading=false, called=false
 
@@ -57,7 +57,7 @@ export default function render(pathname, args='', locals={}, cb) {
     O.from(goto$).subscribe(loc =>
       done({ redirect: loc.pathname + (loc.search || '') })
     )
-    return O.of({ pathname, search: '?'+args })
+    return O.of({ pathname, search: '?'+args, body })
   }
 
   const dispose = run(main, {
