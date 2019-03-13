@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+exec 2>&1
+exec /srv/explorer/{DAEMON}/bin/{DAEMON}d -conf=/data/.{DAEMON}.conf -datadir=/data/{DAEMON}

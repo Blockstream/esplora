@@ -102,7 +102,7 @@ write_files:
             --tmpfs /tmp/ \
             -v /mnt/disks/data:/data:rw \
             "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network} explorer'
-        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'supervisorctl stop electrs'
+        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'sv stop electrs'
         ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli stop'
         ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli-bitcoin stop'
         ExecStop=/usr/bin/docker stop ${container_name}
