@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+exec 2>&1
+exec /srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin.conf -datadir=/data/bitcoin
