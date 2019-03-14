@@ -82,10 +82,9 @@ fi
 preprocess /srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}.conf.in /data/.${DAEMON}.conf
 
 if [ "${DAEMON}" == "liquid" ]; then
-    mkdir -p /etc/service/bitcoin/control
+    mkdir -p /etc/service/bitcoin
     preprocess /srv/explorer/source/contrib/bitcoin-mainnet-pruned-for-liquid.conf.in /data/.bitcoin.conf
     cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid.runit /etc/service/bitcoin/run
-    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid_stop.runit /etc/service/bitcoin/control/X
 fi
 
 if [ -f /data/public_nodes ]; then
@@ -124,9 +123,8 @@ if [ ! -d /data/logs ]; then
     mkdir -p /data/logs /data/${DAEMON} /data/bitcoin
 fi
 
-mkdir -p /etc/service/${DAEMON}/control
+mkdir -p /etc/service/${DAEMON}
 preprocess /srv/explorer/source/contrib/runits/nodedaemon.runit /etc/service/${DAEMON}/run
-preprocess /srv/explorer/source/contrib/runits/nodedaemon_stop.runit /etc/service/${DAEMON}/control/X
-chmod +x /etc/service/${DAEMON}/run /etc/service/${DAEMON}/control/X
+chmod +x /etc/service/${DAEMON}/run
 
 exec /srv/explorer/source/contrib/runit_boot.sh
