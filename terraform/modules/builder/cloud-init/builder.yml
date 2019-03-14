@@ -104,7 +104,7 @@ write_files:
             "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network} explorer'
         ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'sv stop electrs'
         ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli stop'
-        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli-bitcoin stop'
+        ExecStop=-/usr/bin/docker exec ${container_name} bash -c 'cli_bitcoin stop'
         ExecStop=/usr/bin/docker stop ${container_name}
         ExecStopPost=/usr/bin/docker rm ${container_name}
         ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
