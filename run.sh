@@ -46,6 +46,7 @@ NGINX_LOGGING="access_log off"
 
 if [ "${DEBUG}" == "verbose" ]; then
     ELECTRS_DEBUG="-vvvv"
+    ELECTRS_BACKTRACE="export RUST_BACKTRACE=full"
     NGINX_LOGGING="access_log /data/logs/nginx-access-debug-${FLAVOR}.log"
 fi
 
@@ -59,6 +60,7 @@ function preprocess(){
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
        -e "s|{ELECTRS_DEBUG}|$ELECTRS_DEBUG|g" \
+       -e "s|{ELECTRS_BACKTRACE}|$ELECTRS_BACKTRACE|g" \
        -e "s|{NGINX_LOGGING}|$NGINX_LOGGING|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \

@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+{ELECTRS_BACKTRACE}
 exec 2>&1
 exec /srv/explorer/electrs_{DAEMON}/bin/electrs \
     {ELECTRS_DEBUG} --timestamp --http-addr 127.0.0.1:3000 \
