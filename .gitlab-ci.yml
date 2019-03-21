@@ -3,7 +3,7 @@ variables:
   CLOUD_SDK_VERSION: "218.0.0"
   DOCKER_DRIVER: overlay2
 
-image: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+image: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
 stages:
   - build
   - plan
@@ -82,7 +82,7 @@ plan:
     - branches@greenaddress/esplora
   stage: plan
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   script:
     - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
@@ -107,7 +107,7 @@ deploy_main:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   only:
     - /^main_v.*/
@@ -134,7 +134,7 @@ deploy_bitcoin_mainnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   only:
     - /^bitcoin_mainnet.*/
@@ -156,7 +156,7 @@ deploy_bitcoin_testnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   only:
     - /^bitcoin_testnet.*/
@@ -178,7 +178,7 @@ deploy_liquid_mainnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   only:
     - /^liquid_mainnet.*/
@@ -201,7 +201,7 @@ build_images:on-schedule:
     - /^image_builder_v.*/
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:31c1a01d143558f0ba5677d121891a958fa600195679fe325980ec72e5264f2a
+    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
     entrypoint: [""]
   script:
     - (cd terraform && terraform init -input=false &&
