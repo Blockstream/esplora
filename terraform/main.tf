@@ -2,9 +2,9 @@ terraform {
   required_version = "> 0.11.0"
 
   backend "gcs" {
-    bucket  = "terraform-state-explorer"
-    prefix  = "terraform/state"
-    project = "green-address-explorer"
+    bucket  = "terraform-bs-source"
+    prefix  = "green-address-explorer"
+    project = "blockstream-source"
   }
 }
 
