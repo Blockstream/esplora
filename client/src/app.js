@@ -15,7 +15,7 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: apiBase + path })
 
-const reservedPaths = [ 'mempool' ]
+const reservedPaths = [ 'mempool', 'ethereum' ]
 
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.
@@ -178,7 +178,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
-                  , error$.mapTo('error'))
+                  , error$.mapTo('error')
+                  , route('/ethereum').mapTo('ethereum'))
       .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
 
   // Page title
@@ -197,6 +198,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$
+                     , ethSyncProgress$: O.timer(0, 800).map(_ => (Date.now()-1554070925483)/6398271474517)
                      , loading$, page$, view$, title$, theme$
                      })
 

@@ -1382,7 +1382,7 @@ body::after{
 }
 .navbar-nav {
   margin-left: 32px;
-  width: 330px;
+  width: 390px;
   display: flex;
   justify-content: space-between;
   margin-right: auto;
@@ -2093,6 +2093,7 @@ dl.mempool-histogram .bar {
   line-height: 36px;
   transition: width 0.5s;
 }
+
 dl.mempool-histogram dd:hover .bar, dl.mempool-histogram dd:focus .bar {
   background-color: #aaa;
 }

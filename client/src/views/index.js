@@ -8,3 +8,5 @@ export { default as scan }    from './scan'
 export { default as mempool } from './mempool'
 export { default as loading } from './loading'
 export { error, notFound }    from './error'
+
+export { default as ethereum } from './ethereum'

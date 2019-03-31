@@ -6,11 +6,11 @@ const items  = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS)
 
 const otherTheme = { dark: 'light', light: 'dark' }
 
-export default ({ t, theme, page }) =>
+export default ({ t, theme, page, activeNav = active }) =>
 
   <ul className="navbar-nav">
     { items && Object.entries(items).map(([ name, url ]) =>
-        <li className={`nav-item ${name == active ? 'active' : ''}`}>
+        <li className={`nav-item ${name == activeNav ? 'active' : ''}`}>
           <a className="nav-link" href={url} rel="external">{t(name)}</a>
         </li>
     ) }
