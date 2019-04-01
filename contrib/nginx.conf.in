@@ -46,6 +46,11 @@ server {
         }
         try_files $uri /index.html;
     }
+
+    location ~ ^/{NGINX_PATH}ethereum/? {
+        try_files /eth.html $uri /index.html;
+    }
+
     location /{NGINX_PATH} {
         expires 60m;
         if ($args = "nojs") {
