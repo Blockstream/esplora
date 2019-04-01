@@ -12,7 +12,7 @@ export default ({ ethSyncProgress, ethPeers, ...S  }) => layout(
       </div>
       <div className="container text-center">
         <h3>Sync in progress: {(ethSyncProgress*100).toFixed(10)}%</h3>
-        <h4>Looking for peers{ethPeers}</h4>
+        <h4>{(ethPeers||'').replace(/\./g, ' ')}Looking for peers{ethPeers}</h4>
         <h4>ETA: ∞</h4>
       </div>
     </div>
