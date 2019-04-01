@@ -47,7 +47,7 @@ server {
         try_files $uri /index.html;
     }
 
-    location ~ ^/{NGINX_PATH}ethereum/? {
+    location ~ ^/{NGINX_PATH}ethereum {
         try_files /eth.html $uri /index.html;
     }
 
