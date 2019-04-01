@@ -53,6 +53,9 @@ server {
     location ~ ^/{NGINX_PATH}ethereum/ {
         try_files /eth.html $uri /index.html;
     }
+    location = /{NGINX_PATH}ethereum {
+        try_files /eth.html $uri /index.html;
+    }
 
     location /{NGINX_PATH} {
         expires 60m;
