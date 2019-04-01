@@ -51,12 +51,15 @@ server {
         try_files /eth.html $uri /index.html;
     }
 
+    location /{NGINX_PATH}/ethereum {
+        rewrite ^/ethereum$ " /ethereum/" permanent;
+    }
+
     location /{NGINX_PATH} {
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
         }
-        rewrite ^/ethereum$ " /ethereum/" permanent;
         {NGINX_REWRITE}
     }
     location = /{NGINX_NOSLASH_PATH} {
