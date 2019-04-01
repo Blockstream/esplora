@@ -189,7 +189,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
-                   , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
+                   , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`)
+                   , route('/ethereum').mapTo('Ethereum Block Explorer'))
+
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$

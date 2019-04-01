@@ -16,7 +16,7 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , initTitle = process.browser ? document.title : process.env.SITE_TITLE
 
 const titleDriver = title$ => O.from(title$)
-  .subscribe(title => document.title = title ? `${title} · ${initTitle}` : initTitle)
+  .subscribe(title => document.title = title ? (title.startsWith('Ethereum') ? title : `${title} · ${initTitle}`) : initTitle)
 
 run(main, {
   DOM: makeDOMDriver('#explorer')
