@@ -11,7 +11,7 @@ export default ({ ethSyncProgress, ...S  }) => layout(
         <h1 className="explorer-title-container_title">Ethereum Block Explorer</h1>
       </div>
       <div className="container text-center">
-        <h3>Sync in progress... {(ethSyncProgress*100).toFixed(10)}%</h3>
+        <h3>Sync in progress: {(ethSyncProgress*100).toFixed(10)}%</h3>
         <h4>Looking for peers...</h4>
         <h4>ETA: ∞</h4>
       </div>
