@@ -199,6 +199,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$
                      , ethSyncProgress$: O.timer(0, 800).map(_ => (Date.now()-1554070925483)/6398271474517)
+                     , ethPeers$: O.timer(0, 1000).scan(x => ({".":"..","..":"...","...":"."})[x], "...")
                      , loading$, page$, view$, title$, theme$
                      })
 

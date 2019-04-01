@@ -3,7 +3,7 @@ import layout from './layout'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-export default ({ ethSyncProgress, ...S  }) => layout(
+export default ({ ethSyncProgress, ethPeers, ...S  }) => layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
@@ -12,7 +12,7 @@ export default ({ ethSyncProgress, ...S  }) => layout(
       </div>
       <div className="container text-center">
         <h3>Sync in progress: {(ethSyncProgress*100).toFixed(10)}%</h3>
-        <h4>Looking for peers...</h4>
+        <h4>Looking for peers{ethPeers}</h4>
         <h4>ETA: ∞</h4>
       </div>
     </div>
