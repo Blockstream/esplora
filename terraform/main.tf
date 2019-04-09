@@ -68,13 +68,13 @@ module "bitcoin-testnet" {
   network                  = "testnet"
   instance_type            = "${var.instance_type[1]}"
   size                     = "${var.cluster_size}"
-  image                    = "${data.google_compute_image.btc-test.self_link}"
   project                  = "${var.project}"
   service_account_prom     = "${terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.prometheus_service_account}"
   docker_tag_node_exporter = "${var.docker_tag_node_exporter}"
   docker_tag_explorer      = "${var.docker_tag_explorer}"
   min_ready_sec            = "${var.min_ready_sec}"
   initial_delay_sec        = "${var.initial_delay_sec}"
+  image_source_project     = "${var.image_source_project}"
 
   create_resources = "${local.create_bitcoin_testnet}"
 }
@@ -103,13 +103,13 @@ module "bitcoin-mainnet" {
   network                  = "mainnet"
   instance_type            = "${var.instance_type[0]}"
   size                     = "${var.cluster_size}"
-  image                    = "${data.google_compute_image.btc-main.self_link}"
   project                  = "${var.project}"
   service_account_prom     = "${terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.prometheus_service_account}"
   docker_tag_node_exporter = "${var.docker_tag_node_exporter}"
   docker_tag_explorer      = "${var.docker_tag_explorer}"
   min_ready_sec            = "${var.min_ready_sec}"
   initial_delay_sec        = "${var.initial_delay_sec}"
+  image_source_project     = "${var.image_source_project}"
 
   create_resources = "${local.create_bitcoin_mainnet}"
 }
@@ -138,13 +138,13 @@ module "liquid-mainnet" {
   network                  = "mainnet"
   instance_type            = "${var.instance_type[1]}"
   size                     = "${var.cluster_size}"
-  image                    = "${data.google_compute_image.liquid-main.self_link}"
   project                  = "${var.project}"
   service_account_prom     = "${terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.prometheus_service_account}"
   docker_tag_node_exporter = "${var.docker_tag_node_exporter}"
   docker_tag_explorer      = "${var.docker_tag_explorer}"
   min_ready_sec            = "${var.min_ready_sec}"
   initial_delay_sec        = "${var.initial_delay_sec}"
+  image_source_project     = "${var.image_source_project}"
 
   create_resources = "${local.create_liquid_mainnet}"
 }

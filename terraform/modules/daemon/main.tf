@@ -68,13 +68,6 @@ resource "google_compute_instance_template" "daemon" {
     boot         = true
   }
 
-  disk {
-    source_image = "${var.image}"
-    disk_type    = "pd-ssd"
-    auto_delete  = true
-    device_name  = "data"
-  }
-
   network_interface {
     network = "${data.google_compute_network.default.self_link}"
 
@@ -88,7 +81,7 @@ resource "google_compute_instance_template" "daemon" {
 
   service_account {
     email  = "${google_service_account.daemon.email}"
-    scopes = ["compute-ro", "storage-ro"]
+    scopes = ["compute-rw", "storage-ro"]
   }
 
   lifecycle {

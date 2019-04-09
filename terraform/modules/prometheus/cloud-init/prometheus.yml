@@ -5,11 +5,11 @@ mounts:
   - [ /dev/disk/by-label/data, /mnt/disks/data, auto, defaults ]
 
 users:
-  - name: exec
+  - name: bs
     uid: 2000
 
 write_files:
-  - path: /home/exec/prometheus/alertmanager.yml
+  - path: /home/bs/prometheus/alertmanager.yml
     permissions: 0644
     owner: root
     content: |
@@ -30,7 +30,7 @@ write_files:
               teams: SecOps   # Put in your team here
               tags: esplora
 
-  - path: /home/exec/prometheus/rules/alerts.yml
+  - path: /home/bs/prometheus/rules/alerts.yml
     permissions: 0644
     owner: root
     content: |
@@ -70,7 +70,7 @@ write_files:
                 summary: No hosts in network {{ $labels.name }}, production traffic impacted!
                 description: There are currently no hosts up in the network {{ $labels.name }}, verify the instance group. https://wiki.blockstream.io/OpsPlaybooks/Esplora-Runbooks#NoHostsInNetworkLiquidMainnet
 
-  - path: /home/exec/prometheus/prometheus.yml
+  - path: /home/bs/prometheus/prometheus.yml
     permissions: 0644
     owner: root
     content: |
@@ -412,7 +412,7 @@ write_files:
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9090 -j ACCEPT
@@ -421,7 +421,7 @@ write_files:
         ExecStart=/usr/bin/docker run \
             --network=host \
             -v /mnt/disks/data:/data:rw \
-            -v /home/exec/prometheus:/config:ro \
+            -v /home/bs/prometheus:/config:ro \
             --read-only \
             --name prometheus \
             "${docker_tag}" --config.file=/config/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --storage.tsdb.path=/data/metrics --storage.tsdb.retention=${retention}
@@ -445,14 +445,14 @@ write_files:
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9093 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --network=host \
             -v /mnt/disks/data:/data:rw \
-            -v /home/exec/prometheus:/config:ro \
+            -v /home/bs/prometheus:/config:ro \
             --read-only \
             --name alertmanager \
             --entrypoint=/bin/alertmanager \
@@ -475,7 +475,7 @@ write_files:
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT

@@ -1,16 +1,28 @@
-bootcmd:
-  - /sbin/blkid /dev/disk/by-id/google-data || /sbin/mkfs.ext4 -E lazy_itable_init=0,lazy_journal_init=0,discard -L data /dev/disk/by-id/google-data
-  - mkdir -p /mnt/disks/data
-
-mounts:
-  - [ /dev/disk/by-id/google-data, /mnt/disks/data, auto, "rw,noatime,discard,nobarrier,nodev" ]
-
 users:
-  - name: exec
+  - name: bs
     uid: 2000
 
 
 write_files:
+  - path: /home/bs/prep_disk.sh
+    permissions: 0644
+    owner: root
+    content: |
+        #!/bin/bash
+
+        INSTANCE_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google')
+        ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google')
+
+        if ! mount | grep -q /mnt/disks/data
+        then
+          echo "creating and attaching disk"
+          disk=$(docker run --rm --name create-disk-from-image --tmpfs /tmp ${docker_tag_gcloud} gcloud compute disks create $${INSTANCE_NAME}-data --type pd-ssd --image-project ${image_source_project} --image-family ${name} --zone $${ZONE})
+          docker run --rm --name attach-disk --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances attach-disk $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE} --device-name=data
+          docker run --rm --name set-disk-auto-delete --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances set-disk-auto-delete $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE}
+          mkdir -p /mnt/disks/data
+          mount -o "rw,noatime,discard,nobarrier,nodev" /dev/disk/by-id/google-data /mnt/disks/data
+        fi
+
   - path: /etc/systemd/system/explorer.service
     permissions: 0644
     owner: root
@@ -23,9 +35,12 @@ write_files:
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        TimeoutStartSec=1200
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
+        ExecStartPre=/bin/bash /home/bs/prep_disk.sh
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
         ExecStart=/usr/bin/docker run \
@@ -42,6 +57,7 @@ write_files:
 
         [Install]
         WantedBy=multi-user.target
+
   - path: /etc/systemd/system/node-exporter.service
     permissions: 0644
     owner: root
@@ -54,7 +70,7 @@ write_files:
         [Service]
         Restart=always
         RestartSec=1
-        Environment=HOME=/home/exec
+        Environment=HOME=/home/bs
         ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT

@@ -100,6 +100,7 @@ plan:
         -var "zones=$ZONES"
         -var "ssl_certs=$SSL_CERTS"
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false)
 
 deploy_main:
@@ -127,6 +128,7 @@ deploy_main:
         -var "zones=$ZONES"
         -var "ssl_certs=$SSL_CERTS"
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false -auto-approve)
 
 deploy_bitcoin_mainnet:
@@ -149,6 +151,7 @@ deploy_bitcoin_mainnet:
         -var "zones=$ZONES"
         -var "min_ready_sec=300"
         -var "initial_delay_sec=2400"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false -auto-approve)
 
 deploy_bitcoin_testnet:
@@ -171,6 +174,7 @@ deploy_bitcoin_testnet:
         -var "zones=$ZONES"
         -var "min_ready_sec=60"
         -var "initial_delay_sec=600"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false -auto-approve)
 
 deploy_liquid_mainnet:
@@ -193,23 +197,5 @@ deploy_liquid_mainnet:
         -var "zones=$ZONES"
         -var "min_ready_sec=120"
         -var "initial_delay_sec=1200"
-        -input=false -auto-approve)
-
-build_images:on-schedule:
-  only:
-    - schedules
-    - /^image_builder_v.*/
-  stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
-    entrypoint: [""]
-  script:
-    - (cd terraform && terraform init -input=false &&
-       terraform workspace select builders &&
-       terraform apply
-        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
-        -var "cluster_size=$BUILDER_CLUSTER_SIZE"
-        -var "machine_type=$BUILDER_INSTANCE_TYPE"
-        -var "region=$BUILDER_REGION"
-        -var "zones=$BUILDER_ZONES"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false -auto-approve)
