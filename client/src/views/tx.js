@@ -114,7 +114,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
     { !tx.status.confirmed && feerate != null && <div>
       <div>{t`ETA`}</div>
       <div>{confEstimate == null || mempoolDepth == null ? <span className="text-muted">{t`Loading...`}</span>
-           : confEstimate == -1 ? <span className="text-muted">{t`Currently unavailable`}</span>
+           : confEstimate == -1 ? t`unknown (${formatVMB(mempoolDepth)} from tip)`
            : t`in ${confEstimate} blocks (${formatVMB(mempoolDepth)} from tip)` }
       </div>
     </div> }
