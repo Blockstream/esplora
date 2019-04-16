@@ -3,7 +3,7 @@ import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
 import { updateQuery } from '../util'
-import { formatTime, formatHex, commaify } from './util'
+import { formatTime, formatHex, formatNumber } from './util'
 import { blockTxsPerPage as perPage } from '../const'
 
 
@@ -17,7 +17,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       <div className="container">
         { search({ t, klass: 'page-search-bar' }) }
         <div>
-          <h1 className="block-header-title">{t`Block ${commaify(b.height)}`}</h1>
+          <h1 className="block-header-title">{t`Block ${formatNumber(b.height)}`}</h1>
           <div className="block-hash"><span>{b.id}</span>
             { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={b.id}></div>
@@ -54,7 +54,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       <div className="stats-table">
         <div>
           <div>{t`Height`}</div>
-          <div><a href={`block/${b.id}`}>{commaify(b.height)}</a></div>
+          <div><a href={`block/${b.id}`}>{formatNumber(b.height)}</a></div>
         </div>
         <div>
           <div>{t`Status`}</div>
@@ -66,7 +66,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
         </div>
         <div>
           <div>{t`Size`}</div>
-          <div>{`${commaify(b.size/1000)} KB`}</div>
+          <div>{`${formatNumber(b.size/1000)} KB`}</div>
         </div>
         <div>
           <div>{t`Virtual size`}</div>
@@ -74,7 +74,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
         </div>
         <div>
           <div>{t`Weight units`}</div>
-          <div>{`${commaify(b.weight/1000)} KWU`}</div>
+          <div>{`${formatNumber(b.weight/1000)} KWU`}</div>
         </div>
 
         { /* advanced details */ }

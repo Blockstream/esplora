@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { formatAmount, linkToAddr, linkToParentAddr, commaify } from './util'
+import { formatAmount, linkToAddr, linkToParentAddr, formatNumber } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
@@ -70,7 +70,7 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
           !spend ? t`Loading...`
           : spend.spent ? <span>
             {t`Spent by`} <a href={`tx/${spend.txid}?input:${spend.vin}`} className="mono">{`${spend.txid}:${spend.vin}`}</a> {' '}
-            { spend.status.confirmed ? <span>{t`in block`} <a href={`block/${spend.status.block_hash}`}>#{commaify(spend.status.block_height)}</a></span>
+            { spend.status.confirmed ? <span>{t`in block`} <a href={`block/${spend.status.block_hash}`}>#{formatNumber(spend.status.block_height)}</a></span>
                                      : `(${t`unconfirmed`})` }
           </span>
           : t`Unspent`

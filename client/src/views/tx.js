@@ -5,7 +5,7 @@ import vinView from './tx-vin'
 import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
-import { formatAmount, formatTime, formatVMB, commaify } from './util'
+import { formatAmount, formatTime, formatVMB, formatNumber } from './util'
 import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
@@ -103,7 +103,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
       </div>
     , <div>
         <div>{t`Block height`}</div>
-        <div>{commaify(tx.status.block_height)}</div>
+        <div>{formatNumber(tx.status.block_height)}</div>
       </div>
     , <div>
         <div>{t`Block timestamp`}</div>
@@ -133,15 +133,15 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
 
     <div>
       <div>{t`Size`}</div>
-      <div>{`${commaify(tx.size)} B`}</div>
+      <div>{`${formatNumber(tx.size)} B`}</div>
     </div>
     <div>
       <div>{t`Virtual size`}</div>
-      <div>{`${commaify(Math.ceil(tx.weight/4))} vB`}</div>
+      <div>{`${formatNumber(Math.ceil(tx.weight/4))} vB`}</div>
     </div>
     <div>
       <div>{t`Weight units`}</div>
-      <div>{`${commaify(tx.weight)} WU`}</div>
+      <div>{`${formatNumber(tx.weight)} WU`}</div>
     </div>
     <div>
       <div>{t`Version`}</div>

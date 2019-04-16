@@ -15,9 +15,14 @@ export const formatHex = num => {
   return '0x' + (str.length%2 ? '0' : '') + str
 }
 
-export const commaify  = s => {
-  const [ whole, dec ] = s.toString().split('.')
-  return whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (dec != null ? '.'+dec : '')
+export const formatNumber = s => {
+  // divide numbers into groups of three separated with a thin space (U+202F, "NARROW NO-BREAK SPACE"),
+  // but only when there are more than a total of 5 non-decimal digits.
+  if (s >= 10000) {
+    const [ whole, dec ] = s.toString().split('.')
+    return whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F") + (dec != null ? '.'+dec : '')
+  }
+  return s
 }
 
 const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}?output:{vout}'
