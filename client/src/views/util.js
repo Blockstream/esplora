@@ -8,7 +8,7 @@ export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang
 
 // @XXX we currently format all amounts as having 8 decimal places (like BTC), disregarding the asset type
 export const formatAmount = vout =>
-  vout.value == null ? 'Confidential' : `${ sat2btc(vout.value, true) } ${ vout.asset !== '' ? outAssetLabel(vout) : '' }`
+  vout.value == null ? 'Confidential' : `${ formatNumber(sat2btc(vout.value)) } ${ vout.asset !== '' ? outAssetLabel(vout) : '' }`
 
 export const formatHex = num => {
   const str = num.toString(16)
