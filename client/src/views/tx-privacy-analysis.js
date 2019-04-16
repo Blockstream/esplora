@@ -16,35 +16,35 @@ const messages = {
 , 'change-detection-precision': [
     'danger'
   , 'Round payment amount'
-  , 'Using round payment amounts gives an indication of which output is the payment and which is the change. Padding payment amounts to use all available precision resolves this issue.'
+  , 'Using round payment amounts gives an indication of which output is the payment and which is the change. To avoid leaking this information, use all available precision by adding more decimal digits to the payment amount.'
   , 'https://en.bitcoin.it/wiki/Privacy#Round_numbers'
   ]
 
 , 'change-detection-script-types': [
     'warning'
-  , 'Sending to a different script type'
-  , 'It is possible to tell the change output apart because you\'re sending to a different script type than the one you\'re spending from.'
+  , 'Mixed script types'
+  , 'Sending to a different script type than the one used by your wallet gives an indication of which output is the change and which is the payment.'
   , 'https://en.bitcoin.it/wiki/Privacy#Sending_to_a_different_script_type'
   ]
 
 , 'change-detection-uih1': [
-    'warning'
+    'info'
   , 'Unnecessary input heuristic'
-  , 'There\'s an indication that one output is more likely to be the change because some inputs would\'ve been unnecessary if it was the payment.'
+  , 'With some consumer wallets, this heuristic gives an indication that one output is more likely to be the change because some inputs would\'ve been unnecessary if it was the payment. Note that more sophisticated wallet software may add seemingly unnecessary inputs for different reasons.'
   , 'https://en.bitcoin.it/wiki/Privacy#Unnecessary_input_heuristic'
   ]
 
 , 'exotic-detection-uih2': [
-    'warning'
+    'info'
   , 'Unnecessary input heuristic'
-  , 'This transaction has unnecessary inputs that are not typically added by consumer wallet software.'
+  , 'This transaction has seemingly unnecessary inputs that are not typically added by consumer wallet software with less sophisticated coin selection algorithms.'
   , 'https://en.bitcoin.it/wiki/Privacy#Unnecessary_input_heuristic'
   ]
 
 , 'self-transfer': [
-    'warning'
-  , 'Likely self-transfer'
-  , 'Sending exact amounts (with no change) is an indication the bitcoins likely didn\'t change hands.'
+    'info'
+  , 'Possibly self-transfer'
+  , 'Sending exact amounts (with no change) gives an indication that the bitcoins possibly didn\'t change hands. It could also mean the change was small enough to waive it.'
   , 'https://en.bitcoin.it/wiki/Privacy#Exact_payment_amounts_.28no_change.29'
   ]
 
