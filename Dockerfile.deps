@@ -26,7 +26,7 @@ RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/dow
  && ln -s /srv/explorer/liquid-3.14.1.23 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.33.0 \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.34.0 \
  && source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
