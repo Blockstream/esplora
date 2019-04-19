@@ -6,7 +6,7 @@ import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
 import { formatAmount, formatTime, formatVMB, formatNumber } from './util'
-import { isAnyConfidential, isAnyPegout, isAllNative, isRbf, outTotal, updateQuery } from '../util'
+import { isAnyConfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
