@@ -12,18 +12,18 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github
  && source /root/.nvm/nvm.sh \
  && nvm install v8.11.4
 
-ENV SHA256SUM_BITCOINCORE=53ffca45809127c9ba33ce0080558634101ec49de5224b2998c489b6d0fc2b17
-RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.17.1/bitcoin-0.17.1-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_BITCOINCORE=5146ac5310133fbb01439666131588006543ab5364435b748ddfc95a8cb8d63f
+RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.18.0/bitcoin-0.18.0-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
  && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/bitcoin-0.17.1 /srv/explorer/bitcoin \
+ && ln -s /srv/explorer/bitcoin-0.18.0 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_LIQUID=cb135d60407fd4fcd04d1f021cd314e9f8f50a8f0a660551f5ea251b0fea3ffc
-RUN curl -sL -o liquid.tar.gz https://github.com/Blockstream/liquid/releases/download/liquid.3.14.1.23/liquid-3.14.1.23-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_LIQUID=de1c4f7306b0b3f467e743c886a9b469f506acbfb91e19c617dd6a54c7cc9c41
+RUN curl -sL -o liquid.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.17.0/liquid-0.17.0-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_LIQUID}  liquid.tar.gz" | sha256sum --check \
  && tar xzf liquid.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/liquid-3.14.1.23 /srv/explorer/liquid \
+ && ln -s /srv/explorer/liquid-0.17.0 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.34.1 \
