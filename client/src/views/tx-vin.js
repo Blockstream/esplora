@@ -12,8 +12,6 @@ const layout = (vin, desc, body, { t, index, query={} }) =>
     { body }
   </div>
 
-const coinbase = (vin, { t, ...S }) => layout(vin, t`Coinbase`, null, { t, ...S })
-
 const pegin = (vin, { isOpen, t, ...S }) => layout(
   vin
 , linkToParentOut(vin, t`Output in parent chain`)
@@ -28,7 +26,11 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 
 const standard = (vin, { isOpen, t, ...S }) => layout(
   vin
-, <a href={`tx/${vin.txid}?output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a>
+
+, vin.is_coinbase
+    ? t`Coinbase`
+    : <a href={`tx/${vin.txid}?output:${vin.vout}`}>{`${vin.txid}:${vin.vout}`}</a>
+
 , isOpen && <div className="vin-body">
     { vin.issuance && [
 
@@ -106,6 +108,5 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
 )
 
 export default (vin, opt) =>
-  vin.is_coinbase ? coinbase(vin, opt)
-: vin.is_pegin    ? pegin(vin, opt)
-                  : standard(vin, opt)
+  vin.is_pegin ? pegin(vin, opt)
+               : standard(vin, opt)
