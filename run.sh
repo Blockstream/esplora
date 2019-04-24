@@ -19,7 +19,7 @@ TEMPLATE=$(echo ${FLAVOR} | cut -d'-' -f3)
 STATIC_DIR=/srv/explorer/static/$FLAVOR
 
 ELECTRS_NETWORK=${NETWORK}
-
+NGINX_MEMPOOL="bitcoin"
 
 mkdir -p /etc/service/tor
 cp /srv/explorer/source/contrib/runits/tor.runit /etc/service/tor/run
@@ -29,6 +29,7 @@ NGINX_REWRITE_NOJS='return 301 " /nojs$uri"'
 if [ "${DAEMON}" != "liquid" ]; then
     if [ "${NETWORK}" == "testnet" ]; then
         NGINX_PATH="testnet/"
+        NGINX_MEMPOOL="bitcoin/testnet3"
         NGINX_NOSLASH_PATH="testnet"
         NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent'
@@ -37,6 +38,7 @@ else
     ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
+    NGINX_MEMPOOL="liquid/liquidv1"
     NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
     NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
     NGINX_NOSLASH_PATH="liquid"
@@ -63,6 +65,7 @@ function preprocess(){
        -e "s|{ELECTRS_BACKTRACE}|$ELECTRS_BACKTRACE|g" \
        -e "s|{NGINX_LOGGING}|$NGINX_LOGGING|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
+       -e "s|{NGINX_MEMPOOL}|$NGINX_MEMPOOL|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
        -e "s|{NGINX_REWRITE_NOJS}|$NGINX_REWRITE_NOJS|g" \
        -e "s|{FLAVOR}|$DAEMON-$NETWORK $TEMPLATE|g" \
@@ -71,11 +74,13 @@ function preprocess(){
 }
 
 if [ "$MODE" == "explorer" ]; then
-    mkdir -p /etc/service/prerenderer /etc/service/nginx /etc/service/electrs
+    mkdir -p /etc/service/prerenderer /etc/service/nginx /etc/service/electrs /etc/service/mempool
     preprocess /srv/explorer/source/contrib/runits/electrs.runit /etc/service/electrs/run
     cp /srv/explorer/source/contrib/runits/nginx.runit /etc/service/nginx/run
+    cp /srv/explorer/source/contrib/runits/mempool.runit /etc/service/mempool/run
+    preprocess /srv/explorer/source/contrib/mempool.sh /srv/explorer/mempool.sh
     preprocess /srv/explorer/source/contrib/runits/prerenderer.runit /etc/service/prerenderer/run
-    chmod +x /etc/service/prerenderer/run /etc/service/electrs/run
+    chmod +x /etc/service/prerenderer/run /etc/service/electrs/run /srv/explorer/mempool.sh
 elif [ "$MODE" != "private-bridge" ] && [ "$MODE" != "public-bridge" ]; then
     echo "Mode can only be private-bridge, public-bridge or explorer"
     exit 1

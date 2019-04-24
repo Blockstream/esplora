@@ -28,6 +28,11 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "no-referrer" always;
 
+    location /{NGINX_PATH}mempool.dat {
+        expires 1m;
+        add_header Access-Control-Allow-Origin * always;
+        alias /data/{NGINX_MEMPOOL}/mempool.dat;
+    }
     location /{NGINX_PATH}api/ {
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin * always;
