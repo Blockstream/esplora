@@ -1,4 +1,8 @@
 #!/bin/sh -e
 
+if [ "$FLAVOR" = "$DAEMON-$NETWORK blockstream" ]; then
+    curl -o /data/{NGINX_MEMPOOL}/mempool.dat -sL https://blockstream.info/{NGINX_PATH}mempool.dat  || true
+fi
+
 exec 2>&1
 exec /srv/explorer/{DAEMON}/bin/{DAEMON}d -conf=/data/.{DAEMON}.conf -datadir=/data/{DAEMON}
