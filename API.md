@@ -207,6 +207,8 @@ For example: `{ 2: 36.183, 3: 34.841, 4: 34.841, 6: 34.841, 10: 22.164, 20: 9.69
   - `is_coinbase`
   - `scriptsig`
   - `scriptsig_asm`
+  - `inner_redeemscript_asm`
+  - `inner_witnessscript_asm`
   - `sequence`
   - `witness[]`
   - `prevout` (previous output in the same format as in `vout` below)
