@@ -82,6 +82,16 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
       <div className="mono">{vin.witness.join(' ')}</div>
     </div> }
 
+    { vin.inner_redeemscript_asm && <div className="vin-body-row">
+      <div>{t`P2SH redeem script`}</div>
+      <div className="mono">{vin.inner_redeemscript_asm}</div>
+    </div> }
+
+    { vin.inner_witnessscript_asm && <div className="vin-body-row">
+      <div>{t`P2WSH witness script`}</div>
+      <div className="mono">{vin.inner_witnessscript_asm}</div>
+    </div> }
+
     <div className="vin-body-row">
       <div>{t`nSequence`}</div>
       <div className="mono">{formatHex(vin.sequence)}</div>
