@@ -3,7 +3,7 @@ variables:
   CLOUD_SDK_VERSION: "218.0.0"
   DOCKER_DRIVER: overlay2
 
-image: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+image: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
 stages:
   - build
   - plan
@@ -82,7 +82,7 @@ plan:
     - branches@greenaddress/esplora
   stage: plan
   image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+    name: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
     entrypoint: [""]
   script:
     - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
@@ -108,7 +108,7 @@ deploy_main:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+    name: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
     entrypoint: [""]
   only:
     - /^main_v.*/
@@ -136,7 +136,7 @@ deploy_bitcoin_mainnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+    name: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
     entrypoint: [""]
   only:
     - /^bitcoin_mainnet.*/
@@ -159,7 +159,7 @@ deploy_bitcoin_testnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+    name: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
     entrypoint: [""]
   only:
     - /^bitcoin_testnet.*/
@@ -182,7 +182,7 @@ deploy_liquid_mainnet:
     - schedules
   stage: deploy
   image:
-    name: blockstream/gcloud-docker@sha256:d5db1ec7faedfd46230fb53c859679e6abdd9173599209035e307c1a386a2189
+    name: blockstream/gcloud-docker@sha256:2e20abd14c17685224e8504a4cc4121f6189bee1b7dae14c267af3ee8b712bd7
     entrypoint: [""]
   only:
     - /^liquid_mainnet.*/

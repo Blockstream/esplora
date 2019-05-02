@@ -1,0 +1,58 @@
+- name: Rotate instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_prompt:
+    - name: instance_group
+      prompt: "Instance Group Name"
+      private: False
+    - name: backend_service
+      prompt: "Backend Service"
+      private: False
+    - name: instance_name_prefix
+      prompt: "Instance Name Prefix used for filtering"
+      private: False
+    - name: region
+      prompt: "Instance Group Region"
+      private: False
+    - name: target_size
+      prompt: "Instance Group Target Size"
+      private: False
+    - name: initial_delay_sec
+      prompt: "Time to wait for an instance to become healthy"
+      private: False
+      default: 300
+    - name: project
+      prompt: "Google Cloud Project ID"
+      private: False
+      default: ""
+
+  tasks:
+    - name: "Export args as global facts"
+      set_fact:
+        instance_group: "{{instance_group}}"
+        backend_service: "{{backend_service}}"
+        instance_name_prefix: "{{instance_name_prefix}}"
+        region: "{{region}}"
+        target_size: "{{target_size}}"
+        initial_delay_sec: "{{initial_delay_sec}}"
+        project: "{{project}}"
+    - name: "Resizing instance group to double target size"
+      shell: >
+        gcloud compute instance-groups managed resize {{instance_group}} --size={{target_size|int*2}} --region={{region}} --project={{project}}
+      retries: 50
+      register: rg
+      until: rg.rc == 0
+    - name: "Check backend-service health"
+      shell: >
+        gcloud compute backend-services get-health {{backend_service}} --project={{project}} --global --filter "status.healthStatus.instance~'.*{{instance_name_prefix}}.*'" --format="flattened(NAME, status.healthStatus[])" | grep " HEALTHY"
+      ignore_errors: True
+      retries: "{{initial_delay_sec|int}}"
+      register: st
+      until: st.stdout_lines | list | count == target_size|int * 2
+    - name: "Resizing instance group to target size"
+      shell: >
+        gcloud compute instance-groups managed resize {{instance_group}} --size={{target_size}} --region={{region}} --project={{project}}
+      retries: 50
+      register: rg
+      until: rg.rc == 0
