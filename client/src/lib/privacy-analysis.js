@@ -132,5 +132,5 @@ const hasInternalReuse = tx => {
 // number of outputs capped between 2 and 5
 const isCoinJoinLike = tx => {
   const inc = counter(), target = Math.min(Math.max(tx.vout.length/2|0, 2), 5)
-  return tx.vout.some(out => inc(out.value) >= target)
+  return tx.vin.length > 1 && tx.vout.some(out => inc(out.value) >= target)
 }
