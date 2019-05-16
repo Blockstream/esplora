@@ -50,8 +50,6 @@ export const tryUnconfidentialAddress = addr => {
 // Array helpers
 
 export const last = arr => arr.length ? arr[arr.length-1] : null
-export const remove = (arr, val) => arr.filter(x => x !== val)
-export const add = (arr, val) => [ ...remove(arr, val), val ]
 
 // Stream helpers
 

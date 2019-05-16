@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { sat2btc } from 'fmtbtc'
-import { outAssetLabel, add, remove } from '../util'
+import { outAssetLabel } from '../util'
 
 const qruri = !process.env.NO_QR && require('qruri')
 
