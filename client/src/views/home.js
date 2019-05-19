@@ -1,7 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
-import { formatTime, formatAmount, formatNumber } from './util'
+import { formatTime, formatSat, formatNumber } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const isTouch = process.browser && ('ontouchstart' in window)
@@ -98,7 +98,7 @@ export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
             <div className="transactions-table-link-row">
               <a className="transactions-table-row transaction-data" href={`tx/${txOverview.txid}`}>
                 <div className="transactions-table-cell highlighted-text" data-label={t`TXID`}>{txOverview.txid}</div>
-                { txOverview.value != null && <div className="transactions-table-cell" data-label={t`Value`}>{formatAmount({ value: txOverview.value })}</div> }
+                { txOverview.value != null && <div className="transactions-table-cell" data-label={t`Value`}>{formatSat(txOverview)}</div> }
                 <div className="transactions-table-cell" data-label={t`Size`}>{`${formatNumber(txOverview.vsize)} vB`}</div>
                 <div className="transactions-table-cell" data-label={t`Fee`}>{`${feerate.toFixed(1)} sat/vB`}</div>
               </a>

@@ -3572,6 +3572,11 @@
         "on-headers": "~1.0.1"
       }
     },
+    "move-decimal-point": {
+      "version": "0.0.4",
+      "resolved": "https://registry.npmjs.org/move-decimal-point/-/move-decimal-point-0.0.4.tgz",
+      "integrity": "sha512-cZrpE/ykbwSmD0DnKAcKa49zaK5LaftD6DzpQDmjSMPRK6i4D4xvnVBCIuZXkpAqvon6DP9Oum2TcLZjclVB/Q=="
+    },
     "ms": {
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",

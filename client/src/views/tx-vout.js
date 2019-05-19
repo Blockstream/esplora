@@ -1,20 +1,20 @@
 import Snabbdom from 'snabbdom-pragma'
-import { formatAmount, linkToAddr, linkToParentAddr, formatNumber } from './util'
+import { formatOutAmount, linkToAddr, linkToParentAddr, formatNumber } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
-const layout = (vout, desc, body, { t, index, query={} }) =>
+const layout = (vout, desc, body, { t, index, query={}, ...S }) =>
   <div class={{ vout: true, selected: !!query[`output:${index}`] }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>
-        <span className="amount">{ t(formatAmount(vout)) }</span>
+        <span className="amount">{formatOutAmount(vout, { t, ...S })}</span>
       </div>
     </div>
     { body }
   </div>
 
-const fee = (vout, { t, index }) => layout(vout, t`Transaction fees`, null, { t, index })
+const fee = (vout, { t, index, ...S }) => layout(vout, t`Transaction fees`, null, { t, index, ...S })
 
 const standard = (vout, { isOpen, spend, t, ...S }) => layout(
   vout

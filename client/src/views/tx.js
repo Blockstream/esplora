@@ -5,7 +5,7 @@ import vinView from './tx-vin'
 import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
-import { formatAmount, formatTime, formatVMB, formatNumber } from './util'
+import { formatSat, formatTime, formatVMB, formatNumber } from './util'
 import { isAnyConfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
@@ -31,7 +31,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight, ...S })}
-      {txBox(tx, { openTx, tipHeight, t, spends, query: page.query })}
+      {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
   </div>
 , { t, page, ...S })
@@ -39,8 +39,8 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
-  const vopt = { isOpen: (openTx == tx.txid), query, t }
+export const txBox = (tx, { t, openTx, tipHeight, spends, query, ...S }) => {
+  const vopt = { isOpen: (openTx == tx.txid), query, t, ...S }
 
   return <div className="transaction-box" id="transaction-box">
     <div className="header">
@@ -67,8 +67,9 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query}) => {
       <div></div>
       <div>
         <span>{tx.status && confirmationText(tx.status, tipHeight, t)} {isRbf(tx) ? t`(RBF)` : ''}</span>
-        <span className="amount">{ isAnyConfidential(tx) ? t`Confidential`
-              : isAllNative(tx)       ? formatAmount({ value: outTotal(tx) })
+        <span className="amount">{
+              isAnyConfidential(tx) ? t`Confidential`
+              : isAllNative(tx)     ? formatSat(outTotal(tx))
               : ''}</span>
       </div>
     </div>
@@ -122,7 +123,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
     { feerate != null && <div>
       <div>{t`Transaction fees`}</div>
       <div>
-        <span className="amount">{t`${formatAmount({ value: tx.fee })} (${feerate.toFixed(1)} sat/vB)`}</span>
+        <span className="amount">{t`${formatSat(tx.fee)} (${feerate.toFixed(1)} sat/vB)`}</span>
         { overpaying > OVERPAYMENT_WARN &&
           <p className={`text-${ overpaying > OVERPAYMENT_WARN*1.5 ? 'danger' : 'warning' } mb-0`} title={t`compared to bitcoind's suggested fee of ${feeEst[2].toFixed(1)} sat/vB for confirmation within 2 blocks`}>
             ⓘ {t`overpaying by ${Math.round((overpaying-1)*100)}%`}

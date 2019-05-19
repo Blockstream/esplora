@@ -3,7 +3,7 @@ import { last } from '../util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatAmount, addressQR, formatNumber } from './util'
+import { formatSat, addressQR, formatNumber } from './util'
 import { addrTxsPerPage as perPage, maxMempoolTxs } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
@@ -116,7 +116,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
 
 const fmtTxos = (count, sum, t) =>
   (count > 0 ? t`${formatNumber(count)} outputs` : t`No outputs`)
-+ (sum > 0 ? ` (${formatAmount({ value: sum })})` : '')
++ (sum > 0 ? ` (${formatSat(sum)})` : '')
 
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)

@@ -13,7 +13,7 @@ if (process.browser) {
 }
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
-    , setBase = ({ path, ...r }) => ({ ...r, url: apiBase + path })
+    , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') ? path : apiBase + path })
 
 const reservedPaths = [ 'mempool' ]
 
@@ -168,6 +168,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , overpaying: !tx.status.confirmed && feerate != null && feeEst && feeEst[2] != null ? feerate/feeEst[2] : null
       }))
 
+  // Asset map (elements only)
+  , assetMap$ = process.env.ASSET_MAP_URL ? reply('asset-map') : O.of({})
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('recentBlocks')
@@ -191,7 +194,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
 
   // App state
-  , state$ = combine({ t$, error$, tipHeight$, spends$
+  , state$ = combine({ t$, error$, tipHeight$, spends$, assetMap$
                      , goHome$, blocks$, nextBlocks$, prevBlocks$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$
@@ -272,6 +275,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , !process.browser ? O.empty() : O.timer(0, 10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs' && document.hasFocus())
         .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
+
+    // elements/liquid only
+
+    // fetch asset map index on page load (once, as a foreground request)
+    , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
+                                { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL })
+
     ).map(setBase)
 
   // DOM sink
@@ -296,6 +306,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$
       , tipHeight$, error$, loading$
       , query$, searchResult$, copy$, store$, navto$, scanning$, scan$
+      , assetMap$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers

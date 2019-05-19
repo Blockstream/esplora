@@ -16,8 +16,8 @@ export const parseHashes = str => (''+str).split(',').filter(isHash256)
 
 // Transaction helpers
 
-const nativeAssetId    = process.env.NATIVE_ASSET_ID    || '6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d'
-    , nativeAssetLabel = process.env.NATIVE_ASSET_LABEL || 'BTC'
+export const nativeAssetId    = process.env.NATIVE_ASSET_ID    || '6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d'
+           , nativeAssetLabel = process.env.NATIVE_ASSET_LABEL || 'BTC'
 
 export const isAnyConfidential = tx => tx.vout.some(vout => vout.value == null)
 
@@ -28,11 +28,6 @@ export const isAllNative = tx => tx.vout.every(isNativeOut)
 export const outTotal = tx => tx.vout.reduce((N, vout) => N + (vout.value || 0), 0)
 
 export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vout.asset === nativeAssetId
-
-export const outAssetLabel = vout =>
-  isNativeOut(vout)  ? nativeAssetLabel
-: vout.asset != null ? `[${vout.asset.substr(0, 8)}]`
-: '[Unknown]'
 
 // Address helpers
 

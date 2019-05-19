@@ -1,14 +1,32 @@
 import Snabbdom from 'snabbdom-pragma'
+import moveDec from 'move-decimal-point'
 import { sat2btc } from 'fmtbtc'
-import { outAssetLabel } from '../util'
+import { nativeAssetLabel, isNativeOut } from '../util'
 
 const qruri = !process.env.NO_QR && require('qruri')
 
+const DEFAULT_PRECISION = 8
+
 export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang_id, { timeZoneName: 'short' })
 
-// @XXX we currently format all amounts as having 8 decimal places (like BTC), disregarding the asset type
-export const formatAmount = vout =>
-  vout.value == null ? 'Confidential' : `${ formatNumber(sat2btc(vout.value)) } ${ vout.asset !== '' ? outAssetLabel(vout) : '' }`
+export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
+
+export const formatOutAmount = (vout, { t, assetMap, ...S }) => {
+  if (vout.value == null) return t`Confidential`
+
+  if (isNativeOut(vout)) return formatSat(vout.value)
+
+  const [ domain, ticker, name, _precision ] = vout.asset && assetMap && assetMap[vout.asset] || []
+      , precision = _precision || DEFAULT_PRECISION
+      , amount = formatNumber(precision > 0 ? moveDec(vout.value, -precision) : vout.value)
+      , short_id = vout.asset && vout.asset.substr(0, 10)
+
+  const amount_el = <span title={t`${formatNumber(vout.value)} base units`}>{amount}</span>
+
+  return domain ? <span>{amount_el} <span title={name}>{`${domain} ${ticker || ''}`}</span><br/><em title={vout.asset}>({short_id})</em></span>
+       : vout.asset ? <span>{amount_el} <em title={vout.asset}>{short_id}</em></span>
+       : <span>{amount_el} {t`Unknown`}</span> // should never happen
+}
 
 export const formatHex = num => {
   const str = num.toString(16)

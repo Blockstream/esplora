@@ -1,12 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatAmount, formatHex, linkToAddr } from './util'
+import { linkToParentOut, formatOutAmount, formatSat, formatHex, linkToAddr } from './util'
 
-const layout = (vin, desc, body, { t, index, query={} }) =>
+const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
   <div class={{ vin: true, selected: !!query[`input:${index}`] }}>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>
-        <span className="amount">{ vin.prevout && t(formatAmount(vin.prevout)) }</span>
+        <span className="amount">{ vin.prevout && formatOutAmount(vin.prevout, { t, ...S }) }</span>
       </div>
     </div>
     { body }
@@ -53,7 +53,7 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
 
     , <div className="vin-body-row">
         <div>{!vin.issuance.assetamountcommitment ? t`Issuance amount` : t`Amount commitment`}</div>
-        <div>{!vin.issuance.assetamountcommitment ? formatAmount({ value: vin.issuance.assetamount, asset: '' })
+        <div>{!vin.issuance.assetamountcommitment ? formatSat(vin.issuance.assetamount, '') // FIXME: use asset precision (requires https://github.com/ElementsProject/rust-elements/pull/19)
                                                   : <span className="mono">{vin.issuance.assetamountcommitment}</span>}</div>
       </div>
 

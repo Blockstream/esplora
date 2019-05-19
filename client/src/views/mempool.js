@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
-import { formatAmount, formatVMB } from './util'
+import { formatSat, formatVMB } from './util'
 import layout from './layout'
 import search from './search'
 
@@ -21,7 +21,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           </div>
           <div>
             <div>{t`Total fees`}</div>
-            <div>{formatAmount({ value: mempool.total_fee })}</div>
+            <div>{formatSat(mempool.total_fee)}</div>
           </div>
           <div>
             <div>{t`Total size`}</div>
