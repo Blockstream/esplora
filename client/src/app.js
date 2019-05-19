@@ -171,6 +171,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Asset map (elements only)
   , assetMap$ = process.env.ASSET_MAP_URL ? reply('asset-map') : O.of({})
 
+  // The minimally required data to start rendering the UI
+  // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
+  , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('recentBlocks')
@@ -182,7 +186,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
                   , error$.mapTo('error'))
-      .combineLatest(loading$, (view, loading) => view || (loading ? 'loading' : 'notFound'))
+      .combineLatest(isReady$, loading$, (view, isReady, loading) =>
+        !isReady ? 'loading' : view || (loading ? 'loading' : 'notFound'))
 
   // Page title
   , title$ = O.merge(page$.mapTo(null)
