@@ -24,7 +24,7 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 , { t, ...S }
 )
 
-const standard = (vin, { isOpen, t, ...S }) => layout(
+const standard = (vin, { isOpen, t, ...S }, assetMeta=(vin.issuance && S.assetMap[vin.issuance.asset_id])) => layout(
   vin
 
 , vin.is_coinbase
@@ -39,21 +39,21 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
         <div>{vin.issuance.is_reissuance ? t`Reissuance` : t`New asset`}</div>
       </div>
 
+    , vin.issuance.asset_id &&
+        <div className="vin-body-row">
+          <div>{t`Issued asset id`}</div>
+          <div className="mono">{vin.issuance.asset_id}</div>
+        </div>
+
     , vin.issuance.asset_entropy &&
         <div className="vin-body-row">
-          <div>{t`Issuance entropy`}</div>
+          <div>{t`Issuance contract hash`}</div>
           <div className="mono">{vin.issuance.asset_entropy}</div>
         </div>
 
-    , vin.issuance.asset_blinding_nonce &&
-        <div className="vin-body-row">
-          <div>{t`Issuance blinding nonce`}</div>
-          <div className="mono">{vin.issuance.asset_blinding_nonce}</div>
-        </div>
-
     , <div className="vin-body-row">
-        <div>{!vin.issuance.assetamountcommitment ? t`Issuance amount` : t`Amount commitment`}</div>
-        <div>{!vin.issuance.assetamountcommitment ? formatSat(vin.issuance.assetamount, '') // FIXME: use asset precision (requires https://github.com/ElementsProject/rust-elements/pull/19)
+        <div>{!vin.issuance.assetamountcommitment ? t`Issued amount` : t`Amount commitment`}</div>
+        <div>{!vin.issuance.assetamountcommitment ? formatIssuedAmount(vin.issuance, { t, ...S })
                                                   : <span className="mono">{vin.issuance.assetamountcommitment}</span>}</div>
       </div>
 
@@ -62,6 +62,20 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
           <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance keys` : t`Reissuance commitment`}</div>
           <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : vin.issuance.tokenamount)
                                                     : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
+        </div>
+
+    , assetMeta && (([ domain, ticker, name, precision ] = assetMeta) =>
+        <div className="vin-body-row">
+          <div>{t`Asset name`}</div>
+          <div>
+            {domain} {ticker} { name ? `(${name})` : '' }
+        </div>
+        </div>)()
+
+    , vin.issuance.asset_blinding_nonce &&
+        <div className="vin-body-row">
+          <div>{t`Issuance blinding nonce`}</div>
+          <div className="mono">{vin.issuance.asset_blinding_nonce}</div>
         </div>
 
     ] }
@@ -116,6 +130,13 @@ const standard = (vin, { isOpen, t, ...S }) => layout(
   </div>
 , { t, ...S }
 )
+
+const formatIssuedAmount = (issuance, S) =>
+  // look up the asset name/precision when the issued asset id is known
+  issuance.asset_id
+    ? formatOutAmount({ value: issuance.assetamount, asset: issuance.asset_id }, S, true)
+  // otherwise, use the default precision of 8
+    : formatSat(issuance.assetamount, '')
 
 export default (vin, opt) =>
   vin.is_pegin ? pegin(vin, opt)

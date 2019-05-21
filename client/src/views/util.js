@@ -11,7 +11,7 @@ export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang
 
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
 
-export const formatOutAmount = (vout, { t, assetMap, ...S }) => {
+export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
   if (vout.value == null) return t`Confidential`
 
   if (isNativeOut(vout)) return formatSat(vout.value)
@@ -23,7 +23,7 @@ export const formatOutAmount = (vout, { t, assetMap, ...S }) => {
 
   const amount_el = <span title={t`${formatNumber(vout.value)} base units`}>{amount}</span>
 
-  return domain ? <span>{amount_el} <span title={name}>{`${domain} ${ticker || ''}`}</span><br/><em title={vout.asset}>({short_id})</em></span>
+  return domain ? <span>{amount_el} <span title={name}>{`${domain} ${ticker || ''}`}</span>{shortDisplay || [<br/>,<em title={vout.asset}>({short_id})</em>]}</span>
        : vout.asset ? <span>{amount_el} <em title={vout.asset}>{short_id}</em></span>
        : <span>{amount_el} {t`Unknown`}</span> // should never happen
 }
