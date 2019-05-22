@@ -24,7 +24,9 @@ const pegin = (vin, { isOpen, t, ...S }) => layout(
 , { t, ...S }
 )
 
-const standard = (vin, { isOpen, t, ...S }, assetMeta=(vin.issuance && S.assetMap[vin.issuance.asset_id])) => layout(
+const getAssetMeta = (vin, S) => vin.issuance && vin.issuance.asset_id && S.assetMap && S.assetMap[vin.issuance.asset_id]
+
+const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => layout(
   vin
 
 , vin.is_coinbase
