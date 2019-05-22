@@ -5,7 +5,7 @@ import { nativeAssetLabel, isNativeOut } from '../util'
 
 const qruri = !process.env.NO_QR && require('qruri')
 
-const DEFAULT_PRECISION = 8
+const DEFAULT_PRECISION = 0
 
 export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang_id, { timeZoneName: 'short' })
 
@@ -17,7 +17,7 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
   if (isNativeOut(vout)) return formatSat(vout.value)
 
   const [ domain, ticker, name, _precision ] = vout.asset && assetMap && assetMap[vout.asset] || []
-      , precision = _precision || DEFAULT_PRECISION
+      , precision = _precision != null ? _precision : DEFAULT_PRECISION
       , amount = formatNumber(precision > 0 ? moveDec(vout.value, -precision) : vout.value)
       , short_id = vout.asset && vout.asset.substr(0, 10)
 
