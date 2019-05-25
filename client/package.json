@@ -37,7 +37,12 @@
   "browserify": {
     "transform": [
       "babelify",
-      "envify",
+      [
+        "envify",
+        {
+          "_": "purge"
+        }
+      ],
       "uglifyify",
       [
         "browserify-package-json",
