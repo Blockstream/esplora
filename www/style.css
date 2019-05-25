@@ -1429,6 +1429,12 @@ body::after{
   color: #c3cbd3;
 }
 
+.contract-json {
+  text-align: left !important;
+  word-break: break-all !important;
+  white-space: pre-wrap;
+}
+
 @media (max-width: 767.98px) {
   .small-sm {
     font-size: 80%;

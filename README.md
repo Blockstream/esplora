@@ -105,6 +105,8 @@ Elements-only configuration:
 - `PARENT_CHAIN_EXPLORER_TXOUT` - URL format for linking to transaction outputs on the parent chain, with `{txid}` and `{vout}` as placeholders. Example: `https://blockstream.info/tx/{txid}#output:{vout}`
 - `PARENT_CHAIN_EXPLORER_ADDRESS` - URL format for linking to addresses on parent chain, with `{addr}` replaced by the address. Example: `https://blockstream.info/address/{addr}`
 - `MANDATORY_SEGWIT` - set to `1` to indicate segwit is not an optional feature
+- `ASSET_ISSUANCE` - set to `1` to enable support for issued assets
+- `ASSET_MAP_URL` - url to load json asset map (in the "minimal" format)
 
 Menu configuration (useful for inter-linking multiple instances on different networks):
 

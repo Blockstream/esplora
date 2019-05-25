@@ -43,6 +43,11 @@ export const formatNumber = s => {
   return s
 }
 
+export const formatJson = obj =>
+  JSON.stringify(obj, null, 1)
+    //.replace(/^ /mg, '')
+    //.replace(/^\{|\}$/g, '')
+
 const parentChainExplorerTxOut = process.env.PARENT_CHAIN_EXPLORER_TXOUT || '/tx/{txid}?output:{vout}'
 const parentChainExplorerAddr  = process.env.PARENT_CHAIN_EXPLORER_ADDR || '/address/{addr}'
 

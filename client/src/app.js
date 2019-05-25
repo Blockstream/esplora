@@ -34,9 +34,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goHome$   = route('/').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
-  , goAddr$   = route('/address/:addr').map(loc => ({ addr: tryUnconfidentialAddress(loc.params.addr)
-                                                    , last_txids: parseHashes(loc.query.txids)
-                                                    , est_chain_seen_count: +loc.query.c || 0 }))
+  , goAddr$   = route('/address/:addr').map(loc => ({
+      addr: tryUnconfidentialAddress(loc.params.addr)
+    , last_txids: parseHashes(loc.query.txids)
+    , est_chain_seen_count: +loc.query.c || 0 }))
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
   , goPush$   = route('/tx/push')
   , goRecent$ = route('/tx/recent')
@@ -45,6 +46,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
       .filter(q => !reservedPaths.includes(q))
       .merge(scan$)
+
+  , goAsset$  = !process.env.ISSUED_ASSETS ? O.empty() : route('/asset/:asset_id').map(loc => ({
+      asset_id: loc.params.asset_id
+    , last_txids: parseHashes(loc.query.txids)
+    , est_chain_seen_count: +loc.query.c || 0
+    }))
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -64,6 +71,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , moreBlocks$ = click('[data-loadmore-block-height]').map(d => ({ start_height: d.loadmoreBlockHeight }))
   , moreBTxs$   = click('[data-loadmore-txs-block]').map(d => ({ block: d.loadmoreTxsBlock, start_index: d.loadmoreTxsIndex }))
   , moreATxs$   = click('[data-loadmore-txs-addr]').map(d => ({ addr: d.loadmoreTxsAddr, last_txid: d.loadmoreTxsLastTxid }))
+  , moreSTxs$   = click('[data-loadmore-txs-asset]').map(d => ({ asset_id: d.loadmoreTxsAsset, last_txid: d.loadmoreTxsLastTxid }))
 
   , lang$ = storage.local.getItem('lang').first().map(lang => lang || defaultLang)
       .concat(on('select[name=lang]', 'input').map(e => e.target.value))
@@ -128,7 +136,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
   , addrTxs$ = O.merge(
       reply('addr-txs').map(txs => S => txs)
-    , reply('addr-txs-chain').map(txs => S => [ ...S, ...txs ])
+    , reply('addr-txs-more').map(txs => S => [ ...S, ...txs ])
     , goAddr$.map(_ => S => null)
     ).startWith(null).scan((S, mod) => mod(S))
 
@@ -168,6 +176,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , overpaying: !tx.status.confirmed && feerate != null && feeEst && feeEst[2] != null ? feerate/feeEst[2] : null
       }))
 
+  // Asset and associated txs (elements only)
+  , asset$ = !process.env.ISSUED_ASSETS ? O.empty() : reply('asset').merge(goAsset$.mapTo(null))
+  , assetTxs$ = !process.env.ISSUED_ASSETS ? O.empty() : O.merge(
+      reply('asset-txs').map(txs => S => txs)
+    , reply('asset-txs-more').map(txs => S => [ ...S, ...txs ])
+    , goAsset$.map(_ => S => null)
+    ).startWith(null).scan((S, mod) => mod(S))
+
   // Asset map (elements only)
   , assetMap$ = process.env.ASSET_MAP_URL ? reply('asset-map') : O.of({})
 
@@ -182,6 +198,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
+                  , asset$.filter(notNully).mapTo('asset')
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
@@ -194,17 +211,19 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
+                   , asset$.filter(notNully).withLatestFrom(t$, (asset, t) => t`Asset: ${asset.asset_id}`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
                    , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
 
   // App state
-  , state$ = combine({ t$, error$, tipHeight$, spends$, assetMap$
+  , state$ = combine({ t$, error$, tipHeight$, spends$
                      , goHome$, blocks$, nextBlocks$, prevBlocks$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$
+                     , assetMap$, goAsset$, asset$, assetTxs$
                      , loading$, page$, view$, title$, theme$
                      })
 
@@ -244,7 +263,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , moreBTxs$.map(d       => ({ category: 'block-txs',  method: 'GET', path: `/block/${d.block}/txs/${d.start_index}` }))
 
     // fetch more txs for address page
-    , moreATxs$.map(d       => ({ category: 'addr-txs-chain', method: 'GET', path: `/address/${d.addr}/txs/chain/${d.last_txid}` }))
+    , moreATxs$.map(d       => ({ category: 'addr-txs-more', method: 'GET', path: `/address/${d.addr}/txs/chain/${d.last_txid}` }))
 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
@@ -281,11 +300,23 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
 
+    //
     // elements/liquid only
+    //
 
     // fetch asset map index on page load (once, as a foreground request)
     , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
                                 { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL })
+
+    // fetch asset and its txs
+    , !process.env.ISSUED_ASSETS ? O.empty() :
+        goAsset$.flatMap(d  => [{ category: 'asset',      method: 'GET', path: `/asset/${d.asset_id}` }
+                              , d.last_txids.length
+                              ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/${last(d.last_txids)}` }
+                              : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
+
+    // fetch more txs for asset page
+    , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/${d.last_txid}` }))
 
     ).map(setBase)
 
