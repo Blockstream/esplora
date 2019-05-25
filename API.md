@@ -193,6 +193,45 @@ The available confirmation targets are 2, 3, 4, 6, 10, 20, 144, 504 and 1008 blo
 
 For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "6": 68.285, "10": 1.027, "20": 1.027, "144": 1.027, "504": 1.027, "1008": 1.027 }`
 
+## Issued assets (Elements/Liquid only)
+
+### `GET /asset/:asset_id`
+
+Get information about an issued assets. Returns an object with:
+
+- `asset_id`
+- `issuance_txin`
+  - `txid`
+  - `vin`
+- `issuance_prevout`
+  - `txid`
+  - `vout`
+- `contract_hash`
+
+If the asset is available on the registry, the following fields are returned as well:
+
+- `contract`: the full json contract json committed in the issuance
+- `entity`: the entity linked to this asset. the only available type is currently `domain`, which is encoded as `{ "domain": "foobar.com>" }` (required)
+- `ticker`: a 3-5 characters ticker associated with the asset (optional)
+- `precision`: the number of decimal places for units of this asset (defaults to 0)
+- `name`: a description for the asset (up to 255 characters)
+
+Example:
+
+```
+{"asset_id":"4d4354944366ea1e33f27c37fec97504025d6062c551208f68597d1ed40ec53e","contract":{"entity":{"domain":"magicalcryptofriends.com"},"issuer_pubkey":"02d2b29fe8ffef6acb5e75d0cd7f9c55d502bd876434b87c39ae209fc57c57f52a","name":"Magical Crypto Token","nonce":"13158145","precision":0,"ticker":"MCT","version":0},"issuance_txin":{"txid":"d535ded7ce07a0bb9c61d0fefff8127da3fc4833302b05e2b8a0cf9e04446af1","vin":0},"issuance_prevout":{"txid":"839e819d74ac98110fce63a3dab3a1075bbddcad811e0e125641989581919ab0","vout":1},"name":"Magical Crypto Token","ticker":"MCT","precision":0,"entity":{"domain":"magicalcryptofriends.com"}}
+```
+
+### `GET /asset/:asset_id/txs[/:last_seen]`
+
+Returns the list of transactions associated with this asset id
+
+Includes (re)issuance transactions, transactions funding non-blinded outputs and their spends.
+Does not include blinded transactions.
+
+Currently returns confirmed transactions only.
+>>>>>>> Update API docs with new asset endpoints
+
 ## Transaction format
 
 - `txid`
@@ -215,6 +254,7 @@ For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "6": 68.285, "10": 1.027,
   - *(Elements only)*
   - `is_pegin`
   - `issuance` (available for asset issuance transactions, `null` otherwise)
+    - `asset_id`
     - `is_reissuance`
     - `asset_blinding_nonce`
     - `asset_entropy`
