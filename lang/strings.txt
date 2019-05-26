@@ -3,8 +3,11 @@ Address reuse
 Address: %s
 Amount commitment
 API
+Asset
 Asset commitment
 Asset ID
+Asset name
+Asset: %s
 Bits
 Block Challenge
 Block height
@@ -22,11 +25,16 @@ CoinJoin transactions hide the link between inputs and outputs and improves Bitc
 compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 blocks
 Confidential
 Confirmed
+Confirmed non-confidential tx count
 Confirmed received
 Confirmed spent
 Confirmed tx count
 Confirmed unspent
 Currently unavailable
+Contract hash
+Contract JSON
+Decimal places
+Description
 Details
 Esplora is currently unavailable, please try again later.
 ETA
@@ -36,15 +44,19 @@ Height
 In best chain
 In best chain (%s confirmations)
 Included in Block
+(includes non-confidential transactions only)
 in %s blocks (%s from tip)
 Issuance
-Issuance amount
 Issuance blinding nonce
 Issuance entropy
+Issuance transaction
+Issued amount
+Issued asset id
 It is possible to tell the change output apart because you're sending to a different script type than the one you're spending from.
 lang_id
 lang_name
 Likely self-transfer
+Linked domain
 Loading...
 Load more
 Lock time
@@ -88,6 +100,7 @@ Reissuance keys
 Replace by fee
 Round payment amount
 sat/vbyte
+%s base units
 %s blocks
 Scan QR
 %s Confirmations
@@ -117,8 +130,10 @@ This transaction has unnecessary inputs that are not typically added by consumer
 This transaction re-uses addresses. This makes it trivial to track your transactions over time and link them together. Note that we currently only look for address reuse within the transaction, not across the history.
 This transaction saved %s on fees by upgrading to native SegWit-Bech32
 This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native SegWit-Bech32
+Ticker
 Timestamp
 Total fees
+Total issued
 Total size
 Total transactions
 Total tx count
