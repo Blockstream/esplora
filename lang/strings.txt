@@ -80,6 +80,8 @@ Orphaned
 Outpoint
 Output in parent chain
 overpaying by %s%
+P2SH redeem script
+P2WSH witness script
 Page Not Found
 Peg-out
 Peg-out address
@@ -146,10 +148,13 @@ Transaction: %s
 TXID
 txid:vout
 Type
+unconfirmed
 Unconfirmed
 Unconfirmed received
 Unconfirmed spent
 Unconfirmed tx count
+Unknown
+unknown (%s from tip)
 Unnecessary input heuristic
 Unspent
 Using round payment amounts gives an indication of which output is the payment and which is the change. Padding payment amounts to use all available precision resolves this issue.
