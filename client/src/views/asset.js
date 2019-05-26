@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
-import { formatNumber, formatJson } from './util'
+import { formatNumber, formatJson, formatAmount } from './util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
@@ -12,7 +12,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
   if (!asset) return;
 
   // XXX does not currently support mempool transactions
-  const chain_stats = asset.chain_stats || { tx_count: 3 }
+  const chain_stats = asset.chain_stats
       , total_txs = chain_stats.tx_count
       , shown_txs = assetTxs ? assetTxs.length : 0
 
@@ -71,6 +71,12 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           <div>
             <div>{t`Decimal places`}</div>
             <div>{asset.precision || 0}</div>
+          </div>
+
+          <div>
+            <div>{t`Total issued`}</div>
+            <div>{!chain_stats.issued_amount_known ? t`Confidential`
+                 : formatAmount(chain_stats.issued_amount, asset.precision, t) }</div>
           </div>
 
           { chain_stats.tx_count > 0 && <div>

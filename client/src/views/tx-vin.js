@@ -134,11 +134,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
 )
 
 const formatIssuedAmount = (issuance, S) =>
-  // look up the asset name/precision when the issued asset id is known
-  issuance.asset_id
-    ? formatOutAmount({ value: issuance.assetamount, asset: issuance.asset_id }, S, true)
-  // otherwise, use the default precision of 8
-    : formatSat(issuance.assetamount, '')
+  formatOutAmount({ value: issuance.assetamount, asset: issuance.asset_id }, S, true)
 
 export default (vin, opt) =>
   vin.is_pegin ? pegin(vin, opt)
