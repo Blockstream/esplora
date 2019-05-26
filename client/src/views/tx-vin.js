@@ -47,9 +47,17 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
           <div className="mono">{vin.issuance.asset_id}</div>
         </div>
 
+    , assetMeta && (([ domain, ticker, name, precision ] = assetMeta) =>
+        <div className="vin-body-row">
+          <div>{t`Asset name`}</div>
+          <div>
+            {domain} {ticker} { name ? `(${name})` : '' }
+          </div>
+        </div>)()
+
     , vin.issuance.asset_entropy &&
         <div className="vin-body-row">
-          <div>{t`Issuance contract hash`}</div>
+          <div>{!vin.issuance.is_reissuance ? t`Contract hash` : t`Issuance entropy`}</div>
           <div className="mono">{vin.issuance.asset_entropy}</div>
         </div>
 
@@ -65,14 +73,6 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
           <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : vin.issuance.tokenamount)
                                                     : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
         </div>
-
-    , assetMeta && (([ domain, ticker, name, precision ] = assetMeta) =>
-        <div className="vin-body-row">
-          <div>{t`Asset name`}</div>
-          <div>
-            {domain} {ticker} { name ? `(${name})` : '' }
-        </div>
-        </div>)()
 
     , vin.issuance.asset_blinding_nonce &&
         <div className="vin-body-row">
