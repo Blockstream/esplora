@@ -74,8 +74,8 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           </div>
 
           <div>
-            <div>{t`Total issued`}</div>
-            <div>{!chain_stats.issued_amount_known ? t`Confidential`
+            <div>{t`Total issued amount`}</div>
+            <div>{chain_stats.has_blinded_issuances ? t`Confidential`
                  : formatAmount(chain_stats.issued_amount, asset.precision, t) }</div>
           </div>
 
