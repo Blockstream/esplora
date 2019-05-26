@@ -44,7 +44,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
     , vin.issuance.asset_id &&
         <div className="vin-body-row">
           <div>{t`Issued asset id`}</div>
-          <div className="mono">{vin.issuance.asset_id}</div>
+          <div className="mono"><a href={`asset/${vin.issuance.asset_id}`}>{vin.issuance.asset_id}</a></div>
         </div>
 
     , assetMeta && (([ domain, ticker, name, precision ] = assetMeta) =>

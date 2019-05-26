@@ -20,11 +20,13 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
       , precision = _precision != null ? _precision : DEFAULT_PRECISION
       , amount = formatNumber(precision > 0 ? moveDec(vout.value, -precision) : vout.value)
       , short_id = vout.asset && vout.asset.substr(0, 10)
+      , asset_url = vout.asset && `asset/${vout.asset}`
 
   const amount_el = <span title={t`${formatNumber(vout.value)} base units`}>{amount}</span>
+      , asset_link = vout.asset && <a href={asset_url}>{short_id}</a>
 
-  return domain ? <span>{amount_el} <span title={name}>{`${domain} ${ticker || ''}`}</span>{shortDisplay || [<br/>,<em title={vout.asset}>({short_id})</em>]}</span>
-       : vout.asset ? <span>{amount_el} <em title={vout.asset}>{short_id}</em></span>
+  return domain ? <span>{amount_el} {shortDisplay||<br />} <span title={name}>{`${domain} ${ticker || ''}`}</span>{shortDisplay || [<br/>,<em title={vout.asset}>{asset_link}</em>]}</span>
+       : vout.asset ? <span>{amount_el} <em title={vout.asset}>{asset_link}</em></span>
        : <span>{amount_el} {t`Unknown`}</span> // should never happen
 }
 
