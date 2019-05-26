@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatOutAmount, formatSat, formatHex, linkToAddr } from './util'
+import { linkToParentOut, formatOutAmount, formatSat, formatHex, linkToAddr, formatNumber } from './util'
 
 const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
   <div class={{ vin: true, selected: !!query[`input:${index}`] }}>
@@ -70,7 +70,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
     , !vin.issuance.is_reissuance &&
         <div className="vin-body-row">
           <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance keys` : t`Reissuance commitment`}</div>
-          <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : vin.issuance.tokenamount)
+          <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : formatNumber(vin.issuance.tokenamount))
                                                     : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
         </div>
 
