@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatOutAmount, formatSat, formatHex, linkToAddr, formatNumber } from './util'
+import { linkToParentOut, formatOutAmount, formatAmount, formatSat, formatHex, linkToAddr, formatNumber } from './util'
 
 const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
   <div class={{ vin: true, selected: !!query[`input:${index}`] }}>
@@ -63,7 +63,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
 
     , <div className="vin-body-row">
         <div>{!vin.issuance.assetamountcommitment ? t`Issued amount` : t`Amount commitment`}</div>
-        <div>{!vin.issuance.assetamountcommitment ? formatIssuedAmount(vin.issuance, { t, ...S })
+        <div>{!vin.issuance.assetamountcommitment ? formatAmount(vin.issuance.assetamount, assetMeta ? assetMeta[3] : 0, t)
                                                   : <span className="mono">{vin.issuance.assetamountcommitment}</span>}</div>
       </div>
 
@@ -132,9 +132,6 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
   </div>
 , { t, ...S }
 )
-
-const formatIssuedAmount = (issuance, S) =>
-  formatOutAmount({ value: issuance.assetamount, asset: issuance.asset_id }, S, true)
 
 export default (vin, opt) =>
   vin.is_pegin ? pegin(vin, opt)
