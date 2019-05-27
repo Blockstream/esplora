@@ -50,10 +50,10 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
           </div>
 
-          <div>
+          { asset.contract_hash && <div>
             <div>{t`Contract hash`}</div>
             <div className="mono">{asset.contract_hash}</div>
-          </div>
+          </div> }
 
           { asset.entity && <div>
             <div>{t(`Linked ${entity_type}`)}</div>
