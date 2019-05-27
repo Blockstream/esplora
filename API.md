@@ -206,7 +206,16 @@ Get information about an issued assets. Returns an object with:
 - `issuance_prevout`
   - `txid`
   - `vout`
-- `contract_hash`
+- `contract_hash`: the contract hash committed as the issuance entropy
+- `reissuance_token`: the asset id of the reissuance token
+- `chain_stats`
+  - `tx_count`: the number of transactions associated with this asset (does not include confidential transactions)
+  - `issuance_count`: the number of (re)issuance transactions
+  - `issued_amount`: the total known amount issued (should be considered a minimum bound when `has_blinded_issuances` is true)
+  - `burned_amount`: the total amount provably burned
+  - `has_blinded_issuances`: whether at least one of the (re)issuances were blind
+  - `reissuance_tokens`: the number of reissuance tokens
+  - `burned_reissuance_tokens`: the number of reissuance tokens burned
 
 If the asset is available on the registry, the following fields are returned as well:
 
