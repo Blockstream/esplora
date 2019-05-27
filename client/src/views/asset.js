@@ -27,6 +27,8 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
       , entity_type = asset.entity && Object.keys(asset.entity)[0]
 
+      , is_non_reissuable = asset.chain_stats.reissuance_tokens != null && asset.chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
+
   return layout(
     <div>
       <div className="jumbotron jumbotron-fluid asset-page">
@@ -74,15 +76,43 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           </div>
 
           <div>
+            <div>{t`Number of issuances`}</div>
+            <div>{chain_stats.issuance_count}</div>
+          </div>
+
+          <div>
             <div>{t`Total issued amount`}</div>
             <div>{chain_stats.has_blinded_issuances ? t`Confidential`
                  : formatAmount(chain_stats.issued_amount, asset.precision, t) }</div>
           </div>
 
-          { chain_stats.tx_count > 0 && <div>
+          { chain_stats.burned_amount > 0 && <div>
+            <div>{t`Total burned amount`}</div>
+            <div>{formatAmount(chain_stats.burned_amount, asset.precision, t)}</div>
+          </div> }
+
+          <div>
+            <div>{t`Reissuance tokens created`}</div>
+            <div>{chain_stats.reissuance_tokens == null ? t`Confidential`
+                : chain_stats.reissuance_tokens === 0 ? t`None`
+                : formatNumber(chain_stats.reissuance_tokens) }</div>
+          </div>
+
+          { chain_stats.burned_reissuance_tokens > 0 && <div>
+            <div>{t`Reissuance tokens burned`}</div>
+            <div>{formatNumber(chain_stats.burned_reissuance_tokens)}</div>
+          </div>}
+
+          <div>
+            <div>{t`Re-issuable`}</div>
+            <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
+          </div>
+
+
+          <div>
             <div>{t`Confirmed non-confidential tx count`}</div>
             <div>{formatNumber(chain_stats.tx_count)}</div>
-          </div> }
+          </div>
 
           { asset.contract && <div>
             <div>{t`Contract JSON`}</div>
