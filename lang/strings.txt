@@ -66,13 +66,16 @@ Merkle root
 New asset
 Newer
 Next
+No
 Nonce
+None
 Nonstandard
 No outputs
 No recent transactions
 No reissuance
 No results found
 nSequence
+Number of issuances
 Older
 OP_RETURN data
 Opted in
@@ -96,9 +99,12 @@ Previous output script
 Privacy analysis
 (RBF)
 Recent transactions
+Re-issuable
 Reissuance
 Reissuance commitment
 Reissuance keys
+Reissuance tokens burned
+Reissuance tokens created
 Replace by fee
 Round payment amount
 sat/vbyte
@@ -134,8 +140,9 @@ This transaction saved %s on fees by upgrading to native SegWit-Bech32
 This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native SegWit-Bech32
 Ticker
 Timestamp
+Total burned amount
 Total fees
-Total issued
+Total issued amount
 Total size
 Total transactions
 Total tx count
@@ -166,3 +173,4 @@ We encountered an error. Please try again later.
 Weight (KWU)
 Weight units
 Witness
+Yes
