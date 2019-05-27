@@ -52,7 +52,7 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
     { (vout.asset || vout.assetcommitment) &&
       <div className="vout-body-row">
         <div>{vout.assetcommitment ? t`Asset commitment` : t`Asset ID`}</div>
-        <div className="mono">{vout.asset || vout.assetcommitment}</div>
+        <div className="mono">{vout.asset ? <a href={`asset/${vout.asset}`}>{vout.asset}</a> : vout.assetcommitment}</div>
       </div>
     }
 
