@@ -312,11 +312,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , !process.env.ISSUED_ASSETS ? O.empty() :
         goAsset$.flatMap(d  => [{ category: 'asset',      method: 'GET', path: `/asset/${d.asset_id}` }
                               , d.last_txids.length
-                              ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/${last(d.last_txids)}` }
+                              ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${last(d.last_txids)}` }
                               : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
 
     // fetch more txs for asset page
-    , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/${d.last_txid}` }))
+    , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
 
     ).map(setBase)
 
