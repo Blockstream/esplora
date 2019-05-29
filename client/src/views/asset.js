@@ -131,16 +131,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
           </div>
 
-          <div>
-            <div>{t`Non-confidential tx count`}</div>
-            <div>{formatNumber(chain_stats.tx_count)}</div>
-          </div>
-
-          { mempool_stats.tx_count > 0 &&<div>
-            <div>{t`Non-confidential tx count (unconfirmed)`}</div>
-            <div>{formatNumber(mempool_stats.tx_count)}</div>
-          </div> }
-
           { asset.contract && <div>
             <div>{t`Contract JSON`}</div>
             <div className="mono contract-json">{formatJson(asset.contract)}</div>
@@ -151,7 +141,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
         <div>
           <div className="transactions">
             <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
-            <p className="text-muted">{t`(includes non-confidential transactions only)`}</p>
             { assetTxs ? assetTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
                        : <img src="img/Loading.gif" className="loading-delay" /> }
           </div>
@@ -175,8 +164,8 @@ const fmtTxos = (count, sum, t) =>
 
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Transactions`
-  : t`${total} Transactions`
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Issuance/Burn Transactions`
+  : t`${total} Issuance/Burn Transactions`
 
 const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
   process.browser
