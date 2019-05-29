@@ -69,7 +69,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
 
     , !vin.issuance.is_reissuance &&
         <div className="vin-body-row">
-          <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance keys` : t`Reissuance commitment`}</div>
+          <div>{!vin.issuance.tokenamountcommitment ? t`Reissuance tokens` : t`Reissuance tokens commitment`}</div>
           <div>{!vin.issuance.tokenamountcommitment ? (!vin.issuance.tokenamount ? t`No reissuance` : formatNumber(vin.issuance.tokenamount))
                                                     : <span className="mono">{vin.issuance.tokenamountcommitment}</span>}</div>
         </div>
