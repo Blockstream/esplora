@@ -4,22 +4,22 @@ import { formatNumber, formatJson, formatAmount } from './util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { assetTxsPerPage as perPage } from '../const'
+import { maxMempoolTxs, assetTxsPerPage as perPage } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
 export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loading, ...S }) => {
   if (!asset) return;
 
-  // XXX does not currently support mempool transactions
-  const chain_stats = asset.chain_stats
-      , total_txs = chain_stats.tx_count
+  const { chain_stats, mempool_stats } = asset
+      , total_txs = chain_stats.tx_count + mempool_stats.tx_count
       , shown_txs = assetTxs ? assetTxs.length : 0
 
       // paging is on a best-effort basis, might act oddly if the set of transactions change
       // while the user is paging.
-      , est_prev_total_seen_count  = goAsset.last_txids.length ? goAsset.est_chain_seen_count : 0
-      , est_curr_chain_seen_count = goAsset.last_txids.length ? goAsset.est_chain_seen_count + shown_txs : shown_txs
+      , avail_mempool_txs = Math.min(maxMempoolTxs, mempool_stats.tx_count)
+      , est_prev_total_seen_count  = goAsset.last_txids.length ? goAsset.est_chain_seen_count + avail_mempool_txs : 0
+      , est_curr_chain_seen_count = goAsset.last_txids.length ? goAsset.est_chain_seen_count + shown_txs : shown_txs - avail_mempool_txs
       , last_seen_txid = (shown_txs > 0 && est_curr_chain_seen_count < chain_stats.tx_count) ? last(assetTxs).txid : null
       , next_paging_txids = last_seen_txid ? [ ...goAsset.last_txids, last_seen_txid ].join(',') : null
       , prev_paging_txids = goAsset.last_txids.length ? goAsset.last_txids.slice(0, -1).join(',') : null
@@ -28,6 +28,9 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
       , entity_type = asset.entity && Object.keys(asset.entity)[0]
 
       , is_non_reissuable = asset.chain_stats.reissuance_tokens != null && asset.chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
+
+      // XXX could an asset have a mixture of blinded and non-blinded issuances?
+      , has_blinded_issuances = chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
 
   return layout(
     <div>
@@ -80,15 +83,30 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{chain_stats.issuance_count}</div>
           </div>
 
+          { mempool_stats.issuance_count > 0 && <div>
+            <div>{t`Number of issuances (unconfirmed)`}</div>
+            <div>{mempool_stats.issuance_count}</div>
+          </div> }
+
           <div>
-            <div>{t`Total issued amount`}</div>
+            <div>{t`Issued amount`}</div>
             <div>{chain_stats.has_blinded_issuances ? t`Confidential`
                  : formatAmount(chain_stats.issued_amount, asset.precision, t) }</div>
           </div>
 
+          { mempool_stats.issued_amount > 0 && <div>
+            <div>{t`Issued amount (unconfirmed)`}</div>
+            <div>{formatAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
+          </div> }
+
           { chain_stats.burned_amount > 0 && <div>
-            <div>{t`Total burned amount`}</div>
+            <div>{t`Burned amount`}</div>
             <div>{formatAmount(chain_stats.burned_amount, asset.precision, t)}</div>
+          </div> }
+
+          { mempool_stats.burned_amount > 0 && <div>
+            <div>{t`Burned amount (unconfirmed)`}</div>
+            <div>{formatAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
           </div> }
 
           <div>
@@ -103,16 +121,25 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{formatNumber(chain_stats.burned_reissuance_tokens)}</div>
           </div>}
 
+          { mempool_stats.burned_reissuance_tokens > 0 && <div>
+            <div>{t`Reissuance tokens burned (unconfirmed)`}</div>
+            <div>{formatNumber(mempool_stats.burned_reissuance_tokens)}</div>
+          </div>}
+
           <div>
             <div>{t`Re-issuable`}</div>
             <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
           </div>
 
-
           <div>
-            <div>{t`Confirmed non-confidential tx count`}</div>
+            <div>{t`Non-confidential tx count`}</div>
             <div>{formatNumber(chain_stats.tx_count)}</div>
           </div>
+
+          { mempool_stats.tx_count > 0 &&<div>
+            <div>{t`Non-confidential tx count (unconfirmed)`}</div>
+            <div>{formatNumber(mempool_stats.tx_count)}</div>
+          </div> }
 
           { asset.contract && <div>
             <div>{t`Contract JSON`}</div>
