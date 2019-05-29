@@ -258,7 +258,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     // in server env, just get it once
-    , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).throttleTime(5000)
+    , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).startWith(1).throttleTime(5000)
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
