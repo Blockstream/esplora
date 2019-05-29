@@ -50,7 +50,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
         <div className="stats-table">
           <div>
             <div>{t`Issuance transaction`}</div>
-            <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
+            <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
           </div>
 
           { asset.contract_hash && <div>
