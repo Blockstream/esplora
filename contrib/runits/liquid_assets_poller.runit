@@ -1,0 +1,27 @@
+#!/bin/bash
+set -eo pipefail
+
+# Setup a "gitpgp" command to only accept keys from a local keyring file
+# https://tribut.de/blog/git-commit-signatures-trusted-keys
+if [ ! -f /usr/bin/gitgpg ]; then
+  echo -e '#!/bin/sh\nexec gpg --no-default-keyring --keyring=git.gpg "$@"' > /usr/bin/gitgpg
+  chmod +x /usr/bin/gitgpg
+fi
+
+# Clone repo
+git clone -c gpg.program=gitgpg --no-checkout $ASSETS_GIT /srv/liquid-assets-db
+cd /srv/liquid-assets-db
+
+# Create the local keyring file with just the assets db signing key
+gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys $ASSETS_GPG
+gpg --export $ASSETS_GPG | gpg --no-default-keyring --keyring=git.gpg --import -
+
+# Verify and do an initial checkout
+git verify-commit master
+git checkout master
+
+# Update periodically
+while :; do
+  sleep 900 # 15 minutes
+  git pull --verify-signatures --ff-only
+done
