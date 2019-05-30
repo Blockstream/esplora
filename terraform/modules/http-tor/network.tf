@@ -5,10 +5,17 @@ resource "google_compute_backend_service" "http" {
   timeout_sec = 10
   enable_cdn  = true
 
-  backend       = ["${data.customconfig_google_backend.customconfig.backends}"]
-  health_checks = ["${google_compute_http_health_check.http.self_link}"]
+  dynamic "backend" {
+    for_each = google_compute_region_instance_group_manager.http
+    iterator = group
+    content {
+      group = group.value.instance_group
+    }
+  }
 
-  count = "${var.create_resources}"
+  health_checks = ["${google_compute_http_health_check.http[0].self_link}"]
+
+  count = var.create_resources
 }
 
 resource "google_compute_http_health_check" "http" {
@@ -21,5 +28,5 @@ resource "google_compute_http_health_check" "http" {
   port         = "80"
   request_path = "/lbtest"
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 }

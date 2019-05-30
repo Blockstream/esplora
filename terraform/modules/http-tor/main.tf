@@ -1,11 +1,11 @@
 resource "google_compute_region_autoscaler" "http" {
-  name   = "http-${var.name}-explorer-ig-${element(var.regions, count.index)}"
-  region = "${element(var.regions, count.index)}"
-  target = "${element(google_compute_region_instance_group_manager.http.*.self_link, count.index)}"
+  name   = "http-${var.name}-explorer-ig-${var.regions[count.index]}"
+  region = var.regions[count.index]
+  target = google_compute_region_instance_group_manager.http[count.index].self_link
 
-  count = "${var.create_resources > 0 ? length(var.regions) : 0}"
+  count = var.create_resources > 0 ? length(var.regions) : 0
 
-  autoscaling_policy = {
+  autoscaling_policy {
     max_replicas    = "2"
     min_replicas    = "1"
     cooldown_period = 60
@@ -18,25 +18,25 @@ resource "google_compute_region_autoscaler" "http" {
 
 resource "google_compute_region_instance_group_manager" "http" {
   provider           = "google-beta"
-  name               = "http-${var.name}-explorer-ig-${element(var.regions, count.index)}"
-  base_instance_name = "http-${var.name}-explorer-ig-${element(var.regions, count.index)}"
+  name               = "http-${var.name}-explorer-ig-${var.regions[count.index]}"
+  base_instance_name = "http-${var.name}-explorer-ig-${var.regions[count.index]}"
 
   version {
-    instance_template = "${google_compute_instance_template.http.self_link}"
+    instance_template = google_compute_instance_template.http[0].self_link
     name              = "original"
   }
 
-  region = "${element(var.regions, count.index)}"
+  region = var.regions[count.index]
 
   named_port {
     name = "http"
     port = 80
   }
 
-  count = "${var.create_resources > 0 ? length(var.regions) : 0}"
+  count = var.create_resources > 0 ? length(var.regions) : 0
 
   auto_healing_policies {
-    health_check      = "${google_compute_health_check.http.self_link}"
+    health_check      = google_compute_health_check.http[0].self_link
     initial_delay_sec = 300
   }
 
@@ -55,16 +55,16 @@ resource "google_compute_instance_template" "http" {
   tags         = ["http", "http-${var.name}"]
   machine_type = "f1-micro"
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 
-  labels {
+  labels = {
     type    = "http-tor"
-    name    = "${var.name}"
-    network = "${var.network}"
+    name    = var.name
+    network = var.network
   }
 
   disk {
-    source_image = "${var.boot-image}"
+    source_image = var.boot-image
     auto_delete  = true
     boot         = true
     disk_type    = "pd-standard"
@@ -76,17 +76,17 @@ resource "google_compute_instance_template" "http" {
   }
 
   network_interface {
-    network = "${data.google_compute_network.default.self_link}"
+    network = data.google_compute_network.default.self_link
 
     access_config {}
   }
 
-  metadata {
-    "user-data" = "${data.template_cloudinit_config.http.rendered}"
+  metadata = {
+    user-data = data.template_cloudinit_config.http.rendered
   }
 
   service_account {
-    email  = "${google_service_account.http.email}"
+    email  = google_service_account.http[0].email
     scopes = ["compute-ro", "storage-ro"]
   }
 
@@ -101,7 +101,7 @@ resource "google_compute_health_check" "http" {
   check_interval_sec  = 10
   unhealthy_threshold = 3
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 
   http_health_check {
     port         = 80

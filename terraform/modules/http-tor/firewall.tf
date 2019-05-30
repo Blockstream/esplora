@@ -1,8 +1,8 @@
 resource "google_compute_firewall" "all-traffic" {
   name    = "http-${var.name}-all-traffic-access"
-  network = "${data.google_compute_network.default.self_link}"
+  network = data.google_compute_network.default.self_link
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 
   allow {
     protocol = "tcp"
@@ -12,15 +12,15 @@ resource "google_compute_firewall" "all-traffic" {
   source_ranges = ["0.0.0.0/0"]
 
   target_service_accounts = [
-    "${google_service_account.http.email}",
+    google_service_account.http[0].email,
   ]
 }
 
 resource "google_compute_firewall" "prom-traffic" {
   name    = "http-${var.name}-prometheus-access"
-  network = "${data.google_compute_network.default.self_link}"
+  network = data.google_compute_network.default.self_link
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 
   allow {
     protocol = "tcp"
@@ -28,10 +28,10 @@ resource "google_compute_firewall" "prom-traffic" {
   }
 
   source_service_accounts = [
-    "${var.service_account_prom}",
+    var.service_account_prom,
   ]
 
   target_service_accounts = [
-    "${google_service_account.http.email}",
+    google_service_account.http[0].email,
   ]
 }

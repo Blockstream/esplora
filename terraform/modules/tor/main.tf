@@ -1,27 +1,27 @@
 resource "google_compute_instance_group_manager" "tor" {
   name  = "${var.name}-ig"
-  count = "${var.create_resources > 0 ? var.instances : 0}"
-  zone  = "${var.zones}"
+  count = var.create_resources > 0 ? var.instances : 0
+  zone  = var.zones
 
-  base_instance_name = "${var.name}"
-  instance_template  = "${google_compute_instance_template.tor.self_link}"
-  target_size        = "${var.instances}"
+  base_instance_name = var.name
+  instance_template  = google_compute_instance_template.tor[0].self_link
+  target_size        = var.instances
 }
 
 resource "google_compute_instance_template" "tor" {
   name_prefix  = "${var.name}-template-"
   description  = "This template is used to create ${var.name} instances."
-  machine_type = "${var.tor_machine_type}"
-  count        = "${var.create_resources}"
+  machine_type = var.tor_machine_type
+  count        = var.create_resources
 
-  labels {
+  labels = {
     type    = "tor"
-    name    = "${var.name}"
-    network = "${var.network}"
+    name    = var.name
+    network = var.network
   }
 
   disk {
-    source_image = "${var.boot_image}"
+    source_image = var.boot_image
     boot         = true
     auto_delete  = true
     disk_type    = "pd-ssd"
@@ -30,18 +30,18 @@ resource "google_compute_instance_template" "tor" {
   }
 
   network_interface {
-    network = "${data.google_compute_network.default.self_link}"
+    network = data.google_compute_network.default.self_link
 
     access_config {}
   }
 
-  metadata {
+  metadata = {
     google-logging-enabled = "true"
-    "user-data"            = "${data.template_cloudinit_config.tor.rendered}"
+    user-data              = data.template_cloudinit_config.tor.rendered
   }
 
   service_account {
-    email = "${google_service_account.tor.email}"
+    email = google_service_account.tor[0].email
 
     scopes = [
       "https://www.googleapis.com/auth/cloudkms",

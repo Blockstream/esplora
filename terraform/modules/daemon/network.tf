@@ -1,12 +1,12 @@
 # Health check
 resource "google_compute_http_health_check" "daemon" {
   name         = "${var.name}-explorer-http-health-check"
-  request_path = "${var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash" : "/liquid/api/blocks/tip/hash"}"
+  request_path = var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash" : "/liquid/api/blocks/tip/hash"
 
-  timeout_sec        = 5
-  check_interval_sec = 5
+  timeout_sec        = 20
+  check_interval_sec = 30
 
-  count = "${var.create_resources}"
+  count = var.create_resources
 }
 
 # Backend service
@@ -17,8 +17,23 @@ resource "google_compute_backend_service" "daemon" {
   timeout_sec = 30
   enable_cdn  = true
 
-  backend       = ["${data.customconfig_google_backend.customconfig.backends}"]
-  health_checks = ["${google_compute_http_health_check.daemon.self_link}"]
+  dynamic "backend" {
+    for_each = google_compute_region_instance_group_manager.daemon
+    iterator = group
+    content {
+      group = group.value.instance_group
+    }
+  }
 
-  count = "${var.create_resources}"
+  dynamic "backend" {
+    for_each = google_compute_region_instance_group_manager.preemptible-daemon
+    iterator = group
+    content {
+      group = group.value.instance_group
+    }
+  }
+
+  health_checks = [google_compute_http_health_check.daemon[0].self_link]
+
+  count = var.create_resources
 }

@@ -20,7 +20,8 @@ variable "region" {
 }
 
 variable "zones" {
-  type = "list"
+  type    = "list"
+  default = ["us-central1-a"]
 }
 
 variable "instances" {

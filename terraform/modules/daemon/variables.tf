@@ -28,6 +28,11 @@ variable "instance_type" {
   default = ""
 }
 
+variable "preemptible_instance_type" {
+  type    = "string"
+  default = ""
+}
+
 variable "size" {
   type = "string"
 }
@@ -51,7 +56,7 @@ variable "docker_tag_explorer" {
 
 variable "docker_tag_gcloud" {
   type    = "string"
-  default = "google/cloud-sdk@sha256:b0d0555efef6a566f42fc4f0d89be9e1d74aff4565e27bbd206405f759d3f2b0"
+  default = "google/cloud-sdk@sha256:ff12e5d576a0754bcc25073e8bad8ae07623af66fa4c4f4a037ca33f46855028"
 }
 
 variable "min_ready_sec" {

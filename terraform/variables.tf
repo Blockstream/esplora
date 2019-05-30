@@ -29,10 +29,10 @@ locals {
     }
   }
 
-  create_main            = "${lookup(local.context_variables[terraform.workspace], "create_main")}"
-  create_bitcoin_mainnet = "${lookup(local.context_variables[terraform.workspace], "create_bitcoin_mainnet")}"
-  create_bitcoin_testnet = "${lookup(local.context_variables[terraform.workspace], "create_bitcoin_testnet")}"
-  create_liquid_mainnet  = "${lookup(local.context_variables[terraform.workspace], "create_liquid_mainnet")}"
+  create_main            = lookup(local.context_variables[terraform.workspace], "create_main")
+  create_bitcoin_mainnet = lookup(local.context_variables[terraform.workspace], "create_bitcoin_mainnet")
+  create_bitcoin_testnet = lookup(local.context_variables[terraform.workspace], "create_bitcoin_testnet")
+  create_liquid_mainnet  = lookup(local.context_variables[terraform.workspace], "create_liquid_mainnet")
 }
 
 variable "project" {
@@ -76,11 +76,18 @@ variable "instance_type" {
   default = ["", "", "", ""]
 }
 
+variable "preemptible_instance_type" {
+  type    = "list"
+  default = ["", "", "", ""]
+}
+
 variable "hosts" {
+  type    = "list"
   default = [""]
 }
 
 variable "hosts_onion" {
+  type    = "list"
   default = ["", ""]
 }
 

@@ -1,17 +1,17 @@
-FROM hashicorp/terraform@sha256:330bef7401e02e757e6fa2de69f398fd29fcbfafe2a3b9e8f150486fbcd7915b AS terraform
-FROM docker@sha256:73df00cec6b4703c5d157cb3b30e1ed6dbc8fea66306c7c42aa0d11fbbb1a320
+FROM hashicorp/terraform@sha256:ee36fc76714ea8b57564c52e98bd66fc222368e57f3a00e24ac9b73b85f33cbe AS terraform
+FROM docker@sha256:16a1f4b3e64c5a8e1ac80987bc2b8907dbc1c79c1b13be0781f4d24a2072e698
 
 COPY --from=terraform /bin/terraform /bin/terraform
 
-ENV CLOUD_SDK_VERSION="241.0.0"
+ENV CLOUD_SDK_VERSION="248.0.0"
 ENV PATH=/opt/google-cloud-sdk/bin:$PATH
 
 WORKDIR /opt
 
-RUN wget https://github.com/DeviaVir/terraform-provider-customconfig/releases/download/v0.0.2/terraform-provider-customconfig_0.0.2_linux_amd64.tgz \
- && tar xzf terraform-provider-customconfig_0.0.2_linux_amd64.tgz \
+RUN wget https://github.com/DeviaVir/terraform-provider-customconfig/releases/download/v0.1.0/terraform-provider-customconfig_0.1.0_linux_amd64.tgz \
+ && tar xzf terraform-provider-customconfig_0.1.0_linux_amd64.tgz \
  && mkdir -p $HOME/.terraform.d/plugins/ \
- && mv terraform-provider-customconfig_v0.0.2 $HOME/.terraform.d/plugins/
+ && mv terraform-provider-customconfig_v0.1.0 $HOME/.terraform.d/plugins/
 
 RUN apk --no-cache add curl python py-crcmod bash libc6-compat openssh-client git gnupg ansible \
  && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz \
