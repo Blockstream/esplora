@@ -40,7 +40,7 @@ RUN source /root/.nvm/nvm.sh \
 RUN cp /srv/explorer/source/run.sh /srv/explorer/
 
 # cleanup
-RUN apt-get --auto-remove remove -yqq --purge manpages git \
+RUN apt-get --auto-remove remove -yqq --purge manpages \
  && apt-get clean \
  && apt-get autoclean \
  && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
