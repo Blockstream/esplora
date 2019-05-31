@@ -208,7 +208,7 @@ Get information about an issued assets. Returns an object with:
   - `vout`
 - `contract_hash`: the contract hash committed as the issuance entropy
 - `reissuance_token`: the asset id of the reissuance token
-- `chain_stats`
+- `chain_stats` and `mempool_stats`
   - `tx_count`: the number of transactions associated with this asset (does not include confidential transactions)
   - `issuance_count`: the number of (re)issuance transactions
   - `issued_amount`: the total known amount issued (should be considered a minimum bound when `has_blinded_issuances` is true)
@@ -231,15 +231,13 @@ Example:
 {"asset_id":"4d4354944366ea1e33f27c37fec97504025d6062c551208f68597d1ed40ec53e","contract":{"entity":{"domain":"magicalcryptofriends.com"},"issuer_pubkey":"02d2b29fe8ffef6acb5e75d0cd7f9c55d502bd876434b87c39ae209fc57c57f52a","name":"Magical Crypto Token","nonce":"13158145","precision":0,"ticker":"MCT","version":0},"issuance_txin":{"txid":"d535ded7ce07a0bb9c61d0fefff8127da3fc4833302b05e2b8a0cf9e04446af1","vin":0},"issuance_prevout":{"txid":"839e819d74ac98110fce63a3dab3a1075bbddcad811e0e125641989581919ab0","vout":1},"name":"Magical Crypto Token","ticker":"MCT","precision":0,"entity":{"domain":"magicalcryptofriends.com"}}
 ```
 
-### `GET /asset/:asset_id/txs[/:last_seen]`
+### `GET /asset/:asset_id/txs`
+### `GET /asset/:asset_id/txs/mempool`
+### `GET /asset/:asset_id/txs/chain[/:last_seen]`
 
-Returns the list of transactions associated with this asset id
+Returns the list of (re)issuance and burn transactions associated with this asset id.
 
-Includes (re)issuance transactions, transactions funding non-blinded outputs and their spends.
-Does not include blinded transactions.
-
-Currently returns confirmed transactions only.
->>>>>>> Update API docs with new asset endpoints
+Does not include regular transactions transferring this asset.
 
 ## Transaction format
 
