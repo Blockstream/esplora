@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+exec socat UDP-RECV:23394 stderr
