@@ -21,8 +21,14 @@ STATIC_DIR=/srv/explorer/static/$FLAVOR
 ELECTRS_NETWORK=${NETWORK}
 
 
-mkdir -p /etc/service/tor
+mkdir -p /etc/service/tor/log
+mkdir -p /data/logs/tor
 cp /srv/explorer/source/contrib/runits/tor.runit /etc/service/tor/run
+cp /srv/explorer/source/contrib/runits/tor-log.runit /etc/service/tor/log/run
+cp /srv/explorer/source/contrib/runits/tor-log-config.runit /data/logs/tor/config
+
+mkdir -p /etc/service/socat
+cp /srv/explorer/source/contrib/runits/socat.runit /etc/service/socat/run 
 
 NGINX_NOSLASH_PATH="unused"
 NGINX_REWRITE_NOJS='return 301 " /nojs$uri"'
@@ -71,10 +77,17 @@ function preprocess(){
 }
 
 if [ "$MODE" == "explorer" ]; then
-    mkdir -p /etc/service/prerenderer /etc/service/nginx /etc/service/electrs
+    mkdir -p /etc/service/prerenderer/log /etc/service/nginx/log /etc/service/electrs/log
+    mkdir -p /data/logs/prerenderer /data/logs/nginx /data/logs/electrs
     preprocess /srv/explorer/source/contrib/runits/electrs.runit /etc/service/electrs/run
+    cp /srv/explorer/source/contrib/runits/electrs-log.runit /etc/service/electrs/log/run
+    cp /srv/explorer/source/contrib/runits/electrs-log-config.runit /data/logs/electrs/config
     cp /srv/explorer/source/contrib/runits/nginx.runit /etc/service/nginx/run
+    cp /srv/explorer/source/contrib/runits/nginx-log.runit /etc/service/nginx/log/run
+    cp /srv/explorer/source/contrib/runits/nginx-log-config.runit /data/logs/nginx/config
     preprocess /srv/explorer/source/contrib/runits/prerenderer.runit /etc/service/prerenderer/run
+    cp /srv/explorer/source/contrib/runits/prerenderer-log.runit /etc/service/prerenderer/log/run
+    cp /srv/explorer/source/contrib/runits/prerenderer-log-config.runit /data/logs/prerenderer/config
     chmod +x /etc/service/prerenderer/run /etc/service/electrs/run
 elif [ "$MODE" != "private-bridge" ] && [ "$MODE" != "public-bridge" ]; then
     echo "Mode can only be private-bridge, public-bridge or explorer"
@@ -84,9 +97,12 @@ fi
 preprocess /srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}.conf.in /data/.${DAEMON}.conf
 
 if [ "${DAEMON}" == "liquid" ]; then
-    mkdir -p /etc/service/bitcoin
+    mkdir -p /etc/service/bitcoin/log
+    mkdir -p /data/logs/bitcoin
     preprocess /srv/explorer/source/contrib/bitcoin-mainnet-pruned-for-liquid.conf.in /data/.bitcoin.conf
     cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid.runit /etc/service/bitcoin/run
+    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log.runit /etc/service/bitcoin/log/run
+    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log-config.runit /data/logs/bitcoin/config
 fi
 
 if [ -f /data/public_nodes ]; then
@@ -125,8 +141,11 @@ if [ ! -d /data/logs ]; then
     mkdir -p /data/logs /data/${DAEMON} /data/bitcoin
 fi
 
-mkdir -p /etc/service/${DAEMON}
+mkdir -p /etc/service/${DAEMON}/log
+mkdir -p /data/logs/nodedaemon
 preprocess /srv/explorer/source/contrib/runits/nodedaemon.runit /etc/service/${DAEMON}/run
+cp /srv/explorer/source/contrib/runits/nodedaemon-log.runit /etc/service/${DAEMON}/log/run
+cp /srv/explorer/source/contrib/runits/nodedaemon-log-config.runit /data/logs/nodedaemon/config
 chmod +x /etc/service/${DAEMON}/run
 
 exec /srv/explorer/source/contrib/runit_boot.sh
