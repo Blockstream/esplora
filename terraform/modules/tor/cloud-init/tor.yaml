@@ -153,6 +153,7 @@ write_files:
         ExecStartPre=-/bin/chmod -R 2700 /home/bs/tor_v2/
         ExecStartPre=-/bin/chmod 0600 /home/bs/tor_v2/hidden_service/private_key
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             --pid=host \
             --name=torv2 \
@@ -185,6 +186,7 @@ write_files:
         ExecStartPre=-/bin/chmod 0644 /home/bs/tor_v3/hidden_service_v3/hs_ed25519_public_key
         ExecStartPre=-/bin/chmod 0600 /home/bs/tor_v3/hidden_service_v3/hs_ed25519_secret_key
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             --pid=host \
             --name=torv3 \
@@ -214,6 +216,7 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --name=node-exporter \
             --network=host \
             --read-only \

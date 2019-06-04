@@ -44,6 +44,7 @@ write_files:
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             --pid=host \
             --name=${container_name} \
@@ -75,6 +76,7 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --name=node-exporter \
             --network=host \
             --read-only \

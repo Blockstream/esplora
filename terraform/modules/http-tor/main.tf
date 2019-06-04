@@ -87,7 +87,7 @@ resource "google_compute_instance_template" "http" {
 
   service_account {
     email  = google_service_account.http[0].email
-    scopes = ["compute-ro", "storage-ro"]
+    scopes = ["compute-ro", "storage-ro", "https://www.googleapis.com/auth/logging.write"]
   }
 
   lifecycle {

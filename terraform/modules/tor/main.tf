@@ -47,6 +47,7 @@ resource "google_compute_instance_template" "tor" {
       "https://www.googleapis.com/auth/cloudkms",
       "compute-ro",
       "storage-ro",
+      "https://www.googleapis.com/auth/logging.write",
     ]
   }
 

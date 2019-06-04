@@ -419,6 +419,7 @@ write_files:
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStartPre=/sbin/iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 9090
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             -v /mnt/disks/data:/data:rw \
             -v /home/bs/prometheus:/config:ro \
@@ -450,6 +451,7 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9093 -j ACCEPT
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             -v /mnt/disks/data:/data:rw \
             -v /home/bs/prometheus:/config:ro \
@@ -480,6 +482,7 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --name=node-exporter \
             --network=host \
             --read-only \

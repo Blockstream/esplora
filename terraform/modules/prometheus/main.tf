@@ -47,6 +47,7 @@ resource "google_compute_instance" "prometheus-server" {
       "https://www.googleapis.com/auth/compute.readonly",
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/pubsub",
+      "https://www.googleapis.com/auth/logging.write"
     ]
   }
 
