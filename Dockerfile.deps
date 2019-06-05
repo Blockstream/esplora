@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-c"]
 RUN mkdir -p /srv/explorer \
  && apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install clang cmake nginx supervisor curl git tor
+ && apt-get -yqq install clang cmake curl git tor
 
 RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github.com/creationix/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
