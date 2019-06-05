@@ -26,6 +26,7 @@ shutdown() {
 export > /etc/envvars
 
 PATH=/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin
+SVWAIT=60  # wait process to end up to SVWAIT seconds before sending kill signal
 
 # run all scripts in the run_once folder
 /bin/run-parts /etc/run_once
