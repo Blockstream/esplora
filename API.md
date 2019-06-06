@@ -191,7 +191,7 @@ and the value is the estimated feerate (in sat/vB).
 
 The available confirmation targets are 2, 3, 4, 6, 10, 20, 144, 504 and 1008 blocks.
 
-For example: `{"144":1.027,"20":1.027,"1008":1.027,"6":68.285,"2":87.882,"10":1.027,"3":87.882,"4":87.882,"504":1.027}`
+For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "6": 68.285, "10": 1.027, "20": 1.027, "144": 1.027, "504": 1.027, "1008": 1.027 }`
 
 ## Transaction format
 
