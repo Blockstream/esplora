@@ -72,7 +72,7 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 
   service_account {
     email  = google_service_account.daemon[0].email
-    scopes = ["compute-rw", "storage-ro"]
+    scopes = ["compute-rw", "storage-ro", "https://www.googleapis.com/auth/logging.write"]
   }
 
   lifecycle {
