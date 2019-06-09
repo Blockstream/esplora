@@ -11,7 +11,7 @@ const staticRoot = process.env.STATIC_ROOT || ''
 
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
-export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, openBlock, goBlock, tipHeight, loading, page, ...S }, txsStatus=makeStatus(b)) => b && layout(
+export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, openBlock, goBlock, tipHeight, loading, page, txsStatus=makeStatus(b), ...S }) => b && layout(
   <div>
     <div className="jumbotron jumbotron-fluid block-page">
       <div className="container">
