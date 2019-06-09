@@ -1,0 +1,18 @@
+# Dump the current mempool and return it
+location = /_sync/mempool {
+    auth_basic "private";
+    auth_basic_user_file /srv/explorer/htpasswd;
+
+    content_by_lua_block {
+        os.execute("/usr/bin/cli savemempool");
+        ngx.exec("/_sync/mempool.dat");
+    }
+}
+
+# Return mempool.dat without dumping it first, used as an internal redirect
+# from the location block above
+location = /_sync/mempool.dat {
+    auth_basic "private";
+    auth_basic_user_file /srv/explorer/htpasswd;
+    alias {DAEMON_DIR}/mempool.dat;
+}

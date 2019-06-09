@@ -7,7 +7,7 @@ COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install nginx tor git curl pkg-config libcairo2-dev libjpeg-dev libgif-dev build-essential libpixman-1-dev runit python procps socat
+ && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl pkg-config libcairo2-dev libjpeg-dev libgif-dev build-essential libpixman-1-dev runit python procps socat
 
 RUN mkdir -p /srv/explorer/static
 
@@ -40,7 +40,7 @@ RUN source /root/.nvm/nvm.sh \
 RUN cp /srv/explorer/source/run.sh /srv/explorer/
 
 # cleanup
-RUN apt-get --auto-remove remove -yqq --purge manpages git curl \
+RUN apt-get --auto-remove remove -yqq --purge manpages git \
  && apt-get clean \
  && apt-get autoclean \
  && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo

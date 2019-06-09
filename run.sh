@@ -4,6 +4,8 @@ set -eo pipefail
 FLAVOR=$1
 MODE=$2
 DEBUG=$3
+SYNC_SECRET=$4
+SYNC_SOURCE=$5
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-testnet, bitcoin-mainnet or liquid-mainnet as a parameter"
@@ -19,6 +21,13 @@ TEMPLATE=$(echo ${FLAVOR} | cut -d'-' -f3)
 STATIC_DIR=/srv/explorer/static/$FLAVOR
 
 ELECTRS_NETWORK=${NETWORK}
+
+DAEMON_DIR="/data/$DAEMON"
+if [ "$DAEMON-$NETWORK" == "bitcoin-testnet" ]; then
+  DAEMON_DIR="$DAEMON_DIR/testnet"
+elif [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
+  DAEMON_DIR="$DAEMON_DIR/liquidv1"
+fi
 
 
 mkdir -p /etc/service/tor/log
@@ -61,6 +70,7 @@ function preprocess(){
    out_file=$2
    cat $in_file | \
    sed -e "s|{DAEMON}|$DAEMON|g" \
+       -e "s|{DAEMON_DIR}|$DAEMON_DIR|g" \
        -e "s|{NETWORK}|$NETWORK|g" \
        -e "s|{STATIC_DIR}|$STATIC_DIR|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
@@ -126,6 +136,21 @@ else
 fi
 
 preprocess /srv/explorer/source/contrib/nginx.conf.in /etc/nginx/sites-enabled/default
+
+# Make mempool contents available over nginx, protected with SYNC_SECRET
+if [ -n "$SYNC_SECRET" ]; then
+    #echo "$SYNC_SECRET" | htpasswd -c -i /srv/explorer/htpasswd sync
+    echo "sync:{PLAIN}$SYNC_SECRET" > /srv/explorer/htpasswd
+    preprocess /srv/explorer/source/contrib/nginx-sync.conf.in /tmp/nginx-sync.conf
+    # insert nginx-sync.conf inside the server {} block
+    sed -i '/^server {/r /tmp/nginx-sync.conf' /etc/nginx/sites-enabled/default
+    rm /tmp/nginx-sync.conf
+
+    # nginx needs to be able to read the cookie file (to query the rpc), as well as the mempool.dat file
+    # XXX: is running as root acceptable?
+    sed -i 's/^user www-data/user root/' /etc/nginx/nginx.conf
+fi
+
 preprocess /srv/explorer/source/cli.sh.in /usr/bin/cli
 if [ "${DAEMON}" == "liquid" ]; then
     DAEMON=bitcoin
@@ -136,10 +161,8 @@ fi
 
 chmod +x /usr/bin/cli
 
-if [ ! -d /data/logs ]; then
-    # initial sync: initialize directories
-    mkdir -p /data/logs /data/${DAEMON} /data/bitcoin
-fi
+# initialize directories
+mkdir -p /data/logs /data/${DAEMON} /data/bitcoin
 
 mkdir -p /etc/service/${DAEMON}/log
 mkdir -p /data/logs/nodedaemon
@@ -147,5 +170,17 @@ preprocess /srv/explorer/source/contrib/runits/nodedaemon.runit /etc/service/${D
 cp /srv/explorer/source/contrib/runits/nodedaemon-log.runit /etc/service/${DAEMON}/log/run
 cp /srv/explorer/source/contrib/runits/nodedaemon-log-config.runit /data/logs/nodedaemon/config
 chmod +x /etc/service/${DAEMON}/run
+
+# Sync mempool contents from SYNC_SOURCE
+if [ -n "$SYNC_SOURCE" ]; then
+  # wait for bitcoind to fully sync up,
+  /srv/explorer/$DAEMON/bin/${DAEMON}d -conf=/data/.$DAEMON.conf -datadir=/data/$DAEMON -daemon
+  /srv/explorer/source/contrib/bitcoind-wait-sync.sh
+  # stop it,
+  cli stop
+  # then fetch a recent mempool.dat,
+  curl -s -u sync:$SYNC_SECRET $SYNC_SOURCE/_sync/mempool > /data/$DAEMON/mempool.dat
+  # and let the runit services take over
+fi
 
 exec /srv/explorer/source/contrib/runit_boot.sh
