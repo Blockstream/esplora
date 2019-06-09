@@ -42,11 +42,11 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
       <div className="mono">{vout.scriptpubkey}</div>
     </div>
 
-    { vout.scriptpubkey_type == 'op_return' &&
+    { vout.scriptpubkey_type == 'op_return' && ((data=getOpReturn(vout)) => data != '' &&
       <div className="vout-body-row">
         <div>{t`OP_RETURN data`}</div>
-        <div className="mono">{ getOpReturn(vout) }</div>
-      </div>
+        <div className="mono">{data}</div>
+      </div>)()
     }
 
     { (vout.asset || vout.assetcommitment) &&
@@ -96,7 +96,10 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
 , { t, ...S }
 )
 
-const getOpReturn = vout => new Buffer(vout.scriptpubkey_asm.split(' ')[2] || '', 'hex').toString('utf-8')
+const getOpReturn = vout => {
+  const pushes = vout.scriptpubkey_asm.split(' ').filter((_, i, a) => i > 0 && /^OP_PUSH/.test(a[i-1]))
+  return new Buffer(pushes.join('20' /* space */), 'hex').toString('utf-8')
+}
 
 export default (vout, opt) =>
   vout.scriptpubkey_type == 'fee' ? fee(vout, opt)
