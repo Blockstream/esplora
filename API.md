@@ -200,12 +200,13 @@ For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "6": 68.285, "10": 1.027,
 Get information about an issued assets. Returns an object with:
 
 - `asset_id`
-- `issuance_txin`
+- `issuance_txin`: the issuance transaction input
   - `txid`
   - `vin`
-- `issuance_prevout`
+- `issuance_prevout`: the previous output spent for the issuance
   - `txid`
   - `vout`
+- `status`: the confirmation status of the initial asset issuance transaction
 - `contract_hash`: the contract hash committed as the issuance entropy
 - `reissuance_token`: the asset id of the reissuance token
 - `chain_stats` and `mempool_stats`
