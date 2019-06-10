@@ -53,6 +53,14 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
           </div>
 
+          <div>
+            <div>{t`Included in Block`}</div>
+            <div>{ asset.status.confirmed
+              ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
+              : t`Unconfirmed`
+            }</div>
+          </div>
+
           { asset.contract_hash && <div>
             <div>{t`Contract hash`}</div>
             <div className="mono">{asset.contract_hash}</div>
