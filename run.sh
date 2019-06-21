@@ -170,6 +170,9 @@ if [ "${DAEMON}" == "liquid" ]; then
     preprocess /srv/explorer/source/cli.sh.in /usr/bin/cli_bitcoin
     DAEMON=liquid
     chmod +x /usr/bin/cli_bitcoin
+
+    # insert nginx-liquid-assets.conf into the server {  } block
+    sed -i '/^server {/r /srv/explorer/source/contrib/nginx-liquid-assets.conf' /etc/nginx/sites-enabled/default
 fi
 
 chmod +x /usr/bin/cli
