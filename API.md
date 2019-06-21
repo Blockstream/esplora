@@ -264,8 +264,10 @@ Does not include regular transactions transferring this asset.
   - `issuance` (available for asset issuance transactions, `null` otherwise)
     - `asset_id`
     - `is_reissuance`
+    - `asset_id`
     - `asset_blinding_nonce`
     - `asset_entropy`
+    - `contract_hash`
     - `assetamount` or `assetamountcommitment`
     - `tokenamount` or `tokenamountcommitment`
 - `vout[]`

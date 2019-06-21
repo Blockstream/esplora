@@ -41,11 +41,10 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
         <div>{vin.issuance.is_reissuance ? t`Reissuance` : t`New asset`}</div>
       </div>
 
-    , vin.issuance.asset_id &&
-        <div className="vin-body-row">
-          <div>{t`Issued asset id`}</div>
-          <div className="mono"><a href={`asset/${vin.issuance.asset_id}`}>{vin.issuance.asset_id}</a></div>
-        </div>
+    , <div className="vin-body-row">
+        <div>{t`Issued asset id`}</div>
+        <div className="mono"><a href={`asset/${vin.issuance.asset_id}`}>{vin.issuance.asset_id}</a></div>
+      </div>
 
     , assetMeta && (([ domain, ticker, name, precision ] = assetMeta) =>
         <div className="vin-body-row">
@@ -55,11 +54,16 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
           </div>
         </div>)()
 
-    , vin.issuance.asset_entropy &&
+    , vin.issuance.contract_hash &&
         <div className="vin-body-row">
-          <div>{!vin.issuance.is_reissuance ? t`Contract hash` : t`Issuance entropy`}</div>
-          <div className="mono">{vin.issuance.asset_entropy}</div>
+          <div>{t`Contract hash`}</div>
+          <div className="mono">{vin.issuance.contract_hash}</div>
         </div>
+
+    , <div className="vin-body-row">
+        <div>{t`Asset entropy`}</div>
+        <div className="mono">{vin.issuance.asset_entropy}</div>
+      </div>
 
     , <div className="vin-body-row">
         <div>{!vin.issuance.assetamountcommitment ? t`Issued amount` : t`Amount commitment`}</div>
