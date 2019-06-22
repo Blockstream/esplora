@@ -77,7 +77,7 @@ export default function getPrivacyAnalysis(tx) {
   // Exact-sized transfers (no change) are an indication the bitcoins likely didn't change ownership
   // this usually means the user used the "send max" feature to transfer funds to her new wallet or
   // to her exchange account, to sell-off fork coins, or to fund a lightning channel
-  if (outs.length == 1) {
+  if (outs.length == 1 && isSpendable(outs[0])) {
     detected.push('self-transfer')
   }
 
