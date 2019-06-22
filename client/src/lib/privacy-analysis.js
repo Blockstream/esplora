@@ -74,9 +74,10 @@ export default function getPrivacyAnalysis(tx) {
     detected.push('internal-address-reuse')
   }
 
-  // Exact-sized transfers (no change) are an indication the bitcoins likely didn't change ownership
-  // this usually means the user used the "send max" feature to transfer funds to her new wallet or
-  // to her exchange account, to sell-off fork coins, or to fund a lightning channel
+  // Exact-sized transfers (no change) are an indication the bitcoins possibly didn't change ownership.
+  // this could mean the user used the "send max" feature to transfer funds to her new wallet or
+  // to her exchange account, to sell-off fork coins, or to fund a lightning channel. it could also
+  // mean the wallet was able to find a combination of inputs with a change small enough to waive.
   if (outs.length == 1 && isSpendable(outs[0])) {
     detected.push('self-transfer')
   }
