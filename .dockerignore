@@ -6,3 +6,4 @@ Dockerfile
 terraform
 node_modules
 client/node_modules
+*_datadir/
