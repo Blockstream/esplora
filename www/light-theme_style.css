@@ -77,11 +77,11 @@ body.theme-light {
 }
 
 .theme-light .nav-bar_moon_icon {
-    background-image: url("img/icons/moon_light.svg");
+    background-image: url("img/icons/moon_light.png");
 }
 
 .theme-light .footer_container_content_row_onion_icon {
-    background-image: url("img/onion_light.svg");
+    background-image: url("img/onion_light.png");
 }
 
 .theme-light .jumbotron {

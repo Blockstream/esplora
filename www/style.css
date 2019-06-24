@@ -57,7 +57,7 @@ a, a:link, a:visited, a:hover, a:focus {
 .navbar-brand::before {
   width: 54px;
   height: 54px;
-  background: url(img/icons/menu-logo.svg);
+  background: url(img/icons/menu-logo.png);
   background-size: 54px 54px;
   display: inline-block;
   vertical-align: top;
@@ -113,7 +113,7 @@ table th {
 
 .block-header-title::before {
   content: "";
-  background-image: url("img/block.svg");
+  background-image: url("img/block.png");
   background-size: 41px 48px;
   width: 41px;
   height: 48px;
@@ -124,7 +124,7 @@ table th {
 
 .transaction-header-title::before {
   content: "";
-  background-image: url("img/transaction.svg");
+  background-image: url("img/transaction.png");
   background-size: 41px 48px;
   width: 41px;
   height: 48px;
@@ -173,7 +173,7 @@ table th {
 .search-bar .search-bar-submit:before {
   height: 22px;
   width: 22px;
-  background: url(img/icons/search.svg);
+  background: url(img/icons/search.png);
   content: '';
   display: block;
 }
@@ -870,10 +870,10 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   display: block;
 }
 .details-btn .plus:before {
-  background: url(img/icons/plus.svg);
+  background: url(img/icons/plus.png);
 }
 .details-btn .minus:before {
-  background: url(img/icons/minus.svg);
+  background: url(img/icons/minus.png);
 }
 
 .transaction-box > .ins-and-outs {
@@ -1143,7 +1143,7 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
 
 
 .footer_container_content_row_onion_icon {
-  background-image: url("img/onion.svg");
+  background-image: url("img/onion.png");
   background-repeat: no-repeat;
   height: 32px;
   width: 26px;
@@ -1257,8 +1257,8 @@ img.footer_container_content_onion-links_icon {
 /* preload images. css hack via https://stackoverflow.com/a/14390213/865693 */
 body::after{
     position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
-    content: url(img/icons/plus.svg) url(img/icons/arrow_right_blu.png) url(img/icons/arrow_left_blu.png) url(img/icons/copy.png)
-             url(img/icons/menu-logo.svg) url(img/Loading.gif) url(img/icons/search.svg);
+    content: url(img/icons/plus.png) url(img/icons/arrow_right_blu.png) url(img/icons/arrow_left_blu.png) url(img/icons/copy.png)
+             url(img/icons/menu-logo.png) url(img/Loading.gif) url(img/icons/search.png);
 }
 
 /* only show loading animation when we're loading for more than 0.5s,
@@ -1328,7 +1328,7 @@ body::after{
 }
 
 .direction-arrow {
-  background: url(img/icons/arrow.svg);
+  background: url(img/icons/arrow.png);
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -1396,7 +1396,7 @@ body::after{
 }
 
 .nav-bar_moon_icon {
-  background-image: url("img/icons/moon_dark.svg");
+  background-image: url("img/icons/moon_dark.png");
   background-repeat: no-repeat;
   width: 25px;
   height: 27px;

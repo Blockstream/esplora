@@ -13,7 +13,7 @@
 .footer-logo::before {
   width: 220px;
   height: 93px;
-  background-image: url(img/blockstream-full-logo.svg);
+  background-image: url(img/blockstream-full-logo.png);
   background-size: 100%;
   content: ' ';
   display: block;
@@ -25,7 +25,7 @@
   margin-top: 5px;
 }
 .theme-light .footer-logo::before {
-  background-image: url(img/blockstream-full-logo-light.svg);
+  background-image: url(img/blockstream-full-logo-light.png);
 }
 
 @media only screen and (max-width: 1000px) {
