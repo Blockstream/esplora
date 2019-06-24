@@ -186,7 +186,7 @@ if [ -n "$SYNC_SOURCE" ]; then
     cli_bitcoin stop
   fi
   # then fetch a recent mempool.dat,
-  curl -s -u sync:$SYNC_SECRET -o /data/$DAEMON/mempool.dat $SYNC_SOURCE
+  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE || true
   # and let the runit services take over
 fi
 
