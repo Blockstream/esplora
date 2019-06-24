@@ -179,7 +179,7 @@ if [ -n "$SYNC_SOURCE" ]; then
   # stop it,
   cli stop
   # then fetch a recent mempool.dat,
-  curl -s -u sync:$SYNC_SECRET $SYNC_SOURCE/_sync/mempool > /data/$DAEMON/mempool.dat
+  curl -s -u sync:$SYNC_SECRET -o /data/$DAEMON/mempool.dat $SYNC_SOURCE/_sync/mempool
   # and let the runit services take over
 fi
 
