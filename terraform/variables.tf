@@ -36,64 +36,64 @@ locals {
 }
 
 variable "project" {
-  type    = "string"
+  type    = string
   default = "green-address-explorer"
 }
 
 variable "region" {
-  type    = "string"
+  type    = string
   default = "overwritten_by_ci"
 }
 
 variable "machine_type" {
-  type    = "string"
+  type    = string
   default = "overwritten_by_ci"
 }
 
 variable "cluster_size" {
-  type    = "string"
+  type    = string
   default = "overwritten_by_ci"
 }
 
 # lists overwritten by ci
 variable "regions" {
-  type    = "list"
+  type    = list
   default = [""]
 }
 
 variable "ssl_certs" {
-  type    = "list"
+  type    = list
   default = []
 }
 
 variable "zones" {
-  type    = "list"
+  type    = list
   default = [""]
 }
 
 variable "instance_type" {
-  type    = "list"
+  type    = list
   default = ["", "", "", ""]
 }
 
 variable "preemptible_instance_type" {
-  type    = "list"
+  type    = list
   default = ["", "", "", ""]
 }
 
 variable "hosts" {
-  type    = "list"
+  type    = list
   default = [""]
 }
 
 variable "hosts_onion" {
-  type    = "list"
+  type    = list
   default = ["", ""]
 }
 
 # some hardcoded vars and misc
 variable "docker_tag_nginx" {
-  type = "string"
+  type = string
 
   # docker inspect --format='{{index .RepoDigests 0}}' nginx:alpine
 
@@ -101,7 +101,7 @@ variable "docker_tag_nginx" {
 }
 
 variable "docker_tag_node_exporter" {
-  type = "string"
+  type = string
 
   # docker inspect --format='{{index .RepoDigests 0}}' prom/node-exporter:v0.16.0
 
@@ -109,28 +109,28 @@ variable "docker_tag_node_exporter" {
 }
 
 variable "docker_tag_explorer" {
-  type    = "string"
+  type    = string
   default = "overwritten_by_ci"
 }
 
 variable "docker_tag_tor" {
-  type    = "string"
+  type    = string
   default = "blockstream/tor@sha256:f4d1373cde79fd79b467d2d6da88e37b0da137924bc10ae2d51a83c686c2c125"
 }
 
 variable "docker_tag_prometheus" {
-  type    = "string"
+  type    = string
   default = "gcr.io/green-address-explorer/prometheus@sha256:f3817443defecd22e51017769a8835dca21ea87f7d1edf6d78e007c90e813843"
 }
 
 variable "min_ready_sec" {
-  type        = "string"
+  type        = string
   description = "How long should autoscaling wait before executing another action?"
   default     = "900"
 }
 
 variable "initial_delay_sec" {
-  type        = "string"
+  type        = string
   description = "How long should the instance group healthcheck wait before checking instances?"
   default     = "1800"
 }
@@ -149,6 +149,16 @@ variable "kms_location" {
 }
 
 variable "image_source_project" {
-  type    = "string"
+  type    = string
+  default = ""
+}
+
+variable "mempooldat" {
+  type    = string
+  default = ""
+}
+
+variable "fullurl" {
+  type    = string
   default = ""
 }

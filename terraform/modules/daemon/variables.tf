@@ -1,74 +1,84 @@
 variable "create_resources" {
-  type = "string"
+  type = string
 }
 
 variable "project" {
-  type    = "string"
+  type    = string
   default = "green-address-explorer"
 }
 
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "daemon" {
-  type = "string"
+  type = string
 }
 
 variable "network" {
-  type = "string"
+  type = string
 }
 
 variable "regions" {
-  type = "list"
+  type = list
 }
 
 variable "instance_type" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 variable "preemptible_instance_type" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 variable "size" {
-  type = "string"
+  type = string
 }
 
 variable "boot-image" {
-  type    = "string"
+  type    = string
   default = "cos-cloud/cos-stable"
 }
 
 variable "service_account_prom" {
-  type = "string"
+  type = string
 }
 
 variable "docker_tag_node_exporter" {
-  type = "string"
+  type = string
 }
 
 variable "docker_tag_explorer" {
-  type = "string"
+  type = string
 }
 
 variable "docker_tag_gcloud" {
-  type    = "string"
+  type    = string
   default = "google/cloud-sdk@sha256:ff12e5d576a0754bcc25073e8bad8ae07623af66fa4c4f4a037ca33f46855028"
 }
 
 variable "min_ready_sec" {
-  type    = "string"
+  type    = string
   default = "1800"
 }
 
 variable "initial_delay_sec" {
-  type    = "string"
+  type    = string
   default = "1800"
 }
 
 variable "image_source_project" {
-  type = "string"
+  type = string
+}
+
+variable "mempooldat" {
+  type    = string
+  default = ""
+}
+
+variable "fullurl" {
+  type    = string
+  default = ""
 }

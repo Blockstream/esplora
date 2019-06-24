@@ -14,6 +14,8 @@ data "template_file" "daemon" {
     docker_tag_node_exporter = var.docker_tag_node_exporter
     docker_tag_gcloud        = var.docker_tag_gcloud
     image_source_project     = var.image_source_project
+    mempooldat               = var.mempooldat
+    fullurl                  = var.fullurl
   }
 }
 
