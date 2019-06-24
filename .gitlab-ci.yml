@@ -187,6 +187,8 @@ plan_bitcoin_mainnet:
         -var "min_ready_sec=300"
         -var "initial_delay_sec=2400"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/_sync/mempool"
         -input=false)
 
 deploy_bitcoin_mainnet:
@@ -212,6 +214,8 @@ deploy_bitcoin_mainnet:
         -var "min_ready_sec=300"
         -var "initial_delay_sec=2400"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/_sync/mempool"
         -input=false -auto-approve)
 
 plan_bitcoin_testnet:
@@ -236,6 +240,8 @@ plan_bitcoin_testnet:
         -var "min_ready_sec=60"
         -var "initial_delay_sec=600"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/testnet/_sync/mempool"
         -input=false)
 
 deploy_bitcoin_testnet:
@@ -261,6 +267,8 @@ deploy_bitcoin_testnet:
         -var "min_ready_sec=60"
         -var "initial_delay_sec=600"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/testnet/_sync/mempool"
         -input=false -auto-approve)
 
 plan_liquid_mainnet:
@@ -285,6 +293,8 @@ plan_liquid_mainnet:
         -var "min_ready_sec=120"
         -var "initial_delay_sec=1200"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
         -input=false)
 
 deploy_liquid_mainnet:
@@ -310,4 +320,6 @@ deploy_liquid_mainnet:
         -var "min_ready_sec=120"
         -var "initial_delay_sec=1200"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
         -input=false -auto-approve)
