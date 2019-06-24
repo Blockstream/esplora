@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-cli -rpcwait getblockchaininfo > /dev/null
+$1 -rpcwait getblockchaininfo > /dev/null
 
 while :; do
-  chaininfo=$(cli getblockchaininfo)
+  chaininfo=$($1 getblockchaininfo)
   headers=$(echo "$chaininfo" | egrep -o '"headers": [0-9]+' | cut -d' ' -f2)
   blocks=$(echo "$chaininfo" | egrep -o '"blocks": [0-9]+' | cut -d' ' -f2)
   ibd=$(echo "$chaininfo" | egrep -o '"initialblockdownload": [a-z]+' | cut -d' ' -f2)

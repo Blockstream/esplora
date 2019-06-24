@@ -174,10 +174,17 @@ chmod +x /etc/service/${DAEMON}/run
 # Sync mempool contents from SYNC_SOURCE
 if [ -n "$SYNC_SOURCE" ]; then
   # wait for bitcoind to fully sync up,
+  if [ "${DAEMON}" == "liquid" ]; then
+    /srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin.conf -datadir=/data/bitcoin -daemon
+    /srv/explorer/source/contrib/bitcoind-wait-sync.sh cli_bitcoin
+  fi
   /srv/explorer/$DAEMON/bin/${DAEMON}d -conf=/data/.$DAEMON.conf -datadir=/data/$DAEMON -daemon
-  /srv/explorer/source/contrib/bitcoind-wait-sync.sh
+  /srv/explorer/source/contrib/bitcoind-wait-sync.sh cli
   # stop it,
   cli stop
+  if [ "${DAEMON}" == "liquid" ]; then
+    cli_bitcoin stop
+  fi
   # then fetch a recent mempool.dat,
   curl -s -u sync:$SYNC_SECRET -o /data/$DAEMON/mempool.dat $SYNC_SOURCE
   # and let the runit services take over
