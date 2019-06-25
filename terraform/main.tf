@@ -64,6 +64,8 @@ module "bitcoin-testnet" {
   regions                   = [var.regions[0]]
   name                      = "bitcoin-testnet"
   daemon                    = "bitcoin"
+  mempooldat                = var.mempooldat
+  fullurl                   = var.fullurl
   network                   = "testnet"
   instance_type             = var.instance_type[1]
   preemptible_instance_type = var.preemptible_instance_type[1]
@@ -101,6 +103,8 @@ module "bitcoin-mainnet" {
   name                      = "bitcoin-mainnet"
   daemon                    = "bitcoin"
   network                   = "mainnet"
+  mempooldat                = var.mempooldat
+  fullurl                   = var.fullurl
   instance_type             = var.instance_type[0]
   preemptible_instance_type = var.preemptible_instance_type[0]
   size                      = var.cluster_size
@@ -137,6 +141,8 @@ module "liquid-mainnet" {
   name                      = "liquid-mainnet"
   daemon                    = "liquid"
   network                   = "mainnet"
+  mempooldat                = var.mempooldat
+  fullurl                   = var.fullurl
   instance_type             = var.instance_type[1]
   preemptible_instance_type = var.preemptible_instance_type[1]
   size                      = var.cluster_size
