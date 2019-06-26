@@ -43,8 +43,6 @@ resource "google_compute_instance_template" "preemptible-daemon" {
     type        = "explorer"
     name        = var.name
     network     = var.network
-    mempooldat  = var.mempooldat
-    fullurl     = var.fullurl
     preemptible = "1"
   }
 
