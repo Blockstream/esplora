@@ -1,3 +1,3 @@
-location /_data/assets.minimal.json {
+location /{NGINX_PATH}_data/assets.minimal.json {
   alias /srv/liquid-assets-db/index.minimal.json;
 }
