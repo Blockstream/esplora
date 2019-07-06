@@ -185,7 +185,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     ).startWith(null).scan((S, mod) => mod(S))
 
   // Asset map (elements only)
-  , assetMap$ = process.env.ASSET_MAP_URL ? reply('asset-map') : O.of({})
+  , assetMap$ = !process.env.ASSET_MAP_URL ? O.of({}) :
+      reply('asset-map')
+        // use an empty object if the map fails loading for any reason
+        .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
 
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
@@ -306,7 +309,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch asset map index on page load (once, as a foreground request)
     , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
-                                { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL })
+                                { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL, bg: true })
 
     // fetch asset and its txs
     , !process.env.ISSUED_ASSETS ? O.empty() :
