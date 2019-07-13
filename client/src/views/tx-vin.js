@@ -99,7 +99,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
 
     { vin.witness && <div className="vin-body-row">
       <div>{t`Witness`}</div>
-      <div className="mono">{vin.witness.join(' ')}</div>
+      <div className="mono">{vin.witness.map(wit => [ ' ', wit.length ? wit : <em>&lt;empty&gt;</em> ])}</div>
     </div> }
 
     { vin.inner_redeemscript_asm && <div className="vin-body-row">
