@@ -67,7 +67,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           </div> }
 
           { asset.entity && <div>
-            <div>{t(`Linked ${entity_type}`)}</div>
+            <div>{t(`Issuer ${entity_type}`)}</div>
             <div>{asset.entity[entity_type]}</div>
           </div> }
 
@@ -77,12 +77,12 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           </div> }
 
           { asset.name && <div>
-            <div>{t`Description`}</div>
+            <div>{t`Name`}</div>
             <div>{asset.name}</div>
           </div> }
 
           <div>
-            <div>{t`Decimal places`}</div>
+            <div>{t`Precision - decimal places`}</div>
             <div>{asset.precision || 0}</div>
           </div>
 
