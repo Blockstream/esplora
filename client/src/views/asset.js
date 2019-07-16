@@ -49,6 +49,11 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
       <div className="container">
         <div className="stats-table">
           <div>
+            <div>{t`Asset id`}</div>
+            <div className="mono">{asset.asset_id}</div>
+          </div>
+
+          <div>
             <div>{t`Issuance transaction`}</div>
             <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
           </div>
