@@ -11,7 +11,7 @@ export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang
 
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
 
-export const formatAmount = (value, precision=0, t) =>
+export const formatAssetAmount = (value, precision=0, t) =>
   <span title={t`${formatNumber(value)} base units`}>
     {formatNumber(precision > 0 ? moveDec(value, -precision) : value)}
   </span>
@@ -26,7 +26,7 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
       , short_id = vout.asset && vout.asset.substr(0, 10)
       , asset_url = vout.asset && `asset/${vout.asset}`
 
-  const amount_el = formatAmount(vout.value, precision, t)
+  const amount_el = formatAssetAmount(vout.value, precision, t)
       , asset_link = vout.asset && <a href={asset_url}>{short_id}</a>
 
   return domain ? <span>{amount_el} {shortDisplay||<br />} <span title={name}>{`${domain} ${ticker || ''}`}</span>{shortDisplay || [<br/>,<em title={vout.asset}>{asset_link}</em>]}</span>

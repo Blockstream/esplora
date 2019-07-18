@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
-import { formatNumber, formatJson, formatAmount } from './util'
+import { formatNumber, formatJson, formatAssetAmount } from './util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
@@ -99,22 +99,22 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
           <div>
             <div>{t`Issued amount`}</div>
             <div>{chain_stats.has_blinded_issuances ? t`Confidential`
-                 : formatAmount(chain_stats.issued_amount, asset.precision, t) }</div>
+                 : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
           </div>
 
           { mempool_stats.issued_amount > 0 && <div>
             <div>{t`Issued amount (unconfirmed)`}</div>
-            <div>{formatAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
+            <div>{formatAssetAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
           </div> }
 
           { chain_stats.burned_amount > 0 && <div>
             <div>{t`Burned amount`}</div>
-            <div>{formatAmount(chain_stats.burned_amount, asset.precision, t)}</div>
+            <div>{formatAssetAmount(chain_stats.burned_amount, asset.precision, t)}</div>
           </div> }
 
           { mempool_stats.burned_amount > 0 && <div>
             <div>{t`Burned amount (unconfirmed)`}</div>
-            <div>{formatAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
+            <div>{formatAssetAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
           </div> }
 
           <div>
