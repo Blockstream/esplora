@@ -11,4 +11,8 @@ export { error, notFound }    from './error'
 
 if (process.env.ISSUED_ASSETS) {
   exports.asset = require('./asset').default
+
+  if (process.env.ASSET_MAP_URL) {
+    exports.assetList = require('./asset-list').default
+  }
 }

@@ -15,7 +15,7 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') ? path : apiBase + path })
 
-const reservedPaths = [ 'mempool' ]
+const reservedPaths = [ 'mempool', 'assets' ]
 
 // Temporary bug workaround. Listening with on('form.search', 'submit') was unable
 // to catch some form submissions.
@@ -52,6 +52,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
+
+  , goAssetList$ = !process.env.ISSUED_ASSETS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -205,6 +207,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
+                  , goAssetList$.mapTo('assetList')
                   , error$.mapTo('error'))
       .combineLatest(isReady$, loading$, (view, isReady, loading) =>
         !isReady ? 'loading' : view || (loading ? 'loading' : 'notFound'))
