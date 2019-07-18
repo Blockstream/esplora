@@ -53,6 +53,26 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div className="mono">{asset.asset_id}</div>
           </div>
 
+          { asset.name && <div>
+            <div>{t`Name`}</div>
+            <div>{asset.name}</div>
+          </div> }
+
+          <div>
+            <div>{t`Precision - decimal places`}</div>
+            <div>{asset.precision || 0}</div>
+          </div>
+
+          { asset.ticker && <div>
+            <div>{t`Ticker`}</div>
+            <div>{asset.ticker}</div>
+          </div> }
+
+          { asset.entity && <div>
+            <div>{t(`Issuer ${entity_type}`)}</div>
+            <div>{asset.entity[entity_type]}</div>
+          </div> }
+
           <div>
             <div>{t`Issuance transaction`}</div>
             <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
@@ -64,31 +84,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
               ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
               : t`Unconfirmed`
             }</div>
-          </div>
-
-          { asset.contract_hash && <div>
-            <div>{t`Contract hash`}</div>
-            <div className="mono">{asset.contract_hash}</div>
-          </div> }
-
-          { asset.entity && <div>
-            <div>{t(`Issuer ${entity_type}`)}</div>
-            <div>{asset.entity[entity_type]}</div>
-          </div> }
-
-          { asset.ticker && <div>
-            <div>{t`Ticker`}</div>
-            <div>{asset.ticker}</div>
-          </div> }
-
-          { asset.name && <div>
-            <div>{t`Name`}</div>
-            <div>{asset.name}</div>
-          </div> }
-
-          <div>
-            <div>{t`Precision - decimal places`}</div>
-            <div>{asset.precision || 0}</div>
           </div>
 
           <div>
@@ -143,6 +138,11 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{t`Re-issuable`}</div>
             <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
           </div>
+
+          { asset.contract_hash && <div>
+            <div>{t`Contract hash`}</div>
+            <div className="mono">{asset.contract_hash}</div>
+          </div> }
 
           { asset.contract && <div>
             <div>{t`Contract JSON`}</div>
