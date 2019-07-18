@@ -13,7 +13,7 @@ export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2b
 
 export const formatAssetAmount = (value, precision=0, t) =>
   <span title={t`${formatNumber(value)} base units`}>
-    {formatNumber(precision > 0 ? moveDec(value, -precision) : value)}
+    {formatNumber(precision > 0 ? moveDec(value, -precision) : value, precision)}
   </span>
 
 export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
@@ -39,14 +39,22 @@ export const formatHex = num => {
   return '0x' + (str.length%2 ? '0' : '') + str
 }
 
-export const formatNumber = s => {
+// Formats a number for display. Treats the number as a string to avoid rounding errors.
+export const formatNumber = (s, precision=null) => {
+  let [ whole, dec ] = s.toString().split('.')
+
   // divide numbers into groups of three separated with a thin space (U+202F, "NARROW NO-BREAK SPACE"),
   // but only when there are more than a total of 5 non-decimal digits.
-  if (s >= 10000) {
-    const [ whole, dec ] = s.toString().split('.')
-    return whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F") + (dec != null ? '.'+dec : '')
+  if (whole.length >= 5) {
+    whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")
   }
-  return s
+
+  if (precision != null && precision > 0) {
+    if (dec == null) dec = '0'.repeat(precision)
+    else if (dec.length < precision) dec += '0'.repeat(precision - dec.length)
+  }
+
+  return whole + (dec != null ? '.'+dec : '')
 }
 
 export const formatJson = obj =>
