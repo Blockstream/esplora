@@ -18,16 +18,20 @@ export default ({ assetMap, t, ...S }) => {
 
       <div className="container">
         { !assets.length ? <p>{t`No registered assets`}</p>
-        : <div className="transactions-table">
-              <div className="transactions-table-row header">
-                <div className="transactions-table-cell">{t`Asset ID`}</div>
-                <div className="transactions-table-cell">{t`Name`}</div>
+        : <div className="assets-table">
+              <div className="assets-table-row header">
+                <div className="assets-table-cell">{t`Name`}</div>
+                <div className="assets-table-cell ticker">{t`Ticker`}</div>
+                <div className="assets-table-cell">{t`Issuer domain`}</div>
+                <div className="assets-table-cell">{t`Asset ID`}</div>
               </div>
               {assets.map(asset =>
-                <div className="transactions-table-link-row">
-                  <a className="transactions-table-row transaction-data" href={`asset/${asset.asset_id}`}>
-                    <div className="transactions-table-cell highlighted-text" data-label={t`Asset ID`}>{asset.asset_id}</div>
-                    <div className="transactions-table-cell" data-label={t`Name`}>{asset.name}</div>
+                <div className="assets-table-link-row">
+                  <a className="assets-table-row asset-data" href={`asset/${asset.asset_id}`}>
+                    <div className="assets-table-cell" data-label={t`Name`}>{asset.name}</div>
+                    <div className="assets-table-cell ticker" data-label={t`Ticker`}>{asset.ticker}</div>
+                    <div className="assets-table-cell" data-label={t`Issuer domain`}>{asset.domain}</div>
+                    <div className="assets-table-cell asset-id highlighted-text" data-label={t`Asset ID`}>{asset.asset_id}</div>
                   </a>
                 </div>
               )}
