@@ -1,9 +1,8 @@
 variables:
   CI_DISPOSABLE_ENVIRONMENT: "true"
-  CLOUD_SDK_VERSION: "218.0.0"
   DOCKER_DRIVER: overlay2
 
-image: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
+image: blockstream/gcloud-docker@sha256:f6e933f2407d6405317c0fdca5db707c5396f5d4a879a2c17338eda158a0cc87
 stages:
   - build
   - plan
@@ -19,8 +18,6 @@ before_script:
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
 test_docker_build_image:
-  except:
-    - schedules
   image: docker@sha256:16a1f4b3e64c5a8e1ac80987bc2b8907dbc1c79c1b13be0781f4d24a2072e698
   stage: build
   before_script:
@@ -71,19 +68,25 @@ build:
           -t blockstream/esplora:$CI_COMMIT_SHA .
         && docker push blockstream/esplora:$CI_COMMIT_SHA)
 
+build_push_builder_tag:
+  stage: build
+  only:
+    - branches@greenaddress/esplora
+  when: manual
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder 
+    - docker push blockstream/esplora:builder 
+
 plan:
   except:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
     - /^liquid_mainnet.*/
     - master@greenaddress/esplora
-    - schedules
   only:
     - branches@greenaddress/esplora
   stage: plan
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   script:
     - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
@@ -105,12 +108,7 @@ plan:
         -input=false)
 
 plan_main:
-  except:
-    - schedules
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - master@greenaddress/esplora
     - /^main_v.*/
@@ -135,13 +133,8 @@ plan_main:
         -input=false)
 
 deploy_main:
-  except:
-    - schedules
   when: manual
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - master@greenaddress/esplora
     - /^main_v.*/
@@ -166,12 +159,7 @@ deploy_main:
         -input=false -auto-approve)
 
 plan_bitcoin_mainnet:
-  except:
-    - schedules
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^bitcoin_mainnet.*/
   script:
@@ -185,20 +173,15 @@ plan_bitcoin_mainnet:
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -var "min_ready_sec=300"
-        -var "initial_delay_sec=2400"
+        -var "initial_delay_sec=1200"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/_sync/mempool"
         -input=false)
 
 deploy_bitcoin_mainnet:
-  except:
-    - schedules
   when: manual
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^bitcoin_mainnet.*/
   script:
@@ -212,19 +195,14 @@ deploy_bitcoin_mainnet:
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -var "min_ready_sec=300"
-        -var "initial_delay_sec=2400"
+        -var "initial_delay_sec=1200"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/_sync/mempool"
         -input=false -auto-approve)
 
 plan_bitcoin_testnet:
-  except:
-    - schedules
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^bitcoin_testnet.*/
   script:
@@ -245,13 +223,8 @@ plan_bitcoin_testnet:
         -input=false)
 
 deploy_bitcoin_testnet:
-  except:
-    - schedules
   when: manual
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^bitcoin_testnet.*/
   script:
@@ -272,12 +245,7 @@ deploy_bitcoin_testnet:
         -input=false -auto-approve)
 
 plan_liquid_mainnet:
-  except:
-    - schedules
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^liquid_mainnet.*/
   script:
@@ -290,21 +258,16 @@ plan_liquid_mainnet:
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=120"
-        -var "initial_delay_sec=1200"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
         -input=false)
 
 deploy_liquid_mainnet:
-  except:
-    - schedules
   when: manual
   stage: deploy
-  image:
-    name: blockstream/gcloud-docker@sha256:e303c3f1dac35f77cead69741e83390aa25486ca9b6183f97d40e2a4c0f962fa
-    entrypoint: [""]
   only:
     - /^liquid_mainnet.*/
   script:
@@ -317,8 +280,8 @@ deploy_liquid_mainnet:
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
-        -var "min_ready_sec=120"
-        -var "initial_delay_sec=1200"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
