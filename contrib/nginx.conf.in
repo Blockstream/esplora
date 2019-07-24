@@ -39,7 +39,7 @@ server {
     location = /{NGINX_PATH}nojs {
         return 301 " /{NGINX_PATH}nojs/";
     }
-    location ~ ^/{NGINX_PATH}((tx|block|block-height|address|asset)/|[a-zA-Z0-9]+$) {
+    location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|[a-zA-Z0-9]+$) {
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
