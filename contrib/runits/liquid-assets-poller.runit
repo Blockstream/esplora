@@ -9,7 +9,9 @@ if [ ! -f /usr/bin/gitgpg ]; then
 fi
 
 # Clone repo
-git clone -c gpg.program=gitgpg --no-checkout {ASSETS_GIT} /srv/liquid-assets-db
+if [ ! -d /srv/liquid-assets-db ]; then
+  git clone -c gpg.program=gitgpg --no-checkout {ASSETS_GIT} /srv/liquid-assets-db
+fi
 cd /srv/liquid-assets-db
 
 # Create the local keyring file with just the assets db signing key
