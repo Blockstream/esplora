@@ -68,16 +68,6 @@ build:
           -t blockstream/esplora:$CI_COMMIT_SHA .
         && docker push blockstream/esplora:$CI_COMMIT_SHA)
 
-build_push_builder_tag:
-  stage: build
-  only:
-    - branches@greenaddress/esplora
-  when: manual
-  script:
-    - docker pull blockstream/esplora:$CI_COMMIT_SHA
-    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder 
-    - docker push blockstream/esplora:builder 
-
 plan:
   except:
     - /^bitcoin_mainnet.*/
@@ -185,6 +175,9 @@ deploy_bitcoin_mainnet:
   only:
     - /^bitcoin_mainnet.*/
   script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-bitcoin-mainnet
+    - docker push blockstream/esplora:builder-bitcoin-mainnet
     - (cd terraform && terraform init -input=false &&
        terraform workspace select bitcoin-mainnet &&
        terraform apply
@@ -228,6 +221,9 @@ deploy_bitcoin_testnet:
   only:
     - /^bitcoin_testnet.*/
   script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-bitcoin-testnet
+    - docker push blockstream/esplora:builder-bitcoin-testnet
     - (cd terraform && terraform init -input=false &&
        terraform workspace select bitcoin-testnet &&
        terraform apply
@@ -271,6 +267,9 @@ deploy_liquid_mainnet:
   only:
     - /^liquid_mainnet.*/
   script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-liquid-mainnet
+    - docker push blockstream/esplora:builder-liquid-mainnet
     - (cd terraform && terraform init -input=false &&
        terraform workspace select liquid-mainnet &&
        terraform apply
