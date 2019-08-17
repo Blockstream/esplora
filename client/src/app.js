@@ -231,7 +231,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$
                      , assetMap$, goAsset$, asset$, assetTxs$
-                     , loading$, page$, view$, title$, theme$
+                     , isReady$, loading$, page$, view$, title$, theme$
                      })
 
   // Update query options with ?expand

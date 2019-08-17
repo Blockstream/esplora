@@ -43,7 +43,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
 
     lastState = S
 
-    if (S.loading) {
+    if (S.loading || !S.isReady) {
       if (!seenLoading) {
         seenLoading = true
         clearTimeout(timeout)
