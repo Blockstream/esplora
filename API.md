@@ -197,7 +197,7 @@ For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "6": 68.285, "10": 1.027,
 
 ### `GET /asset/:asset_id`
 
-Get information about an issued assets. Returns an object with:
+Get information about an issued asset. Returns an object with:
 
 - `asset_id`
 - `issuance_txin`: the issuance transaction input
