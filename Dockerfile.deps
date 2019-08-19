@@ -26,7 +26,7 @@ RUN curl -sL -o liquid.tar.gz https://github.com/ElementsProject/elements/releas
  && ln -s /srv/explorer/liquid-0.17.0 /srv/explorer/liquid \
  && rm liquid.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.36.0 \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.37.0 \
  && source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/shesek/electrs.git \
