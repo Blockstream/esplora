@@ -19,12 +19,14 @@ RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.18.1/b
  && ln -s /srv/explorer/bitcoin-0.18.1 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_LIQUID=de1c4f7306b0b3f467e743c886a9b469f506acbfb91e19c617dd6a54c7cc9c41
-RUN curl -sL -o liquid.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.17.0/liquid-0.17.0-x86_64-linux-gnu.tar.gz \
- && echo "${SHA256SUM_LIQUID}  liquid.tar.gz" | sha256sum --check \
- && tar xzf liquid.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/liquid-0.17.0 /srv/explorer/liquid \
- && rm liquid.tar.gz
+ENV SHA256SUM_ELEMENTS=eaf719c7110b35c387756595887ecf21b96d3c1d787d29542111964e9523dd60
+RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.17.0.1/elements-0.17.0.1-x86_64-linux-gnu.tar.gz \
+ && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
+ && tar xzf elements.tar.gz -C /srv/explorer \
+ && ln -s /srv/explorer/elements-0.17.0 /srv/explorer/liquid \
+ && mv /srv/explorer/liquid/bin/{elementsd,liquidd} \
+ && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
+ && rm elements.tar.gz
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.37.0 \
  && source /root/.cargo/env \
