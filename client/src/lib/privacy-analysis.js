@@ -102,6 +102,9 @@ const inputsHasType = (ins, scriptpubkey_type) =>
 const isSpendable = out => ![ 'empty', 'op_return', 'provably_unspendable', 'fee' ].includes(out.scriptpubkey_type)
 
 const lostPrecision = num => {
+  // avoid infinite loop with num = 0
+  if (num == 0) return 0;
+  
   let count = 0
   for (let d=10; num%d==0; ++count, d*=10);
   return count
