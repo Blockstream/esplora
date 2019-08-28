@@ -121,6 +121,12 @@ Returns a list of all txids in the block.
 
 The response from this endpoint can be cached indefinitely.
 
+### `GET /block/:hash/txid/:index`
+
+Returns the transaction at index `:index` within the specified block.
+
+The response from this endpoint can be cached indefinitely.
+
 ### `GET /block-height/:height`
 
 Returns the hash of the block currently at `height`.
