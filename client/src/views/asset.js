@@ -173,10 +173,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
   , { t, ...S })
 }
 
-const fmtTxos = (count, sum, t) =>
-  (count > 0 ? t`${formatNumber(count)} outputs` : t`No outputs`)
-+ (sum > 0 ? ` (${formatSat(sum)})` : '')
-
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)
   ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Issuance/Burn Transactions`

@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatOutAmount, formatAssetAmount, formatSat, formatHex, linkToAddr, formatNumber } from './util'
+import { linkToParentOut, formatOutAmount, formatAssetAmount, formatHex, linkToAddr, formatNumber } from './util'
 
 const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
   <div class={{ vin: true, selected: !!query[`input:${index}`] }}>
