@@ -19,7 +19,9 @@ export const formatAssetAmount = (value, precision=0, t) =>
 export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
   if (vout.value == null) return t`Confidential`
 
-  if (isNativeOut(vout)) return formatSat(vout.value)
+  if (isNativeOut(vout)) {
+    return <span>{formatNumber(sat2btc(vout.value))} <a href={`asset/${vout.asset}`}>{nativeAssetLabel}</a></span>
+  }
 
   const [ domain, ticker, name, _precision ] = vout.asset && assetMap && assetMap[vout.asset] || []
       , precision = _precision != null ? _precision : DEFAULT_PRECISION
