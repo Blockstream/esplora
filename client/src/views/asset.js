@@ -11,7 +11,7 @@ const staticRoot = process.env.STATIC_ROOT || ''
 export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loading, ...S }) => {
   if (!asset) return;
 
-  const { chain_stats, mempool_stats } = asset
+  const { chain_stats = {}, mempool_stats = {} } = asset
       , total_txs = chain_stats.tx_count + mempool_stats.tx_count
       , shown_txs = assetTxs ? assetTxs.length : 0
 
@@ -27,10 +27,12 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
       , entity_type = asset.entity && Object.keys(asset.entity)[0]
 
-      , is_non_reissuable = asset.chain_stats.reissuance_tokens != null && asset.chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
+      , is_non_reissuable = chain_stats.reissuance_tokens != null && chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
 
       // XXX could an asset have a mixture of blinded and non-blinded issuances?
       , has_blinded_issuances = chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
+
+      , is_native_asset = !asset.issuance_txin
 
   return layout(
     <div>
@@ -73,34 +75,34 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{asset.entity[entity_type]}</div>
           </div> }
 
-          <div>
+          { asset.issuance_txin && <div>
             <div>{t`Issuance transaction`}</div>
             <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
-          </div>
+          </div> }
 
-          <div>
+          { asset.status && <div>
             <div>{t`Included in Block`}</div>
             <div>{ asset.status.confirmed
               ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
               : t`Unconfirmed`
             }</div>
-          </div>
+          </div> }
 
-          <div>
+          { chain_stats.issuance_count > 0 && <div>
             <div>{t`Number of issuances`}</div>
             <div>{chain_stats.issuance_count}</div>
-          </div>
+          </div> }
 
           { mempool_stats.issuance_count > 0 && <div>
             <div>{t`Number of issuances (unconfirmed)`}</div>
             <div>{mempool_stats.issuance_count}</div>
           </div> }
 
-          <div>
+          { chain_stats.issued_amount > 0 && <div>
             <div>{t`Issued amount`}</div>
             <div>{chain_stats.has_blinded_issuances ? t`Confidential`
                  : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
-          </div>
+          </div> }
 
           { mempool_stats.issued_amount > 0 && <div>
             <div>{t`Issued amount (unconfirmed)`}</div>
@@ -117,12 +119,12 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{formatAssetAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
           </div> }
 
-          <div>
+          { 'reissuance_tokens' in chain_stats && <div>
             <div>{t`Reissuance tokens created`}</div>
             <div>{chain_stats.reissuance_tokens == null ? t`Confidential`
                 : chain_stats.reissuance_tokens === 0 ? t`None`
                 : formatNumber(chain_stats.reissuance_tokens) }</div>
-          </div>
+          </div> }
 
           { chain_stats.burned_reissuance_tokens > 0 && <div>
             <div>{t`Reissuance tokens burned`}</div>
@@ -134,10 +136,10 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{formatNumber(mempool_stats.burned_reissuance_tokens)}</div>
           </div>}
 
-          <div>
+          { !is_native_asset && <div>
             <div>{t`Re-issuable`}</div>
             <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
-          </div>
+          </div> }
 
           { asset.contract_hash && <div>
             <div>{t`Contract hash`}</div>
@@ -151,7 +153,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
         </div>
 
-        <div>
+        { !is_native_asset && <div>
           <div className="transactions">
             <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
             { assetTxs ? assetTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
@@ -165,7 +167,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             </div>
           </div>
 
-        </div>
+        </div> }
       </div>
     </div>
   , { t, ...S })
