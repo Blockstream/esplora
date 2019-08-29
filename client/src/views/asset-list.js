@@ -29,7 +29,7 @@ export default ({ assetMap, t, ...S }) => {
                 <div className="assets-table-link-row">
                   <a className="assets-table-row asset-data" href={`asset/${asset.asset_id}`}>
                     <div className="assets-table-cell" data-label={t`Name`}>{asset.name}</div>
-                    <div className="assets-table-cell ticker" data-label={t`Ticker`}>{asset.ticker}</div>
+                    <div className="assets-table-cell ticker" data-label={t`Ticker`}>{asset.ticker || <em>None</em>}</div>
                     <div className="assets-table-cell" data-label={t`Issuer domain`}>{asset.domain}</div>
                     <div className="assets-table-cell asset-id highlighted-text" data-label={t`Asset ID`}>{asset.asset_id}</div>
                   </a>
