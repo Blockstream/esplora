@@ -97,13 +97,11 @@
   color: #FFF !important;
 }
 
-@media only screen and (min-width: 851px) {
-  .assets-table .assets-table-row .asset-id {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+.assets-table-row:not(.header) .asset-id {
+  word-break: break-all;
+}
 
+@media only screen and (min-width: 851px) {
   .assets-table .assets-table-row .ticker {
     width: 6em;
   }
@@ -157,10 +155,6 @@
     .assets-table-row {
       /* Behave  like a "row" */
       display: block;
-    }
-
-    .assets-table-row:not(.header) .asset-id {
-      word-break: break-all;
     }
 
     div.assets-table-cell:before {
