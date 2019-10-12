@@ -1,11 +1,10 @@
 import 'babel-polyfill'
-import qrcode from 'qrcode'
 import { Observable as O } from './rxjs'
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256 } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256, makeAddressQR } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -137,7 +136,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Address and associated txs
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
-  , addrQR$ = addr$.flatMap(addr => addr ? qrcode.toDataURL(`bitcoin:${ addr.address }`) : O.of(null))
+  , addrQR$ = addr$.flatMap(addr => addr ? makeAddressQR(addr.address) : [])
   , addrTxs$ = O.merge(
       reply('addr-txs').map(txs => S => txs)
     , reply('addr-txs-more').map(txs => S => [ ...S, ...txs ])

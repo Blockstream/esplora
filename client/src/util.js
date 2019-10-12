@@ -1,11 +1,13 @@
 import qs from 'querystring'
 import bs58check from 'bs58check'
+import qrcode from 'qrcode'
 import debug from 'debug'
 import assert from 'assert'
 import { Observable as O } from './rxjs'
 
 const BLIND_PREFIX = +process.env.BLIND_PREFIX || 0x0c
     , reHash256 = /^[a-f0-9]{64}$/i
+    , reBech32 = /^[a-z]{1,83}1[ac-hj-np-z02-9]{6,100}$/
 
 // not null or undefined
 export const notNully = x => x != null
@@ -40,6 +42,15 @@ export const tryUnconfidentialAddress = addr => {
   } catch (e) {
     return addr
   }
+}
+
+export const makeAddressQR = addr => {
+  let qrstr = `bitcoin:${addr}`
+  return qrcode.toDataURL(
+    // upper-case bech32 addresses to enable the compact qr encoding mode
+    reBech32.test(addr) ? qrstr.toUpperCase() : qrstr
+  , { margin: 2, scale: 5 }
+  )
 }
 
 // Array helpers
