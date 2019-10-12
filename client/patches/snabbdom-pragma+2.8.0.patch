@@ -1,0 +1,39 @@
+diff --git a/node_modules/snabbdom-pragma/dist/index.es6.js b/node_modules/snabbdom-pragma/dist/index.es6.js
+index 77f626b..6231d3e 100644
+--- a/node_modules/snabbdom-pragma/dist/index.es6.js
++++ b/node_modules/snabbdom-pragma/dist/index.es6.js
+@@ -169,7 +169,7 @@ var createElementWithModules = function (modules) {
+     return considerSvg({
+       sel: sel,
+       data: data ? sanitizeData(data, modules) : {},
+-      children: text$$1 ? undefined : sanitizeChildren(children),
++      children: !undefinedv(text$$1) ? undefined : sanitizeChildren(children),
+       text: text$$1,
+       elm: undefined,
+       key: data ? data.key : undefined
+diff --git a/node_modules/snabbdom-pragma/dist/index.js b/node_modules/snabbdom-pragma/dist/index.js
+index db2b2ed..18e4d58 100644
+--- a/node_modules/snabbdom-pragma/dist/index.js
++++ b/node_modules/snabbdom-pragma/dist/index.js
+@@ -175,7 +175,7 @@ var createElementWithModules = function (modules) {
+     return considerSvg({
+       sel: sel,
+       data: data ? sanitizeData(data, modules) : {},
+-      children: text$$1 ? undefined : sanitizeChildren(children),
++      children: !undefinedv(text$$1) ? undefined : sanitizeChildren(children),
+       text: text$$1,
+       elm: undefined,
+       key: data ? data.key : undefined
+diff --git a/node_modules/snabbdom-pragma/src/index.js b/node_modules/snabbdom-pragma/src/index.js
+index 3c46dff..56c25c2 100644
+--- a/node_modules/snabbdom-pragma/src/index.js
++++ b/node_modules/snabbdom-pragma/src/index.js
+@@ -87,7 +87,7 @@ export const createElementWithModules = (modules) => {
+     return considerSvg({
+       sel,
+       data: data ? sanitizeData(data, modules) : {},
+-      children: text ? undefined : sanitizeChildren(children),
++      children: !is.undefinedv(text) ? undefined : sanitizeChildren(children),
+       text,
+       elm: undefined,
+       key: data ? data.key : undefined
