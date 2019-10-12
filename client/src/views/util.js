@@ -21,7 +21,7 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
     return <span>
       {formatNumber(sat2btc(vout.value))}
       { ' ' }
-      {!process.env.ISSUED_ASSETS ? nativeAssetLabel : <a href={`asset/${vout.asset}`}>{nativeAssetLabel}</a>}
+      {!vout.asset ? nativeAssetLabel : <a href={`asset/${vout.asset}`}>{nativeAssetLabel}</a>}
     </span>
   }
 
