@@ -8,12 +8,13 @@
     "dist": "../node_modules/.bin/babel -d dist src"
   },
   "dependencies": {
-    "@cycle/dom": "^22.3.0",
-    "@cycle/history": "^7.1.0",
-    "@cycle/html": "^3.1.0",
-    "@cycle/http": "^15.1.0",
+    "@cycle/dom": "^22.4.0",
+    "@cycle/history": "^7.3.0",
+    "@cycle/html": "^3.2.0",
+    "@cycle/http": "^15.2.0",
     "@cycle/rxjs-run": "^8.1.0",
     "@cycle/storage": "^5.0.3",
+    "babel-core": "^6.26.3",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babelify": "^8.0.0",
     "basic-l10n": "^2.0.0",
@@ -26,13 +27,13 @@
     "fmtbtc": "0.0.3",
     "in-browser-language": "^1.0.3",
     "instascan": "github:shesek/instascan#packaged-lib",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "path-to-regexp": "^2.4.0",
     "qrcode": "^1.4.2",
     "rxjs": "^5.5.12",
     "snabbdom-pragma": "^2.8.0",
-    "superagent": "^4.1.0",
-    "uglifyify": "^5.0.1"
+    "superagent": "^5.1.0",
+    "uglifyify": "^5.0.2"
   },
   "browserify": {
     "transform": [
