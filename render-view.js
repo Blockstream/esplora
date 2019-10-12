@@ -1,4 +1,3 @@
-process.env.NO_QR=1
 global.window = {}
 
 const pug = require('pug')

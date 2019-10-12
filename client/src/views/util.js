@@ -3,8 +3,6 @@ import moveDec from 'move-decimal-point'
 import { sat2btc } from 'fmtbtc'
 import { nativeAssetLabel, isNativeOut } from '../util'
 
-const qruri = !process.env.NO_QR && require('qruri')
-
 const DEFAULT_PRECISION = 0
 
 export const formatTime = (unix, t) => new Date(unix*1000).toLocaleString(t.lang_id, { timeZoneName: 'short' })
@@ -74,8 +72,6 @@ export const linkToParentAddr = (addr, label=addr) =>
   <a href={parentChainExplorerAddr.replace('{addr}', addr)} target="_blank" rel="external">{label}</a>
 
 export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
-
-export const addressQR = addr => qruri(`bitcoin:${addr}`, { margin: 2 })
 
 export const formatVMB = bytes =>
   bytes >= 10000 || bytes == 0 ? `${(bytes / 1000000).toFixed(2)} vMB`

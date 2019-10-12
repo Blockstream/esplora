@@ -3,12 +3,12 @@ import { last } from '../util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { formatSat, addressQR, formatNumber } from './util'
+import { formatSat, formatNumber } from './util'
 import { addrTxsPerPage as perPage, maxMempoolTxs } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, ...S }) => {
+export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, loading, ...S }) => {
   if (!addr) return;
 
   const { chain_stats, mempool_stats } = addr
@@ -46,7 +46,7 @@ export default ({ t, addr, addrTxs, goAddr, openTx, spends, tipHeight, loading, 
                 </div> }
               </div>
             </div>
-            <div className="col-sm-4"><img className="float-sm-right address-qr-code" src={ addressQR(addr.address) } /></div>
+            <div className="col-sm-4"><img className="float-sm-right address-qr-code" src={ addrQR } /></div>
           </div>
         </div>
       </div>

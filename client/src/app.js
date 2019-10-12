@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+import qrcode from 'qrcode'
 import { Observable as O } from './rxjs'
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
@@ -136,6 +137,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Address and associated txs
   , addr$ = reply('address').merge(goAddr$.mapTo(null))
+  , addrQR$ = addr$.flatMap(addr => addr ? qrcode.toDataURL(`bitcoin:${ addr.address }`) : O.of(null))
   , addrTxs$ = O.merge(
       reply('addr-txs').map(txs => S => txs)
     , reply('addr-txs-more').map(txs => S => [ ...S, ...txs ])
@@ -229,7 +231,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
-                     , goAddr$, addr$, addrTxs$
+                     , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, goAsset$, asset$, assetTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
