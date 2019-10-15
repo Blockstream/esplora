@@ -1,5 +1,5 @@
 diff --git a/node_modules/@cycle/history/lib/cjs/captureClicks.js b/node_modules/@cycle/history/lib/cjs/captureClicks.js
-index 36e6b3f..df082c9 100644
+index 36e6b3f..2ffa04c 100644
 --- a/node_modules/@cycle/history/lib/cjs/captureClicks.js
 +++ b/node_modules/@cycle/history/lib/cjs/captureClicks.js
 @@ -17,6 +17,9 @@ function sameOrigin(href) {
@@ -12,15 +12,29 @@ index 36e6b3f..df082c9 100644
  function makeClickListener(push) {
      return function clickListener(event) {
          if (which(event) !== 1) {
-@@ -51,6 +54,11 @@ function makeClickListener(push) {
+@@ -51,7 +54,13 @@ function makeClickListener(push) {
          }
          event.preventDefault();
          var pathname = element.pathname, search = element.search, _a = element.hash, hash = _a === void 0 ? '' : _a;
+-        push(pathname + search + hash);
 +
 +        // strip base href from the pathname. it gets added back by the history driver, which results
 +        // in having it twice without this fix.
-+        if (pathname.indexOf(baseHref) == 0) pathname = pathname.substr(baseHref.length-1)
++        if (pathname.indexOf(baseHref) == 0) pathname = pathname.substr(baseHref.length-1);
 +
-         push(pathname + search + hash);
++        // temporary fix for https://github.com/cyclejs/cyclejs/issues/909, until a solution is merged into cycle
++        push({ pathname, search, hash });
      };
  }
+ function captureAnchorClicks(push) {
+@@ -70,8 +79,8 @@ function captureClicks(historyDriver) {
+             start: function () { },
+             stop: function () { return typeof cleanup === 'function' && cleanup(); },
+         });
+-        cleanup = captureAnchorClicks(function (pathname) {
+-            internalSink$._n({ type: 'push', pathname: pathname });
++        cleanup = captureAnchorClicks(function (loc) {
++            internalSink$._n(Object.assign({ type: 'push' }, loc));
+         });
+         sink$._add(internalSink$);
+         return historyDriver(internalSink$);
