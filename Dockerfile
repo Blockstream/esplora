@@ -7,7 +7,7 @@ COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl runit procps socat
+ && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl runit procps socat gpg
 
 RUN mkdir -p /srv/explorer/static
 
