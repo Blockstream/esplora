@@ -41,12 +41,14 @@ export default apiBase => {
         .then(r => r.ok ? r.text : Promise.reject('invalid reply for block height'))
         .then(blockhash => request(`${apiBase}/block/${blockhash}/txid/${matches[3]}`))
         .then(r => r.ok ? r.text : Promise.reject('invalid reply for block txid'))
-        .then(txid => `/tx/${txid}?output:${matches[4]}`)
+        .then(txid => ({ pathname: `/tx/${txid}`, search: `?output:${matches[4]}` }))
         .catch(_ => null)
 
     // @XXX the tx/block/addr resource will be fetched again later for display,
     // which is somewhat wasteful but not terribly so due to browser caching.
 
     : null
-    ).share()
+    )
+    .map(result => typeof result == 'string' ? { pathname: result } : result)
+    .share()
 }

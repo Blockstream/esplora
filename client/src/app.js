@@ -339,10 +339,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Route navigation sink
   , navto$ = O.merge(
-      searchResult$.filter(Boolean).map(path => ({ type: 'push', pathname: path }))
+      searchResult$.filter(Boolean).map(result => ({ type: 'push', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
-    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
+    // XXX: replace still uses a single string with the search query (https://github.com/cyclejs/cyclejs/pull/890#issuecomment-542413707)
+    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
