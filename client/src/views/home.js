@@ -10,7 +10,7 @@ const homeLayout = (body, { t, activeTab, ...S }) => layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="explorer-title-container">
-        <img className="explorer-title-container_logo" alt="" src={`${staticRoot}img/icons/menu-logo.png`} />
+        <img className="explorer-title-container_logo" alt="" src={`${staticRoot}img/icons/menu-logo.svg`} />
         <h1 className="explorer-title-container_title">{t(process.env.HOME_TITLE || process.env.SITE_TITLE || 'Block Explorer')}</h1>
       </div>
       { search({ t, autofocus: !isTouch }) }
