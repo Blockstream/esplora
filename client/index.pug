@@ -12,8 +12,15 @@ doctype html
 head
   meta(charset='utf-8')
   title= pageTitle
-  meta(property='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Block explorer')
-  meta(name='description', content=process.env.SITE_DESC || 'Esplora Block Explorer')
+  meta(name='og:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Blockstream Block Explorer')
+  meta(name='og:description', content=process.env.SITE_DESC || 'Blockstream Explorer is an open source block explorer providing detailed blockchain data across Bitcoin, Testnet, and Liquid. Supports Tor and tracking-free.')
+  meta(name='og:image', content=process.env.OG_IMG || 'https://blockstream.info/img/social-sharing.png')
+  meta(name='og:site_name', content=process.env.OG_SITE_NAME || 'Blockstream')
+  meta(name='twitter:image', content=process.env.OG_IMG || 'https://blockstream.info/img/social-sharing.png')
+  meta(name='twitter:card', content='summary_large_image')
+  meta(name='twitter:site', content='@Blockstream')
+  meta(name='twitter:description', content=process.env.SITE_DESC || 'Blockstream Explorer is an open source block explorer providing detailed blockchain data across Bitcoin, Testnet, and Liquid. Supports Tor and tracking-free.')
+  meta(name='twitter:title', content=process.env.OG_TITLE || process.env.SITE_TITLE || 'Blockstream Block Explorer')
 
   if canon_url
     link(rel="canonical", href=canon_url)
