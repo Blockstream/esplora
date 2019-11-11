@@ -1,6 +1,11 @@
 variables:
   CI_DISPOSABLE_ENVIRONMENT: "true"
   DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:19-dind
 
 image: blockstream/gcloud-docker@sha256:f6e933f2407d6405317c0fdca5db707c5396f5d4a879a2c17338eda158a0cc87
 stages:
@@ -20,6 +25,9 @@ before_script:
 test_docker_build_image:
   image: docker@sha256:16a1f4b3e64c5a8e1ac80987bc2b8907dbc1c79c1b13be0781f4d24a2072e698
   stage: build
+  tags:
+    - docker
+    - k8s
   before_script:
     - echo "Disabling before script"
   except:
@@ -33,7 +41,6 @@ test_docker_build_image:
         -f Dockerfile.deps
         -t esplora-base .
     - docker build
-        --squash
         --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"'-->'
         --cache-from blockstream/esplora:latest
         -t esplora .
@@ -42,6 +49,9 @@ test_docker_build_image:
 
 build:
   stage: build
+  tags:
+    - docker
+    - k8s
   only:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
@@ -62,7 +72,6 @@ build:
           -t blockstream/esplora:latest .
         && docker push blockstream/esplora:latest
         && docker build
-          --squash
           --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
           --cache-from blockstream/esplora:latest
           -t blockstream/esplora:$CI_COMMIT_SHA .
@@ -172,6 +181,9 @@ plan_bitcoin_mainnet:
 deploy_bitcoin_mainnet:
   when: manual
   stage: deploy
+  tags:
+    - docker
+    - k8s
   only:
     - /^bitcoin_mainnet.*/
   script:
@@ -218,6 +230,9 @@ plan_bitcoin_testnet:
 deploy_bitcoin_testnet:
   when: manual
   stage: deploy
+  tags:
+    - docker
+    - k8s
   only:
     - /^bitcoin_testnet.*/
   script:
@@ -264,6 +279,9 @@ plan_liquid_mainnet:
 deploy_liquid_mainnet:
   when: manual
   stage: deploy
+  tags:
+    - docker
+    - k8s
   only:
     - /^liquid_mainnet.*/
   script:
