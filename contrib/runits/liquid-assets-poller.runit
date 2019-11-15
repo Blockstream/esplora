@@ -15,8 +15,7 @@ fi
 cd /srv/liquid-assets-db
 
 # Create the local keyring file with just the assets db signing key
-gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys {ASSETS_GPG}
-gpg --export {ASSETS_GPG} | gpg --no-default-keyring --keyring=git.gpg --import -
+gpg --no-default-keyring --keyring=git.gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys {ASSETS_GPG}
 
 # Verify and do an initial checkout
 git verify-commit master
