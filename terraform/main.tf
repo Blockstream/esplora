@@ -1,5 +1,12 @@
 terraform {
-  required_version = "> 0.11.0"
+  required_version = "> 0.12.0"
+
+  required_providers {
+    google      = "= ${var.provider_google_version}"
+    google-beta = "= ${var.provider_google_beta_version}"
+    null        = "= ${var.provider_null_version}"
+    template    = "= ${var.provider_template_version}"
+  }
 
   backend "gcs" {
     bucket = "terraform-bs-source"

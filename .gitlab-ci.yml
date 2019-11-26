@@ -108,6 +108,10 @@ plan:
         -var "ssl_certs=$SSL_CERTS"
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false)
 
 plan_main:
@@ -133,6 +137,10 @@ plan_main:
         -var "ssl_certs=$SSL_CERTS"
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false)
 
 deploy_main:
@@ -159,6 +167,10 @@ deploy_main:
         -var "ssl_certs=$SSL_CERTS"
         -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false -auto-approve)
 
 plan_bitcoin_mainnet:
@@ -180,6 +192,10 @@ plan_bitcoin_mainnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false)
 
 deploy_bitcoin_mainnet:
@@ -208,6 +224,10 @@ deploy_bitcoin_mainnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false -auto-approve)
 
 plan_bitcoin_testnet:
@@ -229,6 +249,10 @@ plan_bitcoin_testnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/testnet/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false)
 
 deploy_bitcoin_testnet:
@@ -257,6 +281,10 @@ deploy_bitcoin_testnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/testnet/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false -auto-approve)
 
 plan_liquid_mainnet:
@@ -278,6 +306,10 @@ plan_liquid_mainnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false)
 
 deploy_liquid_mainnet:
@@ -306,4 +338,8 @@ deploy_liquid_mainnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
+        -var "provider_google_version=$PROVIDER_GOOGLE_VERSION"
+        -var "provider_google_beta_version=$PROVIDER_GOOGLE_BETA_VERSION"
+        -var "provider_null_version=$PROVIDER_NULL_VERSION"
+        -var "provider_template_version=$PROVIDER_TEMPLATE_VERSION"
         -input=false -auto-approve)
