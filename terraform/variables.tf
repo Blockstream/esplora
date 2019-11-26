@@ -162,23 +162,3 @@ variable "fullurl" {
   type    = string
   default = ""
 }
-
-variable "provider_google_version" {
-  type    = string
-  default = "2.20"
-}
-
-variable "provider_google_beta_version" {
-  type    = string
-  default = "2.20"
-}
-
-variable "provider_null_version" {
-  type    = string
-  default = "2.1"
-}
-
-variable "provider_template_version" {
-  type    = string
-  default = "2.1"
-}
