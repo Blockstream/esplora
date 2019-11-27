@@ -23,7 +23,7 @@ if (app.settings.env == 'development')
   app.use(require('morgan')('dev'))
 
 app.use(require('cookie-parser')())
-app.use(require('body-parser').urlencoded())
+app.use(require('body-parser').urlencoded({ extended: false }))
 
 app.use((req, res, next) => {
   // TODO: optimize /block-height/nnn (no need to render the whole app just to get the redirect)
