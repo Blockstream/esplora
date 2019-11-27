@@ -14,5 +14,5 @@ for flavor in "$@"; do source ../flavors/$flavor/config.env; done
 if [ -d dist ] && [ "$NODE_ENV" != "development" ]; then
   node dist/$file.js "$@"
 else
-  babel-node src/$file.js "$@"
+  babel-node --root-mode upward --only src,../client/src src/$file.js "$@"
 fi
