@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import { Observable as O } from './rxjs'
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
