@@ -6,6 +6,7 @@ import 'rxjs/add/observable/merge'
 import 'rxjs/add/observable/combineLatest'
 import 'rxjs/add/observable/timer'
 import 'rxjs/add/observable/fromEvent'
+import 'rxjs/add/observable/from'
 
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/map'

@@ -209,23 +209,33 @@
       }
     },
     "@cycle/run": {
-      "version": "4.4.0",
-      "resolved": "https://registry.npmjs.org/@cycle/run/-/run-4.4.0.tgz",
-      "integrity": "sha512-vVxnTqKKlgasE+we9X2z3og8z5KouO2RMiIgHWkVek+NomsdaeZwfvbutqzm3VToEImaz0DE2Iln9AxtCOVjpQ==",
+      "version": "5.4.0",
+      "resolved": "https://registry.npmjs.org/@cycle/run/-/run-5.4.0.tgz",
+      "integrity": "sha512-IAFwavuZGZP39XjxL7eQyQ9e6xZUMUjvlhFd3lZoyJPavHBbW8GPiCy5SJ3NCxM6trbgQQ8agu7sr72J83clBA==",
       "requires": {
         "quicktask": "1.1.0",
         "xstream": "10.x || 11.x"
       }
     },
     "@cycle/rxjs-run": {
-      "version": "8.1.0",
-      "resolved": "https://registry.npmjs.org/@cycle/rxjs-run/-/rxjs-run-8.1.0.tgz",
-      "integrity": "sha512-CWARa0vt754UdBPpoUESGNKBpZZify1gYCIuIsEXPAe92nVCoykzQ9Iq+/VmE+JbWpqz7NiADTCqSOkeW7zc8g==",
+      "version": "10.4.0",
+      "resolved": "https://registry.npmjs.org/@cycle/rxjs-run/-/rxjs-run-10.4.0.tgz",
+      "integrity": "sha512-0vqNhR3d5/PxXaQCeEUFkOcWW3G3/qlhFMGPAAq630Gw4ZtjczTDZmU/KW/N+llraPeLr/vRZMhYE3R7cMsC4g==",
       "requires": {
-        "@cycle/run": "4.x",
-        "rxjs": "< 6.0.0",
+        "@cycle/run": "^5.2.0",
+        "rxjs": "~6.3.3",
         "symbol-observable": "^1.2.0",
         "xstream": "*"
+      },
+      "dependencies": {
+        "rxjs": {
+          "version": "6.3.3",
+          "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-6.3.3.tgz",
+          "integrity": "sha512-JTWmoY9tWCs7zvIk/CvRjhjGaOd+OVBM987mxFo+OW66cGpdKjZcpmc74ES1sB//7Kl/PAe8+wEakuhG4pcgOw==",
+          "requires": {
+            "tslib": "^1.9.0"
+          }
+        }
       }
     },
     "@cycle/storage": {
@@ -1085,19 +1095,17 @@
       }
     },
     "rxjs": {
-      "version": "5.5.12",
-      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.5.12.tgz",
-      "integrity": "sha512-xx2itnL5sBbqeeiVgNPVuQQ1nC8Jp2WfNJhXWHmElW9YmrpS9UVnNzhP3EH3HFqexO5Tlp8GhYY+WEcqcVMvGw==",
+      "version": "6.5.3",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-6.5.3.tgz",
+      "integrity": "sha512-wuYsAYYFdWTAnAaPoKGNhfpWwKZbJW+HgAJ+mImp+Epl7BG8oNWBCTyRM8gba9k4lk8BgWdoYm21Mo/RYhhbgA==",
       "requires": {
-        "symbol-observable": "1.0.1"
-      },
-      "dependencies": {
-        "symbol-observable": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.0.1.tgz",
-          "integrity": "sha1-g0D8RwLDEi310iKI+IKD9RPT/dQ="
-        }
+        "tslib": "^1.9.0"
       }
+    },
+    "rxjs-compat": {
+      "version": "6.5.3",
+      "resolved": "https://registry.npmjs.org/rxjs-compat/-/rxjs-compat-6.5.3.tgz",
+      "integrity": "sha512-BIJX2yovz3TBpjJoAZyls2QYuU6ZiCaZ+U96SmxQpuSP/qDUfiXPKOVLbThBB2WZijNHkdTTJXKRwvv5Y48H7g=="
     },
     "safe-buffer": {
       "version": "5.1.2",

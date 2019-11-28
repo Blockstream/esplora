@@ -1,5 +1,6 @@
 import '@babel/polyfill'
 import { Observable as O } from './rxjs'
+import {setAdapt} from '@cycle/run/lib/adapt';
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
@@ -21,6 +22,9 @@ const reservedPaths = [ 'mempool', 'assets' ]
 // to catch some form submissions.
 const searchSubmit$ = !process.browser ? O.empty() : O.fromEvent(document.body, 'submit')
   .filter(e => e.target.classList.contains('search'))
+
+// Make driver source observables rxjs5-compatible via rxjs-compat
+setAdapt(stream => O.from(stream))
 
 export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$ }) {
   const
