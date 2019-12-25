@@ -3,7 +3,7 @@ import { tryUnconfidentialAddress, isHash256 } from '../util'
 import { Observable as O } from '../rxjs'
 
 const reNumber  = /^\d+$/
-    , reAddr = /^([a-km-zA-HJ-NP-Z1-9]{26,35}|[a-km-zA-HJ-NP-Z1-9]{80}|[a-z]{2,5}1[ac-hj-np-z02-9]{8,87})$/ // very loose regex, might have false positive
+    , reAddrLike = /^([a-km-zA-HJ-NP-Z1-9]{26,35}|[a-km-zA-HJ-NP-Z1-9]{80}|[a-z]{2,5}1[ac-hj-np-z02-9]{8,87}|[A-Z]{2,5}1[AC-HJ-NP-Z02-9]{8,87})$/
     , reShortTxOut = /^(\d+)([x:])(\d+)\2(\d+)$/
     , trim = s => s.trim()
     , stripUri = s => s.replace(/^bitcoin:([^?]+).*/, '$1')
@@ -30,11 +30,6 @@ export default apiBase => {
         .catch(_ => process.env.ISSUED_ASSETS ? tryResource(`/asset/${query}`) : null)
         .catch(_ => null)
 
-    // lookup as address if it resembles one
-    : reAddr.test(query)
-    ? tryResource(`/address/${tryUnconfidentialAddress(query)}`)
-        .catch(_ => null)
-
     // lookup as lightning-style short txout identifier
     : (matches = query.match(reShortTxOut))
     ? request(`${apiBase}/block-height/${matches[1]}`)
@@ -42,6 +37,11 @@ export default apiBase => {
         .then(blockhash => request(`${apiBase}/block/${blockhash}/txid/${matches[3]}`))
         .then(r => r.ok ? r.text : Promise.reject('invalid reply for block txid'))
         .then(txid => ({ pathname: `/tx/${txid}`, search: `?output:${matches[4]}` }))
+        .catch(_ => null)
+
+    // lookup as address if it resembles one
+    : reAddrLike.test(query)
+    ? tryResource(`/address/${tryUnconfidentialAddress(query)}`)
         .catch(_ => null)
 
     // @XXX the tx/block/addr resource will be fetched again later for display,
