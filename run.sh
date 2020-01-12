@@ -61,7 +61,7 @@ else
 
     ELECTRS_ARGS="$ELECTRS_ARGS --asset-db-path /srv/liquid-assets-db"
     ASSETS_GIT=${ASSETS_GIT:-https://github.com/Blockstream/asset_registry_db}
-    ASSETS_GPG=${ASSETS_GPG:-A1DF83770F29548228170D63DBABBA3AD525ACA1}
+    ASSETS_GPG=${ASSETS_GPG:-/srv/explorer/source/contrib/asset_registry_pubkey.asc}
 fi
 
 NGINX_LOGGING="access_log off"
