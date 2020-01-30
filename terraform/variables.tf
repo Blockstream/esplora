@@ -105,7 +105,7 @@ variable "docker_tag_node_exporter" {
 
   # docker inspect --format='{{index .RepoDigests 0}}' prom/node-exporter:v0.16.0
 
-  default = "prom/node-exporter@sha256:55302581333c43d540db0e144cf9e7735423117a733cdec27716d87254221086"
+  default = "prom/node-exporter@sha256:b630fb29d99b3483c73a2a7db5fc01a967392a3d7ad754c8eccf9f4a67e7ee31"
 }
 
 variable "docker_tag_explorer" {
