@@ -138,7 +138,7 @@ docker build -t esplora .
 ## How to run the explorer for Bitcoin mainnet
 
 ```
-docker run -p 500001:500001 -p 8080:80 \
+docker run -p 50001:50001 -p 8080:80 \
            --volume $PWD/data_bitcoin_mainnet:/data \
            --rm -i -t esplora \
            bash -c "/srv/explorer/run.sh bitcoin-mainnet explorer"
@@ -147,7 +147,7 @@ docker run -p 500001:500001 -p 8080:80 \
 ## How to run the explorer for Liquid mainnet
 
 ```
-docker run -p 500001:500001 -p 8082:80 \
+docker run -p 50001:50001 -p 8082:80 \
            --volume $PWD/data_liquid_mainnet:/data \
            --rm -i -t esplora \
            bash -c "/srv/explorer/run.sh liquid-mainnet explorer"
@@ -156,7 +156,7 @@ docker run -p 500001:500001 -p 8082:80 \
 ## How to run the explorer for Bitcoin testnet3
 
 ```
-docker run -p 500001:500001 -p 8084:80 \
+docker run -p 50001:50001 -p 8084:80 \
            --volume $PWD/data_bitcoin_testnet:/data \
            --rm -i -t esplora \
            bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
