@@ -1,4 +1,4 @@
-FROM debian:buster@sha256:f19be6b8095d6ea46f5345e2651eec4e5ee9e84fc83f3bc3b73587197853dc9e
+FROM debian:buster@sha256:d986a531d62903b66e731d475988f5b2ba3a4a90078078cb0f29f9685ee36466
 
 SHELL ["/bin/bash", "-c"]
 
