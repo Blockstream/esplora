@@ -6,6 +6,8 @@ exec /srv/explorer/electrs_{DAEMON}/bin/electrs \
     --timestamp --http-addr 127.0.0.1:3000 \
     --network {ELECTRS_NETWORK} {PARENT_NETWORK} \
     --daemon-dir /data/{DAEMON} --monitoring-addr 0.0.0.0:4224 \
+    --electrum-rpc-addr 0.0.0.0:50001 \
+    --electrum-txs-limit 100000 \
     --db-dir /data/electrs_{DAEMON}_db/{NETWORK} \
     --precache-scripts /srv/explorer/popular-scripts.txt \
     {ELECTRS_ARGS}
