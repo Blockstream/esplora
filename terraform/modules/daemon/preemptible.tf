@@ -1,13 +1,13 @@
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
-  provider = "google-beta"
+  provider = google-beta
   name     = "${var.name}-explorer-pig-${var.regions[count.index]}"
-  count    = "${var.create_resources > 0 ? length(var.regions) : 0}"
+  count    = var.create_resources > 0 ? length(var.regions) : 0
 
   base_instance_name = "${var.name}-pexplorer-${var.regions[count.index]}-${count.index}"
 
   version {
-    instance_template = "${google_compute_instance_template.preemptible-daemon[0].self_link}"
+    instance_template = google_compute_instance_template.preemptible-daemon[0].self_link
     name              = "original"
   }
 
@@ -81,12 +81,12 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 }
 
 resource "null_resource" "ansible-preemptible-daemon" {
-  depends_on = ["null_resource.ansible-daemon"]
+  depends_on = [null_resource.ansible-daemon]
   triggers = {
-    daemons = "${google_compute_instance_template.preemptible-daemon[0].self_link}"
+    daemons = google_compute_instance_template.preemptible-daemon[0].self_link
   }
 
-  count = "${var.create_resources > 0 ? length(var.regions) : 0}"
+  count = var.create_resources > 0 ? length(var.regions) : 0
 
   provisioner "local-exec" {
     command     = "ansible-playbook rotate-daemons.yml -e region=${var.regions[count.index]} -e project=${var.project} -e target_size=${var.size} -e instance_group=${var.name}-explorer-pig-${var.regions[count.index]} -e backend_service=${var.name}-explorer-backend-service -e instance_name_prefix=${var.name}-pexplorer-${var.regions[count.index]} -e initial_delay_sec=${var.initial_delay_sec}"

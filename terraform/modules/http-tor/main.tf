@@ -17,7 +17,7 @@ resource "google_compute_region_autoscaler" "http" {
 }
 
 resource "google_compute_region_instance_group_manager" "http" {
-  provider           = "google-beta"
+  provider           = google-beta
   name               = "http-${var.name}-explorer-ig-${var.regions[count.index]}"
   base_instance_name = "http-${var.name}-explorer-ig-${var.regions[count.index]}"
 

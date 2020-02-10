@@ -1,71 +1,71 @@
 variable "create_resources" {
-  type = "string"
+  type = string
 }
 
 variable "project" {
-  type = "string"
+  type = string
 }
 
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "network" {
-  type    = "string"
+  type    = string
   default = "default"
 }
 
 variable "region" {
-  type = "string"
+  type = string
 }
 
 variable "zones" {
-  type    = "list"
+  type    = list
   default = ["us-central1-a"]
 }
 
 variable "instances" {
-  type = "string"
+  type = string
 }
 
 variable "docker_tag" {
-  type = "string"
+  type = string
 }
 
 variable "machine_type" {
-  type = "string"
+  type = string
 }
 
 variable "image" {
-  type    = "string"
+  type    = string
   default = "cos-cloud/cos-stable"
 }
 
 variable "size" {
-  type    = "string"
+  type    = string
   default = "100"
 }
 
 variable "retention" {
-  type    = "string"
+  type    = string
   default = "31d"
 }
 
 variable "docker_tag_node_exporter" {
-  type = "string"
+  type = string
 }
 
 variable "allowed_source_ip" {
-  type        = "string"
+  type        = string
   description = "Which IP is allowed to access the instance?"
 }
 
 variable "prometheus_service_account" {
-  type    = "string"
+  type    = string
   default = ""
 }
 
 variable "opsgenie_api_key" {
-  type        = "string"
+  type        = string
   description = "Add new Prometheus integration to opsgenie, use resulting API key here"
 }

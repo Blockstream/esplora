@@ -15,7 +15,7 @@ resource "google_compute_health_check" "daemon" {
 
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "daemon" {
-  provider = "google-beta"
+  provider = google-beta
   name     = "${var.name}-explorer-ig-${var.regions[count.index]}"
   count    = var.create_resources > 0 ? length(var.regions) : 0
 

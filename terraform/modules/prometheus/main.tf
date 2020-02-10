@@ -8,14 +8,14 @@ resource "google_compute_disk" "prometheus-data" {
 }
 
 resource "google_compute_address" "prometheus-address" {
-  count   = "${var.create_resources > 0 ? var.instances : 0}"
+  count   = var.create_resources > 0 ? var.instances : 0
   name    = "prometheus-${var.name}-address-${count.index}"
   project = var.project
   region  = var.region
 }
 
 resource "google_compute_address" "prometheus-internal-address" {
-  count        = "${var.create_resources > 0 ? var.instances : 0}"
+  count        = var.create_resources > 0 ? var.instances : 0
   name         = "prometheus-${var.name}-internal-address-${count.index}"
   project      = var.project
   region       = var.region
