@@ -6,7 +6,7 @@ resource "google_compute_firewall" "http-healthcheck" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80", "443"]
+    ports    = ["80", "443", "50001"]
   }
 
   source_ranges = ["130.211.0.0/22", "35.191.0.0/16", "10.0.0.0/8"]
@@ -24,7 +24,7 @@ resource "google_compute_firewall" "all-traffic" {
 
   allow {
     protocol = "tcp"
-    ports    = ["443"]
+    ports    = ["443", "50001"]
   }
 
   source_ranges = ["0.0.0.0/0"]

@@ -25,6 +25,14 @@ resource "google_compute_global_forwarding_rule" "rule-http" {
   count = local.create_main
 }
 
+resource "google_compute_target_https_proxy" "https-proxy" {
+  name             = "explorer-https-proxy"
+  url_map          = google_compute_url_map.https-proxy[0].self_link
+  ssl_certificates = var.ssl_certs
+
+  count = local.create_main
+}
+
 resource "google_compute_target_http_proxy" "http-proxy" {
   name    = "explorer-http-proxy"
   url_map = google_compute_url_map.http-proxy[0].self_link
@@ -80,14 +88,6 @@ resource "google_compute_url_map" "http-proxy" {
     host    = var.hosts[0]
     path    = "/liquid"
   }
-}
-
-resource "google_compute_target_https_proxy" "https-proxy" {
-  name             = "explorer-https-proxy"
-  url_map          = google_compute_url_map.https-proxy[0].self_link
-  ssl_certificates = var.ssl_certs
-
-  count = local.create_main
 }
 
 resource "google_compute_url_map" "https-proxy" {

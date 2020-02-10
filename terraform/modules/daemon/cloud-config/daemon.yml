@@ -43,6 +43,7 @@ write_files:
         ExecStartPre=/bin/bash /home/bs/prep_disk.sh
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 50001 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --log-driver=gcplogs \
             --network=host \
@@ -55,6 +56,7 @@ write_files:
         ExecStopPost=/usr/bin/docker rm ${container_name}
         ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
+        ExecStartPre=/sbin/iptables -D INPUT -m tcp -p tcp --dport 50001 -j ACCEPT
 
         [Install]
         WantedBy=multi-user.target
