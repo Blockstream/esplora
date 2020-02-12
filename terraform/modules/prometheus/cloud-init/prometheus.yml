@@ -27,8 +27,10 @@ write_files:
           - name: team-pager
             opsgenie_configs:
             - api_key: ${opsgenie_api_key}
-              teams: SecOps   # Put in your team here
               tags: esplora
+              responders:
+              - type: team
+                name: SecOps
 
   - path: /home/bs/prometheus/rules/alerts.yml
     permissions: 0644

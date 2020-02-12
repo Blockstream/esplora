@@ -120,7 +120,7 @@ variable "docker_tag_tor" {
 
 variable "docker_tag_prometheus" {
   type    = string
-  default = "gcr.io/green-address-explorer/prometheus@sha256:f3817443defecd22e51017769a8835dca21ea87f7d1edf6d78e007c90e813843"
+  default = "blockstream/prometheus@sha256:a4803e2732f6b4b47f425ef9bceeb7942865a4d5ceef4d8e3ee9c7db8363a3d3"
 }
 
 variable "min_ready_sec" {
