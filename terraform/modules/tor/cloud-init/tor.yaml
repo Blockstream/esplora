@@ -159,6 +159,7 @@ write_files:
         ExecStartPre=-/bin/chown -R bs:bs /home/bs/tor_v2/
         ExecStartPre=-/bin/chmod -R 2700 /home/bs/tor_v2/
         ExecStartPre=-/bin/chmod 0600 /home/bs/tor_v2/hidden_service/private_key
+        ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 110,143,195 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --log-driver=gcplogs \
             --network=host \
@@ -169,6 +170,7 @@ write_files:
             -v /home/bs/tor_v2:/home/tor/tor:rw \
             "${docker_tag}" tor -f /home/tor/torrc
         ExecStop=/usr/bin/docker rm -f torv2
+        ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 110,143,195 -j ACCEPT
 
         [Install]
         WantedBy=multi-user.target
@@ -192,6 +194,7 @@ write_files:
         ExecStartPre=-/bin/chmod -R 2700 /home/bs/tor_v3/
         ExecStartPre=-/bin/chmod 0644 /home/bs/tor_v3/hidden_service_v3/hs_ed25519_public_key
         ExecStartPre=-/bin/chmod 0600 /home/bs/tor_v3/hidden_service_v3/hs_ed25519_secret_key
+        ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 110,143,195 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --log-driver=gcplogs \
             --network=host \
@@ -202,6 +205,7 @@ write_files:
             -v /home/bs/tor_v3:/home/tor/tor:rw \
             "${docker_tag}" tor -f /home/tor/torrc
         ExecStop=/usr/bin/docker rm -f torv3
+        ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 110,143,195 -j ACCEPT
 
         [Install]
         WantedBy=multi-user.target
