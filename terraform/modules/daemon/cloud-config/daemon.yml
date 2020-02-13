@@ -41,9 +41,7 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag}
         ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
         ExecStartPre=/bin/bash /home/bs/prep_disk.sh
-        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
-        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
-        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 50001 -j ACCEPT
+        ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,50001 -j ACCEPT
         ExecStart=/usr/bin/docker run \
             --log-driver=gcplogs \
             --network=host \
@@ -54,9 +52,7 @@ write_files:
             "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
         ExecStop=/usr/bin/docker stop ${container_name}
         ExecStopPost=/usr/bin/docker rm ${container_name}
-        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 80 -j ACCEPT
-        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 4224 -j ACCEPT
-        ExecStartPre=/sbin/iptables -D INPUT -m tcp -p tcp --dport 50001 -j ACCEPT
+        ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 80,4224,50001 -j ACCEPT
 
         [Install]
         WantedBy=multi-user.target

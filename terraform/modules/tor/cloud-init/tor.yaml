@@ -43,6 +43,10 @@ write_files:
         HiddenServiceDir /home/tor/tor/hidden_service/
         HiddenServiceVersion  2
         HiddenServicePort 80 ${tor_lb}:80
+        HiddenServicePort 110 ${tor_lb}:110
+        HiddenServicePort 143 ${tor_lb}:143
+        HiddenServicePort 195 ${tor_lb}:195
+
 
   - path: /home/bs/torrcv3
     permissions: 0644
@@ -66,6 +70,9 @@ write_files:
         HiddenServiceDir /home/tor/tor/hidden_service_v3/
         HiddenServiceVersion 3
         HiddenServicePort 80 ${tor_lb}:80
+        HiddenServicePort 110 ${tor_lb}:110
+        HiddenServicePort 143 ${tor_lb}:143
+        HiddenServicePort 195 ${tor_lb}:195
 
   - path: /home/bs/tor_v2/hidden_service/hostname
     permissions: 0600
