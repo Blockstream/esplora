@@ -1,0 +1,4 @@
+regtest=1
+[regtest]
+server=1
+listen=0

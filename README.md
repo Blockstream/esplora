@@ -169,6 +169,24 @@ docker run -p 50001:50001 -p 8084:80 \
            bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
 ```
 
+## How to run the explorer for Liquid regtest
+
+```
+docker run -p 50001:50001 -p 8092:80 \
+           --volume $PWD/data_liquid_regtest:/data \
+           --rm -i -t esplora \
+           bash -c "/srv/explorer/run.sh bitcoin-liquid explorer"
+```
+
+## How to run the explorer for Bitcoin regtest
+
+```
+docker run -p 50001:50001 -p 8094:80 \
+           --volume $PWD/data_bitcoin_regtest:/data \
+           --rm -i -t esplora \
+           bash -c "/srv/explorer/run.sh bitcoin-regtest explorer"
+```
+
 ## Docker config options
 
 Set `-e DEBUG=verbose` to enable more verbose logging.

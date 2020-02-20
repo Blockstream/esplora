@@ -1,0 +1,157 @@
+.jumbotron-fluid {
+    background-image: linear-gradient(-90deg, rgba(84, 103, 124, 1) 0%, rgba(29, 72, 111, 1) 18%, rgba(24, 53, 80, 1) 36%, rgba(29, 37, 48, 1) 58%, rgba(14, 16, 17, 1) 100%);
+}
+
+.search-bar {
+    border: 1px solid rgba(168, 184, 201, 1);
+    box-shadow: 0px 0px 6px 0px rgba(168, 184, 201, 1);
+}
+
+.details-btn > div { 
+    color: rgba(168, 184, 201, 1);
+    border: 1px solid rgba(168, 184, 201, 1);
+}
+
+.transaction-box > .footer > div:nth-child(3) {
+    color: rgba(168, 184, 201, 1);
+}
+
+.navbar {
+    background-image: linear-gradient(-90deg, rgba(84, 103, 124, 1) 0%, rgba(29, 72, 111, 1) 18%, rgba(24, 53, 80, 1) 36%, rgba(29, 37, 48, 1) 58%, rgba(14, 16, 17, 1) 100%);
+}
+.explorer-title-container {
+    margin-top: 0;
+}
+
+.form-inline {
+    margin-top: -15px;
+}
+
+.assets-table .assets-table-row {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.assets-table .assets-table-row > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.assets-table .assets-table-row.header, .assets-table .assets-table-row.asset-data {
+  height: 52px;
+}
+
+.assets-table .assets-table-row.header > *, .assets-table .assets-table-row.asset-data > * {
+  font-size: 16px;
+}
+
+.assets-table .assets-table-row.header > * {
+  text-transform: uppercase;
+  color: #78838e;
+  font-weight: 600;
+}
+
+.assets-table .assets-table-row.asset-data {
+  border-top: 1px #22242c solid;
+}
+
+.assets-table .assets-table-row.asset-data:not(.loading):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.assets-table .assets-table-row.asset-data > * {
+  font-size: 16px;
+}
+
+.assets-table .assets-table-row.loading img {
+  display: block;
+  margin: auto;
+  height: 45px;
+  width: 45px;
+  padding: 3px 0;
+}
+
+.assets-table .assets-table-row > div:nth-child(1) {
+  padding-left: 12px;
+}
+
+.assets-table-row {
+  color: #FFF !important;
+}
+
+.assets-table-row:not(.header) .asset-id {
+  word-break: break-all;
+}
+
+@media only screen and (min-width: 851px) {
+  .assets-table .assets-table-row .ticker {
+    width: 6em;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .blocks-table .blocks-table-row > div:nth-child(2) {
+    width: 250px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+
+    /* assets table */
+
+    div.assets-table-row.header {
+      display:none;
+    }
+
+    /* table row (asset) */
+    .assets-table-row {
+      margin: 0 0 1rem 0;
+      display: flex;
+      flex-direction: column;
+      height: auto !important;
+      padding: 20px;
+    }
+
+    .assets-table-link-row {
+      margin-bottom: 20px;
+    }
+
+    .assets-table-link-row:nth-child(odd) {
+      background: #22242c;
+    }
+
+    /* table row (transaction item) */
+    .assets-table .assets-table-row.asset-data > * {
+      border: none;
+      position: relative;
+      padding-left: 0 !important;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100% !important;
+      text-align: right;
+      /* border-top: 1px solid #22242C; */
+    }
+
+    .assets-table-row {
+      /* Behave  like a "row" */
+      display: block;
+    }
+
+    div.assets-table-cell:before {
+      width: 45%;
+      padding-right: 10px;
+      font-weight: 600;
+      color: #78838e;
+      word-break: initial;
+    }
+
+    /*
+    Label the data
+    */
+    div.assets-table-cell:before { content: attr(data-label); text-align: left; width: auto;}
+}
+
+
