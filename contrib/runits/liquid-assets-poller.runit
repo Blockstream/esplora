@@ -16,7 +16,11 @@ fi
 cd /srv/liquid-assets-db
 
 # Create the local keyring file with just the assets db signing key
-gpg --no-default-keyring --keyring=./asset-signing-keyring.gpg --import {ASSETS_GPG}
+gitgpg-assets --import {ASSETS_GPG}
+
+# Mark the key as trusted
+KEYID=`gitgpg-assets --list-keys --with-colons | awk -F: '/^pub:/ { print $5 }'`
+echo -e "5\ny\nquit\n" | gitgpg-assets --command-fd 0 --expert --edit-key $KEYID trust
 
 # Verify and do an initial checkout
 git verify-commit master
