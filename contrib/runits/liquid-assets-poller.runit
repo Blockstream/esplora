@@ -29,5 +29,6 @@ git checkout master
 # Update periodically
 while :; do
   sleep 900 # 15 minutes
+  git fetch
   git pull --verify-signatures --ff-only
 done

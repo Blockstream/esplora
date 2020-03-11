@@ -117,7 +117,7 @@ fi
 preprocess /srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}.conf.in /data/.${DAEMON}.conf
 
 if [ "${DAEMON}" == "liquid" ]; then
-    mkdir -p /etc/service/bitcoin/log /etc/service/liquid-assets-poller /data/logs/bitcoin
+    mkdir -p /etc/service/bitcoin/log /etc/service/liquid-assets-poller/log /data/logs/bitcoin /data/logs/poller
 
     preprocess /srv/explorer/source/contrib/bitcoin-mainnet-pruned-for-liquid.conf.in /data/.bitcoin.conf
     cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid.runit /etc/service/bitcoin/run
@@ -125,6 +125,8 @@ if [ "${DAEMON}" == "liquid" ]; then
     cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log-config.runit /data/logs/bitcoin/config
 
     preprocess /srv/explorer/source/contrib/runits/liquid-assets-poller.runit /etc/service/liquid-assets-poller/run
+    cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log.runit /etc/service/liquid-assets-poller/log/run
+    cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log-config.runit /data/logs/poller/config
     chmod +x /etc/service/liquid-assets-poller/run
 fi
 
