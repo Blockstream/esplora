@@ -1,0 +1,512 @@
+# Translators:
+# Alex <taosubmarines@mail.ru>, 2020
+# 
+msgid ""
+msgstr ""
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Address"
+msgstr "Διεύθυνση"
+
+msgid "Address reuse"
+msgstr "Address reuse"
+
+msgid "Address: %s"
+msgstr "Διεύθυνση: %s"
+
+msgid "Amount commitment"
+msgstr "Amount commitment"
+
+msgid "API"
+msgstr "API"
+
+msgid "Asset commitment"
+msgstr "Asset commitment"
+
+msgid "Asset ID"
+msgstr "Asset ID"
+
+msgid "Bits"
+msgstr "Bits"
+
+msgid "Block Challenge"
+msgstr "Block Challenge"
+
+msgid "Block height"
+msgstr "Block height"
+
+msgid "Block not found"
+msgstr "Block not found"
+
+msgid "Block %s"
+msgstr "Block %s"
+
+msgid "Block Solution"
+msgstr "Block Solution"
+
+msgid "Block #%s: %s"
+msgstr "Block #%s: %s"
+
+msgid "Block timestamp"
+msgstr "Block timestamp"
+
+msgid "Broadcast raw transaction (hex)"
+msgstr "Broadcast raw transaction (hex)"
+
+msgid "Broadcast transaction"
+msgstr "Broadcast transaction"
+
+msgid "Broadcast tx"
+msgstr "Broadcast tx"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Coinbase"
+msgstr "Coinbase"
+
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+
+msgid "Confidential"
+msgstr "Confidential"
+
+msgid "Confirmed"
+msgstr "Confirmed"
+
+msgid "Confirmed received"
+msgstr "Confirmed received"
+
+msgid "Confirmed spent"
+msgstr "Confirmed spent"
+
+msgid "Confirmed tx count"
+msgstr "Confirmed tx count"
+
+msgid "Confirmed unspent"
+msgstr "Confirmed unspent"
+
+msgid "Currently unavailable"
+msgstr "Currently unavailable"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr "Esplora is currently unavailable, please try again later."
+
+msgid "ETA"
+msgstr "ETA"
+
+msgid "Fee"
+msgstr "Fee"
+
+msgid "Go"
+msgstr "Go"
+
+msgid "Height"
+msgstr "Height"
+
+msgid "In best chain"
+msgstr "In best chain"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "In best chain (1 confirmation)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "In best chain (%0 confirmations)"
+
+msgid "Included in Block"
+msgstr "Included in Block"
+
+msgid "in %s blocks (%s from tip)"
+msgstr "in %s blocks (%s from tip)"
+
+msgid "Issuance"
+msgstr "Issuance"
+
+msgid "Issuance amount"
+msgstr "Issuance amount"
+
+msgid "Issuance blinding nonce"
+msgstr "Issuance blinding nonce"
+
+msgid "Issuance entropy"
+msgstr "Issuance entropy"
+
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+
+msgid "lang_id"
+msgstr "en"
+
+msgid "lang_name"
+msgstr "English"
+
+msgid "Likely self-transfer"
+msgstr "Likely self-transfer"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "Load more"
+msgstr "Load more"
+
+msgid "Lock time"
+msgstr "Lock time"
+
+msgid "ltr"
+msgstr "ltr"
+
+msgid "Mempool"
+msgstr "Mempool"
+
+msgid "Merkle root"
+msgstr "Merkle root"
+
+msgid "New asset"
+msgstr "New asset"
+
+msgid "Newer"
+msgstr "Newer"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Nonce"
+msgstr "Nonce"
+
+msgid "Nonstandard"
+msgstr "Nonstandard"
+
+msgid "No outputs"
+msgstr "No outputs"
+
+msgid "No recent transactions"
+msgstr "No recent transactions"
+
+msgid "No reissuance"
+msgstr "No reissuance"
+
+msgid "No results found"
+msgstr "No results found"
+
+msgid "nSequence"
+msgstr "nSequence"
+
+msgid "Older"
+msgstr "Older"
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN data"
+
+msgid "Opted in"
+msgstr "Opted in"
+
+msgid "Orphaned"
+msgstr "Orphaned"
+
+msgid "Outpoint"
+msgstr "Outpoint"
+
+msgid "Output in parent chain"
+msgstr "Output in parent chain"
+
+msgid "overpaying by %s%"
+msgstr "overpaying by %s%"
+
+msgid "Page Not Found"
+msgstr "Page Not Found"
+
+msgid "Peg-out"
+msgstr "Peg-out"
+
+msgid "Peg-out address"
+msgstr "Peg-out address"
+
+msgid "Peg-out ASM"
+msgstr "Peg-out ASM"
+
+msgid "Peg-out to"
+msgstr "Peg-out to"
+
+msgid "Possibly a CoinJoin transaction"
+msgstr "Possibly a CoinJoin transaction"
+
+msgid "Powered by esplora"
+msgstr "Powered by esplora"
+
+msgid "Prev"
+msgstr "Prev"
+
+msgid "Previous"
+msgstr "Previous"
+
+msgid "Previous output address"
+msgstr "Previous output address"
+
+msgid "Previous output script"
+msgstr "Previous output script"
+
+msgid "Privacy analysis"
+msgstr "Privacy analysis"
+
+msgid "(RBF)"
+msgstr "(RBF)"
+
+msgid "Recent transactions"
+msgstr "Recent transactions"
+
+msgid "Reissuance"
+msgstr "Reissuance"
+
+msgid "Reissuance commitment"
+msgstr "Reissuance commitment"
+
+msgid "Reissuance keys"
+msgstr "Reissuance keys"
+
+msgid "Replace by fee"
+msgstr "Replace by fee"
+
+msgid "Round payment amount"
+msgstr "Round payment amount"
+
+msgid "sat/vbyte"
+msgstr "sat/vbyte"
+
+msgid "%s blocks"
+msgstr "%s blocks"
+
+msgid "Scan QR"
+msgstr "Scan QR"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Confirmation"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 Confirmations"
+
+msgid "scriptPubKey (asm)"
+msgstr "scriptPubKey (asm)"
+
+msgid "scriptPubKey (hex)"
+msgstr "scriptPubKey (hex)"
+
+msgid "scriptSig (asm)"
+msgstr "scriptSig (asm)"
+
+msgid "scriptSig (hex)"
+msgstr "scriptSig (hex)"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Search for block height, hash, transaction, or address"
+
+msgid "SegWit fee savings"
+msgstr "SegWit fee savings"
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+
+msgid "Sending to a different script type"
+msgstr "Sending to a different script type"
+
+msgid "%s from tip"
+msgstr "%s from tip"
+
+msgid "Size"
+msgstr "Size"
+
+msgid "Size (KB)"
+msgstr "Size (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%s of %s Transactions"
+
+msgid "%s outputs (singular)"
+msgstr "1 output"
+
+msgid "%s outputs (plural)"
+msgstr "%0 outputs"
+
+msgid "Spending tx"
+msgstr "Spending tx"
+
+msgid "Spent by"
+msgstr "Spent by"
+
+msgid "%s (%s sat/vB)"
+msgstr "%s (%s sat/vB)"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "%s Transactions (singular)"
+msgstr "1 Transaction"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Transactions"
+
+msgid "style.css"
+msgstr "style.css"
+
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+"This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+
+msgid "Timestamp"
+msgstr "Timestamp"
+
+msgid "Total fees"
+msgstr "Total fees"
+
+msgid "Total size"
+msgstr "Total size"
+
+msgid "Total transactions"
+msgstr "Total transactions"
+
+msgid "Total tx count"
+msgstr "Total tx count"
+
+msgid "Total unspent"
+msgstr "Total unspent"
+
+msgid "Transaction"
+msgstr "Transaction"
+
+msgid "Transaction fees"
+msgstr "Transaction fees"
+
+msgid "Transaction not found"
+msgstr "Transaction not found"
+
+msgid "Transactions"
+msgstr "Transactions"
+
+msgid "Transaction: %s"
+msgstr "Transaction: %s"
+
+msgid "TXID"
+msgstr "TXID"
+
+msgid "txid:vout"
+msgstr "txid:vout"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Unconfirmed"
+msgstr "Unconfirmed"
+
+msgid "Unconfirmed received"
+msgstr "Unconfirmed received"
+
+msgid "Unconfirmed spent"
+msgstr "Unconfirmed spent"
+
+msgid "Unconfirmed tx count"
+msgstr "Unconfirmed tx count"
+
+msgid "Unnecessary input heuristic"
+msgstr "Unnecessary input heuristic"
+
+msgid "Unspent"
+msgstr "Unspent"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+
+msgid "Value"
+msgstr "Value"
+
+msgid "Value commitment"
+msgstr "Value commitment"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Virtual size"
+msgstr "Virtual size"
+
+msgid "We encountered an error. Please try again later."
+msgstr "We encountered an error. Please try again later."
+
+msgid "Weight (KWU)"
+msgstr "Weight (KWU)"
+
+msgid "Weight units"
+msgstr "Weight units"
+
+msgid "Witness"
+msgstr "Witness"
