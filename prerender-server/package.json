@@ -5,8 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.4",
-    "superagent": "^5.1.1"
+    "cookie-parser": "^1.4.5",
+    "superagent": "^5.2.2"
   },
   "scripts": {
     "start": "./start.sh",
