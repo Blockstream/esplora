@@ -8,8 +8,8 @@
     "dist": "../node_modules/.bin/babel -d dist src"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.8.3",
-    "@babel/polyfill": "^7.8.7",
+    "@babel/plugin-transform-react-jsx": "^7.7.7",
+    "@babel/polyfill": "^7.7.0",
     "@cycle/dom": "^22.4.0",
     "@cycle/history": "^7.4.0",
     "@cycle/html": "^3.3.0",
