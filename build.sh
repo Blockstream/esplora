@@ -16,7 +16,7 @@ rm -rf $DEST/*
 (cd client && [[ -d node_modules ]] || npm install)
 
 # Static assets
-cp -rL www/* $CUSTOM_ASSETS $DEST/
+cp -RL www/* $CUSTOM_ASSETS $DEST/
 
 # CSS customizations
 [ -n "$CUSTOM_CSS" ] && cat $CUSTOM_CSS >> $DEST/style.css
