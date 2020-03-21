@@ -26,6 +26,8 @@ Returns the raw transaction in hex.
 Returns a merkle inclusion proof for the transaction using
 [bitcoind's merkleblock](https://bitcoin.org/en/glossary/merkle-block) format.
 
+*Note:* This endpoint is not currently available for Liquid/Elements-based chains.
+
 ### `GET /tx/:txid/merkle-proof`
 
 Returns a merkle inclusion proof for the transaction using
