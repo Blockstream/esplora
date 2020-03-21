@@ -21,13 +21,16 @@ Available fields: `confirmed` (boolean), `block_height` (optional) and `block_ha
 
 Returns the raw transaction in hex.
 
+### `GET /tx/:txid/merkleblock-proof`
+
+Returns a merkle inclusion proof for the transaction using
+[bitcoind's merkleblock](https://bitcoin.org/en/glossary/merkle-block) format.
+
 ### `GET /tx/:txid/merkle-proof`
 
-Returns a merkle inclusion proof for the transaction.
-
-Currently matches the merkle proof format used by Electrum's
-[`blockchain.transaction.get_merkle`](https://electrumx.readthedocs.io/en/latest/protocol-methods.html#blockchain-transaction-get-merkle).
-*Will eventually be changed to use bitcoind's `merkleblock` format instead.*
+Returns a merkle inclusion proof for the transaction using
+[Electrum's `blockchain.transaction.get_merkle`](https://electrumx.readthedocs.io/en/latest/protocol-methods.html#blockchain-transaction-get-merkle)
+format.
 
 ### `GET /tx/:txid/outspend/:vout`
 
@@ -124,6 +127,12 @@ The response from this endpoint can be cached indefinitely.
 ### `GET /block/:hash/txid/:index`
 
 Returns the transaction at index `:index` within the specified block.
+
+The response from this endpoint can be cached indefinitely.
+
+### `GET /block/:hash/raw`
+
+Returns the raw block representation in binary.
 
 The response from this endpoint can be cached indefinitely.
 
