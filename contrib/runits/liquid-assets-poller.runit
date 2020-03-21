@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eo pipefail
 
+export TZ=UTC
+
 # Setup a "gitpgp" command to only accept keys from a local keyring file
 # https://tribut.de/blog/git-commit-signatures-trusted-keys
 if [ ! -f /usr/bin/gitgpg-assets ]; then
@@ -28,7 +30,9 @@ git checkout master
 
 # Update periodically
 while :; do
-  sleep 900 # 15 minutes
+  # Update every 3 minutes, but always on every 3rd round minute to keep updates in sync across servers
+  sleep $((180 - $(date +%s) % 180))
+
   git fetch
-  git pull --verify-signatures --ff-only
+  git pull --verify-signatures --ff-only || true
 done
