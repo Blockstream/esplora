@@ -164,6 +164,8 @@ docker run -p 50001:50001 -p 8084:80 \
 
 ## Docker config options
 
+Start with `-e DEBUG=verbose` to enable more verbose logging.
+
 Start with `-e NO_PRECACHE=1` to disable pre-caching of statistics for "popular addresses",
 which may take a long time and is not necessary for personal use.
 

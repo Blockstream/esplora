@@ -3,7 +3,8 @@ set -eo pipefail
 
 FLAVOR=$1
 MODE=$2
-DEBUG=$3
+: ${DEBUG:=$3} # can be set either via DEBUG or using the argument
+
 SYNC_SECRET=$4
 SYNC_SOURCE=$5
 
