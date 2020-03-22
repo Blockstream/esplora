@@ -44,7 +44,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goMempool$= route('/mempool')
   , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
       .filter(q => !reservedPaths.includes(q))
-      .merge(scan$)
 
   , goAsset$  = !process.env.ISSUED_ASSETS ? O.empty() : route('/asset/:asset_id').map(loc => ({
       asset_id: loc.params.asset_id
@@ -65,7 +64,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , togTheme$ = click('.toggle-theme')
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
-  , query$    = O.merge(searchSubmit$, goSearch$)
+  , query$    = O.merge(searchSubmit$, goSearch$, scan$)
   , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
       : goPush$.filter(loc => loc.body && loc.body.tx).map(loc => loc.body.tx)
