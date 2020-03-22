@@ -70,6 +70,8 @@ if [ "${DEBUG}" == "verbose" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS -vvvv"
     ELECTRS_BACKTRACE="export RUST_BACKTRACE=full"
     NGINX_LOGGING="access_log /data/logs/nginx-access-debug-${FLAVOR}.log"
+else
+  ELECTRS_ARGS="$ELECTRS_ARGS -vv"
 fi
 
 if [ -n "$NO_PRECACHE" ]; then
