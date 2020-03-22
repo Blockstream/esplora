@@ -16,7 +16,7 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') ? path : apiBase + path })
 
-const reservedPaths = [ 'mempool', 'assets' ]
+const reservedPaths = [ 'mempool', 'assets', 'search' ]
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
@@ -42,8 +42,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goRecent$ = route('/tx/recent')
   , goScan$   = route('/scan-qr').mapTo(true)
   , goMempool$= route('/mempool')
-  , goSearch$ = route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q === 'search' ? loc.query.q : loc.params.q)
-      .filter(q => !reservedPaths.includes(q))
+  , goSearch$ = route('/search').map(loc => loc.query.q)
 
   , goAsset$  = !process.env.ISSUED_ASSETS ? O.empty() : route('/asset/:asset_id').map(loc => ({
       asset_id: loc.params.asset_id
@@ -53,8 +52,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , goAssetList$ = !process.env.ISSUED_ASSETS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
 
-  , searchSubmit$ = on('.search', 'submit', { preventDefault: true })
-      .map(e => e.target.querySelector('[name=q]').value)
+  // three ways to search: via the form, using the short /<query> search URL and using the QR scanner.
+  // this triggers a redirect to /search?q=<query>, which then triggers the search itself.
+  , searchQuery$ = O.merge(
+      on('.search', 'submit').map(e => e.target.querySelector('[name=q]').value)
+    , route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q).filter(q => !reservedPaths.includes(q))
+    , scan$
+    )
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -344,7 +348,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     // XXX: replace still uses a single string with the search query (https://github.com/cyclejs/cyclejs/pull/890#issuecomment-542413707)
     , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
-    , O.merge(scan$, searchSubmit$).map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
+    , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
