@@ -18,11 +18,6 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 
 const reservedPaths = [ 'mempool', 'assets' ]
 
-// Temporary bug workaround. Listening with on('form.search', 'submit') was unable
-// to catch some form submissions.
-const searchSubmit$ = !process.browser ? O.empty() : O.fromEvent(document.body, 'submit')
-  .filter(e => e.target.classList.contains('search'))
-
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
 
@@ -59,6 +54,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , goAssetList$ = !process.env.ISSUED_ASSETS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
 
+  , searchSubmit$ = on('.search', 'submit').map(e => e.target.querySelector('[name=q]').value)
+
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
   , expandBl$ = route('/block/:hash').filter(loc => loc.query.expand).map(loc => loc.params.hash)
@@ -68,7 +65,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , togTheme$ = click('.toggle-theme')
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
-  , query$    = O.merge(searchSubmit$.map(e => e.target.querySelector('[name=q]').value), goSearch$)
+  , query$    = O.merge(searchSubmit$, goSearch$)
   , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
       : goPush$.filter(loc => loc.body && loc.body.tx).map(loc => loc.body.tx)
@@ -360,8 +357,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // @XXX side-effects outside of drivers
   if (process.browser) {
-
-    searchSubmit$.subscribe(e => e.preventDefault())
 
     // Click-to-copy
     if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
