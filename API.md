@@ -315,6 +315,7 @@ Does not include regular transactions transferring this asset.
 - `timestamp`
 - `bits`
 - `nonce`
+- `difficulty`
 - `merkle_root`
 - `tx_count`
 - `size`
