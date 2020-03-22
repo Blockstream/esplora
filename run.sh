@@ -72,6 +72,10 @@ if [ "${DEBUG}" == "verbose" ]; then
     NGINX_LOGGING="access_log /data/logs/nginx-access-debug-${FLAVOR}.log"
 fi
 
+if [ -n "$NO_PRECACHE" ]; then
+    ELECTRS_ARGS="$ELECTRS_ARGS --precache-scripts /srv/explorer/popular-scripts.txt"
+fi
+
 function preprocess(){
    in_file=$1
    out_file=$2
