@@ -53,7 +53,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , goAssetList$ = !process.env.ISSUED_ASSETS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
 
-  , searchSubmit$ = on('.search', 'submit').map(e => e.target.querySelector('[name=q]').value)
+  , searchSubmit$ = on('.search', 'submit', { preventDefault: true })
+      .map(e => e.target.querySelector('[name=q]').value)
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -64,7 +65,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , togTheme$ = click('.toggle-theme')
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
-  , query$    = O.merge(searchSubmit$, goSearch$, scan$)
   , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
       : goPush$.filter(loc => loc.body && loc.body.tx).map(loc => loc.body.tx)
@@ -103,7 +103,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Keep track of the number of active in-flight HTTP requests
   , loading$ = HTTP.select().filter(r$ => !r$.request.bg)
       .flatMap(r$ => r$.mapTo(-1).catch(_ => O.of(-1)).startWith(+1))
-      .merge(query$.mapTo(+1)).merge(searchResult$.mapTo(-1))
+      .merge(goSearch$.mapTo(+1)).merge(searchResult$.mapTo(-1))
       .startWith(0).scan((N, a) => N+a)
 
   // Recent blocks
@@ -339,18 +339,19 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Route navigation sink
   , navto$ = O.merge(
-      searchResult$.filter(Boolean).map(result => ({ type: 'push', ...result }))
+      searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     // XXX: replace still uses a single string with the search query (https://github.com/cyclejs/cyclejs/pull/890#issuecomment-542413707)
     , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
+    , O.merge(scan$, searchSubmit$).map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
   dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$
       , tipHeight$, error$, loading$
-      , query$, searchResult$, copy$, store$, navto$, scanning$, scan$
+      , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , assetMap$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
@@ -394,5 +395,5 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: query$, scanner: scanning$, title: title$, state: state$ }
+  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: goSearch$, scanner: scanning$, title: title$, state: state$ }
 }
