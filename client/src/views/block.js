@@ -96,6 +96,10 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
                 <div className="mono">{formatHex(b.bits)}</div>
               </div>
             , <div>
+                <div>{t`Difficulty`}</div>
+                <div className="mono">{formatNumber(b.difficulty)}</div>
+              </div>
+            , <div>
                 <div>{t`Nonce`}</div>
                 <div className="mono">{formatHex(b.nonce)}</div>
               </div>
