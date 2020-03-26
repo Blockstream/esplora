@@ -79,6 +79,10 @@ if [ -n "$NO_PRECACHE" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --precache-scripts /srv/explorer/popular-scripts.txt"
 fi
 
+if [ -n "$NO_ADDRESS_SEARCH" ]; then
+    ELECTRS_ARGS="$ELECTRS_ARGS --address-search"
+fi
+
 function preprocess(){
    in_file=$1
    out_file=$2
