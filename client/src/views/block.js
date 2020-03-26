@@ -106,14 +106,15 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
             ]
 
           /* Federated chains */
-          : b.proof ? [
+          /* TODO: support for dynafed blocks */
+          : b.ext && b.ext.challenge ? [
               <div>
                 <div>{t`Block Challenge`}</div>
-                <div className="mono">{b.proof.challenge_asm}</div>
+                <div className="mono">{b.ext.challenge}</div>
               </div>
             , <div>
                 <div>{t`Block Solution`}</div>
-                <div className="mono">{b.proof.solution_asm}</div>
+                <div className="mono">{b.ext.solution}</div>
              </div>
             ]
           : null
