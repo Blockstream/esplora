@@ -94,6 +94,12 @@ Get the list of unspent transaction outputs associated with the address/scriptha
 Available fields: `txid`, `vout`, `value` and `status` (with the status of the funding tx).
 Elements-based chains have an additional `asset` field.
 
+### `GET /address-prefix/:prefix`
+
+Search for addresses beginning with `:prefix`.
+
+Returns a JSON array with up to 10 results.
+
 ## Blocks
 
 ### `GET /block/:hash`
