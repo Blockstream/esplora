@@ -18,8 +18,9 @@ Returns the transaction confirmation status.
 Available fields: `confirmed` (boolean), `block_height` (optional) and `block_hash` (optional).
 
 ### `GET /tx/:txid/hex`
+### `GET /tx/:txid/raw`
 
-Returns the raw transaction in hex.
+Returns the raw transaction in hex or as binary data.
 
 ### `GET /tx/:txid/merkleblock-proof`
 
