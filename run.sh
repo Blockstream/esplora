@@ -41,7 +41,6 @@ mkdir -p /etc/service/socat
 cp /srv/explorer/source/contrib/runits/socat.runit /etc/service/socat/run 
 
 NGINX_NOSLASH_PATH="unused"
-NGINX_REWRITE_NOJS='return 301 " /nojs$uri"'
 NGINX_CSP="default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'"
 
 if [ "${DAEMON}" != "liquid" ]; then
@@ -49,14 +48,12 @@ if [ "${DAEMON}" != "liquid" ]; then
         NGINX_PATH="testnet/"
         NGINX_NOSLASH_PATH="testnet"
         NGINX_REWRITE='rewrite ^/testnet(/.*)$ $1 break;'
-        NGINX_REWRITE_NOJS='rewrite ^/testnet(/.*)$ " /testnet/nojs$1?" permanent'
     fi
 else
     ELECTRS_NETWORK="liquid"
     PARENT_NETWORK="--parent-network mainnet"
     NGINX_PATH="liquid/"
     NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
-    NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
     NGINX_NOSLASH_PATH="liquid"
     NGINX_CSP="$NGINX_CSP; connect-src 'self' https://assets.blockstream.info/"
 
@@ -99,7 +96,6 @@ function preprocess(){
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
        -e "s|{NGINX_CSP}|$NGINX_CSP|g" \
        -e "s|{NGINX_REWRITE}|$NGINX_REWRITE|g" \
-       -e "s|{NGINX_REWRITE_NOJS}|$NGINX_REWRITE_NOJS|g" \
        -e "s|{FLAVOR}|$DAEMON-$NETWORK $TEMPLATE|g" \
        -e "s|{NGINX_NOSLASH_PATH}|$NGINX_NOSLASH_PATH|g" \
        -e "s|{ASSETS_GIT}|$ASSETS_GIT|g" \

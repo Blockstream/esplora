@@ -19,7 +19,18 @@ head
     link(rel="canonical", href=canon_url)
 
   if !noscript && process.env.NOSCRIPT_REDIR
-    noscript: meta(http-equiv='refresh', content="0; url='?nojs'")
+    //- we typically cannot put the current requested path into the HTML when this is served as a static HTML page, so
+    //- we issue a redirect to "?nojs", which is then caught server-side and redirected again to the actual nojs location.
+
+    //- with some script block extensions, redirecting to "?nojs" does not retain the original request path,
+    //- but instead redirects to the root path. to support them, we need something external to generate dynamic
+    //- HTML pages with the requested path injected into the HTML page. This can be done using nginx with the
+    //- http_sub module and this directive: ```sub_filter '{{REQUEST_PATH}}' '$uri';```, which replaces {{REQUEST_PATH}}
+    //- with the actual requested path. NOSCRIPT_REDIRECT_EXTERNAL_REWRITE indicates that this rewrite is in place
+    //- and can be used, which also requires setting NOSCRIPT_REDIRECT_BASE with the base url of the nojs server.
+
+    - noscript_redir_url = !process.env.NOSCRIPT_REDIR_EXTERNAL_REWRITE ? '?nojs' : process.env.NOSCRIPT_REDIR_BASE.replace(/\/+$/, '') + '{{REQUEST_PATH}}'
+    noscript: meta(http-equiv='refresh', content=`0; url='${noscript_redir_url}'`)
 
   base(href=process.env.BASE_HREF || '/')
 
