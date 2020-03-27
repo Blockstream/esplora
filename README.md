@@ -100,6 +100,9 @@ All options are optional.
 - `CUSTOM_CSS` - space separated list of css files to append into `style.css`
 - `NOSCRIPT_REDIR` - redirect noscript users to `{request_path}?nojs` (should be captured server-side and redirected to the prerender server, also see `PRERENDER_URL` in dev server options)
 
+Note that `API_URL` should be set to the publicly-reachable URL where the user's browser can issue requests at.
+(that is, *not* via `localhost`, unless you're setting up a dev environment where the browser is running on the same machine as the API server.)
+
 Elements-only configuration:
 
 - `NATIVE_ASSET_ID` - the ID of the native asset used to pay fees (defaults to `6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d`, the asset id for BTC)
@@ -128,6 +131,10 @@ All GUI options, plus:
 All GUI options, plus:
 
 - `PORT` - port to bind pre-rendering server (defaults to `5001`)
+
+Note that unlike the regular JavaScript-based app that sends API requests from the client-side,
+the pre-rendering server sends API requests from the server-side. This means that `API_URL` should
+be configured to the URL reachable by the server, typically `http://localhost:3000/`.
 
 ## How to build the Docker image
 
