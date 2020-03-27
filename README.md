@@ -98,7 +98,7 @@ All options are optional.
 - `FOOT_HTML` - custom html to inject at the end of `<body>`
 - `CUSTOM_ASSETS` - space separated list of static assets to add to the build
 - `CUSTOM_CSS` - space separated list of css files to append into `style.css`
-- `NOSCRIPT_REDIR` - redirect noscript users to `{request_path}?nojs` (should be captured server-side and redirected to the prerender server, also see `PRERENDER_URL` in dev server options)
+- `NOSCRIPT_REDIR` - redirect noscript users to `{request_path}?nojs` (should be captured server-side and redirected to the prerender server, also see `NOSCRIPT_REDIR_BASE` in dev server options)
 
 Note that `API_URL` should be set to the publicly-reachable URL where the user's browser can issue requests at.
 (that is, *not* via `localhost`, unless you're setting up a dev environment where the browser is running on the same machine as the API server.)
@@ -124,7 +124,7 @@ All GUI options, plus:
 
 - `PORT` - port to bind http development server (defaults to `5000`)
 - `CORS_ALLOW` - value to set for `Access-Control-Allow-Origin` header (optional)
-- `PRERENDER_URL` - base url for prerender server, for redirecting `?nojs` requests (should be set alongside `NOSCRIPT_REDIR`)
+- `NOSCRIPT_REDIR_BASE` - base url for prerender server, for redirecting `?nojs` requests (should be set alongside `NOSCRIPT_REDIR`)
 
 ### Pre-rendering server options
 

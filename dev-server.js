@@ -21,9 +21,9 @@ if (process.env.CORS_ALLOW) {
   })
 }
 
-if (process.env.PRERENDER_URL) {
+if (process.env.NOSCRIPT_REDIR_BASE) {
   app.use((req, res, next) => {
-    if (req.query.nojs != null) return res.redirect(303, process.env.PRERENDER_URL+req.path)
+    if (req.query.nojs != null) return res.redirect(303, process.env.NOSCRIPT_REDIR_BASE+req.path)
     next()
   })
 }
