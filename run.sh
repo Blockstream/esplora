@@ -74,12 +74,16 @@ else
   ELECTRS_ARGS="$ELECTRS_ARGS -vv"
 fi
 
-if [ -n "$NO_PRECACHE" ]; then
+if [ -z "$NO_PRECACHE" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --precache-scripts /srv/explorer/popular-scripts.txt"
 fi
 
-if [ -n "$NO_ADDRESS_SEARCH" ]; then
+if [ -z "$NO_ADDRESS_SEARCH" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --address-search"
+fi
+
+if [ -n "$ENABLE_REDUCED_STORAGE" ]; then
+    ELECTRS_ARGS="$ELECTRS_ARGS --reduced-storage"
 fi
 
 function preprocess(){

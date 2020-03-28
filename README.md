@@ -171,10 +171,14 @@ docker run -p 50001:50001 -p 8084:80 \
 
 ## Docker config options
 
-Start with `-e DEBUG=verbose` to enable more verbose logging.
+Set `-e DEBUG=verbose` to enable more verbose logging.
 
-Start with `-e NO_PRECACHE=1` to disable pre-caching of statistics for "popular addresses",
+Set `-e NO_PRECACHE=1` to disable pre-caching of statistics for "popular addresses",
 which may take a long time and is not necessary for personal use.
+
+Set `-e NO_ADDRESS_SEARCH=1` to disable the [by-prefix address search](https://github.com/Blockstream/esplora/blob/master/API.md#get-address-prefixprefix) index.
+
+Set `-e ENABLE_REDUCED_STORAGE=1` to enable [esplora-electrs's reduced storage mode](https://github.com/Blockstream/electrs/#reduced-storage-mode).
 
 ## Build new esplora-base
 
