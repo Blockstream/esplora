@@ -58,7 +58,6 @@ else
     NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
     NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
     NGINX_NOSLASH_PATH="liquid"
-    NGINX_CSP="$NGINX_CSP; connect-src 'self' https://assets.blockstream.info/"
 
     ELECTRS_ARGS="$ELECTRS_ARGS --asset-db-path /srv/liquid-assets-db"
     ASSETS_GIT=${ASSETS_GIT:-https://github.com/Blockstream/asset_registry_db}
