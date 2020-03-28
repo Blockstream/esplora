@@ -14,7 +14,7 @@ if (process.browser) {
 }
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
-    , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') ? path : apiBase + path })
+    , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
 
