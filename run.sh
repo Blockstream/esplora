@@ -74,7 +74,7 @@ else
   ELECTRS_ARGS="$ELECTRS_ARGS -vv"
 fi
 
-if [ -z "$NO_PRECACHE" ]; then
+if [[ "$DAEMON-$NETWORK" = "bitcoin-mainnet" && -z "$NO_PRECACHE" ]]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --precache-scripts /srv/explorer/popular-scripts.txt"
 fi
 
