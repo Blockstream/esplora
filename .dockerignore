@@ -6,4 +6,5 @@ Dockerfile
 terraform
 node_modules
 client/node_modules
+prerender-server/node_modules
 *_datadir/
