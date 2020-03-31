@@ -178,7 +178,7 @@ which may take a long time and is not necessary for personal use.
 
 Set `-e NO_ADDRESS_SEARCH=1` to disable the [by-prefix address search](https://github.com/Blockstream/esplora/blob/master/API.md#get-address-prefixprefix) index.
 
-Set `-e ENABLE_REDUCED_STORAGE=1` to enable [esplora-electrs's reduced storage mode](https://github.com/Blockstream/electrs/#reduced-storage-mode).
+Set `-e ENABLE_LIGHTMODE=1` to enable [esplora-electrs's light mode](https://github.com/Blockstream/electrs/#light-mode).
 
 ## Build new esplora-base
 
