@@ -213,9 +213,9 @@ Each transaction object contains simplified overview data, with the following fi
 Get an object where the key is the confirmation target (in number of blocks)
 and the value is the estimated feerate (in sat/vB).
 
-The available confirmation targets are 2, 3, 4, 5, 6, 10, 20, 25, 144, 504 and 1008 blocks.
+The available confirmation targets are 1-25, 144, 504 and 1008 blocks.
 
-For example: `{ "2": 87.882, "3": 87.882, "4": 87.882, "5": 81.129, "6": 68.285, "10": 1.027, "20": 1.027, "25": 1.027, "144": 1.027, "504": 1.027, "1008": 1.027 }`
+For example: `{ "1": 87.882, "2": 87.882, "3": 87.882, "4": 87.882, "5": 81.129, "6": 68.285, ..., "144": 1.027, "504": 1.027, "1008": 1.027 }`
 
 ## Issued assets (Elements/Liquid only)
 
