@@ -61,11 +61,11 @@ export const recentBlocks = ({ t, blocks, loading, ...S }) => homeLayout(
   </div>
 , { ...S, t, activeTab: 'recentBlocks' })
 
-const pagingNav = ({nextBlocks, prevBlocks, t }) =>
+const pagingNav = ({ nextBlocks, prevBlocks, t }) =>
   process.browser
 
-? nextBlocks &&
-    <div className="load-more" role="button" data-loadmoreBlockHeight={nextBlocks}>
+? nextBlocks != null &&
+    <div className="load-more" role="button" data-loadmoreBlockHeight={''+nextBlocks}>
       <span>{t`Load more`}</span>
       <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
     </div>

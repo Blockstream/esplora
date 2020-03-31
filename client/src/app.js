@@ -351,7 +351,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
-  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$
+  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$, moreBlocks$
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$
       , tipHeight$, error$, loading$
