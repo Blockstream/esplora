@@ -8,3 +8,6 @@ node_modules
 client/node_modules
 prerender-server/node_modules
 *_datadir/
+data_bitcoin_mainnet
+data_liquid_mainnet
+data_bitcoin_testnet
