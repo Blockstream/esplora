@@ -9,6 +9,9 @@ export { default as mempool } from './mempool'
 export { default as loading } from './loading'
 export { error, notFound }    from './error'
 
+// Elements
+export { default as pegs }  from './pegs'
+
 if (process.env.ISSUED_ASSETS) {
   exports.asset = require('./asset').default
 
