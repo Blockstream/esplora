@@ -264,6 +264,28 @@ Returns the list of (re)issuance and burn transactions associated with this asse
 
 Does not include regular transactions transferring this asset.
 
+## Peg in/out tranasctions (Elements/Liquid only)
+
+### `GET /pegs`
+
+Get peg in/out statistics. Returns an object with `chain_stats` and `mempool_stats` fields, each with:
+
+- `tx_count`
+- `peg_in_amount`
+- `peg_out_amount`
+
+Example:
+
+```
+{"chain_stats":{"peg_in_amount":1600000000,"peg_out_amount":250490000,"tx_count":53},"mempool_stats":{"peg_in_amount":0,"peg_out_amount":0,"tx_count":0}}
+```
+
+### `GET /pegs/txs`
+### `GET /pegs/txs/mempool`
+### `GET /pegs/txs/chain[/:last_seen]`
+
+Returns a list of peg in/out transactions.
+
 ## Transaction format
 
 - `txid`
