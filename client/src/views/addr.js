@@ -97,7 +97,7 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
         <div>
           <div className="transactions">
             <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
-            { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
+            { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, addr, ...S }))
                        : <img src="img/Loading.gif" className="loading-delay" /> }
           </div>
 

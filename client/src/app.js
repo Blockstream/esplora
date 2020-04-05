@@ -385,10 +385,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
       .subscribe(_ => window.scrollTo(0, 0))
 
-    // Scroll elements selected via URL hash into view
-    DOM.select('.ins-and-outs .selected').elements()
-      .filter(els => !!els.length)
-      .map(els => els[0])
+    // Scroll ins/outs selected via URL hash into view (single tx page only)
+    DOM.select('.ins-and-outs .active').elements()
+      .withLatestFrom(view$)
+      .filter(([ els, view ]) => view == 'tx' && !!els.length)
+      .map(([ els, _ ]) => els[0])
       .distinctUntilChanged().delay(300)
       .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
 

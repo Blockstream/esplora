@@ -1,8 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
 import { linkToParentOut, formatOutAmount, formatAssetAmount, formatHex, linkToAddr, formatNumber } from './util'
 
-const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
-  <div class={{ vin: true, selected: !!query[`input:${index}`] }}>
+const layout = (vin, desc, body, { t, ...S }) =>
+  <div class={{ vin: true, active: isActive(vin, S) }}>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>
@@ -11,6 +11,10 @@ const layout = (vin, desc, body, { t, index, query={}, ...S }) =>
     </div>
     { body }
   </div>
+
+const isActive = (vin, { index, view, query, addr }) =>
+   (view == 'tx' && query && !!query[`input:${index}`])
+|| (view == 'addr' && addr && vin.prevout && vin.prevout.scriptpubkey_address == addr.address)
 
 const pegin = (vin, { isOpen, t, ...S }) => layout(
   vin

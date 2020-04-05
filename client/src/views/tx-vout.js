@@ -3,8 +3,8 @@ import { formatOutAmount, linkToAddr, linkToParentAddr, formatNumber } from './u
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]
 
-const layout = (vout, desc, body, { t, index, query={}, ...S }) =>
-  <div class={{ vout: true, selected: !!query[`output:${index}`] }}>
+const layout = (vout, desc, body, { t, ...S }) =>
+  <div class={{ vout: true, active: isActive(vout, S) }}>
     <div className="vout-header">
       <div className="vout-header-container">
         <span>{ desc || t`Nonstandard` }</span>
@@ -13,6 +13,10 @@ const layout = (vout, desc, body, { t, index, query={}, ...S }) =>
     </div>
     { body }
   </div>
+
+const isActive = (vout, { index, view, query, addr }) =>
+   (view == 'tx' && query && !!query[`output:${index}`])
+|| (view == 'addr' && addr && vout.scriptpubkey_address == addr.address)
 
 const fee = (vout, { t, index, ...S }) => layout(vout, t`Transaction fees`, null, { t, index, ...S })
 

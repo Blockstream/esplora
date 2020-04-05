@@ -999,10 +999,10 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   width: auto;
 }
 
-.vin.selected, .vout.selected {
+.vin.active, .vout.active {
   background: #3B4147 !important;
 }
-.theme-light .vin.selected, .theme-light .vout.selected {
+.theme-light .vin.active, .theme-light .vout.active {
   background: #FFFDD4 !important;
 }
 
