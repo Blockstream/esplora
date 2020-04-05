@@ -52,8 +52,8 @@ const P2SH_P2WPKH_COST = 21*4 // the WU cost for the non-witness part of P2SH-P2
 // Get the realized and potential fee savings of segwit for the given tx
 export function calcSegwitFeeGains(tx) {
 
-  if (process.env.MANDATORY_SEGWIT) {
-    // None of this is relevant for chains with mandatory segwit (like liquid)
+  if (process.env.IS_ELEMENTS) {
+    // None of this is relevant for like liquid/elements where segwit is mandatory
     return { realizedGains: 0, potentialBech32Gains: 0, potentialP2shGains: 0 }
   }
 

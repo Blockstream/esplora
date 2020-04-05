@@ -10,9 +10,8 @@ export { default as loading } from './loading'
 export { error, notFound }    from './error'
 
 // Elements
-export { default as pegs }  from './pegs'
-
-if (process.env.ISSUED_ASSETS) {
+if (process.env.IS_ELEMENTS) {
+  exports.pegs = require('./pegs').default
   exports.asset = require('./asset').default
 
   if (process.env.ASSET_MAP_URL) {

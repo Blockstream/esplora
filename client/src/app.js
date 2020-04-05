@@ -45,14 +45,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goSearch$ = route('/search').map(loc => loc.query.q)
 
   // Elements only
-  , goAsset$ = !process.env.ISSUED_ASSETS ? O.empty() : route('/asset/:asset_id').map(loc => ({
+  , goAsset$ = !process.env.IS_ELEMENTS ? O.empty() : route('/asset/:asset_id').map(loc => ({
       asset_id: loc.params.asset_id
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  , goAssetList$ = !process.env.ISSUED_ASSETS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
+  , goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
 
-  , goPegs$ = route('/pegs').map(loc => ({
+  , goPegs$ = !process.env.IS_ELEMENTS ? O.empty() : route('/pegs').map(loc => ({
       last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
@@ -193,8 +193,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       }))
 
   // Asset and associated txs (elements only)
-  , asset$ = !process.env.ISSUED_ASSETS ? O.empty() : reply('asset').merge(goAsset$.mapTo(null))
-  , assetTxs$ = !process.env.ISSUED_ASSETS ? O.empty() : O.merge(
+  , asset$ = !process.env.IS_ELEMENTS ? O.empty() : reply('asset').merge(goAsset$.mapTo(null))
+  , assetTxs$ = !process.env.IS_ELEMENTS ? O.empty() : O.merge(
       reply('asset-txs').map(txs => S => txs)
     , reply('asset-txs-more').map(txs => S => [ ...S, ...txs ])
     , goAsset$.map(_ => S => null)
@@ -341,7 +341,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                                 { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL, bg: true })
 
     // fetch asset and its txs
-    , !process.env.ISSUED_ASSETS ? O.empty() :
+    , !process.env.IS_ELEMENTS ? O.empty() :
         goAsset$.flatMap(d  => [{ category: 'asset',      method: 'GET', path: `/asset/${d.asset_id}` }
                               , d.last_txids.length
                               ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${last(d.last_txids)}` }
@@ -351,8 +351,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
 
     // fetch peg txs
-    , goPegs$.flatMap(d => [
-                                { category: 'peg-stats', method: 'GET', path: '/pegs' }
+    , !process.env.IS_ELEMENTS ? O.empty() :
+       goPegs$.flatMap(d => [   { category: 'peg-stats', method: 'GET', path: '/pegs' }
        , d.last_txids.length  ? { category: 'peg-txs',   method: 'GET', path: `/pegs/txs/chain/${last(d.last_txids)}` }
                               : { category: 'peg-txs',   method: 'GET', path: `/pegs/txs` }
       ])

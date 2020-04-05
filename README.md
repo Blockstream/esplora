@@ -105,12 +105,11 @@ Note that `API_URL` should be set to the publicly-reachable URL where the user's
 
 Elements-only configuration:
 
+- `IS_ELEMENTS` - set to `1` to indicate this is an Elements-based chain (enables asset issuance and peg features)
 - `NATIVE_ASSET_ID` - the ID of the native asset used to pay fees (defaults to `6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d`, the asset id for BTC)
 - `BLIND_PREFIX` - the base58 address prefix byte used for confidential addresses (defaults to `12`)
 - `PARENT_CHAIN_EXPLORER_TXOUT` - URL format for linking to transaction outputs on the parent chain, with `{txid}` and `{vout}` as placeholders. Example: `https://blockstream.info/tx/{txid}#output:{vout}`
 - `PARENT_CHAIN_EXPLORER_ADDRESS` - URL format for linking to addresses on parent chain, with `{addr}` replaced by the address. Example: `https://blockstream.info/address/{addr}`
-- `MANDATORY_SEGWIT` - set to `1` to indicate segwit is not an optional feature
-- `ASSET_ISSUANCE` - set to `1` to enable support for issued assets
 - `ASSET_MAP_URL` - url to load json asset map (in the "minimal" format)
 
 Menu configuration (useful for inter-linking multiple instances on different networks):

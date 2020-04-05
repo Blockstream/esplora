@@ -27,7 +27,7 @@ export default apiBase => {
     : isHash256(query)
     ? tryResource(`/tx/${query}`)
         .catch(_ => tryResource(`/block/${query}`))
-        .catch(_ => process.env.ISSUED_ASSETS ? tryResource(`/asset/${query}`) : null)
+        .catch(_ => process.env.IS_ELEMENTS ? tryResource(`/asset/${query}`) : null)
         .catch(_ => null)
 
     // lookup as lightning-style short txout identifier
