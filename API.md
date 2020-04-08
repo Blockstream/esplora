@@ -271,13 +271,18 @@ Does not include regular transactions transferring this asset.
 Get peg in/out statistics. Returns an object with `chain_stats` and `mempool_stats` fields, each with:
 
 - `tx_count`
+- `peg_in_count`
 - `peg_in_amount`
 - `peg_out_amount`
+- `peg_out_count`
 
 Example:
 
 ```
-{"chain_stats":{"peg_in_amount":1600000000,"peg_out_amount":250490000,"tx_count":53},"mempool_stats":{"peg_in_amount":0,"peg_out_amount":0,"tx_count":0}}
+{
+  "chain_stats":{"tx_count":53,"peg_in_count":20,"peg_in_amount":1600000000,"peg_out_count":33,"peg_out_amount":250490000},
+  "mempool_stats":{"tx_count":0,"peg_in_count":0,"peg_in_amount":0,"peg_out_count":0,"peg_out_amount":0}
+}
 ```
 
 ### `GET /pegs/txs`
