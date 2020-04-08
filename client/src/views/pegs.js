@@ -59,12 +59,32 @@ export default ({ t, pegStats, pegTxs, goPegs, openTx, loading, ...S }) => {
           </div>}
 
           <div>
-            <div>{t`Peg in/out transactions (confirmed)`}</div>
+            <div>{t`Peg-in transactions (confirmed)`}</div>
+            <div className="mono">{formatNumber(chain_stats.peg_in_count)}</div>
+          </div>
+
+          {mempool_stats.peg_in_count > 0 && <div>
+            <div>{t`Peg-in transactions (unconfirmed)`}</div>
+            <div className="mono">{formatNumber(mempool_stats.peg_in_count)}</div>
+          </div>}
+
+          <div>
+            <div>{t`Peg-out transactions (confirmed)`}</div>
+            <div className="mono">{formatNumber(chain_stats.peg_out_count)}</div>
+          </div>
+
+          {mempool_stats.peg_out_count > 0 && <div>
+            <div>{t`Peg-out transactions (unconfirmed)`}</div>
+            <div className="mono">{formatNumber(mempool_stats.peg_out_count)}</div>
+          </div>}
+
+          <div>
+            <div>{t`Total peg transactions (confirmed)`}</div>
             <div className="mono">{formatNumber(chain_stats.tx_count)}</div>
           </div>
 
-          {mempool_stats.peg_out_amount > 0 && <div>
-            <div>{t`Peg in/out transactions (unconfirmed)`}</div>
+          {mempool_stats.tx_count > 0 && <div>
+            <div>{t`Total peg transactions (unconfirmed)`}</div>
             <div className="mono">{formatNumber(mempool_stats.tx_count)}</div>
           </div>}
 
