@@ -10,7 +10,7 @@ RUN mkdir -p /srv/explorer \
 RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github.com/creationix/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
  && source /root/.nvm/nvm.sh \
- && nvm install v8.11.4
+ && nvm install v12.16.1
 
 ENV SHA256SUM_BITCOINCORE=5fcac9416e486d4960e1a946145566350ca670f9aaba99de6542080851122e4c
 RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.19.1/bitcoin-0.19.1-x86_64-linux-gnu.tar.gz \
