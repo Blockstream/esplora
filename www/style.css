@@ -41,6 +41,8 @@ a, a:link, a:visited, a:hover, a:focus {
   margin-bottom: 24px;
 }
 
+.table { color: inherit }
+
 .navbar {
   margin-bottom: -80px;
   /* background-color: rgba(17, 19, 22, 1); */
