@@ -63,6 +63,7 @@ if [ "${DAEMON}" != "liquid" ]; then
 else
     if [ "${NETWORK}" == "regtest" ]; then
         ELECTRS_NETWORK="liquidregtest"
+        PARENT_NETWORK="--parent-network regtest"
         NGINX_PATH="liquidregtest/"
         NGINX_REWRITE='rewrite ^/liquidregtest(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/liquidregtest(/.*)$ " /liquidregtest/nojs$1?" permanent'
