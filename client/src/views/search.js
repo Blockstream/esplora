@@ -10,6 +10,7 @@ export default ({ t, klass, autofocus }) =>
         placeholder={t`Search for block height, hash, transaction, or address`}
         aria-label="Search"
         autofocus={!!autofocus}
+        required
         autocomplete="off"
       />
       <button className="search-bar-submit" type="image"></button>
