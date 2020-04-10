@@ -28,8 +28,11 @@ export default function render(pathname, args='', body, locals={}, cb) {
     clearTimeout(timeout)
     dispose()
 
-    const status = lastState.view == 'notFound' ? 404 : lastState.error ? 400 : 200
-    cb(null, data || { html: lastHtml, title: lastState.title, status })
+    cb(null, data || {
+      html: lastHtml
+    , title: lastState.title
+    , status: lastState.view == 'notFound' ? 404 : lastState.error ? 400 : 200
+    })
   }
 
   function htmlUpdate(html) {
@@ -54,9 +57,9 @@ export default function render(pathname, args='', body, locals={}, cb) {
   }
 
   const historyDriver = goto$ => {
-    O.from(goto$).subscribe(loc =>
-      done({ redirect: loc.pathname + (loc.search || '') })
-    )
+    O.from(goto$).subscribe(loc => {
+      done({ redirect: loc.pathname + (loc.search ? '?'+loc.search : '') })
+    })
     return O.of({ pathname, search: '?'+args, body })
   }
 
