@@ -1,4 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
+import { nativeAssetId } from '../util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { [staticRoot+'img/github_blue.png']: 'https://github.com/blockstream/esplora' }
@@ -12,7 +13,7 @@ export default ({ t, page }) =>
       <div className="footer-logo">
         <div className="footer-links">
           { process.env.IS_ELEMENTS ? [
-            <a href="pegs">Pegs</a>, ' | '
+            <a href={`asset/${nativeAssetId}`}>Pegs</a>, ' | '
           , <a href="assets">Assets</a>, ' | '
           ] : '' }
           <a href="tx/push">{t`Broadcast tx`}</a> {' | '}

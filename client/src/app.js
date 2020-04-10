@@ -16,7 +16,7 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
-const reservedPaths = [ 'mempool', 'assets', 'search', 'pegs' ]
+const reservedPaths = [ 'mempool', 'assets', 'search' ]
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
@@ -51,11 +51,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , est_chain_seen_count: +loc.query.c || 0
     }))
   , goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
-
-  , goPegs$ = !process.env.IS_ELEMENTS ? O.empty() : route('/pegs').map(loc => ({
-      last_txids: parseHashes(loc.query.txids)
-    , est_chain_seen_count: +loc.query.c || 0
-    }))
   // End Elements only
 
 
@@ -86,7 +81,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , moreATxs$   = click('[data-loadmore-txs-addr]').map(d => ({ addr: d.loadmoreTxsAddr, last_txid: d.loadmoreTxsLastTxid }))
 
   , moreSTxs$   = click('[data-loadmore-txs-asset]').map(d => ({ asset_id: d.loadmoreTxsAsset, last_txid: d.loadmoreTxsLastTxid }))
-  , morePTxs$   = click('[data-loadmore-txs-peg]').map(d => ({ last_txid: d.loadmoreTxsLastTxid }))
 
   , lang$ = storage.local.getItem('lang').first().map(lang => lang || defaultLang)
       .concat(on('select[name=lang]', 'input').map(e => e.target.value))
@@ -206,14 +200,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         // use an empty object if the map fails loading for any reason
         .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
 
-  // Peg stats & txs (elements only)
-  , pegStats$ = reply('peg-stats').merge(goPegs$.mapTo(null))
-  , pegTxs$ = O.merge(
-      reply('peg-txs').map(txs => S => txs)
-    , reply('peg-txs-more').map(txs => S => [ ...S, ...txs ])
-    , goPegs$.map(_ => S => null)
-    ).startWith(null).scan((S, mod) => mod(S))
-
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
@@ -226,7 +212,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
                   , asset$.filter(notNully).mapTo('asset')
-                  , pegStats$.filter(notNully).mapTo('pegs')
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
@@ -241,7 +226,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
                    , asset$.filter(notNully).withLatestFrom(t$, (asset, t) => t`Asset: ${asset.asset_id}`)
-                   , pegStats$.filter(notNully).withLatestFrom(t$, (_, t) => t`Peg in/out transactions`)
                    , goAssetList$.withLatestFrom(t$, (_, t) => t`Registered assets`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
@@ -255,7 +239,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, goAsset$, asset$, assetTxs$
-                     , goPegs$, pegStats$, pegTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -349,16 +332,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
-
-    // fetch peg txs
-    , !process.env.IS_ELEMENTS ? O.empty() :
-       goPegs$.flatMap(d => [   { category: 'peg-stats', method: 'GET', path: `/asset/${nativeAssetId}` }
-       , d.last_txids.length  ? { category: 'peg-txs',   method: 'GET', path: `/asset/${nativeAssetId}/txs/chain/${last(d.last_txids)}` }
-                              : { category: 'peg-txs',   method: 'GET', path: `/asset/${nativeAssetId}/txs` }
-      ])
-    // fetch more txs for peg page
-    , morePTxs$.map(d       => ({ category: 'peg-txs-more', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain/${d.last_txid}` }))
-
     ).map(setBase)
 
   // DOM sink

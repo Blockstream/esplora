@@ -11,7 +11,6 @@ export { error, notFound }    from './error'
 
 // Elements
 if (process.env.IS_ELEMENTS) {
-  exports.pegs = require('./pegs').default
   exports.asset = require('./asset').default
 
   if (process.env.ASSET_MAP_URL) {

@@ -1,6 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
-import { formatNumber, formatJson, formatAssetAmount } from './util'
+import { formatNumber, formatJson, formatAssetAmount, formatSat } from './util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
@@ -25,14 +25,23 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
       , prev_paging_txids = goAsset.last_txids.length ? goAsset.last_txids.slice(0, -1).join(',') : null
       , prev_paging_est_count = goAsset.est_chain_seen_count ? Math.max(goAsset.est_chain_seen_count-perPage, 0) : 0
 
+
+      // relevant for issued assets only
       , entity_type = asset.entity && Object.keys(asset.entity)[0]
-
       , is_non_reissuable = chain_stats.reissuance_tokens != null && chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
-
-      // XXX could an asset have a mixture of blinded and non-blinded issuances?
       , has_blinded_issuances = chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
+      // </>
 
       , is_native_asset = !asset.issuance_txin
+
+      , circulating =
+          is_native_asset
+          ? chain_stats.peg_in_amount + mempool_stats.peg_in_amount
+            - chain_stats.peg_out_amount - mempool_stats.peg_out_amount
+            - chain_stats.burned_amount - mempool_stats.burned_amount
+          : has_blinded_issuances ? null
+          : chain_stats.issued_amount + mempool_stats.issued_amount
+            - chain_stats.burned_amount - mempool_stats.burned_amount
 
   return layout(
     <div>
@@ -75,87 +84,146 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div>{asset.entity[entity_type]}</div>
           </div> }
 
-          { asset.issuance_txin && <div>
-            <div>{t`Issuance transaction`}</div>
-            <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
-          </div> }
+          { is_native_asset
+            // Native asset stats
+            ? [
+                <div>
+                  <div>{t`Pegged in`}</div>
+                  <div className="mono">{formatSat(chain_stats.peg_in_amount)}</div>
+                </div>
 
-          { asset.status && <div>
-            <div>{t`Included in Block`}</div>
-            <div>{ asset.status.confirmed
-              ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
-              : t`Unconfirmed`
-            }</div>
-          </div> }
+              , mempool_stats.peg_in_amount > 0 && <div>
+                  <div>{t`Pegged in (unconfirmed)`}</div>
+                  <div className="mono">{formatSat(mempool_stats.peg_in_amount)}</div>
+                </div>
 
-          { chain_stats.issuance_count > 0 && <div>
-            <div>{t`Number of issuances`}</div>
-            <div>{chain_stats.issuance_count}</div>
-          </div> }
+              , <div>
+                  <div>{t`Pegged out`}</div>
+                  <div className="mono">{formatSat(chain_stats.peg_out_amount)}</div>
+                </div>
 
-          { mempool_stats.issuance_count > 0 && <div>
-            <div>{t`Number of issuances (unconfirmed)`}</div>
-            <div>{mempool_stats.issuance_count}</div>
-          </div> }
+              , mempool_stats.peg_out_amount > 0 && <div>
+                  <div>{t`Pegged out (unconfirmed)`}</div>
+                  <div className="mono">{formatSat(mempool_stats.peg_out_amount)}</div>
+                </div>
 
-          { chain_stats.issued_amount > 0 && <div>
-            <div>{t`Issued amount`}</div>
-            <div>{chain_stats.has_blinded_issuances ? t`Confidential`
-                 : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
-          </div> }
+              , <div>
+                  <div>{t`Burned`}</div>
+                  <div className="mono">{formatSat(chain_stats.burned_amount)}</div>
+                </div>
 
-          { mempool_stats.issued_amount > 0 && <div>
-            <div>{t`Issued amount (unconfirmed)`}</div>
-            <div>{formatAssetAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
-          </div> }
+              , mempool_stats.burned_amount > 0 && <div>
+                  <div>{t`Burned (unconfirmed)`}</div>
+                  <div className="mono">{formatSat(mempool_stats.burned_amount)}</div>
+                </div>
 
-          { chain_stats.burned_amount > 0 && <div>
-            <div>{t`Burned amount`}</div>
-            <div>{formatAssetAmount(chain_stats.burned_amount, asset.precision, t)}</div>
-          </div> }
+              , <div>
+                  <div>{t`Peg/burn transaction count`}</div>
+                  <div className="mono">{formatNumber(chain_stats.tx_count)}</div>
+                </div>
 
-          { mempool_stats.burned_amount > 0 && <div>
-            <div>{t`Burned amount (unconfirmed)`}</div>
-            <div>{formatAssetAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
-          </div> }
+              , mempool_stats.peg_out_amount > 0 && <div>
+                  <div>{t`Peg/burn transaction count (unconfirmed)`}</div>
+                  <div className="mono">{formatNumber(mempool_stats.tx_count)}</div>
+                </div>
 
-          { 'reissuance_tokens' in chain_stats && <div>
-            <div>{t`Reissuance tokens created`}</div>
-            <div>{chain_stats.reissuance_tokens == null ? t`Confidential`
-                : chain_stats.reissuance_tokens === 0 ? t`None`
-                : formatNumber(chain_stats.reissuance_tokens) }</div>
-          </div> }
+              , <div>
+                  <div>{t`Circulating amount`}</div>
+                  <div className="mono">{formatSat(circulating)}</div>
+                </div>
+              ]
 
-          { chain_stats.burned_reissuance_tokens > 0 && <div>
-            <div>{t`Reissuance tokens burned`}</div>
-            <div>{formatNumber(chain_stats.burned_reissuance_tokens)}</div>
-          </div>}
+            // Issued asset stats
+            : [
+                <div>
+                  <div>{t`Issuance transaction`}</div>
+                  <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
+                </div>
 
-          { mempool_stats.burned_reissuance_tokens > 0 && <div>
-            <div>{t`Reissuance tokens burned (unconfirmed)`}</div>
-            <div>{formatNumber(mempool_stats.burned_reissuance_tokens)}</div>
-          </div>}
+              , <div>
+                  <div>{t`Included in Block`}</div>
+                  <div>{ asset.status.confirmed
+                    ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
+                    : t`Unconfirmed`
+                  }</div>
+                </div>
 
-          { !is_native_asset && <div>
-            <div>{t`Re-issuable`}</div>
-            <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
-          </div> }
+              , <div>
+                  <div>{t`Number of issuances`}</div>
+                  <div>{chain_stats.issuance_count}</div>
+                </div>
 
-          { asset.contract_hash && <div>
-            <div>{t`Contract hash`}</div>
-            <div className="mono">{asset.contract_hash}</div>
-          </div> }
+              , mempool_stats.issuance_count > 0 && <div>
+                  <div>{t`Number of issuances (unconfirmed)`}</div>
+                  <div>{mempool_stats.issuance_count}</div>
+                </div>
 
-          { asset.contract && <div>
-            <div>{t`Contract JSON`}</div>
-            <div className="mono contract-json">{formatJson(asset.contract)}</div>
-          </div> }
+              , <div>
+                  <div>{t`Issued amount`}</div>
+                  <div>{chain_stats.has_blinded_issuances ? t`Confidential`
+                       : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
+                </div>
+
+              , mempool_stats.issued_amount > 0 && <div>
+                  <div>{t`Issued amount (unconfirmed)`}</div>
+                  <div>{formatAssetAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
+                </div>
+
+              , chain_stats.burned_amount > 0 && <div>
+                  <div>{t`Burned amount`}</div>
+                  <div>{formatAssetAmount(chain_stats.burned_amount, asset.precision, t)}</div>
+                </div>
+
+              , mempool_stats.burned_amount > 0 && <div>
+                  <div>{t`Burned amount (unconfirmed)`}</div>
+                  <div>{formatAssetAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
+                </div>
+
+              , <div>
+                  <div>{t`Reissuance tokens created`}</div>
+                  <div>{chain_stats.reissuance_tokens == null ? t`Confidential`
+                      : chain_stats.reissuance_tokens === 0 ? t`None`
+                      : formatNumber(chain_stats.reissuance_tokens) }</div>
+                </div>
+
+              , chain_stats.burned_reissuance_tokens > 0 && <div>
+                  <div>{t`Reissuance tokens burned`}</div>
+                  <div>{formatNumber(chain_stats.burned_reissuance_tokens)}</div>
+                </div>
+
+              , mempool_stats.burned_reissuance_tokens > 0 && <div>
+                  <div>{t`Reissuance tokens burned (unconfirmed)`}</div>
+                  <div>{formatNumber(mempool_stats.burned_reissuance_tokens)}</div>
+                </div>
+
+              , <div>
+                  <div>{t`Circulating amount`}</div>
+                  <div className="mono">{ circulating == null ? t`Confidential`
+                      : formatAssetAmount(circulating, asset.precision, t) }</div>
+                </div>
+
+              , <div>
+                  <div>{t`Re-issuable`}</div>
+                  <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
+                </div>
+
+              , asset.contract_hash && <div>
+                  <div>{t`Contract hash`}</div>
+                  <div className="mono">{asset.contract_hash}</div>
+                </div>
+
+              , asset.contract && <div>
+                  <div>{t`Contract JSON`}</div>
+                  <div className="mono contract-json">{formatJson(asset.contract)}</div>
+                </div>
+              ]
+          }
 
         </div>
 
-        { !is_native_asset && <div>
+        <div>
           <div className="transactions">
-            <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
+            <h3>{(is_native_asset ? txsShownTextNative : txsShownTextIssued)(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
             { assetTxs ? assetTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
                        : <img src="img/Loading.gif" className="loading-delay" /> }
           </div>
@@ -167,16 +235,22 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             </div>
           </div>
 
-        </div> }
+        </div>
       </div>
     </div>
   , { t, ...S })
 }
 
-const txsShownText = (total, start, shown, t) =>
+const txsShownTextIssued = (total, start, shown, t) =>
   (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Issuance/Burn Transactions`
-  : t`${total} Issuance/Burn Transactions`
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Issuance and Burn Transactions`
+  : t`${total} Issuance and Burn Transactions`
+
+const txsShownTextNative = (total, start, shown, t) =>
+  (total > perPage && shown > 0)
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Peg In/Out and Burn Transactions`
+  : t`${total} Peg In/Out and Burn transactions`
+
 
 const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
   process.browser
