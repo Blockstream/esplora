@@ -118,6 +118,11 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
                 </div>
 
               , <div>
+                  <div>{t`Circulating amount`}</div>
+                  <div className="mono">{formatSat(circulating)}</div>
+                </div>
+
+              , <div>
                   <div>{t`Peg/burn transaction count`}</div>
                   <div className="mono">{formatNumber(chain_stats.tx_count)}</div>
                 </div>
@@ -125,11 +130,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
               , mempool_stats.peg_out_amount > 0 && <div>
                   <div>{t`Peg/burn transaction count (unconfirmed)`}</div>
                   <div className="mono">{formatNumber(mempool_stats.tx_count)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Circulating amount`}</div>
-                  <div className="mono">{formatSat(circulating)}</div>
                 </div>
               ]
 
