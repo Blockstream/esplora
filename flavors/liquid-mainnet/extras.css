@@ -21,14 +21,6 @@
     background-image: linear-gradient(-90deg, rgba(13, 141, 119, 1) 0%, rgba(17, 103, 97, 1) 16%, rgba(25, 68, 74, 1) 35%, rgba(29, 42, 48, 1) 57%, rgba(14, 16, 17, 1) 100%);
 }
 
-.explorer-title-container {
-    margin-top: 0;
-}
-
-.form-inline {
-    margin-top: -15px;
-}
-
 .assets-table .assets-table-row {
   display: table;
   table-layout: fixed;
