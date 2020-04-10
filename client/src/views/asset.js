@@ -4,7 +4,7 @@ import { formatNumber, formatJson, formatAssetAmount, formatSat } from './util'
 import layout from './layout'
 import search from './search'
 import { txBox } from './tx'
-import { maxMempoolTxs, assetTxsPerPage as perPage } from '../const'
+import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetLabel, nativeAssetName } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
@@ -64,30 +64,20 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             <div className="mono">{asset.asset_id}</div>
           </div>
 
-          { asset.name && <div>
-            <div>{t`Name`}</div>
-            <div>{asset.name}</div>
-          </div> }
-
-          <div>
-            <div>{t`Precision - decimal places`}</div>
-            <div>{asset.precision || 0}</div>
-          </div>
-
-          { asset.ticker && <div>
-            <div>{t`Ticker`}</div>
-            <div>{asset.ticker}</div>
-          </div> }
-
-          { asset.entity && <div>
-            <div>{t(`Issuer ${entity_type}`)}</div>
-            <div>{asset.entity[entity_type]}</div>
-          </div> }
-
           { is_native_asset
-            // Native asset stats
+            // Native asset
             ? [
                 <div>
+                  <div>{t`Name`}</div>
+                  <div>{nativeAssetName}</div>
+                </div>
+
+              , <div>
+                  <div>{t`Ticker`}</div>
+                  <div>{nativeAssetLabel}</div>
+                </div>
+
+              , <div>
                   <div>{t`Pegged in`}</div>
                   <div className="mono">{formatSat(chain_stats.peg_in_amount)}</div>
                 </div>
@@ -133,9 +123,29 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
                 </div>
               ]
 
-            // Issued asset stats
+            // Issued assets
             : [
-                <div>
+                asset.name && <div>
+                  <div>{t`Name`}</div>
+                  <div>{asset.name}</div>
+                </div>
+
+              , <div>
+                  <div>{t`Precision - decimal places`}</div>
+                  <div>{asset.precision || 0}</div>
+                </div>
+
+              , asset.ticker && <div>
+                  <div>{t`Ticker`}</div>
+                  <div>{asset.ticker}</div>
+                </div>
+
+              , asset.entity && <div>
+                  <div>{t(`Issuer ${entity_type}`)}</div>
+                  <div>{asset.entity[entity_type]}</div>
+                </div>
+
+              , <div>
                   <div>{t`Issuance transaction`}</div>
                   <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
                 </div>

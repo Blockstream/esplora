@@ -4,6 +4,7 @@ import qrcode from 'qrcode'
 import debug from 'debug'
 import assert from 'assert'
 import { Observable as O } from './rxjs'
+import { nativeAssetId } from './const'
 
 const BLIND_PREFIX = +process.env.BLIND_PREFIX || 0x0c
     , reHash256 = /^[a-f0-9]{64}$/i
@@ -17,9 +18,6 @@ export const isHash256 = str => reHash256.test(str)
 export const parseHashes = str => (''+str).split(',').filter(isHash256)
 
 // Transaction helpers
-
-export const nativeAssetId    = process.env.NATIVE_ASSET_ID    || '6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d'
-           , nativeAssetLabel = process.env.NATIVE_ASSET_LABEL || 'BTC'
 
 export const isAnyConfidential = tx => tx.vout.some(vout => vout.value == null)
 

@@ -1,7 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
 import moveDec from 'move-decimal-point'
 import { sat2btc } from 'fmtbtc'
-import { nativeAssetLabel, isNativeOut } from '../util'
+import { nativeAssetLabel } from '../const'
+import { isNativeOut } from '../util'
 
 const DEFAULT_PRECISION = 0
 
