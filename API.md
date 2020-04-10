@@ -217,11 +217,25 @@ The available confirmation targets are 1-25, 144, 504 and 1008 blocks.
 
 For example: `{ "1": 87.882, "2": 87.882, "3": 87.882, "4": 87.882, "5": 81.129, "6": 68.285, ..., "144": 1.027, "504": 1.027, "1008": 1.027 }`
 
-## Issued assets (Elements/Liquid only)
+## Assets (Elements/Liquid only)
 
 ### `GET /asset/:asset_id`
 
-Get information about an issued asset. Returns an object with:
+Get information about an asset.
+
+For the network's native asset (i.e. L-BTC in Liquid), returns an object with:
+
+- `asset_id`
+- `chain_stats` and `mempool_stats`, each with:
+  - `tx_count`
+  - `peg_in_count`
+  - `peg_in_amount`
+  - `peg_out_amount`
+  - `peg_out_count`
+  - `burn_count`
+  - `burned_amount`
+
+For user-issued assets, returns an object with:
 
 - `asset_id`
 - `issuance_txin`: the issuance transaction input
@@ -233,7 +247,7 @@ Get information about an issued asset. Returns an object with:
 - `status`: the confirmation status of the initial asset issuance transaction
 - `contract_hash`: the contract hash committed as the issuance entropy
 - `reissuance_token`: the asset id of the reissuance token
-- `chain_stats` and `mempool_stats`
+- `chain_stats` and `mempool_stats`, each with:
   - `tx_count`: the number of transactions associated with this asset (does not include confidential transactions)
   - `issuance_count`: the number of (re)issuance transactions
   - `issued_amount`: the total known amount issued (should be considered a minimum bound when `has_blinded_issuances` is true)
@@ -250,46 +264,45 @@ If the asset is available on the registry, the following fields are returned as 
 - `precision`: the number of decimal places for units of this asset (defaults to 0)
 - `name`: a description for the asset (up to 255 characters)
 
-Example:
+Example native asset:
 
 ```
-{"asset_id":"4d4354944366ea1e33f27c37fec97504025d6062c551208f68597d1ed40ec53e","contract":{"entity":{"domain":"magicalcryptofriends.com"},"issuer_pubkey":"02d2b29fe8ffef6acb5e75d0cd7f9c55d502bd876434b87c39ae209fc57c57f52a","name":"Magical Crypto Token","nonce":"13158145","precision":0,"ticker":"MCT","version":0},"issuance_txin":{"txid":"d535ded7ce07a0bb9c61d0fefff8127da3fc4833302b05e2b8a0cf9e04446af1","vin":0},"issuance_prevout":{"txid":"839e819d74ac98110fce63a3dab3a1075bbddcad811e0e125641989581919ab0","vout":1},"name":"Magical Crypto Token","ticker":"MCT","precision":0,"entity":{"domain":"magicalcryptofriends.com"}}
+{
+  "asset_id": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+  "precision": 8,
+  "name": "Liquid Bitcoin",
+  "ticker": "L-BTC",
+  "chain_stats": {"tx_count": 54, "peg_in_count": 2, "peg_in_amount": 1600000000, "peg_out_count": 51, "peg_out_amount": 250490000, "burn_count":0, "burned_amount": 0 },
+  "mempool_stats": {"tx_count": 3, "peg_in_count": 0, "peg_in_amount": 0, "peg_out_count": 3, "peg_out_amount": 70020000, "burn_count": 0, "burned_amount": 0 }
+}
+```
+
+Example user-issued asset:
+
+```
+{
+  "asset_id": "d8a317ce2c14241192cbb3ebdb9696250ca1251a58ba6251c29fcfe126c9ca1f",
+  "issuance_txin":{ "txid": "39affca34bd51ed080f89f1e7a5c7a49d6d9e4779c84424ae50df67dd60dcaf7", "vin": 0},
+  "issuance_prevout": { "txid": "0cdd74c540af637d5a3874ce8500891fd8e94ec8e3d5d436d86e87b6759a7674", "vout": 0 },
+  "reissuance_token": "eb8b210d42566699796dbf78649120fd5c9d9b04cabc8f480856e04bd5e9fc22",
+  "contract_hash": "025d983cc774da665f412ccc6ccf51cb017671c2cb0d3c32d10d50ffdf0a57de",
+  "status": { "confirmed": true, "block_height": 105, "block_hash": "7bf84f2aea30b02981a220943f543a6d6e7ac646d59ef76cff27dca8d27b2b67", "block_time": 1586248729 },
+  "chain_stats": { "tx_count": 1, "issuance_count": 1, "issued_amount": 0, "burned_amount": 0, "has_blinded_issuances": true, "reissuance_tokens": 0, "burned_reissuance_tokens": 0 },
+  "mempool_stats": { "tx_count": 0, "issuance_count": 0, "issued_amount": 0, "burned_amount": 0, "has_blinded_issuances": false, "reissuance_tokens": null, "burned_reissuance_tokens": 0 }
+}
 ```
 
 ### `GET /asset/:asset_id/txs`
 ### `GET /asset/:asset_id/txs/mempool`
 ### `GET /asset/:asset_id/txs/chain[/:last_seen]`
 
-Returns the list of (re)issuance and burn transactions associated with this asset id.
+Get transactions associated with the specified asset.
+
+For the network's native asset, returns a list of peg in, peg out and burn transactions.
+
+For user-issued assets, returns a list of issuance, reissuance and burn transactions.
 
 Does not include regular transactions transferring this asset.
-
-## Peg in/out tranasctions (Elements/Liquid only)
-
-### `GET /pegs`
-
-Get peg in/out statistics. Returns an object with `chain_stats` and `mempool_stats` fields, each with:
-
-- `tx_count`
-- `peg_in_count`
-- `peg_in_amount`
-- `peg_out_amount`
-- `peg_out_count`
-
-Example:
-
-```
-{
-  "chain_stats":{"tx_count":53,"peg_in_count":20,"peg_in_amount":1600000000,"peg_out_count":33,"peg_out_amount":250490000},
-  "mempool_stats":{"tx_count":0,"peg_in_count":0,"peg_in_amount":0,"peg_out_count":0,"peg_out_amount":0}
-}
-```
-
-### `GET /pegs/txs`
-### `GET /pegs/txs/mempool`
-### `GET /pegs/txs/chain[/:last_seen]`
-
-Returns a list of peg in/out transactions.
 
 ## Transaction format
 

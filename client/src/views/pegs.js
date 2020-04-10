@@ -11,11 +11,13 @@ const staticRoot = process.env.STATIC_ROOT || ''
 export default ({ t, pegStats, pegTxs, goPegs, openTx, loading, ...S }) => {
   if (!pegStats) return;
 
-  const { chain_stats, mempool_stats } = pegStats
+  const { chain_stats, mempool_stats, ticker } = pegStats
       , total_txs = chain_stats.tx_count + mempool_stats.tx_count
       , shown_txs = pegTxs ? pegTxs.length : 0
 
-      , current_peg = chain_stats.peg_in_amount + mempool_stats.peg_in_amount - chain_stats.peg_out_amount - mempool_stats.peg_out_amount
+      , current_peg = chain_stats.peg_in_amount + mempool_stats.peg_in_amount
+                    - chain_stats.peg_out_amount - mempool_stats.peg_out_amount
+                    - chain_stats.burned_amount - mempool_stats.burned_amount
 
       // paging is on a best-effort basis, might act oddly if the set of transactions change
       // while the user is paging.
@@ -32,44 +34,54 @@ export default ({ t, pegStats, pegTxs, goPegs, openTx, loading, ...S }) => {
       <div className="jumbotron jumbotron-fluid peg-txs-page">
         <div className="container">
           { search({ t, klass: 'page-search-bar' }) }
-          <h1>{t`Peg in/out transactions`}</h1>
+          <h1>{t`${ticker} Peg In/Out and Burns`}</h1>
         </div>
       </div>
       <div className="container">
 
         <div className="stats-table">
           <div>
-            <div>{t`Total pegged in (confirmed)`}</div>
+            <div>{t`Pegged in (confirmed)`}</div>
             <div className="mono">{formatSat(chain_stats.peg_in_amount)}</div>
           </div>
 
           {mempool_stats.peg_in_amount > 0 && <div>
-            <div>{t`Total pegged in (unconfirmed)`}</div>
+            <div>{t`Pegged in (unconfirmed)`}</div>
             <div className="mono">{formatSat(mempool_stats.peg_in_amount)}</div>
           </div>}
 
           <div>
-            <div>{t`Total pegged out (confirmed)`}</div>
+            <div>{t`Pegged out (confirmed)`}</div>
             <div className="mono">{formatSat(chain_stats.peg_out_amount)}</div>
           </div>
 
           {mempool_stats.peg_out_amount > 0 && <div>
-            <div>{t`Total pegged out (unconfirmed)`}</div>
+            <div>{t`Pegged out (unconfirmed)`}</div>
             <div className="mono">{formatSat(mempool_stats.peg_out_amount)}</div>
           </div>}
 
           <div>
-            <div>{t`Peg in/out transactions (confirmed)`}</div>
+            <div>{t`Burned (confirmed)`}</div>
+            <div className="mono">{formatSat(chain_stats.burned_amount)}</div>
+          </div>
+
+          {mempool_stats.burned_amount > 0 && <div>
+            <div>{t`Burned (unconfirmed)`}</div>
+            <div className="mono">{formatSat(mempool_stats.burned_amount)}</div>
+          </div>}
+
+          <div>
+            <div>{t`Total transaction count (confirmed)`}</div>
             <div className="mono">{formatNumber(chain_stats.tx_count)}</div>
           </div>
 
           {mempool_stats.peg_out_amount > 0 && <div>
-            <div>{t`Peg in/out transactions (unconfirmed)`}</div>
+            <div>{t`Total transaction count (unconfirmed)`}</div>
             <div className="mono">{formatNumber(mempool_stats.tx_count)}</div>
           </div>}
 
           <div>
-            <div>{t`Currently in peg`}</div>
+            <div>{t`Circulating amount`}</div>
             <div className="mono">{formatSat(current_peg)}</div>
           </div>
        </div>
@@ -94,8 +106,8 @@ export default ({ t, pegStats, pegTxs, goPegs, openTx, loading, ...S }) => {
 
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Peg In/Out Transactions`
-  : t`${total} Peg In/Out Transactions`
+  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Peg In/Out and Burn Transactions`
+  : t`${total} Peg In/Out and Burn transactions`
 
 const pagingNav = (last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
   process.browser

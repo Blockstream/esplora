@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256, makeAddressQR } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256, makeAddressQR, nativeAssetId } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -352,12 +352,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch peg txs
     , !process.env.IS_ELEMENTS ? O.empty() :
-       goPegs$.flatMap(d => [   { category: 'peg-stats', method: 'GET', path: '/pegs' }
-       , d.last_txids.length  ? { category: 'peg-txs',   method: 'GET', path: `/pegs/txs/chain/${last(d.last_txids)}` }
-                              : { category: 'peg-txs',   method: 'GET', path: `/pegs/txs` }
+       goPegs$.flatMap(d => [   { category: 'peg-stats', method: 'GET', path: `/asset/${nativeAssetId}` }
+       , d.last_txids.length  ? { category: 'peg-txs',   method: 'GET', path: `/asset/${nativeAssetId}/txs/chain/${last(d.last_txids)}` }
+                              : { category: 'peg-txs',   method: 'GET', path: `/asset/${nativeAssetId}/txs` }
       ])
     // fetch more txs for peg page
-    , morePTxs$.map(d       => ({ category: 'peg-txs-more', method: 'GET', path: `/pegs/txs/chain/${d.last_txid}` }))
+    , morePTxs$.map(d       => ({ category: 'peg-txs-more', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain/${d.last_txid}` }))
 
     ).map(setBase)
 
