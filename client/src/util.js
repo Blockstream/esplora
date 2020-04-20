@@ -1,5 +1,4 @@
 import qs from 'querystring'
-import bs58check from 'bs58check'
 import qrcode from 'qrcode'
 import debug from 'debug'
 import assert from 'assert'
@@ -32,15 +31,27 @@ export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vou
 // Address helpers
 
 // Try removing blinding key from confidential address and return in standard address encoding
-export const tryUnconfidentialAddress = addr => {
-  try {
-    const bytes = bs58check.decode(addr)
-    assert(bytes.length == 55 && bytes[0] == BLIND_PREFIX)
-    return bs58check.encode(Buffer.concat([bytes.slice(1, 2), bytes.slice(-20)]))
-  } catch (e) {
-    return addr
-  }
-}
+const tryUnconfidentialAddress =
+  process.env.IS_ELEMENTS && (bs58check => addr => {
+    try {
+      const bytes = bs58check.decode(addr)
+      assert(bytes.length == 55 && bytes[0] == BLIND_PREFIX)
+      return bs58check.encode(Buffer.concat([bytes.slice(1, 2), bytes.slice(-20)]))
+    } catch (e) {
+      return addr
+    }
+  })(require('bs58check')) // conditional load to avoid bundling in non-elements mode
+
+
+export const processGoAddr =
+  !process.env.IS_ELEMENTS
+  ? goAddr => ({ ...goAddr, display_addr: goAddr.addr })
+  : goAddr => {
+      const addr = tryUnconfidentialAddress(goAddr.addr)
+          , confidential_addr = addr != goAddr.addr ? goAddr.addr : null
+          , display_addr = confidential_addr || addr
+      return { ...goAddr, addr, display_addr, confidential_addr }
+    }
 
 export const makeAddressQR = addr => {
   let qrstr = `bitcoin:${addr}`

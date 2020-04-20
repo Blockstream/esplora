@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, tryUnconfidentialAddress, parseHashes, isHash256, makeAddressQR } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -34,9 +34,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => ({
-      addr: tryUnconfidentialAddress(loc.params.addr)
+      addr: loc.params.addr
     , last_txids: parseHashes(loc.query.txids)
-    , est_chain_seen_count: +loc.query.c || 0 }))
+    , est_chain_seen_count: +loc.query.c || 0
+    })).map(processGoAddr)
   , goTx$     = route('/tx/:txid').map(loc => loc.params.txid).filter(isHash256)
   , goPush$   = route('/tx/push')
   , goRecent$ = route('/tx/recent')
@@ -142,8 +143,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , byHeight$ = reply('height', true).map(r => r.text)
 
   // Address and associated txs
-  , addr$ = reply('address').merge(goAddr$.mapTo(null))
-  , addrQR$ = addr$.flatMap(addr => addr ? makeAddressQR(addr.address) : [])
+  , addr$ = reply('address')
+      .withLatestFrom(goAddr$, (addr, goAddr) => ({ ...addr, display_addr: goAddr.display_addr }))
+      .merge(goAddr$.mapTo(null))
+  , addrQR$ = addr$.filter(Boolean).map(addr => addr.display_addr).flatMap(makeAddressQR)
   , addrTxs$ = O.merge(
       reply('addr-txs').map(txs => S => txs)
     , reply('addr-txs-more').map(txs => S => [ ...S, ...txs ])
@@ -224,7 +227,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , title$ = O.merge(page$.mapTo(null)
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
-                   , addr$.filter(notNully).withLatestFrom(t$, (addr, t) => t`Address: ${addr.address}`)
+                   , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)
                    , asset$.filter(notNully).withLatestFrom(t$, (asset, t) => t`Asset: ${asset.asset_id}`)
                    , goAssetList$.withLatestFrom(t$, (_, t) => t`Registered assets`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
@@ -353,9 +356,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
-  dbg({ goHome$, goBlock$, goTx$, togTx$, page$, lang$, vdom$, moreBlocks$
+  dbg({ goHome$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
       , openTx$, openBlock$, updateQuery$
-      , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$
+      , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , assetMap$

@@ -42,6 +42,8 @@ export default apiBase => {
     // lookup as address if it resembles one
     : reAddrLike.test(query)
     ? tryResource(`/address/${tryUnconfidentialAddress(query)}`)
+        // use the user-provided address and not the (potentially) unconfidential one
+        .then(_ => `/address/${query}`)
         .catch(_ => null)
 
     // @XXX the tx/block/addr resource will be fetched again later for display,
