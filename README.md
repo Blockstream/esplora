@@ -205,20 +205,34 @@ docker push blockstream/esplora-base:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
 ```
 
-## Build new ci
+## Build new tor (or you can pull directly from Docker Hub - `blockstream/tor:latest`)
 
 ```
-docker build --squash -t blockstream/gcloud-docker:latest -f Dockerfile.ci .
-docker push blockstream/gcloud-docker:latest
-docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-docker
+docker build --squash -t blockstream/tor:latest -f Dockerfile.tor .
+docker push blockstream/tor:latest
+docker inspect --format='{{index .RepoDigests 0}}' blockstream/tor
 ```
+Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
 
-# Build new gcloud-tor
-
+Example torrc:
 ```
-docker build --squash -t blockstream/gcloud-tor:latest -f Dockerfile.tor .
-docker push blockstream/gcloud-tor:latest
-docker inspect --format='{{index .RepoDigests 0}}' blockstream/gcloud-tor
+DataDirectory /home/tor/tor
+PidFile /var/run/tor/tor.pid
+
+ControlSocket /var/run/tor/control GroupWritable RelaxDirModeCheck
+ControlSocketsGroupWritable 1
+SocksPort unix:/var/run/tor/socks WorldWritable
+SocksPort 9050
+
+CookieAuthentication 1
+CookieAuthFileGroupReadable 1
+CookieAuthFile /var/run/tor/control.authcookie
+
+Log [handshake]debug [*]notice stderr
+
+HiddenServiceDir /home/tor/tor/hidden_service_v3/
+HiddenServiceVersion 3
+HiddenServicePort 80 127.0.0.1:80
 ```
 
 ## License
