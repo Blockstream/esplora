@@ -351,8 +351,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    // XXX: replace still uses a single string with the search query (https://github.com/cyclejs/cyclejs/pull/890#issuecomment-542413707)
-    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname: pathname+qs, state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname, search: qs, state: { noRouting: true } }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
