@@ -38,3 +38,16 @@ index 36e6b3f..616874f 100644
          });
          sink$._add(internalSink$);
          return historyDriver(internalSink$);
+diff --git a/node_modules/@cycle/history/lib/cjs/createHistory$.js b/node_modules/@cycle/history/lib/cjs/createHistory$.js
+index 350fd1a..e8cdabb 100644
+--- a/node_modules/@cycle/history/lib/cjs/createHistory$.js
++++ b/node_modules/@cycle/history/lib/cjs/createHistory$.js
+@@ -32,7 +32,7 @@ function makeCallOnHistory(history) {
+             history.push(__assign({}, input));
+         }
+         if (input.type === 'replace') {
+-            history.replace(input.pathname, input.state);
++            history.replace(__assign({}, input));
+         }
+         if (input.type === 'go') {
+             history.go(input.amount);
