@@ -31,7 +31,7 @@ export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vou
 // Address helpers
 
 // Try removing blinding key from confidential address and return in standard address encoding
-const tryUnconfidentialAddress =
+export const tryUnconfidentialAddress =
   process.env.IS_ELEMENTS && (bs58check => addr => {
     try {
       const bytes = bs58check.decode(addr)
