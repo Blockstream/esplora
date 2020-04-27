@@ -32,15 +32,17 @@ export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vou
 
 // Try removing blinding key from confidential address and return in standard address encoding
 export const tryUnconfidentialAddress =
-  process.env.IS_ELEMENTS && (bs58check => addr => {
-    try {
-      const bytes = bs58check.decode(addr)
-      assert(bytes.length == 55 && bytes[0] == BLIND_PREFIX)
-      return bs58check.encode(Buffer.concat([bytes.slice(1, 2), bytes.slice(-20)]))
-    } catch (e) {
-      return addr
-    }
-  })(require('bs58check')) // conditional load to avoid bundling in non-elements mode
+  !process.env.IS_ELEMENTS
+  ? addr => addr
+  : (bs58check => addr => {
+      try {
+        const bytes = bs58check.decode(addr)
+        assert(bytes.length == 55 && bytes[0] == BLIND_PREFIX)
+        return bs58check.encode(Buffer.concat([bytes.slice(1, 2), bytes.slice(-20)]))
+      } catch (e) {
+        return addr
+      }
+    })(require('bs58check')) // conditional load to avoid bundling in non-elements mode
 
 
 export const processGoAddr =
