@@ -50,8 +50,6 @@ app.get('/style-rtl.css', p(async (req, res) =>
 
 // Add handlers for custom asset overrides
 custom_assets.forEach(pattern => {
-  console.log(process.env.CUSTOM_ASSETS, pattern)
-
   // pattern could also be a simple path
   const paths = glob.sync(pattern)
 
