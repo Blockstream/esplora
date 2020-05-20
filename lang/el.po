@@ -509,4 +509,4 @@ msgid "Weight units"
 msgstr "Weight units"
 
 msgid "Witness"
-msgstr "Witness"
+msgstr "Μάρτυρας"
