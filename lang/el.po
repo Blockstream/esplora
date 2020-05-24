@@ -381,7 +381,7 @@ msgid ""
 "This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
 "or %s by upgrading to SegWit-P2SH"
 msgstr ""
-Αυτή η συναλλαγή θα μπορούσε να εξοικονομήσει %στα τέλη αναβαθμίζοντας σε εγγενή SegWit-Bech32 "
+"Αυτή η συναλλαγή θα μπορούσε να εξοικονομήσει %στα τέλη αναβαθμίζοντας σε εγγενή SegWit-Bech32 "
 "ή % s με αναβάθμιση σε SegWit-P2SH"
 
 msgid ""
