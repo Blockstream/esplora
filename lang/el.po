@@ -1,0 +1,512 @@
+# Translators:
+# Alex <taosubmarines@mail.ru>, 2020
+# 
+msgid ""
+msgstr ""
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Address"
+msgstr "Διεύθυνση"
+
+msgid "Address reuse"
+msgstr "Επαναληπτική διεύθυνσή"
+
+msgid "Address: %s"
+msgstr "Διεύθυνση: %s"
+
+msgid "Amount commitment"
+msgstr "Ποσό δέσμευσης"
+
+msgid "API"
+msgstr "API"
+
+msgid "Asset commitment"
+msgstr "Δέσμευση περιουσιακών στοιχείων"
+
+msgid "Asset ID"
+msgstr "Αναγνωριστικό στοιχείο"
+
+msgid "Bits"
+msgstr "Μπιτς"
+
+msgid "Block Challenge"
+msgstr "Πρόκληση μπλοκ"
+
+msgid "Block height"
+msgstr "Ύψος μπλοκ"
+
+msgid "Block not found"
+msgstr "Δεν βρέθηκε μπλοκ"
+
+msgid "Block %s"
+msgstr "Μπλοκ %s"
+
+msgid "Block Solution"
+msgstr "Λύση μπλοκ"
+
+msgid "Block #%s: %s"
+msgstr "Μπλοκ #%s: %s"
+
+msgid "Block timestamp"
+msgstr "Σήμανση μπλοκ"
+
+msgid "Broadcast raw transaction (hex)"
+msgstr "Εκπομπή ακατέργαστης συναλλαγής (δεκαεξαδική)"
+
+msgid "Broadcast transaction"
+msgstr "Mετάδοση συναλλαγής"
+
+msgid "Broadcast tx"
+msgstr "Mετάδοση tξ"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Coinbase"
+msgstr "Κόινμπεϊς"
+
+msgid ""
+"CoinJoin transactions hide the link between inputs and outputs and improves "
+"Bitcoin's overall privacy and fungibility for everyone."
+msgstr ""
+"Οι CoinJoin συναλλαγές αποκρύπτουν τη σύνδεση μεταξύ εισροών και εκροών και βελτιώνουν "
+"τη συνολική ιδιωτικότητα και την ευελιξία του Bitcoin για όλους."
+
+msgid ""
+"compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
+"blocks"
+msgstr ""
+"σε σύγκριση με την προτεινόμενη αμοιβή του bitcoind % s sat / vB για επιβεβαίωση εντός 2"
+"μπλοκ"
+
+msgid "Confidential"
+msgstr "Απόρρητο"
+
+msgid "Confirmed"
+msgstr "Επιβεβαιωθεί"
+
+msgid "Confirmed received"
+msgstr "Eπιβεβαίωσης ελήφθη"
+
+msgid "Confirmed spent"
+msgstr "Επιβεβαιωμένες δαπάνες"
+
+msgid "Confirmed tx count"
+msgstr "Αριθμός επιβεβαιωμένον tx"
+
+msgid "Confirmed unspent"
+msgstr "Επιβεβαιωμένα μη δαπανηθέντα"
+
+msgid "Currently unavailable"
+msgstr "Προς το παρόν μη διαθέσιμο"
+
+msgid "Details"
+msgstr "Λεπτομέριες"
+
+msgid "Esplora is currently unavailable, please try again later."
+msgstr "Το Esplora δεν είναι διαθέσιμο προς το παρόν, δοκιμάστε ξανά αργότερα."
+
+msgid "ETA"
+msgstr "ETA"
+
+msgid "Fee"
+msgstr "Χρέωση"
+
+msgid "Go"
+msgstr "Mεταβείτε"
+
+msgid "Height"
+msgstr "Ύψος"
+
+msgid "In best chain"
+msgstr "Στην καλύτερη αλυσίδα"
+
+msgid "In best chain (%s confirmations) (singular)"
+msgstr "Στην καλύτερη αλυσίδα (1 επιβεβαίωση)"
+
+msgid "In best chain (%s confirmations) (plural)"
+msgstr "Στην καλύτερη αλυσίδα (%0 επιβεβαιώσεις)"
+
+msgid "Included in Block"
+msgstr "Περιλαμβάνεται στο μπλοκ"
+
+msgid "in %s blocks (%s from tip)"
+msgstr "σε μπλοκ %s (%s από την άκρη)"
+
+msgid "Issuance"
+msgstr "Έκδοση"
+
+msgid "Issuance amount"
+msgstr "Ποσό έκδοσης"
+
+msgid "Issuance blinding nonce"
+msgstr "Έκδοση τυφλών του παρόν"
+
+msgid "Issuance entropy"
+msgstr "Εντροπία έκδοσης"
+
+msgid ""
+"It is possible to tell the change output apart because you're sending to a "
+"different script type than the one you're spending from."
+msgstr ""
+"Είναι δυνατό να ξεχωρίσετε την έξοδο αλλαγής επειδή στέλνετε σε ένα "
+"διαφορετικό τύπο σκριπτ από αυτόν από τον οποίο ξοδεύετε."
+
+msgid "lang_id"
+msgstr "en"
+
+msgid "lang_name"
+msgstr "Αγγλικά"
+
+msgid "Likely self-transfer"
+msgstr "Πιθανή αυτο-μεταφορά"
+
+msgid "Loading..."
+msgstr "Φόρτωση..."
+
+msgid "Load more"
+msgstr "Φορτώστε περισσότερα"
+
+msgid "Lock time"
+msgstr "Χρόνος κλειδαριών"
+
+msgid "ltr"
+msgstr "ltr"
+
+msgid "Mempool"
+msgstr "Μέμπουλ"
+
+msgid "Merkle root"
+msgstr "Ρίζα Merkle"
+
+msgid "New asset"
+msgstr "Νέο περιουσιακό στοιχείο"
+
+msgid "Newer"
+msgstr "Καινούργιο"
+
+msgid "Next"
+msgstr "Επόμενο"
+
+msgid "Nonce"
+msgstr "Το παρόν"
+
+msgid "Nonstandard"
+msgstr "Μεταβλητό"
+
+msgid "No outputs"
+msgstr "Κανένα παράγοντο"
+
+msgid "No recent transactions"
+msgstr "Δεν υπάρχουν πρόσφατες συναλλαγές"
+
+msgid "No reissuance"
+msgstr "Καμία επανέκδοση"
+
+msgid "No results found"
+msgstr "Δεν βρέθηκαν αποτελέσματα"
+
+msgid "nSequence"
+msgstr "Ακολουθία n"
+
+msgid "Older"
+msgstr "Παλαιότερα"
+
+msgid "OP_RETURN data"
+msgstr "OP_RETURN δεδομένα"
+
+msgid "Opted in"
+msgstr "Επιλέξατε"
+
+msgid "Orphaned"
+msgstr "Ορφανή"
+
+msgid "Outpoint"
+msgstr "Εκτός σημείου"
+
+msgid "Output in parent chain"
+msgstr "Έξοδος στη μητρική αλυσίδα"
+
+msgid "overpaying by %s%"
+msgstr "υπερπληρωμή κατά %s%"
+
+msgid "Page Not Found"
+msgstr "Η Σελίδα Δεν Βρέθηκε"
+
+msgid "Peg-out"
+msgstr "Peg-out"
+
+msgid "Peg-out address"
+msgstr "Peg-out διεύθυνση"
+
+msgid "Peg-out ASM"
+msgstr "Peg-out ASM"
+
+msgid "Peg-out to"
+msgstr "Peg-out σε"
+
+msgid "Possibly a CoinJoin transaction"
+msgstr "Ενδεχομένως μια συναλλαγή CoinJoin"
+
+msgid "Powered by esplora"
+msgstr "Τροφοδοτείται από esplora"
+
+msgid "Prev"
+msgstr "Προηγ"
+
+msgid "Previous"
+msgstr "Προηγούμενη"
+
+msgid "Previous output address"
+msgstr "Προηγούμενη διεύθυνση εξόδου"
+
+msgid "Previous output script"
+msgstr "Προηγούμενη έξοδος σκριπτ"
+
+msgid "Privacy analysis"
+msgstr "Ανάλυση απορρήτου"
+
+msgid "(RBF)"
+msgstr "(RBF)"
+
+msgid "Recent transactions"
+msgstr "Πρόσφατες συναλλαγές"
+
+msgid "Reissuance"
+msgstr "Επανέκδοση"
+
+msgid "Reissuance commitment"
+msgstr "Δέσμευση επανέκδοσης"
+
+msgid "Reissuance keys"
+msgstr "Κλειδιά επανέκδοσης"
+
+msgid "Replace by fee"
+msgstr "Αντικαταστήστε με χρέωση"
+
+msgid "Round payment amount"
+msgstr "Ποσό στρογγυλής πληρωμής"
+
+msgid "sat/vbyte"
+msgstr "sat/vbyte"
+
+msgid "%s blocks"
+msgstr "%s μπλοκ"
+
+msgid "Scan QR"
+msgstr "Σάρωση QR"
+
+msgid "%s Confirmations (singular)"
+msgstr "1 Επιβεβαίωση"
+
+msgid "%s Confirmations (plural)"
+msgstr "%0 επιβεβαιώσεις"
+
+msgid "scriptPubKey (asm)"
+msgstr "scriptPubKey (asm)"
+
+msgid "scriptPubKey (hex)"
+msgstr "scriptPubKey (hex)"
+
+msgid "scriptSig (asm)"
+msgstr "scriptSig (asm)"
+
+msgid "scriptSig (hex)"
+msgstr "scriptSig (hex)"
+
+msgid "Search for block height, hash, transaction, or address"
+msgstr "Αναζήτηση ύψους μπλοκ, κατακερματισμού, συναλλαγής ή διεύθυνσης"
+
+msgid "SegWit fee savings"
+msgstr "SegWit εξοικονόμηση τελών"
+
+msgid ""
+"Sending exact amounts (with no change) is an indication the bitcoins likely "
+"didn't change hands."
+msgstr ""
+"Η αποστολή ακριβών ποσών (χωρίς αλλαγή) αποτελεί πιθανή ένδειξη ότι τα bitcoins "
+"δεν άλλαξαν χέρια."
+
+msgid "Sending to a different script type"
+msgstr "Αποστολή σε διαφορετικό τύπο σκριπτ"
+
+msgid "%s from tip"
+msgstr "%s από την άκρη"
+
+msgid "Size"
+msgstr "Μέγεθος"
+
+msgid "Size (KB)"
+msgstr "Μέγεθος (KB)"
+
+msgid "%s of %s Transactions"
+msgstr "%s των συναλλαγών %s"
+
+msgid "%s outputs (singular)"
+msgstr "1 παράγοντο"
+
+msgid "%s outputs (plural)"
+msgstr "%0 παραγοντα"
+
+msgid "Spending tx"
+msgstr "Δαπάνες tx"
+
+msgid "Spent by"
+msgstr "Ξοδευτικαν από"
+
+msgid "%s (%s sat/vB)"
+msgstr "%s (%s sat/vB)"
+
+msgid "Status"
+msgstr "Κατάσταση"
+
+msgid "%s Transactions (singular)"
+msgstr "1 Συναλλαγή"
+
+msgid "%s Transactions (plural)"
+msgstr "%0 Συναλλαγές"
+
+msgid "style.css"
+msgstr "style.css"
+
+msgid ""
+"There's an indication that one output is more likely to be the change "
+"because some inputs would've been unnecessary if it was the payment."
+msgstr ""
+"Υπάρχει μια ένδειξη ότι μια έξοδος είναι πιο πιθανό να είναι η αλλαγή "
+"επειδή κάποιες εισροές θα ήταν περιττές αν ήταν η πληρωμή."
+
+msgid ""
+"This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
+"or %s by upgrading to SegWit-P2SH"
+msgstr ""
+"Αυτή η συναλλαγή θα μπορούσε να εξοικονομήσει %στα τέλη αναβαθμίζοντας σε εγγενή SegWit-Bech32 "
+"ή % s με αναβάθμιση σε SegWit-P2SH"
+
+msgid ""
+"This transaction doesn't violate any of the privacy gotchas we cover. Read "
+"on other potential ways it might leak privacy."
+msgstr ""
+"Αυτή η συναλλαγή δεν παραβιάζει κανένα από τα προσωπικά δεδομένα που καλύπτουμε. Διαβάστε "
+"άλλους τους πιθανούς τρόπους μπορεί να διαρρεύσει προστασία της ιδιωτικής ζωής."
+
+msgid ""
+"This transaction has unnecessary inputs that are not typically added by "
+"wallet software."
+msgstr ""
+"Αυτή η συναλλαγή έχει περιττές εισροές που δεν προστίθενται συνήθως από "
+"λογισμικό πορτοφόλι."
+
+msgid ""
+"This transaction re-uses addresses. This makes it trivial to track your "
+"transactions over time and link them together. Note that we currently only "
+"look for address reuse within the transaction, not across the history."
+msgstr ""
+"Αυτή η συναλλαγή επαναχρησιμοποιεί διευθύνσεις. Αυτό καθιστά ασήμαντο να παρακολουθείτε σας "
+"συναλλαγές με την πάροδο του χρόνου και τη σύνδεσή τους μαζί. Σημειώστε ότι αυτή τη στιγμή μόνο "
+"αναζητήστε επαναχρησιμοποίηση διευθύνσεων εντός της συναλλαγής, όχι σε όλη την ιστορία."
+
+msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
+msgstr ""
+"Αυτή η συναλλαγή έσωσε %στα τέλη με αναβάθμιση σε εγγενή SegWit-Bech322"
+
+msgid ""
+"This transaction saved %s on fees by upgrading to SegWit and could save %s "
+"more by fully upgrading to native SegWit-Bech32"
+msgstr ""
+"Αυτή η συναλλαγή έσωσε %στα τέλη αναβαθμίζοντας στο SegWit και θα μπορούσε να εξοικονομήσει % s "
+"περισσότερα από την πλήρη αναβάθμιση σε εγγενή SegWit-Bech32"
+
+msgid "Timestamp"
+msgstr "Σήμανση"
+
+msgid "Total fees"
+msgstr "Σύνολο τελών"
+
+msgid "Total size"
+msgstr "Συνολικό μέγεθος"
+
+msgid "Total transactions"
+msgstr "Σύνολο συναλλαγών"
+
+msgid "Total tx count"
+msgstr "Συνολικός αριθμός tx"
+
+msgid "Total unspent"
+msgstr "Σύνολο μη δαπανηθέντων"
+
+msgid "Transaction"
+msgstr "Συναλλαγή"
+
+msgid "Transaction fees"
+msgstr "Τέλη συναλλαγής"
+
+msgid "Transaction not found"
+msgstr "Η συναλλαγή δεν βρέθηκε"
+
+msgid "Transactions"
+msgstr "Συναλλαγή"
+
+msgid "Transaction: %s"
+msgstr "Συναλλαγή: %s"
+
+msgid "TXID"
+msgstr "TXID"
+
+msgid "txid:vout"
+msgstr "txid:vout"
+
+msgid "Type"
+msgstr "Τύπος"
+
+msgid "Unconfirmed"
+msgstr "Επιβεβαιωμένη"
+
+msgid "Unconfirmed received"
+msgstr "Ανεπιβεβαίωτες έλαβε"
+
+msgid "Unconfirmed spent"
+msgstr "Ανεπιβεβαίωτες δαπάνες"
+
+msgid "Unconfirmed tx count"
+msgstr "Ανεπιβεβαίωτες tx count"
+
+msgid "Unnecessary input heuristic"
+msgstr "Περιττή ευρετική εισόδου"
+
+msgid "Unspent"
+msgstr "Αχρησιμοποίητα"
+
+msgid ""
+"Using round payment amounts gives an indication of which output is the "
+"payment and which is the change. Padding payment amounts to use all "
+"available precision resolves this issue."
+msgstr ""
+"Η χρήση στρογγυλών ποσών πληρωμής δίνει μια ένδειξη για το ποια παραγωγή είναι η "
+"πληρωμή και ποια είναι η αλλαγή. Αναπλήρωση ποσού πληρωμής πληρωμής για να χρησιμοποιήσετε όλα "
+"η διαθέσιμη ακρίβεια επιλύει αυτό το ζήτημα."
+
+msgid "Value"
+msgstr "Τιμή"
+
+msgid "Value commitment"
+msgstr "Δέσμευση αξίας"
+
+msgid "Version"
+msgstr "Έκδοση"
+
+msgid "Virtual size"
+msgstr "Εικονικό μέγεθος"
+
+msgid "We encountered an error. Please try again later."
+msgstr "Αντιμετωπίσαμε ένα σφάλμα. Παρακαλώ δοκιμάστε ξανά αργότερα."
+
+msgid "Weight (KWU)"
+msgstr "Βάρος (KWU)"
+
+msgid "Weight units"
+msgstr "Μονάδες βάρους"
+
+msgid "Witness"
+msgstr "Μάρτυρας"
