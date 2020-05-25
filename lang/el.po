@@ -1,5 +1,5 @@
 # Translators:
-# Alex <taosubmarines@mail.ru>, 2020
+# Alex Tao, Tao Submarines and Systems, Chios <taosubmarines@mail.ru>, 2020
 # 
 msgid ""
 msgstr ""
