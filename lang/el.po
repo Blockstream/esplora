@@ -52,32 +52,32 @@ msgid "Block timestamp"
 msgstr "Σήμανση μπλοκ"
 
 msgid "Broadcast raw transaction (hex)"
-msgstr "Εκπομπή ακατέργαστης συναλλαγής (δεκαεξαδική)"
+msgstr "Εκπομπή ακατέργαστης συναλλαγής (hex)"
 
 msgid "Broadcast transaction"
 msgstr "Mετάδοση συναλλαγής"
 
 msgid "Broadcast tx"
-msgstr "Mετάδοση tξ"
+msgstr "Mετάδοση tx"
 
 msgid "Cancel"
 msgstr "Ακύρωση"
 
 msgid "Coinbase"
-msgstr "Κόινμπεϊς"
+msgstr "Coinbase"
 
-msgid ""
+msgid
 "CoinJoin transactions hide the link between inputs and outputs and improves "
 "Bitcoin's overall privacy and fungibility for everyone."
-msgstr ""
+msgstr
 "Οι CoinJoin συναλλαγές αποκρύπτουν τη σύνδεση μεταξύ εισροών και εκροών και βελτιώνουν "
 "τη συνολική ιδιωτικότητα και την ευελιξία του Bitcoin για όλους."
 
-msgid ""
+msgid
 "compared to bitcoind's suggested fee of %s sat/vB for confirmation within 2 "
 "blocks"
-msgstr ""
-"σε σύγκριση με την προτεινόμενη αμοιβή του bitcoind % s sat / vB για επιβεβαίωση εντός 2"
+msgstr
+"σε σύγκριση με την προτεινόμενη αμοιβή του bitcoind %s sat/vB για επιβεβαίωση εντός 2"
 "μπλοκ"
 
 msgid "Confidential"
@@ -123,10 +123,10 @@ msgid "In best chain"
 msgstr "Στην καλύτερη αλυσίδα"
 
 msgid "In best chain (%s confirmations) (singular)"
-msgstr "Στην καλύτερη αλυσίδα (1 επιβεβαίωση)"
+msgstr "Στην καλύτερη αλυσίδα (%s επιβεβαίωση)"
 
 msgid "In best chain (%s confirmations) (plural)"
-msgstr "Στην καλύτερη αλυσίδα (%0 επιβεβαιώσεις)"
+msgstr "Στην καλύτερη αλυσίδα (%s επιβεβαιώσεις)"
 
 msgid "Included in Block"
 msgstr "Περιλαμβάνεται στο μπλοκ"
@@ -146,18 +146,18 @@ msgstr "Έκδοση τυφλών του παρόν"
 msgid "Issuance entropy"
 msgstr "Εντροπία έκδοσης"
 
-msgid ""
+msgid
 "It is possible to tell the change output apart because you're sending to a "
 "different script type than the one you're spending from."
-msgstr ""
+msgstr
 "Είναι δυνατό να ξεχωρίσετε την έξοδο αλλαγής επειδή στέλνετε σε ένα "
 "διαφορετικό τύπο σκριπτ από αυτόν από τον οποίο ξοδεύετε."
 
 msgid "lang_id"
-msgstr "en"
+msgstr "el"
 
 msgid "lang_name"
-msgstr "Αγγλικά"
+msgstr "Ελληνικα"
 
 msgid "Likely self-transfer"
 msgstr "Πιθανή αυτο-μεταφορά"
@@ -175,7 +175,7 @@ msgid "ltr"
 msgstr "ltr"
 
 msgid "Mempool"
-msgstr "Μέμπουλ"
+msgstr "Μempool"
 
 msgid "Merkle root"
 msgstr "Ρίζα Merkle"
@@ -184,7 +184,7 @@ msgid "New asset"
 msgstr "Νέο περιουσιακό στοιχείο"
 
 msgid "Newer"
-msgstr "Καινούργιο"
+msgstr "Πιο Καινούργιο"
 
 msgid "Next"
 msgstr "Επόμενο"
@@ -250,7 +250,7 @@ msgid "Possibly a CoinJoin transaction"
 msgstr "Ενδεχομένως μια συναλλαγή CoinJoin"
 
 msgid "Powered by esplora"
-msgstr "Τροφοδοτείται από esplora"
+msgstr "Τροφοδοτείται από το esplora"
 
 msgid "Prev"
 msgstr "Προηγ"
@@ -298,10 +298,10 @@ msgid "Scan QR"
 msgstr "Σάρωση QR"
 
 msgid "%s Confirmations (singular)"
-msgstr "1 Επιβεβαίωση"
+msgstr "%s Επιβεβαίωση"
 
 msgid "%s Confirmations (plural)"
-msgstr "%0 επιβεβαιώσεις"
+msgstr "%s επιβεβαιώσεις"
 
 msgid "scriptPubKey (asm)"
 msgstr "scriptPubKey (asm)"
@@ -316,15 +316,15 @@ msgid "scriptSig (hex)"
 msgstr "scriptSig (hex)"
 
 msgid "Search for block height, hash, transaction, or address"
-msgstr "Αναζήτηση ύψους μπλοκ, κατακερματισμού, συναλλαγής ή διεύθυνσης"
+msgstr "Αναζήτηση ύψους μπλοκ, κατακερματισμού, συναλλαγής ή διεύθυνση"
 
 msgid "SegWit fee savings"
 msgstr "SegWit εξοικονόμηση τελών"
 
-msgid ""
+msgid
 "Sending exact amounts (with no change) is an indication the bitcoins likely "
 "didn't change hands."
-msgstr ""
+msgstr
 "Η αποστολή ακριβών ποσών (χωρίς αλλαγή) αποτελεί πιθανή ένδειξη ότι τα bitcoins "
 "δεν άλλαξαν χέρια."
 
@@ -344,10 +344,10 @@ msgid "%s of %s Transactions"
 msgstr "%s των συναλλαγών %s"
 
 msgid "%s outputs (singular)"
-msgstr "1 παράγοντο"
+msgstr "%s παράγοντο"
 
 msgid "%s outputs (plural)"
-msgstr "%0 παραγοντα"
+msgstr "%s παραγοντα"
 
 msgid "Spending tx"
 msgstr "Δαπάνες tx"
@@ -362,60 +362,60 @@ msgid "Status"
 msgstr "Κατάσταση"
 
 msgid "%s Transactions (singular)"
-msgstr "1 Συναλλαγή"
+msgstr "%s Συναλλαγή"
 
 msgid "%s Transactions (plural)"
-msgstr "%0 Συναλλαγές"
+msgstr "%s Συναλλαγές"
 
 msgid "style.css"
 msgstr "style.css"
 
-msgid ""
+msgid
 "There's an indication that one output is more likely to be the change "
 "because some inputs would've been unnecessary if it was the payment."
 msgstr ""
 "Υπάρχει μια ένδειξη ότι μια έξοδος είναι πιο πιθανό να είναι η αλλαγή "
 "επειδή κάποιες εισροές θα ήταν περιττές αν ήταν η πληρωμή."
 
-msgid ""
+msgid
 "This transaction could save %s on fees by upgrading to native SegWit-Bech32 "
 "or %s by upgrading to SegWit-P2SH"
-msgstr ""
-"Αυτή η συναλλαγή θα μπορούσε να εξοικονομήσει %στα τέλη αναβαθμίζοντας σε εγγενή SegWit-Bech32 "
-"ή % s με αναβάθμιση σε SegWit-P2SH"
+msgstr
+"Αυτή η συναλλαγή θα μπορούσε να εξοικονομήσει %s στα τέλη αναβαθμίζοντας σε εγγενή SegWit-Bech32 "
+"ή %s με αναβάθμιση σε SegWit-P2SH"
 
-msgid ""
+msgid
 "This transaction doesn't violate any of the privacy gotchas we cover. Read "
 "on other potential ways it might leak privacy."
-msgstr ""
+msgstr
 "Αυτή η συναλλαγή δεν παραβιάζει κανένα από τα προσωπικά δεδομένα που καλύπτουμε. Διαβάστε "
 "άλλους τους πιθανούς τρόπους μπορεί να διαρρεύσει προστασία της ιδιωτικής ζωής."
 
-msgid ""
+msgid
 "This transaction has unnecessary inputs that are not typically added by "
 "wallet software."
-msgstr ""
+msgstr
 "Αυτή η συναλλαγή έχει περιττές εισροές που δεν προστίθενται συνήθως από "
 "λογισμικό πορτοφόλι."
 
-msgid ""
+msgid
 "This transaction re-uses addresses. This makes it trivial to track your "
 "transactions over time and link them together. Note that we currently only "
 "look for address reuse within the transaction, not across the history."
-msgstr ""
+msgstr 
 "Αυτή η συναλλαγή επαναχρησιμοποιεί διευθύνσεις. Αυτό καθιστά ασήμαντο να παρακολουθείτε σας "
 "συναλλαγές με την πάροδο του χρόνου και τη σύνδεσή τους μαζί. Σημειώστε ότι αυτή τη στιγμή μόνο "
 "αναζητήστε επαναχρησιμοποίηση διευθύνσεων εντός της συναλλαγής, όχι σε όλη την ιστορία."
 
 msgid "This transaction saved %s on fees by upgrading to native SegWit-Bech32"
-msgstr ""
-"Αυτή η συναλλαγή έσωσε %στα τέλη με αναβάθμιση σε εγγενή SegWit-Bech322"
+msgstr
+"Αυτή η συναλλαγή έσωσε %s στα τέλη με αναβάθμιση σε εγγενή SegWit-Bech322"
 
-msgid ""
+msgid
 "This transaction saved %s on fees by upgrading to SegWit and could save %s "
 "more by fully upgrading to native SegWit-Bech32"
-msgstr ""
-"Αυτή η συναλλαγή έσωσε %στα τέλη αναβαθμίζοντας στο SegWit και θα μπορούσε να εξοικονομήσει % s "
+msgstr
+"Αυτή η συναλλαγή έσωσε %s στα τέλη αναβαθμίζοντας στο SegWit και θα μπορούσε να εξοικονομήσει %s "
 "περισσότερα από την πλήρη αναβάθμιση σε εγγενή SegWit-Bech32"
 
 msgid "Timestamp"
@@ -478,11 +478,11 @@ msgstr "Περιττή ευρετική εισόδου"
 msgid "Unspent"
 msgstr "Αχρησιμοποίητα"
 
-msgid ""
+msgid 
 "Using round payment amounts gives an indication of which output is the "
 "payment and which is the change. Padding payment amounts to use all "
 "available precision resolves this issue."
-msgstr ""
+msgstr 
 "Η χρήση στρογγυλών ποσών πληρωμής δίνει μια ένδειξη για το ποια παραγωγή είναι η "
 "πληρωμή και ποια είναι η αλλαγή. Αναπλήρωση ποσού πληρωμής πληρωμής για να χρησιμοποιήσετε όλα "
 "η διαθέσιμη ακρίβεια επιλύει αυτό το ζήτημα."
