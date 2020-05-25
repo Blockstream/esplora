@@ -1,5 +1,6 @@
 # Translators:
 # Alex Tao, Tao Submarines and Systems, Chios, Aegean Sea <taosubmarines@mail.ru>, 2020
+# Theodosis Koulas, github.com/cooltheo17, <theo17a@gmail.com>, 2020
 # 
 
 msgid ""
