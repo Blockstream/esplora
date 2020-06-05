@@ -52,7 +52,7 @@ module "electrum" {
   instances                = 1
   machine_type             = var.instance_type[2]
   project                  = var.project
-  electrum_service_account = terraform.workspace != "main" ? data.terraform_remote_state.main.outputs.prometheus_service_account : ""
+  electrum_service_account = terraform.workspace != "main" ? data.terraform_remote_state.main.outputs.electrum_service_account : ""
 
   create_resources = local.create_main
 }
