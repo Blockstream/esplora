@@ -1,0 +1,9 @@
+users:
+  - name: bs
+    uid: 2000
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyjuWQbImwoEG4jZQnRpzIwU4WJpcyukmJRUBhzPnNL lnahum@mule
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIECdkKWUa+1PfX+ougqDw3lRGAsrWDLYqIzxdq0FLaYZ nadav@pc
+
+runcmd:
+  - apt-get update
