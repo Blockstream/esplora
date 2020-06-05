@@ -1,0 +1,5 @@
+{
+  "electrum.blockstream.info": { "tcp_port" :143, "ssl_port": 993 },
+  "explorernuoc63nb.onion": { "tcp_port": 143 },
+  "explorerzydxu5ecjrkwceayqybizmpjjznk5izmitf2modhcusuqlid.onion": { "tcp_port": 143 }
+}

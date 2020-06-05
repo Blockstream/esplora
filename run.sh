@@ -104,6 +104,13 @@ if [ -n "$ENABLE_REDUCED_STORAGE" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --reduced-storage"
 fi
 
+if [ "$TEMPLATE" == "blockstream" ]; then
+  # the backtick subshell below is injected into electrs.runit as a literal string,
+  # which is evaluated later when the runit service is run.
+  d=/srv/explorer/source/flavors/blockstream
+  ELECTRS_ARGS=$ELECTRS_ARGS' --electrum-public-hosts "`cat '$d'/electrum-hosts-'$DAEMON'-'$NETWORK'.json || echo {}`" --electrum-banner "`cat '$d'/electrum-banner.txt`"'
+fi
+
 function preprocess(){
    in_file=$1
    out_file=$2
@@ -114,7 +121,7 @@ function preprocess(){
        -e "s|{STATIC_DIR}|$STATIC_DIR|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
-       -e "s|{ELECTRS_ARGS}|$ELECTRS_ARGS|g" \
+       -e "s#{ELECTRS_ARGS}#$ELECTRS_ARGS#g" \
        -e "s|{ELECTRS_BACKTRACE}|$ELECTRS_BACKTRACE|g" \
        -e "s|{NGINX_LOGGING}|$NGINX_LOGGING|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
