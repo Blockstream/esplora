@@ -38,7 +38,7 @@ variable "machine_type" {
 
 variable "image" {
   type    = string
-  default = "cos-cloud/cos-stable"
+  default = "debian-cloud/debian-10"
 }
 
 variable "size" {
