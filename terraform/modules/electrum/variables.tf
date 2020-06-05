@@ -28,10 +28,6 @@ variable "instances" {
   type = string
 }
 
-variable "docker_tag" {
-  type = string
-}
-
 variable "machine_type" {
   type = string
 }
@@ -44,4 +40,9 @@ variable "image" {
 variable "size" {
   type    = string
   default = "100"
+}
+
+variable "electrum_service_account" {
+  type    = string
+  default = ""
 }
