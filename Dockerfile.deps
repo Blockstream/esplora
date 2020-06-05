@@ -1,4 +1,4 @@
-FROM debian:buster@sha256:2857989334428416b1ef369d6e029e912a7fe3ee7e57adc20b494cc940198258
+FROM debian:buster@sha256:4ab3309ba955211d1db92f405be609942b595a720de789286376f030502ffd6f
 
 SHELL ["/bin/bash", "-c"]
 
@@ -12,11 +12,11 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github
  && source /root/.nvm/nvm.sh \
  && nvm install v12.16.1
 
-ENV SHA256SUM_BITCOINCORE=5fcac9416e486d4960e1a946145566350ca670f9aaba99de6542080851122e4c
-RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.19.1/bitcoin-0.19.1-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_BITCOINCORE=35ec10f87b6bc1e44fd9cd1157e5dfa483eaf14d7d9a9c274774539e7824c427
+RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.20.0/bitcoin-0.20.0-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
  && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/bitcoin-0.19.1 /srv/explorer/bitcoin \
+ && ln -s /srv/explorer/bitcoin-0.20.0 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
 ENV SHA256SUM_ELEMENTS=3241e2bd4d18083fc9b8432d31c780c68eb6004e47ff4a8459d47a81e570289c
@@ -28,7 +28,7 @@ RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/rele
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.43.0 \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.44.0 \
  && source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \

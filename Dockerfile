@@ -1,6 +1,6 @@
 FROM blockstream/esplora-base:latest AS build
 
-FROM debian:buster@sha256:a63d0b2ecbd723da612abf0a8bdb594ee78f18f691d7dc652ac305a490c9b71a
+FROM debian:buster@sha256:4ab3309ba955211d1db92f405be609942b595a720de789286376f030502ffd6f
 
 COPY --from=build /srv/explorer /srv/explorer
 COPY --from=build /root/.nvm /root/.nvm
