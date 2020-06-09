@@ -5,3 +5,4 @@ disablewallet=1
 mainchainrpccookiefile=/data/bitcoin/.cookie
 listenonion=1
 listen=0
+blocknotify=pkill -USR1 electrs

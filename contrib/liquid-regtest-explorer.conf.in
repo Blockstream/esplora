@@ -3,3 +3,4 @@ server=1
 validatepegin=0
 initialfreecoins=2100000000000000
 liquidregtest.rpcport=7041
+blocknotify=pkill -USR1 electrs
