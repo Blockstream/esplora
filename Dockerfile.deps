@@ -35,8 +35,8 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.44.0 \
  && cd electrs \
  && git checkout d6486e7d2ec7127ef5efffc83f9e725dc019d8c0 \
  && cp contrib/popular-scripts.txt /srv/explorer \
- && cargo install --root /srv/explorer/electrs_bitcoin --path . --features electrum-discovery \
- && cargo install --root /srv/explorer/electrs_liquid --path . --features electrum-discovery,liquid \
+ && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
+ && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
  && cd .. \
  && rm -fr /root/.cargo electrs \
  && strip /srv/explorer/electrs_*/bin/electrs
