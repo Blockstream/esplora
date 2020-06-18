@@ -88,7 +88,7 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 resource "null_resource" "ansible-preemptible-daemon" {
   depends_on = [null_resource.ansible-daemon]
   triggers = {
-    daemons = google_compute_instance_template.preemptible-daemon[0].self_link
+    daemons = google_compute_region_instance_group_manager.preemptible-daemon[0].version[0].instance_template
   }
 
   count = var.create_resources > 0 ? length(var.regions) : 0
