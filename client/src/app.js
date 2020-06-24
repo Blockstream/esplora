@@ -314,7 +314,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
     // ... and every 10 seconds while it remains open
-    , !process.browser ? O.empty() : focusedTicker(10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs')
+    , !process.browser ? O.empty() : focusedTicker(5000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs')
         .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
 
