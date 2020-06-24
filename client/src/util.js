@@ -82,6 +82,9 @@ export const extractErrors = r$$ =>
   r$$.flatMap(r$ => r$.flatMap(_ => O.empty()).catch(err => O.of(err)))
     .map(e => e.response && e.status != 502 ? parseError(e.response) : e)
 
+// create a strema that ticks every `ms`, but only when the window is focused
+export const focusedTicker = ms => O.timer(0, ms).filter(() => document.hasFocus())
+
 const parseError = res =>
   (res.body && Object.keys(res.body).length)
   ? res.body.message || res.body
