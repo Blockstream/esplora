@@ -197,6 +197,8 @@ Set `-e NO_ADDRESS_SEARCH=1` to disable the [by-prefix address search](https://g
 
 Set `-e ENABLE_LIGHTMODE=1` to enable [esplora-electrs's light mode](https://github.com/Blockstream/electrs/#light-mode).
 
+Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
+
 ## Build new esplora-base
 
 ```

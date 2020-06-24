@@ -105,9 +105,10 @@ if [ -n "$ENABLE_REDUCED_STORAGE" ]; then
 fi
 
 if [ "$TEMPLATE" == "blockstream" ]; then
+  d=/srv/explorer/source/flavors/blockstream
+  ONION_URL=$(source $d/config.env && echo $ONION_V3)
   # the backtick subshell below is injected into electrs.runit as a literal string,
   # which is evaluated later when the runit service is run.
-  d=/srv/explorer/source/flavors/blockstream
   ELECTRS_ARGS=$ELECTRS_ARGS' --electrum-public-hosts "`cat '$d'/electrum-hosts-'$DAEMON'-'$NETWORK'.json || echo {}`" --electrum-banner "`cat '$d'/electrum-banner.txt`"'
 fi
 
@@ -216,6 +217,13 @@ if [ "${DAEMON}" == "liquid" ]; then
     preprocess /srv/explorer/source/contrib/nginx-liquid-assets.conf.in /tmp/nginx-liquid-assets.conf
     sed -i '/^server {/r /tmp/nginx-liquid-assets.conf' /etc/nginx/sites-enabled/default
     rm /tmp/nginx-liquid-assets.conf
+fi
+
+if [ -n "$ONION_URL" ]; then
+    # insert the Onion-Location `map` BEFORE the server { } block
+    sed -i '/^server {/ i map $sent_http_content_type $onion_header { "~^text/html($|;)" '$ONION_URL'$request_uri; }' /etc/nginx/sites-enabled/default
+    # insert the Onion-Location `add_header` directive INSIDE the server {} block
+    sed -i '/^server {/ a add_header Onion-Location $onion_header always;' /etc/nginx/sites-enabled/default
 fi
 
 chmod +x /usr/bin/cli
