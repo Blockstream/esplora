@@ -18,7 +18,7 @@ server {
     sendfile on;
     tcp_nopush on;
     tcp_nodelay on;
-    keepalive_timeout 15;
+    keepalive_timeout 620s;
     {NGINX_LOGGING};
     server_tokens off;
     add_header X-Frame-Options SAMEORIGIN always;
