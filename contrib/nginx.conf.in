@@ -14,7 +14,7 @@ server {
     gzip on;
     gzip_types application/json text/plain application/xml application/javascript;
     gzip_proxied any;
-    add_header Vary Accept-Encoding;
+    gzip_vary on;
     root {STATIC_DIR};
     sendfile on;
     tcp_nopush on;
