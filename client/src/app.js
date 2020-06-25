@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, focusedTicker } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, tickWhileFocused, tickWhileViewing } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -295,7 +295,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     // in server env, just get it once
-    , (process.browser ? O.merge(focusedTicker(30000), goBlock$, goTx$, goAddr$).startWith(1).throttleTime(5000)
+    , (process.browser ? O.merge(tickWhileFocused(30000), goBlock$, goTx$, goAddr$).throttleTime(5000)
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
@@ -304,7 +304,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
 
     // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool or unconfirmed tx page remains open
-    , goTx$.merge(process.browser ? focusedTicker(30000).withLatestFrom(view$, tx$)
+    , goTx$.merge(process.browser ? tickWhileFocused(30000).withLatestFrom(view$, tx$)
                                       .filter(([ _, view, tx ]) => view == 'mempool'
                                                                || (view == 'tx' && tx && !tx.status.confirmed))
                                   : O.empty())
@@ -314,7 +314,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
     // ... and every 10 seconds while it remains open
-    , !process.browser ? O.empty() : focusedTicker(5000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs')
+    , tickWhileViewing(5000, 'recentTxs', view$)
         .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
 

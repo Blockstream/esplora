@@ -82,8 +82,17 @@ export const extractErrors = r$$ =>
   r$$.flatMap(r$ => r$.flatMap(_ => O.empty()).catch(err => O.of(err)))
     .map(e => e.response && e.status != 502 ? parseError(e.response) : e)
 
-// create a strema that ticks every `ms`, but only when the window is focused
-export const focusedTicker = ms => O.timer(0, ms).filter(() => document.hasFocus())
+// Create a stream that ticks every `ms`, but only when the window is focused.
+// Returns an empty stream in the server-side pre-renderer environment.
+export const tickWhileFocused = ms =>
+  process.browser
+    ? O.timer(0, ms).filter(() => document.hasFocus())
+    : O.empty()
+
+// Create a stream that ticks every `ms` w, but only when the window is focused
+// *and* `view` is the active view
+export const tickWhileViewing = (ms, view, view$) =>
+  tickWhileFocused(ms).withLatestFrom(view$).filter(([ _, shown_view ]) => shown_view == view)
 
 const parseError = res =>
   (res.body && Object.keys(res.body).length)
