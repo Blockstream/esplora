@@ -275,6 +275,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
+        .merge(tickWhileViewing(5000, 'recentBlocks', view$))
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
