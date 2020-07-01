@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, tickWhileFocused, tickWhileViewing } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, tickWhileFocused, tickWhileViewing, updateBlocks } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -115,10 +115,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .startWith(0).scan((N, a) => N+a)
 
   // Recent blocks
-  , blocks$ = O.merge(
-      reply('blocks').map(blocks => S => [ ...(S || []), ...blocks ])
-    , goHome$.map(_ => S => null)
-    ).startWith(null).scan((S, mod) => mod(S))
+  , blocks$ = reply('blocks')
+      .map(blocks => S => updateBlocks(S, blocks))
+      .startWith([]).scan((S, mod) => mod(S))
+      .share()
 
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
 
@@ -275,7 +275,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
-        .merge(tickWhileViewing(5000, 'recentBlocks', view$))
+        .merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page

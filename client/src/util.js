@@ -16,6 +16,34 @@ export const isHash256 = str => reHash256.test(str)
 
 export const parseHashes = str => (''+str).split(',').filter(isHash256)
 
+// update the `current` list of blocks with `to_add`, which can either contain an updated
+// list of the most recent blocks at the tip, or older blocks to be appended at the end
+export const updateBlocks = (current, to_add) => {
+  if (!to_add.length) return current
+
+  const curr_max = current.length ? current[0].height : null
+      , curr_min = current.length ? last(current).height : null
+      , add_max = to_add[0].height
+      , add_min = last(to_add).height
+
+  // to_add contains blocks at the tip of the chain that should be added to the beginning
+  if (curr_max != null && add_max >= curr_max) {
+    if (add_min > curr_max) {
+      // if there's a gap of missing blocks between to_add and current,
+      // drop the current blocks and return just the new ones to maintain consistency
+      return to_add
+    } else {
+      // merge to_add blocks with current older blocks
+      const curr_replaced = curr_max - add_min + 1
+      return to_add.concat(curr_replaced > 0 ? current.slice(curr_replaced) : current)
+    }
+  }
+  // to_add contains new older blocks to be appended at the end
+  else if (curr_min == null || add_max == curr_min - 1) {
+    return current.concat(to_add)
+  }
+}
+
 // Transaction helpers
 
 export const isAnyConfidential = tx => tx.vout.some(vout => vout.value == null)
