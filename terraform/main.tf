@@ -92,6 +92,7 @@ module "bitcoin-testnet" {
   instance_type             = var.instance_type[1]
   preemptible_instance_type = var.preemptible_instance_type[1]
   size                      = var.cluster_size
+  preemptible_size          = var.preemptible_cluster_size
   project                   = var.project
   service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
   docker_tag_node_exporter  = var.docker_tag_node_exporter
@@ -130,6 +131,7 @@ module "bitcoin-mainnet" {
   instance_type             = var.instance_type[0]
   preemptible_instance_type = var.preemptible_instance_type[0]
   size                      = var.cluster_size
+  preemptible_size          = var.preemptible_cluster_size
   project                   = var.project
   service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
   docker_tag_node_exporter  = var.docker_tag_node_exporter
@@ -168,6 +170,7 @@ module "liquid-mainnet" {
   instance_type             = var.instance_type[1]
   preemptible_instance_type = var.preemptible_instance_type[1]
   size                      = var.cluster_size
+  preemptible_size          = var.preemptible_cluster_size
   project                   = var.project
   service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
   docker_tag_node_exporter  = var.docker_tag_node_exporter

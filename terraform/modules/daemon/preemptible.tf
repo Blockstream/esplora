@@ -12,7 +12,7 @@ resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   }
 
   region      = var.regions[count.index]
-  target_size = var.size
+  target_size = var.preemptible_size
 
   update_policy {
     type                  = "PROACTIVE"

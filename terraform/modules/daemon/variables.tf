@@ -37,6 +37,10 @@ variable "size" {
   type = string
 }
 
+variable "preemptible_size" {
+  type = string
+}
+
 variable "boot-image" {
   type    = string
   default = "cos-cloud/cos-stable"

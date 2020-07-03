@@ -101,6 +101,7 @@ plan:
         -var "hosts=$HOSTS"
         -var "hosts_onion=$HOSTS_ONION"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -126,6 +127,7 @@ plan_main:
         -var "hosts=$HOSTS"
         -var "hosts_onion=$HOSTS_ONION"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -152,6 +154,7 @@ deploy_main:
         -var "hosts=$HOSTS"
         -var "hosts_onion=$HOSTS_ONION"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -171,6 +174,7 @@ plan_bitcoin_mainnet:
        terraform plan
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -199,6 +203,7 @@ deploy_bitcoin_mainnet:
        terraform apply
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -220,6 +225,7 @@ plan_bitcoin_testnet:
        terraform plan
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -248,6 +254,7 @@ deploy_bitcoin_testnet:
        terraform apply
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -269,6 +276,7 @@ plan_liquid_mainnet:
        terraform plan
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
@@ -297,6 +305,7 @@ deploy_liquid_mainnet:
        terraform apply
         -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
         -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "instance_type=$NODE_INSTANCE_TYPE"
         -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
         -var "regions=$REGIONS"
