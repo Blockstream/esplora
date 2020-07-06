@@ -55,6 +55,11 @@ variable "cluster_size" {
   default = "overwritten_by_ci"
 }
 
+variable "preemptible_cluster_size" {
+  type    = string
+  default = "overwritten_by_ci"
+}
+
 # lists overwritten by ci
 variable "regions" {
   type    = list
