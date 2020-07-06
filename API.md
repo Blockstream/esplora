@@ -2,6 +2,12 @@
 
 JSON over RESTful HTTP. Amounts are always represented in satoshis.
 
+To access the API via curl in the terminal insert `api` into the route after testnet or for mainnet after the domain name.
+
+## Example to access a testnet address and then pretty print the response
+
+`curl "https://blockstream.info/testnet/api/address/mnCZSZd9BmpJz5wJq5RiKuLQRLkeFRssdc" | jq`
+
 ## Transactions
 
 ### `GET /tx/:txid`
