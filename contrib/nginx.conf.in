@@ -32,9 +32,13 @@ server {
     location /{NGINX_PATH}api/ {
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin * always;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
     }
     location /{NGINX_PATH}nojs/ {
         proxy_pass http://prerenderer/;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
     }
 
     location = /{NGINX_PATH}nojs {
