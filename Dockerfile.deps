@@ -28,12 +28,12 @@ RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/rele
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.44.1 \
- && source /root/.cargo/env \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.44.1
+RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
  && cd electrs \
- && git checkout 499e58074deb308f95576cae5a5b5859c8b8998a \
+ && git checkout ec1527e33bd85d8f694589e3ab69031ac5742f87 \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
  && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
