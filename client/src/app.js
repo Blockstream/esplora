@@ -275,7 +275,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
-        .merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
+        //.merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
@@ -315,8 +315,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
     // ... and every 10 seconds while it remains open
-    , tickWhileViewing(5000, 'recentTxs', view$)
-        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    //, tickWhileViewing(5000, 'recentTxs', view$)
+    //    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
 
     //

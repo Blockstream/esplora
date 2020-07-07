@@ -42,6 +42,9 @@ export const updateBlocks = (current, to_add) => {
   else if (curr_min == null || add_max == curr_min - 1) {
     return current.concat(to_add)
   }
+
+  // we should never reach this point, but just return to_add if we somehow do
+  return to_add
 }
 
 // Transaction helpers
