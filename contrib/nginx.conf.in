@@ -6,7 +6,7 @@ geo $limit {
 
 map $limit $limit_key {
     0 "";
-    1 $binary_remote_addr;
+    1 $http_x_forwarded_for;
 }
 
 limit_req_zone $limit_key zone=lightlimitzone:20m rate=8r/s;
