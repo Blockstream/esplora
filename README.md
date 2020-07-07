@@ -174,7 +174,7 @@ docker run -p 50001:50001 -p 8084:80 \
 docker run -p 50001:50001 -p 8092:80 \
            --volume $PWD/data_liquid_regtest:/data \
            --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-liquid explorer"
+           bash -c "/srv/explorer/run.sh liquid-regtest explorer"
 ```
 
 ## How to run the explorer for Bitcoin regtest
