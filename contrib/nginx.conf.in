@@ -13,7 +13,7 @@ limit_req_zone $limit_key zone=lightlimitzone:20m rate=8r/s;
 
 
 upstream backend {
-    server 127.0.0.1:3000;
+    server unix:/var/electrs-rest.sock;
     keepalive 300;
 }
 

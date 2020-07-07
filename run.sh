@@ -84,6 +84,8 @@ fi
 
 NGINX_LOGGING="access_log off"
 
+ELECTRS_ARGS="$ELECTRS_ARGS --http-socket-file /var/electrs-rest.sock"
+
 if [ "${DEBUG}" == "verbose" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS -vvvv"
     ELECTRS_BACKTRACE="export RUST_BACKTRACE=full"
