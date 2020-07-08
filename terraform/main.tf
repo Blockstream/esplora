@@ -83,23 +83,24 @@ module "tor" {
 module "bitcoin-testnet" {
   source = "./modules/daemon"
 
-  regions                   = [var.regions[0]]
-  name                      = "bitcoin-testnet"
-  daemon                    = "bitcoin"
-  mempooldat                = var.mempooldat
-  fullurl                   = var.fullurl
-  network                   = "testnet"
-  instance_type             = var.instance_type[1]
-  preemptible_instance_type = var.preemptible_instance_type[1]
-  size                      = var.cluster_size
-  preemptible_size          = var.preemptible_cluster_size
-  project                   = var.project
-  service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
-  docker_tag_node_exporter  = var.docker_tag_node_exporter
-  docker_tag_explorer       = var.docker_tag_explorer
-  min_ready_sec             = var.min_ready_sec
-  initial_delay_sec         = var.initial_delay_sec
-  image_source_project      = var.image_source_project
+  regions                     = [var.regions[0]]
+  name                        = "bitcoin-testnet"
+  daemon                      = "bitcoin"
+  mempooldat                  = var.mempooldat
+  fullurl                     = var.fullurl
+  network                     = "testnet"
+  instance_type               = var.instance_type[1]
+  preemptible_instance_type   = var.preemptible_instance_type[1]
+  size                        = var.cluster_size
+  preemptible_size            = var.preemptible_cluster_size
+  project                     = var.project
+  service_account_prom        = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
+  docker_tag_node_exporter    = var.docker_tag_node_exporter
+  docker_tag_process_exporter = var.docker_tag_process_exporter
+  docker_tag_explorer         = var.docker_tag_explorer
+  min_ready_sec               = var.min_ready_sec
+  initial_delay_sec           = var.initial_delay_sec
+  image_source_project        = var.image_source_project
 
   create_resources = local.create_bitcoin_testnet
 }
@@ -122,23 +123,24 @@ module "bitcoin-testnet-http" {
 module "bitcoin-mainnet" {
   source = "./modules/daemon"
 
-  regions                   = var.regions
-  name                      = "bitcoin-mainnet"
-  daemon                    = "bitcoin"
-  network                   = "mainnet"
-  mempooldat                = var.mempooldat
-  fullurl                   = var.fullurl
-  instance_type             = var.instance_type[0]
-  preemptible_instance_type = var.preemptible_instance_type[0]
-  size                      = var.cluster_size
-  preemptible_size          = var.preemptible_cluster_size
-  project                   = var.project
-  service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
-  docker_tag_node_exporter  = var.docker_tag_node_exporter
-  docker_tag_explorer       = var.docker_tag_explorer
-  min_ready_sec             = var.min_ready_sec
-  initial_delay_sec         = var.initial_delay_sec
-  image_source_project      = var.image_source_project
+  regions                     = var.regions
+  name                        = "bitcoin-mainnet"
+  daemon                      = "bitcoin"
+  network                     = "mainnet"
+  mempooldat                  = var.mempooldat
+  fullurl                     = var.fullurl
+  instance_type               = var.instance_type[0]
+  preemptible_instance_type   = var.preemptible_instance_type[0]
+  size                        = var.cluster_size
+  preemptible_size            = var.preemptible_cluster_size
+  project                     = var.project
+  service_account_prom        = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
+  docker_tag_node_exporter    = var.docker_tag_node_exporter
+  docker_tag_process_exporter = var.docker_tag_process_exporter
+  docker_tag_explorer         = var.docker_tag_explorer
+  min_ready_sec               = var.min_ready_sec
+  initial_delay_sec           = var.initial_delay_sec
+  image_source_project        = var.image_source_project
 
   create_resources = local.create_bitcoin_mainnet
 }
@@ -161,23 +163,24 @@ module "bitcoin-mainnet-http" {
 module "liquid-mainnet" {
   source = "./modules/daemon"
 
-  regions                   = [var.regions[0]]
-  name                      = "liquid-mainnet"
-  daemon                    = "liquid"
-  network                   = "mainnet"
-  mempooldat                = var.mempooldat
-  fullurl                   = var.fullurl
-  instance_type             = var.instance_type[1]
-  preemptible_instance_type = var.preemptible_instance_type[1]
-  size                      = var.cluster_size
-  preemptible_size          = var.preemptible_cluster_size
-  project                   = var.project
-  service_account_prom      = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
-  docker_tag_node_exporter  = var.docker_tag_node_exporter
-  docker_tag_explorer       = var.docker_tag_explorer
-  min_ready_sec             = var.min_ready_sec
-  initial_delay_sec         = var.initial_delay_sec
-  image_source_project      = var.image_source_project
+  regions                     = [var.regions[0]]
+  name                        = "liquid-mainnet"
+  daemon                      = "liquid"
+  network                     = "mainnet"
+  mempooldat                  = var.mempooldat
+  fullurl                     = var.fullurl
+  instance_type               = var.instance_type[1]
+  preemptible_instance_type   = var.preemptible_instance_type[1]
+  size                        = var.cluster_size
+  preemptible_size            = var.preemptible_cluster_size
+  project                     = var.project
+  service_account_prom        = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
+  docker_tag_node_exporter    = var.docker_tag_node_exporter
+  docker_tag_process_exporter = var.docker_tag_process_exporter
+  docker_tag_explorer         = var.docker_tag_explorer
+  min_ready_sec               = var.min_ready_sec
+  initial_delay_sec           = var.initial_delay_sec
+  image_source_project        = var.image_source_project
 
   create_resources = local.create_liquid_mainnet
 }
