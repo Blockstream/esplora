@@ -49,7 +49,7 @@ write_files:
             --name=${container_name} \
             --tmpfs /tmp/ \
             -v /mnt/disks/data:/data:rw \
-            --ulimit nofile=32768:32768 \
+            --ulimit nofile=524288:524288\
             "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
         ExecStop=/usr/bin/docker stop ${container_name}
         ExecStopPost=/usr/bin/docker rm ${container_name}
