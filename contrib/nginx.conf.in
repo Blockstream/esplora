@@ -9,7 +9,7 @@ map $limit $limit_key {
     1 $http_x_forwarded_for;
 }
 
-limit_req_zone $limit_key zone=lightlimitzone:20m rate=8r/s;
+limit_req_zone $limit_key zone=lightlimitzone:20m rate=50r/s;
 
 
 upstream backend {
@@ -24,7 +24,7 @@ upstream prerenderer {
 
 server {
     listen 80;
-    keepalive_requests 10000;
+    keepalive_requests 100000;
     gzip on;
     gzip_types application/json text/plain application/xml application/javascript;
     gzip_proxied any;
@@ -44,7 +44,7 @@ server {
     add_header Referrer-Policy "no-referrer" always;
 
     location /{NGINX_PATH}api/ {
-        limit_req zone=lightlimitzone burst=15 nodelay;
+        limit_req zone=lightlimitzone burst=100 nodelay;
 
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin * always;
@@ -52,7 +52,7 @@ server {
         proxy_set_header Connection "";
     }
     location /{NGINX_PATH}nojs/ {
-        limit_req zone=lightlimitzone burst=3 nodelay;
+        limit_req zone=lightlimitzone burst=10 nodelay;
 
         proxy_pass http://prerenderer/;
         proxy_http_version 1.1;
