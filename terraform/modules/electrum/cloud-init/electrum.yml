@@ -35,13 +35,13 @@ write_files:
         }
 
         server {
-            listen 50007;
-            listen [::]:50007;
+            listen 50401;
+            listen [::]:50401;
             proxy_pass liquid_mainnet_tcp;
         }
         server {
-            listen 50008;
-            listen [::]:50008;
+            listen 50402;
+            listen [::]:50402;
             proxy_pass liquid_mainnet_tls;
             ssl_preread on;
         }

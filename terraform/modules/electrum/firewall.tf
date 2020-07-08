@@ -6,7 +6,7 @@ resource "google_compute_firewall" "all-traffic" {
 
   allow {
     protocol = "tcp"
-    ports    = ["50001", "50002", "50007", "50008", "60001", "60002", "80"]
+    ports    = ["50001", "50002", "50401", "50402", "60001", "60002", "80"]
   }
 
   source_ranges = ["0.0.0.0/0"]
