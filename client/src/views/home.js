@@ -42,7 +42,7 @@ export const recentBlocks = ({ t, blocks, loading, ...S }) => homeLayout(
       { blocks && blocks.map(b =>
         <div className="blocks-table-link-row">
         <a className="blocks-table-row block-data" href={`block/${b.id}`}>
-          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{formatNumber(b.height)}</div>
+          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{(b.height)}</div>
           <div className="blocks-table-cell" data-label={t`Timestamp`}>{formatTime(b.timestamp, t)}</div>
           <div className="blocks-table-cell" data-label={t`Transactions`}>{formatNumber(b.tx_count)}</div>
           <div className="blocks-table-cell" data-label={t`Size (KB)`}>{formatNumber(b.size/1000)}</div>

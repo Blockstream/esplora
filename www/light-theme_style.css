@@ -95,3 +95,10 @@ body.theme-light {
 .theme-light table th, .theme-light table td {
   border-color: #dee2e6 !important;
 }
+
+
+@media only screen and (max-width: 850px) {
+    .theme-light .assets-table-link-row:nth-child(odd)  .assets-table-row {
+       color: #fff !important; 
+     }
+}
