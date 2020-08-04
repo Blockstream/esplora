@@ -193,6 +193,7 @@ else
 fi
 
 preprocess /srv/explorer/source/contrib/nginx.conf.in /etc/nginx/sites-enabled/default
+sed -i 's/user www-data;/user root;/' /etc/nginx/nginx.conf
 
 # Make mempool contents available over nginx, protected with SYNC_SECRET
 if [ -n "$SYNC_SECRET" ]; then
