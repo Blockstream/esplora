@@ -1,3 +1,4 @@
+import fs from 'fs'
 import pug from 'pug'
 import path from 'path'
 import express from 'express'
@@ -54,6 +55,17 @@ app.use((req, res, next) => {
 
 })
 
-app.listen(process.env.PORT || 5001, function(){
-  console.log(`HTTP server running on ${this.address().address}:${this.address().port}`)
+// Cleanup socket file from previous executions
+if (process.env.SOCKET_PATH) {
+  try {
+    if (fs.statSync(process.env.SOCKET_PATH).isSocket()) {
+      fs.unlinkSync(process.env.SOCKET_PATH)
+    }
+  } catch (_) {}
+}
+
+app.listen(process.env.SOCKET_PATH || process.env.PORT || 5001, function(){
+  let addr = this.address()
+  if (addr.address) addr = `${addr.address}:${addr.port}`
+  console.log(`HTTP server running on ${addr}`)
 })

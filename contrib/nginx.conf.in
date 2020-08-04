@@ -18,7 +18,7 @@ upstream backend {
 }
 
 upstream prerenderer {
-    server 127.0.0.1:5001;
+    server unix:/var/prerender-http.sock;
     keepalive 300;
 }
 

@@ -5,6 +5,7 @@ export BASE_HREF=/{NGINX_PATH}nojs/
 export NODE_ENV=production
 export API_URL=http://localhost/{NGINX_PATH}api
 export TZ=UTC
+export SOCKET_PATH=/var/prerender-http.sock
 
 exec 2>&1
 exec /bin/bash -c 'source /root/.nvm/nvm.sh && cd /srv/explorer/source && npm run prerender-server -- --cluster {FLAVOR}'
