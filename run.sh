@@ -203,10 +203,6 @@ if [ -n "$SYNC_SECRET" ]; then
     # insert nginx-sync.conf inside the server {} block
     sed -i '/^server {/r /tmp/nginx-sync.conf' /etc/nginx/sites-enabled/default
     rm /tmp/nginx-sync.conf
-
-    # nginx needs to be able to read the cookie file (to query the rpc), as well as the mempool.dat file
-    # XXX: is running as root acceptable?
-    sed -i 's/^user www-data/user root/' /etc/nginx/nginx.conf
 fi
 
 preprocess /srv/explorer/source/cli.sh.in /usr/bin/cli
