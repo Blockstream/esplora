@@ -301,6 +301,20 @@ For user-issued assets, returns a list of issuance, reissuance and burn transact
 
 Does not include regular transactions transferring this asset.
 
+### `GET /asset/:asset_id/supply`
+### `GET /asset/:asset_id/supply/decimal`
+
+Get the current total supply of the specified asset.
+
+For the native asset (L-BTC), this is calculated as `{chain,mempool}_stats.peg_in_amount - {chain,mempool}_stats.peg_out_amount - {chain,mempool}_stats.burned_amount`.
+
+For issued assets, this is calculated as `{chain,mempool}_stats.issued_amount - {chain,mempool}_stats.burned_amount`.
+
+Not available for assets with blinded issuances.
+
+If `/decimal` is specified, returns the supply as a decimal according to the asset's divisibility.
+Otherwise, returned in base units.
+
 ## Transaction format
 
 - `txid`
