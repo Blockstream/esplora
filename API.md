@@ -2,6 +2,18 @@
 
 JSON over RESTful HTTP. Amounts are always represented in satoshis.
 
+The blockstream.info public APIs are available at:
+- Bitcoin: https://blockstream.info/api/
+- Bitcoin Testnet: https://blockstream.info/testnet/api/
+- Liquid: https://blockstream.info/liquid/api/
+
+For example:
+```bash
+$ curl https://blockstream.info/api/blocks/tip/hash
+```
+
+You can also [self-host the Esplora API server](https://github.com/Blockstream/esplora#how-to-run-the-explorer-for-bitcoin-mainnet), which provides better privacy and security.
+
 ## Transactions
 
 ### `GET /tx/:txid`
