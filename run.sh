@@ -102,8 +102,8 @@ if [ -z "$NO_ADDRESS_SEARCH" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --address-search"
 fi
 
-if [ -n "$ENABLE_REDUCED_STORAGE" ]; then
-    ELECTRS_ARGS="$ELECTRS_ARGS --reduced-storage"
+if [ -n "$ENABLE_LIGHTMODE" ]; then
+    ELECTRS_ARGS="$ELECTRS_ARGS --lightmode"
 fi
 
 if [ "$TEMPLATE" == "blockstream" ]; then
