@@ -104,11 +104,11 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
       </div>
     , <div>
         <div>{t`Block height`}</div>
-        <div>{formatNumber(tx.status.block_height)}</div>
+        <div>{tx.status.block_height}</div>
       </div>
     , <div>
         <div>{t`Block timestamp`}</div>
-        <div>{formatTime(tx.status.block_time, t)}</div>
+        <div>{formatTime(tx.status.block_time)}</div>
       </div>
     ]}
 
