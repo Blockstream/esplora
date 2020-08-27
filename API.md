@@ -105,7 +105,8 @@ Returns up to 50 transactions (no paging).
 Get the list of unspent transaction outputs associated with the address/scripthash.
 
 Available fields: `txid`, `vout`, `value` and `status` (with the status of the funding tx).
-Elements-based chains have an additional `asset` field.
+
+Elements-based chains have a `valuecommitment` field that may appear in place of `value`, plus the following additional fields: `asset`/`assetcommitment`, `nonce`/`noncecommitment`, `surjection_proof` and `range_proof`.
 
 ### `GET /address-prefix/:prefix`
 
