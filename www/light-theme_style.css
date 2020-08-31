@@ -97,8 +97,21 @@ body.theme-light {
 }
 
 
-@media only screen and (max-width: 850px) {
-    .theme-light .assets-table-link-row:nth-child(odd)  .assets-table-row {
-       color: #fff !important; 
+/* Asset Table Light Theme */
+.theme-light .assets-table-row{
+    color:rgba(21, 24, 28, 1) !important;
+}
+
+.theme-light .tabs input:checked + label{
+    color:rgba(21, 24, 28, 1);
+}
+
+.theme-light .asset-summary{
+    color:rgba(21, 24, 28, 1);
+}
+
+@media only screen and (max-width: 850px){
+    .theme-light .assets-table-link-row:nth-child(odd) .assets-table-row {
+        color: #fff !important; 
     }
-} 
+}
