@@ -207,6 +207,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
 
+  // Asset Icons Response
+  , assetIcons$ = !process.env.ASSET_MAP_URL ? O.of({}) :
+  reply('asset-icons')
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('recentBlocks')
@@ -241,7 +245,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, goAsset$, asset$, assetTxs$
+                     , assetMap$, assetIcons$, goAsset$, asset$, assetTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -333,6 +337,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , d.last_txids.length
                               ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${last(d.last_txids)}` }
                               : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
+
+    // Fetch Asset Icons                             
+    , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
+      { category: 'asset-icons',  method: 'GET', path: `https://assets.blockstream.info/icons.json` }) 
+
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))

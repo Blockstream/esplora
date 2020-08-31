@@ -2,7 +2,7 @@ import Snabbdom from 'snabbdom-pragma'
 
 import layout from './layout'
 
-export default ({ assetMap, t, ...S }) => {
+export default ({ assetMap, assetIcons, t, ...S }) => {
 
   const assets = Object.entries(assetMap)
     .map(([ asset_id, [ domain, ticker, name ] ]) => ({ asset_id, domain, ticker, name  }))
@@ -28,7 +28,15 @@ export default ({ assetMap, t, ...S }) => {
               {assets.map(asset =>
                 <div className="assets-table-link-row">
                   <a className="assets-table-row asset-data" href={`asset/${asset.asset_id}`}>
-                    <div className="assets-table-cell" data-label={t`Name`}>{asset.name}</div>
+                    <div className="assets-table-cell" data-label={t`Name`}>
+                      <div className="assets-table-name">
+                        {assetIcons === null ? "" : 
+                          assetIcons[`${asset.asset_id}`] === undefined ? 
+                            <div className="asset-icon-placeholder"></div> :
+                            <img src={`data:image/png;base64,${assetIcons[`${asset.asset_id}`]}`} className="asset-icon"/>}
+                            <span>{asset.name}</span>
+                      </div>
+                    </div>
                     <div className="assets-table-cell ticker" data-label={t`Ticker`}>{asset.ticker || <em>None</em>}</div>
                     <div className="assets-table-cell" data-label={t`Issuer domain`}>{asset.domain}</div>
                     <div className="assets-table-cell asset-id highlighted-text" data-label={t`Asset ID`}>{asset.asset_id}</div>
