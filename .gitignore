@@ -4,4 +4,5 @@ terraform/.terraform
 terraform/.terraform/environment
 terraform/*.tfstate.backup
 terraform/*.tfstate
+**/.DS_Store
 *~
