@@ -15,8 +15,8 @@ export default (assetTxs, chain_stats, asset, t) => {
         calTxObj.block_time = formatTime(tx.status.block_time)
     
         // Find all Issuance and add them to Supply
-        tx.vin.map(vinTx => {
-          if("issuance" in vinTx){
+        tx.vin.forEach(vinTx => {
+          if("issuance" in vinTx && vinTx.issuance.asset_id === asset.asset_id){
             calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : `+ ${formatAssetAmount((vinTx.issuance.assetamount), asset.precision, t).text}`
             calTxObj.totalSupply = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount((supply + vinTx.issuance.assetamount), asset.precision, t)
             supply = (supply + vinTx.issuance.assetamount)
@@ -24,8 +24,8 @@ export default (assetTxs, chain_stats, asset, t) => {
         })
     
         // Find all Burn Transactions and Remove them from Supply
-        tx.vout.map(voutTx => {
-          if(voutTx.scriptpubkey_type === "op_return"){
+        tx.vout.forEach(voutTx => {
+          if(voutTx.scriptpubkey_type === "op_return" && voutTx.asset === asset.asset_id){
             if(voutTx.value > 0){
               calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : `- ${formatAssetAmount((voutTx.value), asset.precision, t).text}`
               calTxObj.totalSupply = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount((supply - voutTx.value), asset.precision, t)
