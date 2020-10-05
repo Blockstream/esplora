@@ -233,8 +233,16 @@
 
 @media only screen and (max-width: 850px) {
 
-    /* assets table */
+    .asset-label{
+      width: 40%;
+    }
 
+    .asset-text{
+      text-align: right;
+      width: 60%;
+    }
+
+    /* assets table */
     div.assets-table-row.header {
       display:none;
     }

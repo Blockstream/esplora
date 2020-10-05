@@ -208,7 +208,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
 
   // Asset Icons Response
-  , assetIcons$ = !process.env.ASSET_MAP_URL ? O.of({}) :
+  , assetIcons$ = !process.env.ASSET_ICONS_URL ? O.of({}) :
   reply('asset-icons')
 
   // Currently visible view
@@ -339,8 +339,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
 
     // Fetch Asset Icons                             
-    , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
-      { category: 'asset-icons',  method: 'GET', path: `https://assets.blockstream.info/icons.json` }) 
+    , !process.env.ASSET_ICONS_URL ? O.empty() : O.of(
+      { category: 'asset-icons',  method: 'GET', path: process.env.ASSET_ICONS_URL}) 
 
 
     // fetch more txs for asset page

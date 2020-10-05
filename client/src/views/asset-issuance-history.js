@@ -3,46 +3,45 @@ import { formatTime, formatAssetAmount } from './util'
 
 export default (assetTxs, chain_stats, asset, t) => {
 
-    //Calculated AssetTx
-    let calculatedAssetTx = []
-      
-    if(assetTxs != null){ 
+    const getCalculatedAssetTx = () => {   
       // Supply Starts at Zero
       let supply = 0
       // Sort AssetTxs by block_time and Calculate Supply Change / Total Supply
       assetTxs.sort((a,b) => (a.status.block_time > b.status.block_time) ? 1 : ((b.status.block_time > a.status.block_time) ? -1 : 0))
-      assetTxs.map(tx => {
+      let calAssetTx = assetTxs.map(tx => {
         let calTxObj = {}
         calTxObj.txid = tx.txid
         calTxObj.block_height = tx.status.block_height
         calTxObj.block_time = formatTime(tx.status.block_time)
-
+    
         // Find all Issuance and add them to Supply
         tx.vin.map(vinTx => {
           if("issuance" in vinTx){
-            calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount(("+ " + vinTx.issuance.assetamount), asset.precision, t)
+            calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : `+ ${formatAssetAmount((vinTx.issuance.assetamount), asset.precision, t).text}`
             calTxObj.totalSupply = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount((supply + vinTx.issuance.assetamount), asset.precision, t)
             supply = (supply + vinTx.issuance.assetamount)
           }
         })
-
+    
         // Find all Burn Transactions and Remove them from Supply
         tx.vout.map(voutTx => {
           if(voutTx.scriptpubkey_type === "op_return"){
             if(voutTx.value > 0){
-              calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount(("- " + voutTx.value), asset.precision, t)
+              calTxObj.supplyChange = chain_stats.has_blinded_issuances ? t`Confidential` : `- ${formatAssetAmount((voutTx.value), asset.precision, t).text}`
               calTxObj.totalSupply = chain_stats.has_blinded_issuances ? t`Confidential` : formatAssetAmount((supply - voutTx.value), asset.precision, t)
               supply = (supply - voutTx.value)
             }
           }
         })
-        calculatedAssetTx.push(calTxObj)
+        return calTxObj
       })
+    
+      // Reverse Calculated AssetTx to Display Newest to Older
+      return calAssetTx.reverse()
     }
-    // Reverse Calculated AssetTx to Display Newest to Older
-    calculatedAssetTx.reverse()
-  
-
+    
+    let calculatedAssetTx = assetTxs === null ? "" : getCalculatedAssetTx()
+    
 
     return(
         <div>
