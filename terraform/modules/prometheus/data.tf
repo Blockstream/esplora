@@ -3,7 +3,7 @@ data "google_compute_network" "default" {
 }
 
 data "template_file" "prometheus" {
-  template = "${file("${path.module}/cloud-init/prometheus.yml")}"
+  template = file("${path.module}/cloud-init/prometheus.yml")
 
   vars = {
     docker_tag               = var.docker_tag

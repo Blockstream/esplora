@@ -24,7 +24,7 @@ resource "google_compute_address" "electrum-internal-address" {
 }
 
 locals {
-  service_account = "${terraform.workspace == "main" ? element(concat(google_service_account.electrum.*.email, list("")), 0) : var.electrum_service_account}"
+  service_account = terraform.workspace == "main" ? element(concat(google_service_account.electrum.*.email, list("")), 0) : var.electrum_service_account
 }
 
 resource "google_compute_instance" "electrum-server" {

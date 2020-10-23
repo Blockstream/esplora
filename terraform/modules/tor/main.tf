@@ -4,8 +4,12 @@ resource "google_compute_instance_group_manager" "tor" {
   zone  = var.zones
 
   base_instance_name = var.name
-  instance_template  = google_compute_instance_template.tor[0].self_link
   target_size        = var.instances
+  
+  version {
+    instance_template  = google_compute_instance_template.tor[0].self_link
+    name              = "original"
+  }
 }
 
 resource "google_compute_instance_template" "tor" {

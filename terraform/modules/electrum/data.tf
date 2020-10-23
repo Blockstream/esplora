@@ -3,7 +3,7 @@ data "google_compute_network" "default" {
 }
 
 data "template_file" "electrum" {
-  template = "${file("${path.module}/cloud-init/electrum.yml")}"
+  template = file("${path.module}/cloud-init/electrum.yml")
 }
 
 data "template_cloudinit_config" "electrum" {

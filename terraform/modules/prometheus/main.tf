@@ -23,7 +23,7 @@ resource "google_compute_address" "prometheus-internal-address" {
 }
 
 locals {
-  service_account = "${terraform.workspace == "main" ? element(concat(google_service_account.prometheus.*.email, list("")), 0) : var.prometheus_service_account}"
+  service_account = terraform.workspace == "main" ? element(concat(google_service_account.prometheus.*.email, list("")), 0) : var.prometheus_service_account
 }
 
 resource "google_compute_instance" "prometheus-server" {

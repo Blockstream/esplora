@@ -3,7 +3,7 @@ data "google_compute_network" "default" {
 }
 
 data "template_file" "http" {
-  template = "${file("${path.module}/cloud-init/http.yml")}"
+  template = file("${path.module}/cloud-init/http.yml")
 
   vars = {
     docker_tag_nginx         = var.docker_tag_nginx

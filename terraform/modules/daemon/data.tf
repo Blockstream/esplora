@@ -3,7 +3,7 @@ data "google_compute_network" "default" {
 }
 
 data "template_file" "daemon" {
-  template = "${file("${path.module}/cloud-config/daemon.yml")}"
+  template = file("${path.module}/cloud-config/daemon.yml")
 
   vars = {
     docker_tag                  = var.docker_tag_explorer
