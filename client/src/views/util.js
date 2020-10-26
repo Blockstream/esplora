@@ -8,8 +8,8 @@ const DEFAULT_PRECISION = 0
 
 const pad = n => n < 10 ? '0'+n : n
 
-const formatTimezone = unix => {
-  const tzOffset = new Date(unix*1000).getTimezoneOffset() * -1;
+const formatTimezone = time => {
+  const tzOffset = time.getTimezoneOffset() * -1;
   return tzOffset == 0 ? 'UTC' : 'GMT ' + (tzOffset < 0 ? '' : '+') + (tzOffset/60)
 }
 
@@ -18,7 +18,7 @@ export const formatTime = (unix, with_tz = true) => {
 
   return `${time.getFullYear()}-${pad(time.getMonth() + 1)}-${pad(time.getDate())}`
        + ` ${pad(time.getHours())}:${pad(time.getMinutes())}:${pad(time.getSeconds())}`
-       + (with_tz ? ' ' +formatTimezone(unix) : '')
+       + (with_tz ? ' ' + formatTimezone(time) : '')
 }
 
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
