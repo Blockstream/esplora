@@ -328,6 +328,19 @@ Not available for assets with blinded issuances.
 If `/decimal` is specified, returns the supply as a decimal according to the asset's divisibility.
 Otherwise, returned in base units.
 
+### `GET /assets/registry`
+
+Get the list of issued assets in the asset registry.
+
+Query string parameters:
+
+- `start_index`: the start index to use for paging. defaults to 0.
+- `limit`: maximum number of assets to return. defaults to 25, maximum 100.
+- `sort_field`: field to sort assets by. one of `name`, `ticker` or `domain`. defaults to `ticker`.
+- `sort_dir`: sorting direction. one of `asc` or `desc`. defaults to `asc`.
+
+Assets are returned in the same format as in `GET /asset/:asset_id`.
+
 ## Transaction format
 
 - `txid`
