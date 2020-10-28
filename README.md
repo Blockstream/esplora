@@ -57,6 +57,8 @@ $ npm run dev-server
 
 The server will be available at http://localhost:5000/
 
+To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
+
 ## Building
 
 To build the static assets directory for production deployment, set config options (see below)
