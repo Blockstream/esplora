@@ -126,6 +126,12 @@ See [block format](#block-format) for more details.
 
 The response from this endpoint can be cached indefinitely.
 
+### `GET /block/:hash/header`
+
+Returns the hex-encoded block header.
+
+The response from this endpoint can be cached indefinitely.
+
 ### `GET /block/:hash/status`
 
 Returns the block status.
