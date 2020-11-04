@@ -120,7 +120,7 @@ Returns a JSON array with up to 10 results.
 
 Returns information about a block.
 
-Available fields: `id`, `height`, `version`, `timestamp`, `bits`, `nonce`, `merkle_root`, `tx_count`, `size`, `weight` and `previousblockhash`.
+Available fields: `id`, `height`, `version`, `timestamp`, `mediantime`, `bits`, `nonce`, `merkle_root`, `tx_count`, `size`, `weight` and `previousblockhash`.
 Elements-based chains have an additional `proof` field.
 See [block format](#block-format) for more details.
 
