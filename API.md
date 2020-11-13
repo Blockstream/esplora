@@ -347,6 +347,9 @@ Query string parameters:
 
 Assets are returned in the same format as in `GET /asset/:asset_id`.
 
+
+The total number of results will be returned as the `x-total-results` header.
+
 ## Transaction format
 
 - `txid`
