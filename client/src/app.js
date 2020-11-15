@@ -264,7 +264,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => page.query.expand != expand)
-    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }) ])
+    .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
 
   /// Sinks
 
@@ -367,7 +367,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname, search: qs, state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
