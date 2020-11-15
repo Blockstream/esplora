@@ -50,7 +50,7 @@ export const updateBlocks = (current, to_add) => {
 
 // Transaction helpers
 
-export const isAnyConfidential = tx => tx.vout.some(vout => vout.value == null)
+export const isAllUnconfidential = tx => tx.vout.every(vout => vout.value != null)
 
 export const isRbf = tx => tx.vin.some(vin => vin.sequence < 0xfffffffe)
 

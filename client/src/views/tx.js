@@ -6,7 +6,7 @@ import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
 import { formatSat, formatTime, formatVMB, formatNumber } from './util'
-import { isAnyConfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
+import { isAllUnconfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
@@ -39,8 +39,12 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends, query, ...S }) => {
+export const txBox = (tx, { t, openTx, tipHeight, spends, query, unblinded, ...S }) => {
   const vopt = { isOpen: (openTx == tx.txid), query, t, ...S }
+
+  if (unblinded && !unblinded.error) {
+    unblinded.tryAttachTx(tx)
+  }
 
   return <div className="transaction-box" id="transaction-box">
     <div className="header">
@@ -68,8 +72,8 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query, ...S }) => {
       <div>
         {tx.status && <span>{confirmationText(tx.status, tipHeight, t)} {!tx.status.confirmed && isRbf(tx) ? t`(RBF)` : ''}</span>}
         <span className="amount">{
-              isAnyConfidential(tx) ? t`Confidential`
-              : isAllNative(tx)     ? formatSat(outTotal(tx))
+              !isAllUnconfidential(tx) ? t`Confidential`
+              : isAllNative(tx)        ? formatSat(outTotal(tx))
               : ''}</span>
       </div>
     </div>

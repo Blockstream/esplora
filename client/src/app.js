@@ -21,7 +21,7 @@ const reservedPaths = [ 'mempool', 'assets', 'search' ]
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
 
-export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$ }) {
+export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -57,6 +57,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
     , limit: +loc.query.limit || 50,
     }))
+  , blindingReq$ = !process.env.IS_ELEMENTS ? O.empty()
+      : page$.map(loc => loc.hash.startsWith('#blinded=') ? loc.hash.substr(9) : null)
   // End Elements only
 
 
@@ -250,7 +252,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$
+                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -418,5 +420,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: goSearch$, scanner: scanning$, title: title$, state: state$ }
+  return {
+    DOM: vdom$
+  , HTTP: req$
+  , route: navto$
+  , storage: store$
+  , search: goSearch$
+  , scanner: scanning$
+  , title: title$
+  , state: state$
+
+  // elements only
+  , blinding: blindingReq$
+  }
 }

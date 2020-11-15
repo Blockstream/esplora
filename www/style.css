@@ -1433,6 +1433,14 @@ body::after{
   color: #c3cbd3;
 }
 
+.unblinded .vout-header, .unblinded .vin-header {
+  background: #04240d;
+}
+
+.theme-light .unblinded .vout-header, .theme-light .unblinded .vin-header {
+  background: #e0ffe9;
+}
+
 .contract-json {
   text-align: left !important;
   word-break: break-all !important;
