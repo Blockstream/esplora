@@ -1044,6 +1044,8 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   text-transform: none;
 }
 
+.address-qr-code { width: 182px; }
+
 
 /* START FOOTER */
 .explorer-container > .footer {
@@ -1552,7 +1554,6 @@ body::after{
   }
 }
 
-
 @media only screen and (max-width: 850px) {
 
     /* blocks table */
@@ -1675,6 +1676,7 @@ body::after{
   margin: 0;
   padding: 0;
 }
+
 }
 
 @media only screen and (max-width: 825px) {
@@ -1713,7 +1715,10 @@ body::after{
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 575.98px) {
+  .jumbotron-fluid{
+    height: auto;
+  }
   .address-qr-code {
     display: block;
     margin: 0 auto;
