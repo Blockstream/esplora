@@ -7,18 +7,17 @@ const WALLY_OK = 0
 const STATIC_ROOT = process.env.STATIC_ROOT || ''
     , WASM_URL = process.env.LIBWALLY_WASM_URL || `${STATIC_ROOT}/libwally/wallycore.js`
 
-let load_promise
+let load_promise, Module
 export function load() {
   return load_promise || (load_promise = new Promise((resolve, reject) => {
-    window.Module = { postRun: [ resolve ] }
-
     const script = document.createElement('script')
     script.src = WASM_URL
     script.addEventListener('error', reject)
+    script.addEventListener('load', () =>
+      InitWally().then(module => { Module=module; resolve() }, reject))
     document.body.appendChild(script)
   }))
 }
-// XXX avoid polluting the global namespace with Module/getValue/ccall
 
 // Simple wrapper to execute both asset_generator_from_bytes and asset_value_commitment,
 // with hex conversions
@@ -36,7 +35,7 @@ export function generate_commitments(value, asset_hex, value_blinder_hex, asset_
 
 export function asset_generator_from_bytes(asset, asset_blinder) {
   const asset_commitment_ptr = Module._malloc(ASSET_GENERATOR_LEN)
-  checkCode(ccall('wally_asset_generator_from_bytes'
+  checkCode(Module.ccall('wally_asset_generator_from_bytes'
     , 'number'
     , [ 'array', 'number', 'array', 'number', 'number', 'number' ]
     , [ asset, asset.length
@@ -55,7 +54,7 @@ export function asset_value_commitment(value, value_blinder, asset_commitment) {
   const [value_lo, value_hi] = split_int52_lo_hi(value)
 
   const value_commitment_ptr = Module._malloc(ASSET_COMMITMENT_LEN)
-  checkCode(ccall('wally_asset_value_commitment'
+  checkCode(Module.ccall('wally_asset_value_commitment'
     , 'number'
     , [ 'number', 'number', 'array', 'number', 'array', 'number', 'number', 'number' ]
     , [ value_lo, value_hi
@@ -76,7 +75,7 @@ function checkCode(code) {
 
 function readBytes(ptr, size) {
   const bytes = new Uint8Array(size)
-  for (let i=0; i<size; i++) bytes[i] = getValue(ptr+i, 'i8')
+  for (let i=0; i<size; i++) bytes[i] = Module.getValue(ptr+i, 'i8')
   return bytes
 }
 
