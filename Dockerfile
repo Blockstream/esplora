@@ -3,6 +3,7 @@ FROM blockstream/esplora-base:latest AS build
 FROM debian:buster@sha256:e2cc6fb403be437ef8af68bdc3a89fd58e80b4e390c58f14c77c466002391193
 
 COPY --from=build /srv/explorer /srv/explorer
+COPY --from=build /srv/wally_wasm /srv/wally_wasm
 COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
@@ -43,6 +44,9 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- liquid-mainnet blockstream \
  && DEST=/srv/explorer/static/liquid-regtest-blockstream \
     npm run dist -- liquid-regtest blockstream
+
+# symlink the libwally wasm files into liquid's www directories (for client-side unblinding)
+RUN for dir in /srv/explorer/static/liquid*; do ln -s /srv/wally_wasm $dir/libwally; done
 
 # configuration
 RUN cp /srv/explorer/source/run.sh /srv/explorer/
