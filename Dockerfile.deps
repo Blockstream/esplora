@@ -1,13 +1,17 @@
-FROM greenaddress/wallycore@sha256:8ffc7bb723507e00f4dae1cd48044dcb026732bd911c9ea00255323208b20693 AS libwally-wasm
+# Build libwally wasm files. Used for client-side blinding verification on Elements-based chains
 
+FROM greenaddress/wallycore@sha256:d63d222be12f6b2535e1548aa7f21cf649e2230d6c9e01bd518c23eb0bccd46f AS libwally-wasm
+ARG NO_LIQUID
 ENV EXPORTED_FUNCTIONS="['_malloc', '_free', '_wally_init','_wally_asset_value_commitment','_wally_asset_generator_from_bytes']"
 ENV EXTRA_EXPORTED_RUNTIME_METHODS="['getValue', 'ccall']"
 ENV EMCC_OPTIONS="-s MODULARIZE=1 -s EXPORT_NAME=InitWally"
-RUN sh -c 'apt-get -qq update && apt-get -yqq install git \
+RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wasm_dist || ( \
+    apt-get -qq update && apt-get -yqq install git \
     && cd /opt/emsdk && . ./emsdk_env.sh \
-    && git clone --no-checkout https://github.com/shesek/libwally-core /wally \
-    && cd /wally && git checkout 88c53a6e8eb138cfa50f84edb405c9f8a158cbc9 \
-    && tools/build_wasm.sh'
+    && git clone --no-checkout https://github.com/elementsproject/libwally-core /wally \
+    && cd /wally && git checkout ea984fc07f4f450b33d4eb78756f25f553e60b44 \
+    && git submodule sync --recursive && git submodule update --init --recursive \
+    && ./tools/build_wasm.sh --enable-elements)'
 
 FROM debian:buster@sha256:e2cc6fb403be437ef8af68bdc3a89fd58e80b4e390c58f14c77c466002391193
 SHELL ["/bin/bash", "-c"]
@@ -58,4 +62,4 @@ RUN apt-get --auto-remove remove -yqq --purge clang cmake manpages curl git \
  && apt-get autoclean \
  && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
 
-COPY --from=libwally-wasm /wally/wasm_dist /srv/wally_wasm
+COPY --from=libwally-wasm /wally/wally_dist /srv/wally_wasm
