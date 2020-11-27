@@ -19,6 +19,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
       </div>
       <div className="container">
         { !assets ? <div className="load-more-container"><img src="img/Loading.gif" /></div>
+          : !assets.length ? <p>{t`No registered assets`}</p>
           : <div className="assets-table">
               <div className="assets-table-row header">
                 <a href={`assets/registry?sort_field=name&sort_dir=${reverseSortDir}`} 
