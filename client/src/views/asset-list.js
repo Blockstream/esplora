@@ -7,7 +7,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
   
   const { assets, total } = !assetList ? {} : assetList
   const { start_index, sort_dir, sort_field, limit } = goAssetList
-  const pageLink = `assets/registry?sort_field=${encodeURIComponent(sort_field)}&sort_dir=${encodeURIComponent(sort_dir)}`
+  const pageLink = `assets?sort_field=${encodeURIComponent(sort_field)}&sort_dir=${encodeURIComponent(sort_dir)}`
   const reverseSortDir = encodeURIComponent(sort_dir === 'asc' ? 'desc' : 'asc')
   
   return layout(
@@ -22,14 +22,14 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
           : !assets.length ? <p>{t`No registered assets`}</p>
           : <div className="assets-table">
               <div className="assets-table-row header">
-                <a href={`assets/registry?sort_field=name&sort_dir=${reverseSortDir}`} 
+                <a href={`assets?sort_field=name&sort_dir=${reverseSortDir}`} 
                   className={`assets-table-cell sortable ${sort_field === "name" ? sort_dir : ""}`}>{t`Name`}
                 </a>
-                <a href={`assets/registry?sort_field=ticker&sort_dir=${reverseSortDir}`} 
+                <a href={`assets?sort_field=ticker&sort_dir=${reverseSortDir}`} 
                     className={`assets-table-cell ticker right-align sortable ${sort_field === "ticker" ? sort_dir : ""}`}>{t`Ticker`}
                 </a>
                 <div className="assets-table-cell supply right-align">{t`Total Supply`}</div>
-                <a href={`assets/registry?sort_field=domain&sort_dir=${reverseSortDir}`} 
+                <a href={`assets?sort_field=domain&sort_dir=${reverseSortDir}`} 
                     className={`assets-table-cell domain right-align sortable ${sort_field === "domain" ? sort_dir : ""}`}>{t`Issuer domain`}
                 </a>
               </div>

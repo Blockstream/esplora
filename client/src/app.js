@@ -52,7 +52,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , est_chain_seen_count: +loc.query.c || 0
     }))
   //, goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
-  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets/registry').map(loc => ({ 
+  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({ 
       start_index: +loc.query.start_index || 0
     , sort_field: loc.query.sort_field != null ? loc.query.sort_field : 'name'
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
