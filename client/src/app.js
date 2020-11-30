@@ -51,7 +51,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  //, goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
   , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({ 
       start_index: +loc.query.start_index || 0
     , sort_field: loc.query.sort_field != null ? loc.query.sort_field : 'name'
@@ -209,8 +208,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         // use an empty object if the map fails loading for any reason
         .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
 
-  // Assets List State      
-  , assetList$ = !process.env.IS_ELEMENTS ? O.empty() : 
+  // Assets List State
+  , assetList$ = !process.env.IS_ELEMENTS ? O.empty() :
       reply('assetlist', true).map(r => ({ assets: r.body, total: r.headers['x-total-results'] || 493 }))
 
   // The minimally required data to start rendering the UI
@@ -337,10 +336,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
                                 { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL, bg: true })
 
-    //fetch asset List 
+    // fetch asset list
     , goAssetList$.map(d => ({ category: 'assetlist',  method: 'GET', path: '/assets/registry'
           , query: { sort_field: d.sort_field, sort_dir: d.sort_dir, limit: d.limit, start_index: d.start_index } }))
-        
+
     // fetch asset and its txs
     , !process.env.IS_ELEMENTS ? O.empty() :
         goAsset$.flatMap(d  => [{ category: 'asset',      method: 'GET', path: `/asset/${d.asset_id}` }

@@ -116,6 +116,6 @@ export const getSupply = (asset, t) => {
         mempool_stats.burned_amount;
 
      let totalSupply = circulating == null ? t`Confidential`
-                  : formatAssetAmount(circulating, asset.precision, t) 
+                  : formatAssetAmount(circulating, asset.precision, t)
   return totalSupply
 }
