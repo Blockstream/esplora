@@ -5,7 +5,7 @@ const WALLY_OK = 0
     , BLINDING_FACTOR_LEN = 32
 
 const STATIC_ROOT = process.env.STATIC_ROOT || ''
-    , WASM_URL = process.env.LIBWALLY_WASM_URL || `${STATIC_ROOT}/libwally/wallycore.js`
+    , WASM_URL = process.env.LIBWALLY_WASM_URL || `${STATIC_ROOT}libwally/wallycore.js`
 
 let load_promise, Module
 export function load() {
