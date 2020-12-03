@@ -149,8 +149,9 @@ variable "initial_delay_sec" {
 }
 
 variable "prometheus_allowed_source_ip" {
-  description = "The IP that is allowed to access the prometheus instance."
-  default     = ""
+  type        = list
+  description = "The IPs that are allowed to access the prometheus instance."
+  default     = []
 }
 
 variable "opsgenie_api_key" {

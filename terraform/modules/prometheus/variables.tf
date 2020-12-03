@@ -56,8 +56,8 @@ variable "docker_tag_node_exporter" {
 }
 
 variable "allowed_source_ip" {
-  type        = string
-  description = "Which IP is allowed to access the instance?"
+  type        = list
+  description = "Which IPs are allowed to access the instance?"
 }
 
 variable "prometheus_service_account" {
