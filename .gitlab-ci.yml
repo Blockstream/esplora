@@ -4,9 +4,6 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_TLS_CERTDIR: ""
 
-services:
-  - docker:19-dind
-
 image: blockstream/gcloud-docker
 stages:
   - build
@@ -26,8 +23,9 @@ test_docker_build_image:
   image: docker@sha256:16a1f4b3e64c5a8e1ac80987bc2b8907dbc1c79c1b13be0781f4d24a2072e698
   stage: build
   tags:
-    - docker
-    - k8s
+    - k8s-docker
+  services:
+    - docker:19-dind
   before_script:
     - echo "Disabling before script"
   except:
@@ -52,8 +50,9 @@ test_docker_build_image:
 build:
   stage: build
   tags:
-    - docker
-    - k8s
+    - k8s-docker
+  services:
+    - docker:19-dind
   only:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
@@ -194,8 +193,9 @@ deploy_bitcoin_mainnet:
   when: manual
   stage: deploy
   tags:
-    - docker
-    - k8s
+    - k8s-docker
+  services:
+    - docker:19-dind
   only:
     - /^bitcoin_mainnet.*/
   script:
@@ -247,8 +247,9 @@ deploy_bitcoin_testnet:
   when: manual
   stage: deploy
   tags:
-    - docker
-    - k8s
+    - k8s-docker
+  services:
+    - docker:19-dind
   only:
     - /^bitcoin_testnet.*/
   script:
@@ -300,8 +301,9 @@ deploy_liquid_mainnet:
   when: manual
   stage: deploy
   tags:
-    - docker
-    - k8s
+    - k8s-docker
+  services:
+    - docker:19-dind
   only:
     - /^liquid_mainnet.*/
   script:
