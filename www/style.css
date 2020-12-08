@@ -1,16 +1,7 @@
 @import url("font/inconsolata/index.css");
 @import url("light-theme_style.css");
+@import url("https://use.typekit.net/chx2fbn.css");
 
-@font-face {
-  font-family: DINPro;
-  src: url("font/DINPro-Regular.otf") format("opentype");
-}
-
-@font-face {
-  font-family: DINPro;
-  font-weight: bold;
-  src: url("font/DINPro-Medium.otf") format("opentype");
-}
 
 .hide {
   display: none !important;
@@ -19,7 +10,7 @@
 body {
   direction: ltr;
   text-align: left;
-  font-family: DINPro;
+  font-family: "din-2014", sans-serif;
   color: #fff;
 }
 
