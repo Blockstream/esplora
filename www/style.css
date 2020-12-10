@@ -2,14 +2,14 @@
 @import url("light-theme_style.css");
 
 @font-face {
-  font-family: DINPro;
-  src: url("font/DINPro-Regular.otf") format("opentype");
+  font-family: SourceSansPro;
+  src: url("font/SourceSansPro-Regular.ttf") format("opentype");
 }
 
 @font-face {
-  font-family: DINPro;
+  font-family: SourceSansPro;
   font-weight: bold;
-  src: url("font/DINPro-Medium.otf") format("opentype");
+  src: url("font/SourceSansPro-SemiBold.ttf") format("opentype");
 }
 
 .hide {
@@ -19,7 +19,7 @@
 body {
   direction: ltr;
   text-align: left;
-  font-family: DINPro;
+  font-family: SourceSansPro, Helvetica,Arial,sans-serif;
   color: #fff;
 }
 
