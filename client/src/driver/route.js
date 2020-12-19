@@ -1,5 +1,5 @@
 import qs from 'querystring'
-import pathRegexp from 'path-to-regexp'
+import { pathToRegexp } from 'path-to-regexp'
 import { Observable as O } from '../rxjs'
 
 const isStr = x => typeof x === 'string'
@@ -33,7 +33,7 @@ module.exports = history => goto$ => {
   function route(path) {
     if (!path) return page$
 
-    const keys=[], re=pathRegexp(path, keys)
+    const keys=[], re=pathToRegexp(path, keys)
 
     return page$
       .map(loc => ({ ...loc, matches: loc.pathname.match(re) }))
