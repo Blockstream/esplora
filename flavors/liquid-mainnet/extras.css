@@ -21,6 +21,146 @@
     background-image: linear-gradient(-90deg, rgba(13, 141, 119, 1) 0%, rgba(17, 103, 97, 1) 16%, rgba(25, 68, 74, 1) 35%, rgba(29, 42, 48, 1) 57%, rgba(14, 16, 17, 1) 100%);
 }
 
+
+/* New Asset Summary Start*/
+.back-nav{
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.back-nav a{
+  color: #78838e;
+}
+
+.back-nav a:hover{
+  color: #c2c2c3;
+}
+
+.back-nav span{
+  font-size: 20px;
+  margin-right: 10px; 
+}
+
+.asset-summary{ 
+  color: white;
+  margin-bottom: 100px;
+}
+
+.asset-logo{
+  height:50px;
+  width:50px;
+  border-radius: 100%;
+  margin-right: 20px;
+}
+
+.asset-summary .asset-icon-placeholder{
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 10px;
+  background: url(img/icons/asset_unknown.png);
+  background-size: cover;
+}
+
+.asset-summary .asset-icon{
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 10px;
+}
+
+.asset-logo-name{
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.asset-name{
+  font-size: 22px;
+}
+
+.asset-name span{
+  font-size: 16px;
+  font-weight: bold;
+  float: left;
+  margin-top: -5px;
+}
+
+
+
+.asset-label-text{
+  display: flex;
+  margin-bottom: 20px;
+  word-break: break-word;
+}
+
+.asset-label{
+  width: 30%;
+  color: #78838e;
+}
+
+/* Tab CSS Start *******/
+.tabs {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.tabs input {
+  display: none;
+}
+
+.tabs label {
+  display: inline-block;
+  padding: 10px 0 ;
+  margin-right: 30px;
+  width: auto;
+  text-align: center;
+  color: #78838e;
+}
+
+.tabs label:hover {
+  cursor: pointer;
+}
+
+.tabs input:checked + label {
+  border-bottom: 2px solid #00ccff;
+  color: white;
+}
+
+.tabs #tab1:checked ~ .content #content1,
+.tabs #tab2:checked ~ .content #content2{
+  display: block;
+}
+
+.tabs .content > div {
+  display: none;
+  padding-top: 20px;
+  text-align: left;
+  overflow: auto;
+}
+/* New Asset Summary End*/
+
+
+/* Asset List Icons*/
+.assets-table-cell .asset-icon-placeholder{
+  width: 25px;
+  height: 25px;
+  float: left;
+  margin-right: 10px;
+  background: url(img/icons/asset_unknown.png);
+  background-size: cover;
+}
+
+.assets-table-cell .asset-icon{
+  width: 25px;
+  height: 25px;
+  float: left;
+  margin-right: 10px;
+}
+
+.assets-table-name span{
+  word-break: break-all;
+}
+
 .assets-table .assets-table-row {
   display: table;
   table-layout: fixed;
@@ -68,6 +208,7 @@
 
 .assets-table .assets-table-row > div:nth-child(1) {
   padding-left: 12px;
+  padding-right: 15px;
 }
 
 .assets-table-row {
@@ -92,8 +233,16 @@
 
 @media only screen and (max-width: 850px) {
 
-    /* assets table */
+    .asset-label{
+      width: 40%;
+    }
 
+    .asset-text{
+      text-align: right;
+      width: 60%;
+    }
+
+    /* assets table */
     div.assets-table-row.header {
       display:none;
     }
