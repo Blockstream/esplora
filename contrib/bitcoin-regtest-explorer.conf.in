@@ -3,3 +3,4 @@ regtest=1
 server=1
 listen=0
 blocknotify=pkill -USR1 electrs
+fallbackfee=0.00001
