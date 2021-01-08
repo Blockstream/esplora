@@ -369,7 +369,7 @@ deploy_staging_bitcoin_mainnet:
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
     - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
-    - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
+    - "kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
 
 deploy_bitcoin_testnet:
   when: manual
@@ -385,7 +385,7 @@ deploy_bitcoin_testnet:
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
     - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_TESTNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
-    - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_TESTNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
+    - "kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_BITCOIN_TESTNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
 
 deploy_liquid_mainnet:
   when: manual
@@ -401,4 +401,4 @@ deploy_liquid_mainnet:
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
     - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_LIQUID_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
-    - "kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_LIQUID_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
+    - "kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING patch statefulset $KUBE_DEPLOYMENT_LIQUID_MAINNET --type='json' -p='[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]'"
