@@ -368,12 +368,13 @@ deploy_staging_bitcoin_mainnet:
     - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
+    kubectl -n esplora patch statefulset liquid-preemp --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:091a10d61694d3268df774d2eb1d88f17a467527"}]'
     - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
-        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_MAINNET
-        $KUBE_DEPLOYMENT_BITCOIN_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+        patch statefulset $KUBE_DEPLOYMENT_BITCOIN_MAINNET --type='json'
+        -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
-        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_MAINNET
-        $KUBE_DEPLOYMENT_BITCOIN_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+        patch statefulset $KUBE_DEPLOYMENT_BITCOIN_MAINNET --type='json'
+        -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
 
 deploy_bitcoin_testnet:
   when: manual
@@ -389,11 +390,11 @@ deploy_bitcoin_testnet:
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
   - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
-      set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_TESTNET
-      $KUBE_DEPLOYMENT_BITCOIN_TESTNET=blockstream/esplora:$CI_COMMIT_SHA
+      patch statefulset $KUBE_DEPLOYMENT_BITCOIN_TESTNET --type='json'
+      -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
   - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
-      set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_TESTNET
-      $KUBE_DEPLOYMENT_BITCOIN_TESTNET=blockstream/esplora:$CI_COMMIT_SHA
+      patch statefulset $KUBE_DEPLOYMENT_BITCOIN_TESTNET --type='json'
+      -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
 
 deploy_liquid_mainnet:
   when: manual
@@ -409,8 +410,8 @@ deploy_liquid_mainnet:
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
   script:
     - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
-        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_LIQUID_MAINNET
-        $KUBE_DEPLOYMENT_LIQUID_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+        patch statefulset $KUBE_DEPLOYMENT_LIQUID_MAINNET --type='json'
+        -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
     - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
-        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_LIQUID_MAINNET
-        $KUBE_DEPLOYMENT_LIQUID_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+        patch statefulset $KUBE_DEPLOYMENT_LIQUID_MAINNET --type='json'
+        -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"blockstream/esplora:$CI_COMMIT_SHA"}]'
