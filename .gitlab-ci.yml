@@ -335,7 +335,7 @@ deploy_liquid_mainnet:
 deploy_staging_bitcoin_mainnet:
   when: manual
   stage: deploy
-  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  image: blockstream/kubectl:latest
   tags:
     - k8s
   only:
@@ -355,7 +355,7 @@ deploy_staging_bitcoin_mainnet:
 deploy_bitcoin_testnet:
   when: manual
   stage: deploy
-  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  image: blockstream/kubectl:latest
   tags:
     - k8s
   only:
@@ -375,7 +375,7 @@ deploy_bitcoin_testnet:
 deploy_liquid_mainnet:
   when: manual
   stage: deploy
-  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  image: blockstream/kubectl:latest
   tags:
     - k8s
   only:
