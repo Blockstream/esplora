@@ -57,6 +57,9 @@ build:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
     - /^liquid_mainnet.*/
+    - /^staging_bitcoin_mainnet.*/
+    - /^staging_bitcoin_testnet.*/
+    - /^staging_liquid_mainnet.*/
     - master@greenaddress/esplora
   script:
     - docker pull debian:buster || true
@@ -327,3 +330,64 @@ deploy_liquid_mainnet:
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
         -input=false -auto-approve)
+
+
+deploy_staging_bitcoin_mainnet:
+  when: manual
+  stage: deploy
+  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  tags:
+    - k8s
+  only:
+    - /^staging_bitcoin_mainnet.*/
+    - master@greenaddress/esplora
+  before_script:
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
+  script:
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
+        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_MAINNET
+        $KUBE_DEPLOYMENT_BITCOIN_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
+        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_MAINNET
+        $KUBE_DEPLOYMENT_BITCOIN_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+
+deploy_bitcoin_testnet:
+  when: manual
+  stage: deploy
+  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  tags:
+    - k8s
+  only:
+    - /^staging_bitcoin_testnet.*/
+    - master@greenaddress/esplora
+  before_script:
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
+  script:
+  - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
+      set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_TESTNET
+      $KUBE_DEPLOYMENT_BITCOIN_TESTNET=blockstream/esplora:$CI_COMMIT_SHA
+  - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
+      set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_BITCOIN_TESTNET
+      $KUBE_DEPLOYMENT_BITCOIN_TESTNET=blockstream/esplora:$CI_COMMIT_SHA
+
+deploy_liquid_mainnet:
+  when: manual
+  stage: deploy
+  image: glregistry.blockstream.io/devops/kubernetes/kubectl:latest
+  tags:
+    - k8s
+  only:
+    - /^staging_liquid_mainnet.*/
+    - master@greenaddress/esplora
+  before_script:
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
+  script:
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US -n $KUBE_NAMESPACE_STAGING
+        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_LIQUID_MAINNET
+        $KUBE_DEPLOYMENT_LIQUID_MAINNET=blockstream/esplora:$CI_COMMIT_SHA
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU -n $KUBE_NAMESPACE_STAGING
+        set image $KUBE_DEPLOYMENT_TYPE/$KUBE_DEPLOYMENT_LIQUID_MAINNET
+        $KUBE_DEPLOYMENT_LIQUID_MAINNET=blockstream/esplora:$CI_COMMIT_SHA

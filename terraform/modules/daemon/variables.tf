@@ -20,7 +20,7 @@ variable "network" {
 }
 
 variable "regions" {
-  type = list
+  type = list(any)
 }
 
 variable "instance_type" {
