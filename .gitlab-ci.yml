@@ -378,7 +378,7 @@ deploy_staging_bitcoin_mainnet:
         --patch="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]" \
         --type='json'
 
-deploy_bitcoin_testnet:
+deploy_staging_bitcoin_testnet:
   when: manual
   stage: deploy
   image: blockstream/kubectl:latest
@@ -402,7 +402,7 @@ deploy_bitcoin_testnet:
         --patch="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\":\"blockstream/esplora:$CI_COMMIT_SHA\"}]" \
         --type='json'
 
-deploy_liquid_mainnet:
+deploy_staging_liquid_mainnet:
   when: manual
   stage: deploy
   image: blockstream/kubectl:latest
