@@ -14,7 +14,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
     <div>
       <div className="jumbotron jumbotron-fluid h-auto">
         <div className="container">
-          <h1>{t`Registered assets`}</h1>
+          <h1>{t`Registered Assets`}</h1>
         </div>
       </div>
       <div className="container">

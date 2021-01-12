@@ -63,9 +63,9 @@ export const formatNumber = (s, precision=null) => {
 
   // divide numbers into groups of three separated with a thin space (U+202F, "NARROW NO-BREAK SPACE"),
   // but only when there are more than a total of 5 non-decimal digits.
-  if (whole.length >= 5) {
-    whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")
-  }
+  // if (whole.length >= 5) {
+  //   whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")
+  // }
 
   if (precision != null && precision > 0) {
     if (dec == null) dec = '0'.repeat(precision)
