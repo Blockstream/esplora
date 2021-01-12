@@ -24,7 +24,7 @@ export const formatTime = (unix, with_tz = true) => {
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
 
 export const formatAssetAmount = (value, precision=0, t) =>
-  <span title={t`${formatNumber(value)} base units with ${precision} decimal digits`}>
+  <span>
     {formatNumber(precision > 0 ? moveDec(value, -precision) : value, precision)}
   </span>
 

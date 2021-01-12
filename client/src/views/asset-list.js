@@ -42,7 +42,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
                       </div>
                     </div>
                     <div className="assets-table-cell ticker right-align" data-label={t`Ticker`}>{asset.ticker || <em>None</em>}</div>
-                    <div className="assets-table-cell asset-id highlighted-text right-align" data-label={t`Total Supply`}>{getSupply(asset, t)}</div>
+                    <div className="assets-table-cell asset-id right-align" data-label={t`Total Supply`}>{getSupply(asset, t)}</div>
                     <div className="assets-table-cell right-align" data-label={t`Issuer domain`}>{asset.entity.domain}</div>
                   </a>
                 </div>

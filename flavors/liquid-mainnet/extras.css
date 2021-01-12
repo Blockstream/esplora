@@ -67,7 +67,7 @@
 }
 
 .assets-table .assets-table-row > div:nth-child(1) {
-  padding-left: 12px;
+  padding-left: 0px;
 }
 
 .assets-table-row {
