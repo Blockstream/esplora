@@ -85,7 +85,7 @@
 .sortable{
   cursor: pointer;
 }
-.sortable::after{
+.desc::after{
   content: "\25B2";
   font-size: 12px;
   margin-left:4px;
