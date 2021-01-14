@@ -16,7 +16,7 @@ const isActive = (vin, { index, view, query, addr }) =>
    (view == 'tx' && query && !!query[`input:${index}`])
 || (view == 'addr' && addr && vin.prevout && vin.prevout.scriptpubkey_address == addr.address)
 
-const isUnblinded = vin => vin.prevout.valuecommitment != null && vin.prevout.value != null
+const isUnblinded = vin => vin.prevout && vin.prevout.valuecommitment != null && vin.prevout.value != null
 
 const pegin = (vin, { isOpen, t, ...S }) => layout(
   vin
