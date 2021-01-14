@@ -61,7 +61,6 @@ build_staging:
     - docker pull debian:buster || true
     - docker pull blockstream/esplora-base:latest || true
     - docker build --network=host --cache-from blockstream/esplora-base:latest -t blockstream/esplora-base:$CI_COMMIT_REF_SLUG -t blockstream/esplora-base:latest -f Dockerfile.deps .
-    - docker push blockstream/esplora-base:latest
     - esplora_base_sha=$(docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base:$CI_COMMIT_REF_SLUG)
     - sed -i "s~blockstream/esplora-base:latest~${esplora_base_sha}~g" Dockerfile
     - curl "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/" | grep -q "$CI_COMMIT_SHA" || (
