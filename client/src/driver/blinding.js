@@ -31,16 +31,20 @@ class Unblinded {
   }
 
   // Lookup all transaction inputs/outputs and attach the unblinded data
-  tryAttachTx(tx) {
-    tx.vout.forEach(vout => this.tryAttach(vout))
-    tx.vin.forEach(vin => vin.prevout && this.tryAttach(vin.prevout))
+  tryUnblindTx(tx) {
+    if (tx._unblinded) return tx._unblinded
+    let matched = 0
+    tx.vout.forEach(vout => matched += +this.tryUnblindOut(vout))
+    tx.vin.filter(vin => vin.prevout).forEach(vin => matched += +this.tryUnblindOut(vin.prevout))
+    tx._unblinded = { matched, total: this.commitments.size }
+    return tx._unblinded
   }
 
   // Look the given output and attach the unblinded data
-  tryAttach(vout) {
+  tryUnblindOut(vout) {
     const unblinded = this.find(vout)
     if (unblinded) Object.assign(vout, unblinded)
-    return vout
+    return !!unblinded
   }
 }
 
