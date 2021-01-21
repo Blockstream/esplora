@@ -24,7 +24,7 @@ export const formatTime = (unix, with_tz = true) => {
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
 
 export const formatAssetAmount = (value, precision=0, t) =>
-  <span title={t`${formatNumber(value)} base units with ${precision} decimal digits`}>
+  <span>
     {formatNumber(precision > 0 ? moveDec(value, -precision) : value, precision)}
   </span>
 
@@ -63,9 +63,9 @@ export const formatNumber = (s, precision=null) => {
 
   // divide numbers into groups of three separated with a thin space (U+202F, "NARROW NO-BREAK SPACE"),
   // but only when there are more than a total of 5 non-decimal digits.
-  if (whole.length >= 5) {
-    whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")
-  }
+  // if (whole.length >= 5) {
+  //   whole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F")
+  // }
 
   if (precision != null && precision > 0) {
     if (dec == null) dec = '0'.repeat(precision)
@@ -94,3 +94,28 @@ export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
 export const formatVMB = bytes =>
   bytes >= 10000 || bytes == 0 ? `${(bytes / 1000000).toFixed(2)} vMB`
 : '< 0.01 vMB'
+
+
+export const getSupply = (asset, t) => {
+  let { chain_stats = {}, mempool_stats = {} } = asset
+  let has_blinded_issuances =
+      chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
+  let is_native_asset = !asset.issuance_txin
+  let circulating = is_native_asset
+      ? chain_stats.peg_in_amount +
+        mempool_stats.peg_in_amount -
+        chain_stats.peg_out_amount -
+        mempool_stats.peg_out_amount -
+        chain_stats.burned_amount -
+        mempool_stats.burned_amount
+      : has_blinded_issuances
+      ? null
+      : chain_stats.issued_amount +
+        mempool_stats.issued_amount -
+        chain_stats.burned_amount -
+        mempool_stats.burned_amount;
+
+     let totalSupply = circulating == null ? t`Confidential`
+                  : formatAssetAmount(circulating, asset.precision, t)
+  return totalSupply
+}
