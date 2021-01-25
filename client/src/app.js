@@ -21,7 +21,7 @@ const reservedPaths = [ 'mempool', 'assets', 'search' ]
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
 
-export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$ }) {
+export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -57,6 +57,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
     , limit: +loc.query.limit || 50,
     }))
+  , blindingReq$ = !process.env.IS_ELEMENTS ? O.empty()
+      : page$.map(loc => loc.hash.startsWith('#blinded=') ? loc.hash.substr(9) : null)
   // End Elements only
 
 
@@ -250,7 +252,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$
+                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -262,7 +264,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => page.query.expand != expand)
-    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }) ])
+    .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
 
   /// Sinks
 
@@ -365,7 +367,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname, search: qs, state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
@@ -418,5 +420,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: goSearch$, scanner: scanning$, title: title$, state: state$ }
+  return {
+    DOM: vdom$
+  , HTTP: req$
+  , route: navto$
+  , storage: store$
+  , search: goSearch$
+  , scanner: scanning$
+  , title: title$
+  , state: state$
+
+  // elements only
+  , blinding: blindingReq$
+  }
 }

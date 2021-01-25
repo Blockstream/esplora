@@ -6,14 +6,24 @@ import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
 import segwitGainsView from './tx-segwit-gains'
 import { formatSat, formatTime, formatVMB, formatNumber } from './util'
-import { isAnyConfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
+import { isAllUnconfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout]
 
-export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txAnalysis && layout(
+export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => {
+  if (!tx || !S.txAnalysis) return;
+
+  // Amount/asset unblinding (Elements only)
+  if (unblinded && !unblinded.error) {
+    const { matched, total } = unblinded.tryUnblindTx(tx)
+    if (matched == 0) unblinded.error = t`None of the given blinders matches this transaction.`
+    else if (matched < total) unblinded.error = t`${total-matched} of the given blinders did not match this transaction.`
+  }
+
+  return layout(
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
@@ -31,15 +41,17 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight, ...S })}
+      {(unblinded && unblinded.error) ? <div className="text-center text-danger mt-3">{t`Warning:`} {unblinded.error}</div> : <div></div>}
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
   </div>
-, { t, page, ...S })
+  , { t, page, ...S })
+}
 
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`
 
-export const txBox = (tx, { t, openTx, tipHeight, spends, query, ...S }) => {
+export const txBox = (tx, { t, openTx, tipHeight, spends, query, unblinded, ...S }) => {
   const vopt = { isOpen: (openTx == tx.txid), query, t, ...S }
 
   return <div className="transaction-box" id="transaction-box">
@@ -68,8 +80,8 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query, ...S }) => {
       <div>
         {tx.status && <span>{confirmationText(tx.status, tipHeight, t)} {!tx.status.confirmed && isRbf(tx) ? t`(RBF)` : ''}</span>}
         <span className="amount">{
-              isAnyConfidential(tx) ? t`Confidential`
-              : isAllNative(tx)     ? formatSat(outTotal(tx))
+              !isAllUnconfidential(tx) ? t`Confidential`
+              : isAllNative(tx)        ? formatSat(outTotal(tx))
               : ''}</span>
       </div>
     </div>
