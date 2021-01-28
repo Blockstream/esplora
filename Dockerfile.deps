@@ -25,11 +25,11 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github
  && source /root/.nvm/nvm.sh \
  && nvm install v12.16.1
 
-ENV SHA256SUM_BITCOINCORE=376194f06596ecfa40331167c39bc70c355f960280bd2a645fdbf18f66527397
-RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.20.1/bitcoin-0.20.1-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_BITCOINCORE=da7766775e3f9c98d7a9145429f2be8297c2672fe5b118fd3dc2411fb48e0032
+RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.21.0/bitcoin-0.21.0-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
  && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/bitcoin-0.20.1 /srv/explorer/bitcoin \
+ && ln -s /srv/explorer/bitcoin-0.21.0 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
 ENV SHA256SUM_ELEMENTS=d6c94c323b9c586f46b10ab79aa643342b950fd0f01916a47d8051036e6a2288
