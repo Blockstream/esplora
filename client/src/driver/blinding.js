@@ -37,6 +37,7 @@ class Unblinded {
     tx.vout.forEach(vout => matched += +this.tryUnblindOut(vout))
     tx.vin.filter(vin => vin.prevout).forEach(vin => matched += +this.tryUnblindOut(vin.prevout))
     tx._unblinded = { matched, total: this.commitments.size }
+    tx._deduced = false // invalidate cache so deduction is attempted again
     return tx._unblinded
   }
 

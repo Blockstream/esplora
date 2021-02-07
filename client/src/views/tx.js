@@ -8,6 +8,9 @@ import segwitGainsView from './tx-segwit-gains'
 import { formatSat, formatTime, formatVMB, formatNumber } from './util'
 import { isAllUnconfidential, isAllNative, isRbf, outTotal, updateQuery } from '../util'
 
+// Require behind env conditional so it gets removed by `envify` on non-elements builds
+const deduceBlinded = process.env.IS_ELEMENTS && require('../lib/deduce-blinded').deduceBlinded
+
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2
 
@@ -53,6 +56,9 @@ const confirmationText = (status, tipHeight, t) =>
 
 export const txBox = (tx, { t, openTx, tipHeight, spends, query, unblinded, ...S }) => {
   const vopt = { isOpen: (openTx == tx.txid), query, t, ...S }
+
+  // Try deducing unknown blinded ins/outs (elements only)
+  if (process.env.IS_ELEMENTS) deduceBlinded(tx)
 
   return <div className="transaction-box" id="transaction-box">
     <div className="header">
