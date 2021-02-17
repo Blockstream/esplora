@@ -6,14 +6,13 @@ ENV EXPORTED_FUNCTIONS="['_malloc', '_free', '_wally_init','_wally_asset_value_c
 ENV EXTRA_EXPORTED_RUNTIME_METHODS="['getValue', 'ccall']"
 ENV EMCC_OPTIONS="-s MODULARIZE=1 -s EXPORT_NAME=InitWally"
 RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wasm_dist || ( \
-    apt-get -qq update && apt-get -yqq install git \
-    && cd /opt/emsdk && . ./emsdk_env.sh \
+    cd /opt/emsdk && . ./emsdk_env.sh \
     && git clone --no-checkout https://github.com/elementsproject/libwally-core /wally \
     && cd /wally && git checkout ea984fc07f4f450b33d4eb78756f25f553e60b44 \
     && git submodule sync --recursive && git submodule update --init --recursive \
     && ./tools/build_wasm.sh --enable-elements)'
 
-FROM debian:buster@sha256:e2cc6fb403be437ef8af68bdc3a89fd58e80b4e390c58f14c77c466002391193
+FROM debian:buster@sha256:1092695e843ad975267131f27a2b523128c4e03d2d96574bbdd7cf949ed51475
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p /srv/explorer \
@@ -42,7 +41,7 @@ RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/rele
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.48.0
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.50.0
 RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
