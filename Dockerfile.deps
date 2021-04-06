@@ -32,11 +32,11 @@ RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.20.1/b
  && ln -s /srv/explorer/bitcoin-0.20.1 /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=52f1993efdc52b1b9779040812bc622580c1240282e6cfc95a0d3333deaa2a2c
-RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.18.1.9/elements-0.18.1.9-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_ELEMENTS=d6c94c323b9c586f46b10ab79aa643342b950fd0f01916a47d8051036e6a2288
+RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.18.1.11/elements-0.18.1.11-x86_64-linux-gnu.tar.gz \
  && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
  && tar xzf elements.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/elements-0.18.1.9 /srv/explorer/liquid \
+ && ln -s /srv/explorer/elements-0.18.1.11 /srv/explorer/liquid \
  && mv /srv/explorer/liquid/bin/{elementsd,liquidd} \
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
