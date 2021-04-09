@@ -10,7 +10,7 @@ export default ({ t, page }) =>
   <footer className="footer">
     <div className="container">
 
-      <div className="footer-logo">
+      {/* <div className="footer-logo">
         <div className="footer-links">
           { process.env.IS_ELEMENTS && [ <a href={`asset/${nativeAssetId}`}>Pegs</a>, ' | ' ] }
           { process.env.IS_ELEMENTS && [ <a href="assets">Assets</a>, ' | ' ] }
@@ -18,10 +18,18 @@ export default ({ t, page }) =>
           { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
           <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
         </div>
-      </div>
+      </div> */}
 
       <div className="footer_container_content">
         <div className="footer_container_content_row">
+
+          <div className="footer_container_content_row_social-media_container">
+            { Object.entries(links).map(([ imgSrc, url ]) =>
+                <a className="footer_container_content_row_social-media_link" href={url} target="_blank">
+                  <img className="footer_container_content_row_social-media_item" alt="" src={imgSrc} />
+                </a>
+            ) }
+          </div>
 
           { (process.env.ONION_V2 || process.env.ONION_V3) &&
             <div className="footer_container_content_row_onion_container">
@@ -33,15 +41,9 @@ export default ({ t, page }) =>
             </div>
           }
 
-          <div className="footer_container_content_row_social-media_container">
-            { Object.entries(links).map(([ imgSrc, url ]) =>
-                <a className="footer_container_content_row_social-media_link" href={url} target="_blank">
-                  <img className="footer_container_content_row_social-media_item" alt="" src={imgSrc} />
-                </a>
-            ) }
-          </div>
+         
 
-          <form method="get">
+          {/* <form method="get">
             { !process.browser && Object.entries(page.query).map(([k, v]) =>
               k != 'lang' && <input type="hidden" name={k} value={v} />
             ) }
@@ -51,10 +53,13 @@ export default ({ t, page }) =>
               ) }
             </select>
             { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
-          </form>
+          </form> */}
 
         </div>
-        <div className="footer_container_content_copyright">{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
+        <div className="footer_container_content_copyright">
+          <div>Terms &amp; Privacy</div>
+          <div>{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
+        </div>
       </div>
     </div>
   </footer>

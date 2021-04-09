@@ -3,13 +3,6 @@
   background-size: 54px 54px;
 }
 
-.footer_container_content {
-  width: auto;
-}
-.footer_container_content_row {
-  width: 475px;
-}
-
 .footer-logo::before {
   width: 220px;
   height: 93px;

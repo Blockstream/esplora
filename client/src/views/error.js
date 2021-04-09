@@ -12,11 +12,9 @@ const formatError = err =>
 const isFatal = err => err.url && (!err.response || err.response.status == 502 || err.response.status == 503)
 
 export const error = ({ t, error, ...S }) => layout(<div>
-  <div className="jumbotron jumbotron-fluid">
     <div className="container text-center"><h1>{ t(formatError(error)) }</h1></div>
-    { !isFatal(error) && search({ t }) }
+    { !isFatal(error) }
   </div>
-</div>
 , { t, ...S })
 
 export const notFound = S => error({ ...S, error: 'Page Not Found' })

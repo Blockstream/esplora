@@ -119,3 +119,13 @@ export const getSupply = (asset, t) => {
                   : formatAssetAmount(circulating, asset.precision, t)
   return totalSupply
 }
+
+export const toggleIcon = () => {
+  window.onload = (event) => {
+      let icon = document.querySelector('.toggle-container')
+      icon.onclick = function(){
+      this.classList.toggle('open-menu');
+    };
+  };
+
+}
