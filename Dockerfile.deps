@@ -5,7 +5,7 @@ ARG NO_LIQUID
 ENV EXPORTED_FUNCTIONS="['_malloc', '_free', '_wally_init','_wally_asset_value_commitment','_wally_asset_generator_from_bytes']"
 ENV EXTRA_EXPORTED_RUNTIME_METHODS="['getValue', 'ccall']"
 ENV EMCC_OPTIONS="-s MODULARIZE=1 -s EXPORT_NAME=InitWally"
-RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wasm_dist || ( \
+RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wally_dist || ( \
     cd /opt/emsdk && . ./emsdk_env.sh \
     && git clone --no-checkout https://github.com/elementsproject/libwally-core /wally \
     && cd /wally && git checkout ea984fc07f4f450b33d4eb78756f25f553e60b44 \
