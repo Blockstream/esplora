@@ -31,7 +31,7 @@ elif [ "$DAEMON-$NETWORK" == "bitcoin-signet" ]; then
 elif [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
   DAEMON_DIR="$DAEMON_DIR/liquidv1"
 elif [ "$DAEMON-$NETWORK" == "liquid-testnet" ]; then
-  DAEMON_DIR="$DAEMON_DIR/liquidtestnet"
+  DAEMON_DIR="$DAEMON_DIR/liquidtestnetv1"
 elif [ "$DAEMON-$NETWORK" == "bitcoin-regtest" ]; then
   DAEMON_DIR="$DAEMON_DIR/regtest"
 elif [ "$DAEMON-$NETWORK" == "liquid-regtest" ]; then
