@@ -34,6 +34,8 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- bitcoin-regtest \
  && DEST=/srv/explorer/static/liquid-mainnet \
     npm run dist -- liquid-mainnet \
+ && DEST=/srv/explorer/static/liquid-testnet \
+    npm run dist -- liquid-testnet \
  && DEST=/srv/explorer/static/liquid-regtest \
     npm run dist -- liquid-regtest \
  && DEST=/srv/explorer/static/bitcoin-mainnet-blockstream \
@@ -46,6 +48,8 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- bitcoin-regtest blockstream \
  && DEST=/srv/explorer/static/liquid-mainnet-blockstream \
     npm run dist -- liquid-mainnet blockstream \
+ && DEST=/srv/explorer/static/liquid-testnet-blockstream \
+    npm run dist -- liquid-testnet blockstream \
  && DEST=/srv/explorer/static/liquid-regtest-blockstream \
     npm run dist -- liquid-regtest blockstream
 
