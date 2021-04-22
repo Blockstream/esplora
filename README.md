@@ -170,6 +170,15 @@ docker run -p 50001:50001 -p 8084:80 \
            bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
 ```
 
+## How to run the explorer for Liquid testnet
+
+```
+docker run -p 50001:50001 -p 8096:80 \
+           --volume $PWD/data_liquid_testnet:/data \
+           --rm -i -t esplora \
+           bash -c "/srv/explorer/run.sh liquid-testnet explorer"
+```
+
 ## How to run the explorer for Liquid regtest
 
 ```

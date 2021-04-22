@@ -9,7 +9,7 @@ SYNC_SECRET=$4
 SYNC_SOURCE=$5
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
-    echo "Please provide bitcoin-testnet, bitcoin-mainnet, bitcoin-regtest, liquid-mainnet or liquid-regtest as a parameter"
+    echo "Please provide bitcoin-testnet, bitcoin-mainnet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
     echo "For example run.sh bitcoin-mainnet explorer"
     exit 1
 fi
@@ -28,6 +28,8 @@ if [ "$DAEMON-$NETWORK" == "bitcoin-testnet" ]; then
   DAEMON_DIR="$DAEMON_DIR/testnet"
 elif [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
   DAEMON_DIR="$DAEMON_DIR/liquidv1"
+elif [ "$DAEMON-$NETWORK" == "liquid-testnet" ]; then
+  DAEMON_DIR="$DAEMON_DIR/liquidtestnet"
 elif [ "$DAEMON-$NETWORK" == "bitcoin-regtest" ]; then
   DAEMON_DIR="$DAEMON_DIR/regtest"
 elif [ "$DAEMON-$NETWORK" == "liquid-regtest" ]; then
@@ -68,6 +70,13 @@ else
         NGINX_REWRITE='rewrite ^/liquidregtest(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/liquidregtest(/.*)$ " /liquidregtest/nojs$1?" permanent'
         NGINX_NOSLASH_PATH="liquidregtest"
+    elif [ "${NETWORK}" == "testnet" ]; then
+        ELECTRS_NETWORK="liquidtestnet"
+        PARENT_NETWORK="--parent-network regtest"
+        NGINX_PATH="liquidtestnet/"
+        NGINX_REWRITE='rewrite ^/liquidtestnet(/.*)$ $1 break;'
+        NGINX_REWRITE_NOJS='rewrite ^/liquidtestnet(/.*)$ " /liquidtestnet/nojs$1?" permanent'
+        NGINX_NOSLASH_PATH="liquidtestnet"
     else
         ELECTRS_NETWORK="liquid"
         PARENT_NETWORK="--parent-network mainnet"

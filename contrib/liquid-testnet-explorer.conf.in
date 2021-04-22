@@ -1,0 +1,20 @@
+chain=liquidtestnetv1
+
+listenonion=1
+server=1
+listen=0
+validatepegin=0
+anyonecanspendaremine=0
+blocknotify=pkill -USR1 electrs
+peerbloomfilters=0
+enforcenodebloom=1
+disablewallet=1
+
+# Liquid Testnet V1 (liquidtestnetv1) settings:
+[liquidtestnetv1]
+initialfreecoins=2100000000000000
+con_dyna_deploy_start=999999999999
+con_max_block_sig_size=150
+connect=liquid-testnet.blockstream.com:18891
+signblockscript=51210209caad6d1e4fa3fddd4ee67f3e2aa9c280abfe3b30bfcd625874fe27e3e49e5e51ae
+fallbackfee=0.00000100
