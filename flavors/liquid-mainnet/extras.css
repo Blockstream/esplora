@@ -1,13 +1,15 @@
 
-
+.sub-nav .active{
+  border-bottom: solid 2px #46beae;
+}
 
 .details-btn > div { 
-    color: rgba(40, 148, 143, 1);
-    border: 1px solid rgba(40, 148, 143, 1);
+    color: #46beae;
+    border: 1px solid #46beae;
 }
 
 .transaction-box > .footer > div:nth-child(3) {
-    color: rgba(40, 148, 143, 1);
+    color: #46beae;
 }
 
 .navbar {
@@ -38,7 +40,6 @@
 }
 
 .assets-table .assets-table-row.header > * {
-  text-transform: uppercase;
   color: #78838e;
   font-weight: 600;
 }
@@ -175,11 +176,6 @@
 
     div.assets-table-row.header .supply{
       display:none;
-    }
-
-    div.assets-table::before{
-      content: "Sort By ";
-      margin-left:20px;
     }
 
     div.assets-table-row.header .domain{

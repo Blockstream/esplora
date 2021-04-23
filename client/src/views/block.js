@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import search from './search'
 import { txBox } from './tx'
 import { updateQuery } from '../util'
 import { formatTime, formatHex, formatNumber } from './util'

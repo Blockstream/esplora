@@ -120,12 +120,4 @@ export const getSupply = (asset, t) => {
   return totalSupply
 }
 
-export const toggleIcon = () => {
-  window.onload = (event) => {
-      let icon = document.querySelector('.toggle-container')
-      icon.onclick = function(){
-      this.classList.toggle('open-menu');
-    };
-  };
-
-}
+export const strTruncate  = (str) => str.substr(0, 10) + '...' + str.substr(str.length-4, str.length);

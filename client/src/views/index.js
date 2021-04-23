@@ -1,5 +1,6 @@
-export { recentBlocks }       from './home'
-export { recentTxs }          from './home'
+export { dashBoard }       from './home'
+export { recentBlocks }       from './blocks-all'
+export { recentTxs }          from './transactions-all'
 export { default as block }   from './block'
 export { default as addr }    from './addr'
 export { default as tx }      from './tx'

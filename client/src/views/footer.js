@@ -1,25 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
-import { nativeAssetId } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { [staticRoot+'img/github_blue.png']: 'https://github.com/blockstream/esplora' }
 
-const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 
 export default ({ t, page }) =>
   <footer className="footer">
     <div className="container">
-
-      {/* <div className="footer-logo">
-        <div className="footer-links">
-          { process.env.IS_ELEMENTS && [ <a href={`asset/${nativeAssetId}`}>Pegs</a>, ' | ' ] }
-          { process.env.IS_ELEMENTS && [ <a href="assets">Assets</a>, ' | ' ] }
-          <a href="tx/push">{t`Broadcast tx`}</a> {' | '}
-          { hasCam ? [ <a href="scan-qr">{t`Scan QR`}</a>, ' | '] : '' }
-          <a href="https://github.com/Blockstream/esplora/blob/master/API.md">{t`API`}</a>
-        </div>
-      </div> */}
-
       <div className="footer_container_content">
         <div className="footer_container_content_row">
 
@@ -41,23 +28,12 @@ export default ({ t, page }) =>
             </div>
           }
 
-         
-
-          {/* <form method="get">
-            { !process.browser && Object.entries(page.query).map(([k, v]) =>
-              k != 'lang' && <input type="hidden" name={k} value={v} />
-            ) }
-            <select className="language-selector" name="lang">
-              { Object.entries(t.langs).map(([ lang_id, lang_t ]) =>
-                <option value={lang_id} attrs={lang_id == t.lang_id ? { selected: true } : {}}>{lang_t`lang_name`}</option>
-              ) }
-            </select>
-            { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
-          </form> */}
-
         </div>
         <div className="footer_container_content_copyright">
-          <div>Terms &amp; Privacy</div>
+          <div>
+          { process.env.TERMS && <span><a href={ process.env.TERMS } target="_blank">Terms &amp; </a></span> }
+          { process.env.PRIVACY && <span><a href={ process.env.PRIVACY } target="_blank">Privacy</a></span> }
+          </div>
           <div>{ process.env.SITE_FOOTER || t`Powered by esplora` }</div>
         </div>
       </div>

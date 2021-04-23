@@ -1,6 +1,9 @@
 .navbar-brand::before {
-  background: url(img/icons/blockstream-logo.png);
-  background-size: 54px 54px;
+  background: url(img/icons/blockstream-logo-text.svg);
+  background-size: cover;
+  width: 240px;
+  margin: 0;
+  background-repeat: no-repeat;
 }
 
 .footer-logo::before {
@@ -28,12 +31,16 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 900px) {
   .footer-logo::before {
     margin-top: 30px;
   }
+
+  .navbar-brand::before {
+    background: url(img/icons/blockstream-logo.png);
+    background-size: 54px 54px;
+    width: 54px;
+  }
 }
 
-.footer_container_content_row_social-media_link[href^="https://twitter.com/"] img {
-  margin-right: 5px;
-}
+
