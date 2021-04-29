@@ -4,7 +4,6 @@ terraform {
   required_providers {
     google      = "~> 3.44.0"
     google-beta = "~> 3.44.0"
-    template    = "~> 2.2.0"
     null        = "= 2.1"
   }
 
@@ -67,12 +66,12 @@ module "tor" {
   instances                = 1
   project                  = var.project
   tor_machine_type         = var.instance_type[3]
-  tor_lb                   = element(concat(google_compute_global_address.onion-lb.*.address, list("")), 0)
+  tor_lb                   = element(concat(google_compute_global_address.onion-lb.*.address, tolist([""])), 0)
   docker_tag               = var.docker_tag_tor
   hosts_onion              = var.hosts_onion
-  kms_key                  = element(concat(google_kms_crypto_key.esplora-crypto-key.*.name, list("")), 0)
-  kms_key_link             = element(concat(google_kms_crypto_key.esplora-crypto-key.*.self_link, list("")), 0)
-  kms_key_ring             = element(concat(google_kms_key_ring.esplora-key-ring.*.name, list("")), 0)
+  kms_key                  = element(concat(google_kms_crypto_key.esplora-crypto-key.*.name, tolist([""])), 0)
+  kms_key_link             = element(concat(google_kms_crypto_key.esplora-crypto-key.*.self_link, tolist([""])), 0)
+  kms_key_ring             = element(concat(google_kms_key_ring.esplora-key-ring.*.name, tolist([""])), 0)
   kms_location             = var.kms_location
   service_account_prom     = terraform.workspace == "main" ? module.prometheus.service_account : data.terraform_remote_state.main.outputs.prometheus_service_account
   docker_tag_node_exporter = var.docker_tag_node_exporter

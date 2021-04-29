@@ -5,9 +5,9 @@ resource "google_compute_instance_group_manager" "tor" {
 
   base_instance_name = var.name
   target_size        = var.instances
-  
+
   version {
-    instance_template  = google_compute_instance_template.tor[0].self_link
+    instance_template = google_compute_instance_template.tor[0].self_link
     name              = "original"
   }
 }

@@ -62,37 +62,37 @@ variable "preemptible_cluster_size" {
 
 # lists overwritten by ci
 variable "regions" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "ssl_certs" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "zones" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "instance_type" {
-  type    = list
+  type    = list(any)
   default = ["", "", "", ""]
 }
 
 variable "preemptible_instance_type" {
-  type    = list
+  type    = list(any)
   default = ["", "", "", ""]
 }
 
 variable "hosts" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "hosts_onion" {
-  type    = list
+  type    = list(any)
   default = ["", ""]
 }
 
@@ -149,7 +149,7 @@ variable "initial_delay_sec" {
 }
 
 variable "prometheus_allowed_source_ip" {
-  type        = list
+  type        = list(any)
   description = "The IPs that are allowed to access the prometheus instance."
   default     = []
 }

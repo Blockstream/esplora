@@ -1,3 +1,3 @@
 output "service_account" {
-  value = element(concat(google_service_account.electrum.*.email, list("")), 0)
+  value = element(concat(google_service_account.electrum.*.email, tolist([""])), 0)
 }

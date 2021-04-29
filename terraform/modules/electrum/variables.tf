@@ -20,7 +20,7 @@ variable "region" {
 }
 
 variable "zones" {
-  type    = list
+  type    = list(any)
   default = ["us-central1-a"]
 }
 
