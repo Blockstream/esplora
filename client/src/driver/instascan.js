@@ -22,8 +22,10 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   const makeScanDriver = (opt={}) => {
     const video    = document.createElement('video')
         , scanner$ = Scanner$.map(Scanner => new Scanner({ ...opt, video })).shareReplay(1)
-        , scan$    = scanner$.flatMap(scanner => O.fromEvent(scanner, 'scan')).share()
         , active$  = scanner$.flatMap(scanner => O.fromEvent(scanner, 'active')).share()
+        , scan$    = scanner$.flatMap(scanner => O.fromEvent(scanner, 'scan'))
+                             .map(s => Array.isArray(s) ? s.filter(Boolean).join('') : s).share()
+                             // for some QRs, the QR content is provided as an array of segments, which may include nulls.
 
     video.className = 'qr-video'
     document.body.appendChild(video)

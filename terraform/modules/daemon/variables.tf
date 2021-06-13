@@ -20,7 +20,7 @@ variable "network" {
 }
 
 variable "regions" {
-  type = list
+  type = list(any)
 }
 
 variable "instance_type" {
@@ -37,6 +37,10 @@ variable "size" {
   type = string
 }
 
+variable "preemptible_size" {
+  type = string
+}
+
 variable "boot-image" {
   type    = string
   default = "cos-cloud/cos-stable"
@@ -47,6 +51,10 @@ variable "service_account_prom" {
 }
 
 variable "docker_tag_node_exporter" {
+  type = string
+}
+
+variable "docker_tag_process_exporter" {
   type = string
 }
 

@@ -55,39 +55,44 @@ variable "cluster_size" {
   default = "overwritten_by_ci"
 }
 
+variable "preemptible_cluster_size" {
+  type    = string
+  default = "overwritten_by_ci"
+}
+
 # lists overwritten by ci
 variable "regions" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "ssl_certs" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "zones" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "instance_type" {
-  type    = list
+  type    = list(any)
   default = ["", "", "", ""]
 }
 
 variable "preemptible_instance_type" {
-  type    = list
+  type    = list(any)
   default = ["", "", "", ""]
 }
 
 variable "hosts" {
-  type    = list
+  type    = list(any)
   default = [""]
 }
 
 variable "hosts_onion" {
-  type    = list
+  type    = list(any)
   default = ["", ""]
 }
 
@@ -108,6 +113,14 @@ variable "docker_tag_node_exporter" {
   default = "prom/node-exporter@sha256:b630fb29d99b3483c73a2a7db5fc01a967392a3d7ad754c8eccf9f4a67e7ee31"
 }
 
+variable "docker_tag_process_exporter" {
+  type = string
+
+  # docker inspect --format='{{index .RepoDigests 0}}' ncabatoff/process-exporter:0.7.1
+
+  default = "ncabatoff/process-exporter@sha256:8daeaa3b5352dc64f5a3d438a1dad5f5c6ff8e468fcb7e50fb0c3f2e8f1b3bfd"
+}
+
 variable "docker_tag_explorer" {
   type    = string
   default = "overwritten_by_ci"
@@ -115,7 +128,7 @@ variable "docker_tag_explorer" {
 
 variable "docker_tag_tor" {
   type    = string
-  default = "blockstream/tor@sha256:4f99eddb24fb779cc25b43ec0cc1a7a92341b4b9e3d1b02826d0e2ab67360c7f"
+  default = "blockstream/tor@sha256:378aa7ee44452617ba46369e7e27cc89c2704b9d53442cf016543a24e46f984a"
 }
 
 variable "docker_tag_prometheus" {
@@ -136,8 +149,9 @@ variable "initial_delay_sec" {
 }
 
 variable "prometheus_allowed_source_ip" {
-  description = "The IP that is allowed to access the prometheus instance."
-  default     = ""
+  type        = list(any)
+  description = "The IPs that are allowed to access the prometheus instance."
+  default     = []
 }
 
 variable "opsgenie_api_key" {

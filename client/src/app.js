@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR } from './util'
+import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, tickWhileFocused, tickWhileViewing, updateBlocks } from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -21,7 +21,7 @@ const reservedPaths = [ 'mempool', 'assets', 'search' ]
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
 
-export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$ }) {
+export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -51,7 +51,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  , goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
+  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({ 
+      start_index: +loc.query.start_index || 0
+    , sort_field: loc.query.sort_field != null ? loc.query.sort_field : 'name'
+    , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
+    , limit: +loc.query.limit || 50,
+    }))
+  , blindingReq$ = !process.env.IS_ELEMENTS ? O.empty()
+      : page$.map(loc => loc.hash.startsWith('#blinded=') ? loc.hash.substr(9) : null)
   // End Elements only
 
 
@@ -115,10 +122,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .startWith(0).scan((N, a) => N+a)
 
   // Recent blocks
-  , blocks$ = O.merge(
-      reply('blocks').map(blocks => S => [ ...(S || []), ...blocks ])
-    , goHome$.map(_ => S => null)
-    ).startWith(null).scan((S, mod) => mod(S))
+  , blocks$ = reply('blocks')
+      .map(blocks => S => updateBlocks(S, blocks))
+      .startWith([]).scan((S, mod) => mod(S))
+      .share()
 
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
 
@@ -203,6 +210,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         // use an empty object if the map fails loading for any reason
         .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
 
+  // Assets List State
+  , assetList$ = !process.env.IS_ELEMENTS ? O.empty() :
+      reply('assetlist', true).map(r => ({ assets: r.body, total: r.headers['x-total-results'] || 493 }))
+
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
@@ -241,7 +252,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, goAsset$, asset$, assetTxs$
+                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -253,7 +264,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => page.query.expand != expand)
-    .map(([ expand, page ]) => [ page.pathname, updateQuery(page.query, { expand }) ])
+    .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
 
   /// Sinks
 
@@ -275,6 +286,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch list of blocks for homepage
     , O.merge(goHome$, moreBlocks$)
+        //.merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
@@ -295,7 +307,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     // in server env, just get it once
-    , (process.browser ? O.merge(O.timer(0, 30000).filter(() => document.hasFocus()), goBlock$, goTx$, goAddr$).startWith(1).throttleTime(5000)
+    , (process.browser ? O.merge(tickWhileFocused(30000), goBlock$, goTx$, goAddr$).throttleTime(5000)
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
@@ -304,9 +316,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
 
     // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool or unconfirmed tx page remains open
-    , goTx$.merge(process.browser ? O.timer(0, 30000).withLatestFrom(view$, tx$)
-                                                    .filter(([ _, view, tx ]) => view == 'mempool' || (view == 'tx' && tx && !tx.status.confirmed))
-                                                    .filter(_ => document.hasFocus())
+    , goTx$.merge(process.browser ? tickWhileFocused(30000).withLatestFrom(view$, tx$)
+                                      .filter(([ _, view, tx ]) => view == 'mempool'
+                                                               || (view == 'tx' && tx && !tx.status.confirmed))
                                   : O.empty())
         .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
@@ -314,8 +326,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
     // ... and every 10 seconds while it remains open
-    , !process.browser ? O.empty() : O.timer(0, 10000).withLatestFrom(view$).filter(([ _, view ]) => view == 'recentTxs' && document.hasFocus())
-        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    //, tickWhileViewing(5000, 'recentTxs', view$)
+    //    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
 
     //
@@ -325,6 +337,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch asset map index on page load (once, as a foreground request)
     , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
                                 { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL, bg: true })
+
+    // fetch asset list
+    , goAssetList$.map(d => ({ category: 'assetlist',  method: 'GET', path: '/assets/registry'
+          , query: { sort_field: d.sort_field, sort_dir: d.sort_dir, limit: d.limit, start_index: d.start_index } }))
 
     // fetch asset and its txs
     , !process.env.IS_ELEMENTS ? O.empty() :
@@ -351,7 +367,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    , updateQuery$.map(([ pathname, qs ]) => ({ type: 'replace', pathname, search: qs, state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
@@ -360,7 +376,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
-      , assetMap$
+      , assetMap$,  goAssetList$, assetList$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers
@@ -404,5 +420,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
   }
 
-  return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: goSearch$, scanner: scanning$, title: title$, state: state$ }
+  return {
+    DOM: vdom$
+  , HTTP: req$
+  , route: navto$
+  , storage: store$
+  , search: goSearch$
+  , scanner: scanning$
+  , title: title$
+  , state: state$
+
+  // elements only
+  , blinding: blindingReq$
+  }
 }

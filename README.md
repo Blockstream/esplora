@@ -57,6 +57,8 @@ $ npm run dev-server
 
 The server will be available at http://localhost:5000/
 
+To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
+
 ## Building
 
 To build the static assets directory for production deployment, set config options (see below)
@@ -174,7 +176,7 @@ docker run -p 50001:50001 -p 8084:80 \
 docker run -p 50001:50001 -p 8092:80 \
            --volume $PWD/data_liquid_regtest:/data \
            --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-liquid explorer"
+           bash -c "/srv/explorer/run.sh liquid-regtest explorer"
 ```
 
 ## How to run the explorer for Bitcoin regtest
@@ -196,6 +198,8 @@ which may take a long time and is not necessary for personal use.
 Set `-e NO_ADDRESS_SEARCH=1` to disable the [by-prefix address search](https://github.com/Blockstream/esplora/blob/master/API.md#get-address-prefixprefix) index.
 
 Set `-e ENABLE_LIGHTMODE=1` to enable [esplora-electrs's light mode](https://github.com/Blockstream/electrs/#light-mode).
+
+Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
 
 ## Build new esplora-base
 

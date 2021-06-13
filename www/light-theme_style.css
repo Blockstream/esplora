@@ -11,6 +11,10 @@ body.theme-light {
     color: rgba(21, 24, 28, 1) !important;
 }
 
+.theme-light .assets-table-row {
+    color: rgba(21, 24, 28, 1) !important;
+}
+
 .theme-light .jumbotron-fluid {
     background-color: rgba(238, 242, 245, 1) !important;
 }
@@ -91,3 +95,10 @@ body.theme-light {
 .theme-light table th, .theme-light table td {
   border-color: #dee2e6 !important;
 }
+
+
+@media only screen and (max-width: 850px) {
+    .theme-light .assets-table-link-row:nth-child(odd)  .assets-table-row {
+       color: #fff !important; 
+    }
+} 

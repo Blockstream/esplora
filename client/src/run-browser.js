@@ -18,6 +18,10 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
 const titleDriver = title$ => O.from(title$)
   .subscribe(title => document.title = title ? `${title} · ${initTitle}` : initTitle)
 
+const blindingDriver = process.env.IS_ELEMENTS
+  ? require('./driver/blinding')
+  : _ => O.empty()
+
 run(main, {
   DOM: makeDOMDriver('#explorer')
 , HTTP: makeHTTPDriver()
@@ -26,4 +30,5 @@ run(main, {
 , search: makeSearchDriver(apiBase)
 , title: titleDriver
 , scanner: makeScanDriver()
+, blinding: blindingDriver
 })

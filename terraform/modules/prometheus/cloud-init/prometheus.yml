@@ -401,6 +401,58 @@ write_files:
               zone: us-east1-c
               filter: (labels.type = "explorer")
               port: 9100
+            - project: green-address-explorer
+              zone: asia-northeast1-a
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: asia-northeast1-b
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: asia-northeast1-c
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: europe-west4-a
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: europe-west4-b
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: europe-west4-c
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-central1-a
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-central1-b
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-central1-c
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-central1-f
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-east1-d
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-east1-b
+              filter: (labels.type = "explorer")
+              port: 9256
+            - project: green-address-explorer
+              zone: us-east1-c
+              filter: (labels.type = "explorer")
+              port: 9256
 
   - path: /etc/systemd/system/prometheus.service
     permissions: 0644

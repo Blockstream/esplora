@@ -2,6 +2,10 @@ output "prometheus_service_account" {
   value = module.prometheus.service_account
 }
 
+output "electrum_service_account" {
+  value = module.electrum.service_account
+}
+
 output "daemon_backend_service" {
   value = {
     bitcoin-mainnet = module.bitcoin-mainnet.backend_service

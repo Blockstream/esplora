@@ -49,6 +49,7 @@ write_files:
             --name=${container_name} \
             --tmpfs /tmp/ \
             -v /mnt/disks/data:/data:rw \
+            --ulimit nofile=524288:524288 \
             "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
         ExecStop=/usr/bin/docker stop ${container_name}
         ExecStopPost=/usr/bin/docker rm ${container_name}
@@ -91,9 +92,42 @@ write_files:
         [Install]
         WantedBy=multi-user.target
 
+  - path: /etc/systemd/system/process-exporter.service
+    permissions: 0644
+    owner: root
+    content: |
+        [Unit]
+        Description=prometheus process-exporter
+        Wants=gcr-online.target docker.service
+        After=gcr-online.service docker.service
+
+        [Service]
+        Restart=always
+        RestartSec=1
+        Environment=HOME=/home/bs
+        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+        ExecStartPre=/usr/bin/docker pull ${docker_tag_process_exporter}
+        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
+        ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
+            --name=process-exporter \
+            --pid=host \
+            --read-only \
+            -v /proc:/host/proc:ro \
+            -p 9256:9256 \
+            "${docker_tag_process_exporter}" --procfs /host/proc -procnames electrs,bitcoind,elementsd,liquidd,tor,nginx
+        ExecStop=/usr/bin/docker stop process-exporter
+        ExecStopPost=/usr/bin/docker rm process-exporter
+        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
+
+        [Install]
+        WantedBy=multi-user.target
+
 runcmd:
   - systemctl daemon-reload
   - systemctl start explorer.service
   - systemctl enable explorer.service
   - systemctl start node-exporter.service
   - systemctl enable node-exporter.service
+  - systemctl start process-exporter.service
+  - systemctl enable process-exporter.service

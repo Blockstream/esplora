@@ -3,10 +3,10 @@ import { tryUnconfidentialAddress, isHash256 } from '../util'
 import { Observable as O } from '../rxjs'
 
 const reNumber  = /^\d+$/
-    , reAddrLike = /^([a-km-zA-HJ-NP-Z1-9]{26,35}|[a-km-zA-HJ-NP-Z1-9]{80}|[a-z]{2,5}1[ac-hj-np-z02-9]{8,87}|[A-Z]{2,5}1[AC-HJ-NP-Z02-9]{8,87})$/
+    , reAddrLike = /^([a-km-zA-HJ-NP-Z1-9]{26,35}|[a-km-zA-HJ-NP-Z1-9]{80}|[a-z]{2,5}1[ac-hj-np-z02-9]{8,100}|[A-Z]{2,5}1[AC-HJ-NP-Z02-9]{8,100})$/
     , reShortTxOut = /^(\d+)([x:])(\d+)\2(\d+)$/
     , trim = s => s.trim()
-    , stripUri = s => s.replace(/^bitcoin:([^?]+).*/, '$1')
+    , stripUri = s => s.replace(/^(?:bitcoin|liquidnetwork):([^?]+).*/i, '$1')
 
 export default apiBase => {
   const tryResource = path =>

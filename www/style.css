@@ -2,14 +2,14 @@
 @import url("light-theme_style.css");
 
 @font-face {
-  font-family: DINPro;
-  src: url("font/DINPro-Regular.otf") format("opentype");
+  font-family: SourceSansPro;
+  src: url("font/SourceSansPro-Regular.ttf") format("opentype");
 }
 
 @font-face {
-  font-family: DINPro;
+  font-family: SourceSansPro;
   font-weight: bold;
-  src: url("font/DINPro-Medium.otf") format("opentype");
+  src: url("font/SourceSansPro-SemiBold.ttf") format("opentype");
 }
 
 .hide {
@@ -19,7 +19,7 @@
 body {
   direction: ltr;
   text-align: left;
-  font-family: DINPro;
+  font-family: SourceSansPro, Helvetica,Arial,sans-serif;
   color: #fff;
 }
 
@@ -1044,6 +1044,8 @@ body > .container, .navbar > .container, .jumbotron-fluid > .container, .content
   text-transform: none;
 }
 
+.address-qr-code { width: 182px; }
+
 
 /* START FOOTER */
 .explorer-container > .footer {
@@ -1431,6 +1433,14 @@ body::after{
   color: #c3cbd3;
 }
 
+.unblinded .vout-header, .unblinded .vin-header {
+  background: #04240d;
+}
+
+.theme-light .unblinded .vout-header, .theme-light .unblinded .vin-header {
+  background: #e0ffe9;
+}
+
 .contract-json {
   text-align: left !important;
   word-break: break-all !important;
@@ -1551,7 +1561,6 @@ body::after{
     margin-top: 5px;
   }
 }
-
 
 @media only screen and (max-width: 850px) {
 
@@ -1675,6 +1684,7 @@ body::after{
   margin: 0;
   padding: 0;
 }
+
 }
 
 @media only screen and (max-width: 825px) {
@@ -1713,7 +1723,10 @@ body::after{
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 575.98px) {
+  .jumbotron-fluid{
+    height: auto;
+  }
   .address-qr-code {
     display: block;
     margin: 0 auto;

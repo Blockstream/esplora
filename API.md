@@ -2,6 +2,18 @@
 
 JSON over RESTful HTTP. Amounts are always represented in satoshis.
 
+The blockstream.info public APIs are available at:
+- Bitcoin: https://blockstream.info/api/
+- Bitcoin Testnet: https://blockstream.info/testnet/api/
+- Liquid: https://blockstream.info/liquid/api/
+
+For example:
+```bash
+$ curl https://blockstream.info/api/blocks/tip/hash
+```
+
+You can also [self-host the Esplora API server](https://github.com/Blockstream/esplora#how-to-run-the-explorer-for-bitcoin-mainnet), which provides better privacy and security.
+
 ## Transactions
 
 ### `GET /tx/:txid`
@@ -93,7 +105,8 @@ Returns up to 50 transactions (no paging).
 Get the list of unspent transaction outputs associated with the address/scripthash.
 
 Available fields: `txid`, `vout`, `value` and `status` (with the status of the funding tx).
-Elements-based chains have an additional `asset` field.
+
+Elements-based chains have a `valuecommitment` field that may appear in place of `value`, plus the following additional fields: `asset`/`assetcommitment`, `nonce`/`noncecommitment`, `surjection_proof` and `range_proof`.
 
 ### `GET /address-prefix/:prefix`
 
@@ -107,9 +120,15 @@ Returns a JSON array with up to 10 results.
 
 Returns information about a block.
 
-Available fields: `id`, `height`, `version`, `timestamp`, `bits`, `nonce`, `merkle_root`, `tx_count`, `size`, `weight` and `previousblockhash`.
+Available fields: `id`, `height`, `version`, `timestamp`, `mediantime`, `bits`, `nonce`, `merkle_root`, `tx_count`, `size`, `weight`, `previousblockhash` and `mediantime`.
 Elements-based chains have an additional `proof` field.
 See [block format](#block-format) for more details.
+
+The response from this endpoint can be cached indefinitely.
+
+### `GET /block/:hash/header`
+
+Returns the hex-encoded block header.
 
 The response from this endpoint can be cached indefinitely.
 
@@ -301,6 +320,36 @@ For user-issued assets, returns a list of issuance, reissuance and burn transact
 
 Does not include regular transactions transferring this asset.
 
+### `GET /asset/:asset_id/supply`
+### `GET /asset/:asset_id/supply/decimal`
+
+Get the current total supply of the specified asset.
+
+For the native asset (L-BTC), this is calculated as `{chain,mempool}_stats.peg_in_amount - {chain,mempool}_stats.peg_out_amount - {chain,mempool}_stats.burned_amount`.
+
+For issued assets, this is calculated as `{chain,mempool}_stats.issued_amount - {chain,mempool}_stats.burned_amount`.
+
+Not available for assets with blinded issuances.
+
+If `/decimal` is specified, returns the supply as a decimal according to the asset's divisibility.
+Otherwise, returned in base units.
+
+### `GET /assets/registry`
+
+Get the list of issued assets in the asset registry.
+
+Query string parameters:
+
+- `start_index`: the start index to use for paging. defaults to 0.
+- `limit`: maximum number of assets to return. defaults to 25, maximum 100.
+- `sort_field`: field to sort assets by. one of `name`, `ticker` or `domain`. defaults to `ticker`.
+- `sort_dir`: sorting direction. one of `asc` or `desc`. defaults to `asc`.
+
+Assets are returned in the same format as in `GET /asset/:asset_id`.
+
+
+The total number of results will be returned as the `x-total-results` header.
+
 ## Transaction format
 
 - `txid`
@@ -365,6 +414,7 @@ Does not include regular transactions transferring this asset.
 - `size`
 - `weight`
 - `previousblockhash`
+- `mediantime` (median time-past)
 - *(Elements only)*
 - `proof`
   - `challenge`

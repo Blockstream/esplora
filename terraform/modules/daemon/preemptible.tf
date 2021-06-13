@@ -12,14 +12,10 @@ resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   }
 
   region      = var.regions[count.index]
-  target_size = var.size
+  target_size = var.preemptible_size
 
   update_policy {
-    // An opportunistic update is only applied when new instances are created by the managed instance group.
-    // This typically happens when the managed instance group is resized either by another service,
-    // such as an autoscaler, or manually by a user. Compute Engine does not actively initiate requests to apply updates.
-    type = "OPPORTUNISTIC"
-
+    type                  = "PROACTIVE"
     minimal_action        = "REPLACE"
     max_surge_fixed       = 3
     max_unavailable_fixed = 0
@@ -62,6 +58,7 @@ resource "google_compute_instance_template" "preemptible-daemon" {
     disk_type    = "pd-ssd"
     auto_delete  = true
     boot         = true
+    disk_size_gb = "20"
   }
 
   network_interface {
@@ -82,19 +79,5 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 
   lifecycle {
     create_before_destroy = true
-  }
-}
-
-resource "null_resource" "ansible-preemptible-daemon" {
-  depends_on = [null_resource.ansible-daemon]
-  triggers = {
-    daemons = google_compute_instance_template.preemptible-daemon[0].self_link
-  }
-
-  count = var.create_resources > 0 ? length(var.regions) : 0
-
-  provisioner "local-exec" {
-    command     = "ansible-playbook rotate-daemons.yml -e region=${var.regions[count.index]} -e project=${var.project} -e target_size=${var.size} -e instance_group=${var.name}-explorer-pig-${var.regions[count.index]} -e backend_service=${var.name}-explorer-backend-service -e instance_name_prefix=${var.name}-pexplorer-${var.regions[count.index]} -e initial_delay_sec=${var.initial_delay_sec}"
-    working_dir = "../ansible/"
   }
 }

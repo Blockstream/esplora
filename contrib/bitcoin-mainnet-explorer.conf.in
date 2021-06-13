@@ -5,3 +5,4 @@ enforcenodebloom=1
 disablewallet=1
 listenonion=1
 listen=0
+blocknotify=pkill -USR1 electrs

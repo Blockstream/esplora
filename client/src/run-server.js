@@ -71,5 +71,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
   , scanner: _ => O.empty()
   , search: makeSearchDriver(apiBase)
   , state: state$ => O.from(state$).subscribe(stateUpdate)
+  // unblinding is disabled with server-side rendering
+  , blinding: _ => O.empty(),
   })
 }

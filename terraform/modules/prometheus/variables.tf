@@ -20,7 +20,7 @@ variable "region" {
 }
 
 variable "zones" {
-  type    = list
+  type    = list(any)
   default = ["us-central1-a"]
 }
 
@@ -56,8 +56,8 @@ variable "docker_tag_node_exporter" {
 }
 
 variable "allowed_source_ip" {
-  type        = string
-  description = "Which IP is allowed to access the instance?"
+  type        = list(any)
+  description = "Which IPs are allowed to access the instance?"
 }
 
 variable "prometheus_service_account" {

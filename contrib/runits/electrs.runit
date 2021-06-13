@@ -9,4 +9,5 @@ exec /srv/explorer/electrs_{DAEMON}/bin/electrs \
     --electrum-rpc-addr 0.0.0.0:50001 \
     --electrum-txs-limit 100000 \
     --db-dir /data/electrs_{DAEMON}_db/{NETWORK} \
+    --tor-proxy 127.0.0.1:9050 \
     {ELECTRS_ARGS}

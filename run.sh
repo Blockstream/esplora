@@ -84,6 +84,8 @@ fi
 
 NGINX_LOGGING="access_log off"
 
+ELECTRS_ARGS="$ELECTRS_ARGS --http-socket-file /var/electrs-rest.sock"
+
 if [ "${DEBUG}" == "verbose" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS -vvvv"
     ELECTRS_BACKTRACE="export RUST_BACKTRACE=full"
@@ -100,8 +102,16 @@ if [ -z "$NO_ADDRESS_SEARCH" ]; then
     ELECTRS_ARGS="$ELECTRS_ARGS --address-search"
 fi
 
-if [ -n "$ENABLE_REDUCED_STORAGE" ]; then
-    ELECTRS_ARGS="$ELECTRS_ARGS --reduced-storage"
+if [ -n "$ENABLE_LIGHTMODE" ]; then
+    ELECTRS_ARGS="$ELECTRS_ARGS --lightmode"
+fi
+
+if [ "$TEMPLATE" == "blockstream" ]; then
+  d=/srv/explorer/source/flavors/blockstream
+  ONION_URL=$(source $d/config.env && echo $ONION_V3)
+  # the backtick subshell below is injected into electrs.runit as a literal string,
+  # which is evaluated later when the runit service is run.
+  ELECTRS_ARGS=$ELECTRS_ARGS' --electrum-public-hosts "`cat '$d'/electrum-hosts-'$DAEMON'-'$NETWORK'.json || echo {}`" --electrum-banner "`cat '$d'/electrum-banner.txt`"'
 fi
 
 function preprocess(){
@@ -114,7 +124,7 @@ function preprocess(){
        -e "s|{STATIC_DIR}|$STATIC_DIR|g" \
        -e "s|{PARENT_NETWORK}|$PARENT_NETWORK|g" \
        -e "s|{ELECTRS_NETWORK}|$ELECTRS_NETWORK|g" \
-       -e "s|{ELECTRS_ARGS}|$ELECTRS_ARGS|g" \
+       -e "s#{ELECTRS_ARGS}#$ELECTRS_ARGS#g" \
        -e "s|{ELECTRS_BACKTRACE}|$ELECTRS_BACKTRACE|g" \
        -e "s|{NGINX_LOGGING}|$NGINX_LOGGING|g" \
        -e "s|{NGINX_PATH}|$NGINX_PATH|g" \
@@ -183,6 +193,7 @@ else
 fi
 
 preprocess /srv/explorer/source/contrib/nginx.conf.in /etc/nginx/sites-enabled/default
+sed -i 's/user www-data;/user root;/' /etc/nginx/nginx.conf
 
 # Make mempool contents available over nginx, protected with SYNC_SECRET
 if [ -n "$SYNC_SECRET" ]; then
@@ -192,10 +203,6 @@ if [ -n "$SYNC_SECRET" ]; then
     # insert nginx-sync.conf inside the server {} block
     sed -i '/^server {/r /tmp/nginx-sync.conf' /etc/nginx/sites-enabled/default
     rm /tmp/nginx-sync.conf
-
-    # nginx needs to be able to read the cookie file (to query the rpc), as well as the mempool.dat file
-    # XXX: is running as root acceptable?
-    sed -i 's/^user www-data/user root/' /etc/nginx/nginx.conf
 fi
 
 preprocess /srv/explorer/source/cli.sh.in /usr/bin/cli
@@ -209,6 +216,13 @@ if [ "${DAEMON}" == "liquid" ]; then
     preprocess /srv/explorer/source/contrib/nginx-liquid-assets.conf.in /tmp/nginx-liquid-assets.conf
     sed -i '/^server {/r /tmp/nginx-liquid-assets.conf' /etc/nginx/sites-enabled/default
     rm /tmp/nginx-liquid-assets.conf
+fi
+
+if [ -n "$ONION_URL" ]; then
+    # insert the Onion-Location `map` BEFORE the server { } block
+    sed -i '/^server {/ i map $sent_http_content_type $onion_header { "~^text/html($|;)" '$ONION_URL'$request_uri; }' /etc/nginx/sites-enabled/default
+    # insert the Onion-Location `add_header` directive INSIDE the server {} block
+    sed -i '/^server {/ a add_header Onion-Location $onion_header always;' /etc/nginx/sites-enabled/default
 fi
 
 chmod +x /usr/bin/cli

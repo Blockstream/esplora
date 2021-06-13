@@ -9,7 +9,7 @@ resource "google_compute_firewall" "all-traffic" {
     ports    = ["80"]
   }
 
-  source_ranges = ["${var.allowed_source_ip}/32"]
+  source_ranges = var.allowed_source_ip
 
   target_service_accounts = [
     google_service_account.prometheus[0].email,

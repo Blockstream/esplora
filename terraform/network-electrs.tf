@@ -71,7 +71,7 @@ resource "google_compute_target_ssl_proxy" "mainnet-electrs-tls-proxy" {
 
 resource "google_compute_target_ssl_proxy" "testnet-electrs-tls-proxy" {
   name             = "explorer-testnet-electrs-tls-proxy"
-  backend_service = data.terraform_remote_state.bitcoin-testnet.outputs.daemon_backend_service_electrs["bitcoin-testnet"]
+  backend_service  = data.terraform_remote_state.bitcoin-testnet.outputs.daemon_backend_service_electrs["bitcoin-testnet"]
   ssl_certificates = [var.ssl_certs[2]]
 
   count = local.create_main

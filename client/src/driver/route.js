@@ -1,5 +1,5 @@
 import qs from 'querystring'
-import pathRegexp from 'path-to-regexp'
+import { pathToRegexp } from 'path-to-regexp'
 import { Observable as O } from '../rxjs'
 
 const isStr = x => typeof x === 'string'
@@ -10,11 +10,7 @@ const baseHref  = process.env.BASE_HREF || '/'
     , stripBase = path => path.indexOf(baseHref) == 0 ? path.substr(baseHref.length-1) : path
 
 const parseQuery = loc => {
-  // Older versions of Esplora used a comma-separated url hash instead of a query string.
-  // Try both for backward compatibility with old links.
-  const query = loc.search ? qs.parse(loc.search.substr(1))
-              : loc.hash ? loc.hash.substr(1).split(',').reduce((acc, k) => ({ ...acc, [k]: true }), {})
-              : {}
+  const query = loc.search ? qs.parse(loc.search.substr(1)) : {}
 
   // Convert value-less args to true
   Object.keys(query).filter(key => key !== 'q' && query[key] === '')
@@ -33,7 +29,7 @@ module.exports = history => goto$ => {
   function route(path) {
     if (!path) return page$
 
-    const keys=[], re=pathRegexp(path, keys)
+    const keys=[], re=pathToRegexp(path, keys)
 
     return page$
       .map(loc => ({ ...loc, matches: loc.pathname.match(re) }))

@@ -13,7 +13,7 @@ resource "google_compute_backend_service" "http" {
     }
   }
 
-  health_checks = ["${google_compute_http_health_check.http[0].self_link}"]
+  health_checks = [google_compute_http_health_check.http[0].self_link]
 
   count = var.create_resources
 }

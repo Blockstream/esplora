@@ -16,12 +16,12 @@ variable "network" {
 }
 
 variable "regions" {
-  type    = list
+  type    = list(any)
   default = []
 }
 
 variable "ssl_certs" {
-  type = list
+  type = list(any)
 }
 
 variable "boot-image" {

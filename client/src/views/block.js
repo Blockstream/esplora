@@ -17,7 +17,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       <div className="container">
         { search({ t, klass: 'page-search-bar' }) }
         <div>
-          <h1 className="block-header-title">{t`Block ${formatNumber(b.height)}`}</h1>
+          <h1 className="block-header-title">{t`Block ${b.height}`}</h1>
           <div className="block-hash"><span>{b.id}</span>
             { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={b.id}></div>
@@ -54,7 +54,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       <div className="stats-table">
         <div>
           <div>{t`Height`}</div>
-          <div><a href={`block/${b.id}`}>{formatNumber(b.height)}</a></div>
+          <div><a href={`block/${b.id}`}>{b.height}</a></div>
         </div>
         <div>
           <div>{t`Status`}</div>
@@ -62,7 +62,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
         </div>
         <div>
           <div>{t`Timestamp`}</div>
-          <div>{formatTime(b.timestamp, t)}</div>
+          <div>{formatTime(b.timestamp)}</div>
         </div>
         <div>
           <div>{t`Size`}</div>

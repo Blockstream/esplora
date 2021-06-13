@@ -1,0 +1,98 @@
+users:
+  - name: bs
+    uid: 2000
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyjuWQbImwoEG4jZQnRpzIwU4WJpcyukmJRUBhzPnNL lnahum@mule
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIECdkKWUa+1PfX+ougqDw3lRGAsrWDLYqIzxdq0FLaYZ nadav@pc
+
+write_files:
+  - path: /etc/nginx/conf.d/electrs.conf
+    permissions: 0644
+    owner: root
+    content: |
+        upstream testnet_tcp {
+            server 35.201.74.156:143;
+            server 35.190.42.111:143;
+        }
+        upstream testnet_tls {
+            server 35.201.74.156:993;
+        }
+
+        upstream mainnet_tcp {
+            server 35.201.74.156:110;
+            server 35.190.42.111:110;
+        }
+        upstream mainnet_tls {
+            server 35.201.74.156:700;
+        }
+
+        upstream liquid_mainnet_tcp {
+            server 35.201.74.156:195;
+            server 35.190.42.111:195;
+        }
+        upstream liquid_mainnet_tls {
+            server 35.201.74.156:995;
+        }
+
+        server {
+            listen 50401;
+            listen [::]:50401;
+            proxy_pass liquid_mainnet_tcp;
+        }
+        server {
+            listen 50402;
+            listen [::]:50402;
+            proxy_pass liquid_mainnet_tls;
+            ssl_preread on;
+        }
+
+        server {
+            listen 50001;
+            listen [::]:50001;
+            proxy_pass mainnet_tcp;
+        }
+        server {
+            listen 50002;
+            listen [::]:50002;
+            proxy_pass mainnet_tls;
+            ssl_preread on;
+        }
+
+        server {
+            listen 60001;
+            listen [::]:60001;
+            proxy_pass testnet_tcp;
+        }
+        server {
+            listen 60002;
+            listen [::]:60002;
+            proxy_pass testnet_tls;
+            ssl_preread on;
+        }
+
+  - path: /etc/nginx/nginx.conf
+    permissions: 0644
+    owner: root
+    content: |
+        user www-data;
+        worker_processes auto;
+        pid /run/nginx.pid;
+        include /etc/nginx/modules-enabled/*.conf;
+
+        events {
+                worker_connections 768;
+                # multi_accept on;
+        }
+
+        stream {
+                include /etc/nginx/conf.d/*.conf;
+        }
+
+
+runcmd:
+  - apt-get update
+  - apt-get install -qfy tor nginx
+  - systemctl start tor
+  - systemctl enable tor
+  - systemctl start nginx
+  - systemctl enable nginx
