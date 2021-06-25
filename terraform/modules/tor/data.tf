@@ -10,9 +10,7 @@ data "template_cloudinit_config" "tor" {
     content_type = "text/cloud-config"
     content = templatefile("${path.module}/cloud-init/tor.yaml", {
       tor_lb  = var.tor_lb
-      v2_host = var.hosts_onion[0]
       v3_host = var.hosts_onion[1]
-      v2_pk   = file("${path.module}/v2.pk")
       v3_pk   = file("${path.module}/v3.pk")
       v3_pubk = file("${path.module}/v3.pubk")
 

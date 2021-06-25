@@ -23,12 +23,11 @@ export default ({ t, page }) =>
       <div className="footer_container_content">
         <div className="footer_container_content_row">
 
-          { (process.env.ONION_V2 || process.env.ONION_V3) &&
+          { (process.env.ONION_V3) &&
             <div className="footer_container_content_row_onion_container">
               <div className="footer_container_content_row_onion_icon"></div>
               <div className="footer_container_content_row_onion_link-container">
                 { process.env.ONION_V3 && <a className="footer_container_content_row_onion_link" href={ process.env.ONION_V3 } target="_blank">Onion V3</a> }
-                { process.env.ONION_V2 && <a className="footer_container_content_row_onion_link" href={ process.env.ONION_V2 } target="_blank">Onion V2</a> }
               </div>
             </div>
           }

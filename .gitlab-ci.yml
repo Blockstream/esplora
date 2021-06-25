@@ -116,7 +116,6 @@ plan:
     - branches@greenaddress/esplora
   stage: plan
   script:
-    - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
     - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
     - (cd terraform && terraform init -input=false &&
@@ -143,7 +142,6 @@ plan_main:
     - master@greenaddress/esplora
     - /^main_v.*/
   script:
-    - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
     - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
     - (cd terraform && terraform init -input=false &&
@@ -171,7 +169,6 @@ deploy_main:
     - master@greenaddress/esplora
     - /^main_v.*/
   script:
-    - (echo -n "$V2_PK" > terraform/modules/tor/v2.pk)
     - (echo -n "$V3_PK" > terraform/modules/tor/v3.pk)
     - (echo -n "$V3_PUBK" > terraform/modules/tor/v3.pubk)
     - (cd terraform && terraform init -input=false &&
