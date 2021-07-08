@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import { formatTime, formatNumber } from './util'
 import { blks } from './blocks'
 import { transactions } from './transactions'
 

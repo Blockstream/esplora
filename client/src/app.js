@@ -331,9 +331,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
-    // ... and every 10 seconds while it remains open
-    //, tickWhileViewing(5000, 'recentTxs', view$)
-    //    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    // ... and every 5 seconds while it remains open
+    , tickWhileViewing(5000, 'recentTxs', view$)
+       .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    // ... and every 5 seconds while dashBoard remains open
+    , tickWhileViewing(5000, 'dashBoard', view$)
+    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])

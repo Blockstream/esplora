@@ -151,6 +151,7 @@ a, a:link, a:visited, a:hover, a:focus {
   top: 70px;
   right: 0;
   z-index: 10;
+  transition: .1s;
   border-radius: 8px;
   box-shadow: 0 20px 40px black;
   background-image: radial-gradient(circle at 7% 50%, #1c2127, #15181c 80%);
@@ -2393,6 +2394,7 @@ h3.table-title{
     top: 0px;
     right: -15px;
     z-index: 1;
+    transition: none;
   }
 
   .toggle-container.open-menu .toggle-menu{
