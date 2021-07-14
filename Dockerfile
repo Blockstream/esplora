@@ -28,6 +28,8 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- bitcoin-mainnet \
  && DEST=/srv/explorer/static/bitcoin-testnet \
     npm run dist -- bitcoin-testnet \
+ && DEST=/srv/explorer/static/bitcoin-signet \
+    npm run dist -- bitcoin-signet \
  && DEST=/srv/explorer/static/bitcoin-regtest \
     npm run dist -- bitcoin-regtest \
  && DEST=/srv/explorer/static/liquid-mainnet \
@@ -38,6 +40,8 @@ RUN source /root/.nvm/nvm.sh \
     npm run dist -- bitcoin-mainnet blockstream \
  && DEST=/srv/explorer/static/bitcoin-testnet-blockstream \
     npm run dist -- bitcoin-testnet blockstream \
+ && DEST=/srv/explorer/static/bitcoin-signet-blockstream \
+    npm run dist -- bitcoin-signet blockstream \
  && DEST=/srv/explorer/static/bitcoin-regtest-blockstream \
     npm run dist -- bitcoin-regtest blockstream \
  && DEST=/srv/explorer/static/liquid-mainnet-blockstream \
