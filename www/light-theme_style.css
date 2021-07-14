@@ -3,6 +3,43 @@ body.theme-light {
     background-color: #FFF;
 }
 
+.theme-light .main-nav li a, .theme-light .sub-nav a{
+    color: rgba(21, 24, 28, 1);
+}
+
+.theme-light .toggle-container .toggle-menu{
+    background: none;
+    background-color: whitesmoke;
+    box-shadow: 0 20px 40px lightgray;
+}
+
+.theme-light .toggle-menu .section2 a{
+    color: rgba(21, 24, 28, 1);
+}
+
+.theme-light .toggle-menu .section1 .wallets-link a{
+    background-color: #a8b1b5;
+}
+
+.theme-light .sub-navbar{
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 1px lightgray;
+}
+
+.theme-light .blocks-table, .theme-light .transactions-table, .theme-light .stats-table, .theme-light .assets-table{
+    background: none;
+    box-shadow: 1px 0px 5px 1px lightgray;
+}
+
+.theme-light .pagination .pagelink{
+    background-color: whitesmoke;
+    color: rgba(21, 24, 28, 1);
+}
+
+.theme-light .pagination .control a{
+    color: #00ccff;
+}
+
 .theme-light .blocks-table-row {
     color: rgba(21, 24, 28, 1) !important;
 }
@@ -15,21 +52,19 @@ body.theme-light {
     color: rgba(21, 24, 28, 1) !important;
 }
 
-.theme-light .jumbotron-fluid {
-    background-color: rgba(238, 242, 245, 1) !important;
-}
-
 .theme-light .explorer-container > .footer {
     background-color: #fff;
+    border-top: 1px #dcdcdc solid;
 }
 
 .theme-light .transaction-box {
     background-color: #fff;
-    border: 1px solid #15191e;
+    border: 1px solid #dcdcdc;
 }
 
 .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading), .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) {
     background-color: #fff;
+    border: 1px solid #dcdcdc;
 }
 
 .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-body, .theme-light .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-body {
@@ -40,11 +75,12 @@ body.theme-light {
     background-color: rgba(169, 177, 182, 1);
 }
 
-.theme-light .jumbotron-fluid .prev-next-blocks-btns > div a > div {
-    background-color: #fff;
+.theme-light .prev-next-blocks-btns > div a > div {
+    background-color: whitesmoke;
+    box-shadow: 1px 1px 1px lightgray;
 }
 
-.theme-light .jumbotron-fluid .prev-next-blocks-btns > div a, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:link, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:visited, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:hover, .theme-light .jumbotron-fluid .prev-next-blocks-btns > div a:focus {
+.theme-light .prev-next-blocks-btns > div a, .theme-light .prev-next-blocks-btns > div a:link, .theme-light .prev-next-blocks-btns > div a:visited, .theme-light .prev-next-blocks-btns > div a:hover, .theme-light .prev-next-blocks-btns > div a:focus {
     color: rgba(21, 24, 28, 1) !important;
 }
 
@@ -68,6 +104,31 @@ body.theme-light {
       color: #000000;
 }
 
+.theme-light .blocks-table .blocks-table-row.block-data {
+    border-top: 1px #dcdcdc solid;
+}
+
+.theme-light .transactions-table .transactions-table-row.transaction-data {
+    border-top: 1px #dcdcdc solid;
+}
+
+.theme-light .assets-table .assets-table-row.asset-data {
+    border-top: 1px #dcdcdc solid;
+}
+
+.theme-light .stats-table > div {
+    border-top: 1px #dcdcdc solid;
+}
+
+.theme-light .stats-table > div:last-child{
+    border-bottom: 1px #dcdcdc solid;
+}
+
+.theme-light .search-bar-input, .theme-light .search-bar-input:focus{
+    color: #22242c;
+}
+
+
 /* keep this for now - dark menu button */
 /* .theme-light .navbar-toggler {
   border-color: rgba(17, 19, 22, 0.5);
@@ -80,6 +141,11 @@ body.theme-light {
   color: inherit !important;
 }
 
+.theme-light .footer_container_content_row_social-media_link{
+    background-color: lightgray;
+    border: none;
+}
+
 .theme-light .nav-bar_moon_icon {
     background-image: url("img/icons/moon_light.png");
 }
@@ -88,7 +154,7 @@ body.theme-light {
     background-image: url("img/onion_light.png");
 }
 
-.theme-light .jumbotron {
+.theme-light {
     color: #fff;
 }
 

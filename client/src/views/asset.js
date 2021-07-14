@@ -45,9 +45,11 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
   return layout(
     <div>
-      <div className="jumbotron jumbotron-fluid asset-page">
+      <div className="asset-page">
         <div className="container">
-          { search({ t, klass: 'page-search-bar' }) }
+          <a className="back-link" href="assets">
+            <img src="img/icons/left-arrow.png"/><span>{t`All Assets`}</span>
+          </a>
           <h1>{t`Asset`}</h1>
           <div className="block-hash">
             <span>{asset.asset_id}</span>
@@ -248,7 +250,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
         </div>
       </div>
     </div>
-  , { t, ...S })
+  , { t, activeTab: 'assets', ...S })
 }
 
 const txsShownTextIssued = (total, start, shown, t) =>
