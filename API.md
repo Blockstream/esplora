@@ -1,4 +1,4 @@
-# Esplora HTTP API
+# Esplora HTTP API 
 
 JSON over RESTful HTTP. Amounts are always represented in satoshis.
 
