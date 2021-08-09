@@ -229,7 +229,7 @@
     /*
     Label the data
     */
-    div.assets-table-cell:before { content: attr(data-label); text-align: left; width: auto;}
+    div.assets-table-cell:before { content: attr(data-label); text-align: left;}
 }
 
  /* Pagination remove numbers on Mobile - show Next and Prev instead */
