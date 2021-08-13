@@ -1349,7 +1349,7 @@ body::after{
 }
 
 .loading-delay img{
-  width: 60px; 
+  width: 60px;
 }
 @keyframes showDelayed {
   99% {
@@ -2472,13 +2472,13 @@ h3.table-title{
   }
 
   .blocks-table .blocks-table-row, .transactions-table .transactions-table-row {
-    padding:20px; 
+    padding:20px;
   }
-  
+
   .assets-table .assets-table-row{
-    padding:20px; 
+    padding:20px;
   }
-  
+
   .stats-table{
     padding: 20px;
   }
