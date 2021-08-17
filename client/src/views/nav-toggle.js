@@ -19,19 +19,6 @@ export default (t, theme, page) =>
         { process.browser ? <div className="switch-theme-icon toggle-theme"></div>
                         : <a href={page.pathname.substr(1) + updateQuery(page.query, { theme: otherTheme[theme] })} className="switch-theme-icon"></a>
         }
-        <div className="language">
-          <form method="get">
-            { !process.browser && Object.entries(page.query).map(([k, v]) =>
-              k != 'lang' && <input type="hidden" name={k} value={v} />
-            ) }
-            <select className="language-selector" name="lang">
-              { Object.entries(t.langs).map(([ lang_id, lang_t ]) =>
-                <option value={lang_id} attrs={lang_id == t.lang_id ? { selected: true } : {}}>{lang_t`lang_name`}</option>
-              ) }
-            </select>
-            { !process.browser && <input type="submit" className="language-submit" value={t`Go`} /> }
-          </form>
-        </div>
       </div>
       <div className="section1">
         <h4 className="menu-title">Wallets</h4>

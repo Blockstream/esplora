@@ -54,6 +54,7 @@
 
 .assets-table .assets-table-row.asset-data > * {
   font-size: 16px;
+  word-break: break-all;
 }
 
 .assets-table .assets-table-row.loading img {
@@ -200,7 +201,7 @@
     }
 
     /* table row (transaction item) */
-    .assets-table .assets-table-row.asset-data > * {
+    .assets-table .assets-table-row.asset-data > *{
       border: none;
       position: relative;
       padding-left: 0 !important;
@@ -210,7 +211,6 @@
       align-items: center;
       width: 100% !important;
       text-align: right;
-      /* border-top: 1px solid #22242C; */
     }
 
     .assets-table-row {
@@ -229,7 +229,7 @@
     /*
     Label the data
     */
-    div.assets-table-cell:before { content: attr(data-label); text-align: left; width: auto;}
+    div.assets-table-cell:before { content: attr(data-label); text-align: left;}
 }
 
  /* Pagination remove numbers on Mobile - show Next and Prev instead */

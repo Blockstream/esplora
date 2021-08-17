@@ -1155,6 +1155,17 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
   width: 100%;
 }
 
+.footer_container_content .language{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.footer_container_content .language form{
+  width: auto;
+}
+
 .footer_container_content_row {
   display: flex;
   justify-content: space-between;
@@ -1335,7 +1346,10 @@ body::after{
   visibility: hidden;
   display: block;
   margin: 0 auto;
-  width: 70px;
+}
+
+.loading-delay img{
+  width: 60px;
 }
 @keyframes showDelayed {
   99% {
@@ -1573,9 +1587,13 @@ body::after{
       display: flex !important;
       justify-content: space-between;
       width: 100% !important;
-      padding: 10px;
+      padding: 10px 0;
       word-break: break-all;
       text-align: right;
+    }
+
+    .transactions-table .transactions-table-row > div:nth-child(1) {
+      padding-left: 0px;
     }
 
     div.transactions-table-cell:before {
@@ -1746,6 +1764,7 @@ body::after{
 
   .footer_container_content {
     margin-top: 35px;
+    padding-bottom: 50px;
   }
 
 
@@ -2153,7 +2172,7 @@ dl.mempool-histogram .bar:before {
   display: flex;
   justify-content: flex-end;
   border-bottom: 1px solid #4e555d;
-  padding: 0 30px 30px 30px;
+  padding: 10px 30px 30px 20px;
 }
 
 .toggle-menu h4.menu-title{
@@ -2450,6 +2469,22 @@ h3.table-title{
   .search-bar{
     margin: 0;
     max-width: 100%;
+  }
+
+  .blocks-table .blocks-table-row, .transactions-table .transactions-table-row {
+    padding:20px;
+  }
+
+  .assets-table .assets-table-row{
+    padding:20px;
+  }
+
+  .stats-table{
+    padding: 20px;
+  }
+
+  h3.table-title{
+    margin: 10px 20px 30px;
   }
 }
 
