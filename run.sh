@@ -240,7 +240,7 @@ chmod +x /etc/service/${DAEMON}/run
 if [ "${NETWORK}" == "regtest" ]; then
     if [ "${DAEMON}" != "liquid" ]; then
         /srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin.conf -datadir=/data/bitcoin -daemon -regtest
-        cli createwallet -rpcwait "default"
+        cli -rpcwait createwallet "default"
     else
         /srv/explorer/$DAEMON/bin/${DAEMON}d -conf=/data/.$DAEMON.conf -datadir=/data/$DAEMON -daemon
     fi
