@@ -67,7 +67,7 @@ else
         NGINX_NOSLASH_PATH="liquidregtest"
     else
         ELECTRS_NETWORK="liquid"
-        PARENT_NETWORK="--parent-network mainnet"
+        PARENT_NETWORK="--parent-network bitcoin"
         NGINX_PATH="liquid/"
         NGINX_REWRITE='rewrite ^/liquid(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/liquid(/.*)$ " /liquid/nojs$1?" permanent'
