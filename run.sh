@@ -183,7 +183,15 @@ fi
 TORRCFILE="/srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}-torrc"
 if [ -f $TORRCFILE ]; then
     cp $TORRCFILE /etc/tor/torrc
-    if [ -f /data/torrc ]; then
+
+    # torv2 being phased out, prefer v3
+    if [ ${TOR_VERSION:-v2} == "v3" ]; then
+        TOR_DIR=${TOR_DIR:-/dev/shm/tor}
+        # pick random peers from a file (for private-bridge using torv3)
+        cp ${TOR_DIR}/torv3rc /etc/tor/torrc
+        shuf -n 4 ${TOR_DIR}/torv3_connect > /etc/tor/torv3_connect
+        tail -4 /etc/tor/torv3_connect | awk -F: '{print "connect="$1".onion:10100"}' >> /data/.${DAEMON}.conf
+    elif [ -f /data/torrc ]; then
         # pick for random peers from the list (for private-bridge)
         shuf -n 4 /data/torrc >> /etc/tor/torrc
         tail -4 /etc/tor/torrc | awk '{print "connect="$2":10100"}' >> /data/.${DAEMON}.conf
