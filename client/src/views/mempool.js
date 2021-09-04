@@ -8,9 +8,8 @@ let squashed
 
 export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
   <div>
-    <div className="jumbotron jumbotron-fluid">
+    <div className="mempool-page">
       <div className="container">
-        { search({ t, klass: 'page-search-bar' }) }
         <div>
           <h1 className="transaction-header-title">{t`Mempool`}</h1>
         </div>

@@ -3,7 +3,7 @@ import layout from './layout'
 
 export default ({ t, ...S }) => layout(
   <div>
-    <div className="jumbotron jumbotron-fluid block-page">
+    <div className="block-page">
       <div className="container">
         <form data-do="pushtx" method="post" action="tx/push">
           <div className="form-group">

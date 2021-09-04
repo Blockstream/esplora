@@ -119,3 +119,5 @@ export const getSupply = (asset, t) => {
                   : formatAssetAmount(circulating, asset.precision, t)
   return totalSupply
 }
+
+export const strTruncate  = (str) => str.substr(0, 10) + '...' + str.substr(str.length-4, str.length);

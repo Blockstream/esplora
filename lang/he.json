@@ -33,7 +33,7 @@
     "בשרשרת הכי טובה (%0 אישורים)"
   ],
   "Included in Block": "כלול בבלוק",
-  "in %s blocks (%s from tip)": "בתוך %s בלוקים (עומק mempool של %s)",
+  "in %s blocks (%s from tip)": "בתוך %0 בלוקים (עומק mempool של %1)",
   "Issuance": "הנפקה",
   "Issuance amount": "כמות הנפקה",
   "lang_id": "he",

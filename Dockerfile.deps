@@ -25,18 +25,20 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github
  && source /root/.nvm/nvm.sh \
  && nvm install v12.16.1
 
-ENV SHA256SUM_BITCOINCORE=376194f06596ecfa40331167c39bc70c355f960280bd2a645fdbf18f66527397
-RUN curl -sL -o bitcoin.tar.gz https://bitcoincore.org/bin/bitcoin-core-0.20.1/bitcoin-0.20.1-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_BITCOINCORE=366eb44a7a0aa5bd342deea215ec19a184a11f2ca22220304ebb20b9c8917e2b
+ENV VERSION_BITCOINCORE=0.21.1
+RUN curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-x86_64-linux-gnu.tar.gz" \
  && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
  && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/bitcoin-0.20.1 /srv/explorer/bitcoin \
+ && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=d6c94c323b9c586f46b10ab79aa643342b950fd0f01916a47d8051036e6a2288
-RUN curl -sL -o elements.tar.gz https://github.com/ElementsProject/elements/releases/download/elements-0.18.1.11/elements-0.18.1.11-x86_64-linux-gnu.tar.gz \
+ENV SHA256SUM_ELEMENTS=b4038a34fcb3f1ed55acc0891cea8cd988ac8f164be2bb93d6dee24779744fae
+ENV VERSION_ELEMENTS=0.18.1.12
+RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
  && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
  && tar xzf elements.tar.gz -C /srv/explorer \
- && ln -s /srv/explorer/elements-0.18.1.11 /srv/explorer/liquid \
+ && ln -s "/srv/explorer/elements-${VERSION_ELEMENTS}" /srv/explorer/liquid \
  && mv /srv/explorer/liquid/bin/{elementsd,liquidd} \
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
@@ -46,7 +48,7 @@ RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
  && cd electrs \
- && git checkout bae488118de24d571042fb94e18789f0a9d1f69f \
+ && git checkout abfbce73eb0504630a09f1e6599114ef4fa25bda \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
  && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \

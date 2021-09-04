@@ -12,15 +12,11 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
 
   return layout(
     <div>
-      <div className="jumbotron jumbotron-fluid h-auto">
-        <div className="container">
-          <h1>{t`Registered Assets`}</h1>
-        </div>
-      </div>
       <div className="container">
         { !assets ? <div className="load-more-container"><img src="img/Loading.gif" /></div>
           : !assets.length ? <p>{t`No registered assets`}</p>
           : <div className="assets-table">
+            <h3 className="table-title">{t`All Assets`}</h3>
               <div className="assets-table-row header">
                 <a href={`assets?sort_field=name&sort_dir=${reverseSortDir}`}
                   className={`assets-table-cell sortable ${sort_field === "name" ? sort_dir : ""}`}>{t`Name`}
@@ -30,7 +26,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
                 </a>
                 <div className="assets-table-cell supply right-align">{t`Total Supply`}</div>
                 <a href={`assets?sort_field=domain&sort_dir=${reverseSortDir}`}
-                    className={`assets-table-cell domain right-align sortable ${sort_field === "domain" ? sort_dir : ""}`}>{t`Issuer domain`}
+                    className={`assets-table-cell domain right-align sortable ${sort_field === "domain" ? sort_dir : ""}`}>{t`Issuer Domain`}
                 </a>
               </div>
               {assets.map(asset =>
@@ -54,7 +50,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
         }
       </div>
     </div>
-  , { assetList, t, ...S }
+  , { assetList, activeTab: 'assets', t, ...S }
   )
 
 }

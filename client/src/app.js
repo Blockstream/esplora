@@ -30,7 +30,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   /// User actions
   , page$     = route()
-  , goHome$   = route('/').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
+  , goHome$ = route('/')
+  , goBlocks$   = route('/blocks/recent').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
   , goAddr$   = route('/address/:addr').map(loc => ({
@@ -130,8 +131,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
 
   , prevBlocks$ = process.browser ? O.empty()
-      : goHome$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height != null && d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
-
+      : goBlocks$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height != null && d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
+  
   // Single block and associated txs
   , block$ = reply('block').merge(goBlock$.mapTo(null))
   , blockStatus$ = reply('block-stat').merge(goBlock$.mapTo(null))
@@ -180,6 +181,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , mempool$ = reply('mempool').startWith(null)
   , mempoolRecent$ = reply('recent')
 
+  // dashboard
+  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) => 
+        ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 5)}))
+
   // Fee estimates
   , feeEst$ = reply('fee-est').startWith(null)
 
@@ -220,7 +225,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
-                  , goHome$.mapTo('recentBlocks')
+                  , goHome$.mapTo('dashBoard')
+                  , goBlocks$.mapTo('recentBlocks')
                   , goRecent$.mapTo('recentTxs')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
@@ -247,7 +253,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
-                     , goHome$, blocks$, nextBlocks$, prevBlocks$
+                     , goBlocks$, blocks$, nextBlocks$, prevBlocks$, dashboardState$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
@@ -285,7 +291,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               : { category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs` }])
 
     // fetch list of blocks for homepage
-    , O.merge(goHome$, moreBlocks$)
+    , O.merge(goBlocks$, moreBlocks$)
         //.merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
@@ -325,11 +331,15 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch recent mempool txs when opening the recent txs page
     , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
-    // ... and every 10 seconds while it remains open
-    //, tickWhileViewing(5000, 'recentTxs', view$)
-    //    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    // ... and every 5 seconds while it remains open
+    , tickWhileViewing(5000, 'recentTxs', view$)
+       .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+    // ... and every 5 seconds while dashBoard remains open
+    , tickWhileViewing(5000, 'dashBoard', view$)
+    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
-
+    , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
+                              , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
     //
     // elements/liquid only
     //
@@ -371,7 +381,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
 
-  dbg({ goHome$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
+  dbg({ goBlocks$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
@@ -417,6 +427,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
       btn.classList.add('show-tooltip')
       setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
+    })
+
+    on('.toggle-container', 'click').subscribe(({ ownerTarget: burgerMenu }) => {
+      burgerMenu.classList.toggle('open-menu');
     })
   }
 

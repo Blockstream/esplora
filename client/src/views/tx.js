@@ -28,9 +28,8 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
 
   return layout(
   <div>
-    <div className="jumbotron jumbotron-fluid transaction-page">
+    <div className="transaction-page">
       <div className="container">
-        { search({ t, klass: 'page-search-bar' }) }
         <div>
           <h1 className="transaction-header-title">{t`Transaction`}</h1>
           <div className="block-hash">
@@ -48,7 +47,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
   </div>
-  , { t, page, ...S })
+  , { t, page, activeTab: 'recentTxs', ...S })
 }
 
 const confirmationText = (status, tipHeight, t) =>
