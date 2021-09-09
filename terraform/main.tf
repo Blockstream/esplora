@@ -30,13 +30,12 @@ module "prometheus" {
   region                     = var.regions[0]
   instances                  = 1
   machine_type               = var.instance_type[2]
-  retention                  = "31d"
+  retention                  = "7d"
   project                    = var.project
   docker_tag                 = var.docker_tag_prometheus
   docker_tag_node_exporter   = var.docker_tag_node_exporter
   allowed_source_ip          = var.prometheus_allowed_source_ip
   prometheus_service_account = terraform.workspace != "main" ? data.terraform_remote_state.main.outputs.prometheus_service_account : ""
-  opsgenie_api_key           = var.opsgenie_api_key
 
   create_resources = local.create_main
 }

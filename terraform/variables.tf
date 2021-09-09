@@ -108,17 +108,15 @@ variable "docker_tag_nginx" {
 variable "docker_tag_node_exporter" {
   type = string
 
-  # docker inspect --format='{{index .RepoDigests 0}}' prom/node-exporter:v0.16.0
-
-  default = "prom/node-exporter@sha256:b630fb29d99b3483c73a2a7db5fc01a967392a3d7ad754c8eccf9f4a67e7ee31"
+  # docker inspect --format='{{index .RepoDigests 0}}' prom/node-exporter:v1.2.2
+  default = "prom/node-exporter@sha256:a990408ed288669bbad5b5b374fe1584e54825cde4a911c1a3d6301a907a030c"
 }
 
 variable "docker_tag_process_exporter" {
   type = string
 
-  # docker inspect --format='{{index .RepoDigests 0}}' ncabatoff/process-exporter:0.7.1
-
-  default = "ncabatoff/process-exporter@sha256:8daeaa3b5352dc64f5a3d438a1dad5f5c6ff8e468fcb7e50fb0c3f2e8f1b3bfd"
+  # docker inspect --format='{{index .RepoDigests 0}}' ncabatoff/process-exporter:0.7.4
+  default = "ncabatoff/process-exporter@sha256:80f89e0c882cb3bba2fa577e090198bc60127b40e52c65443a657637fc24b0bd"
 }
 
 variable "docker_tag_explorer" {
@@ -132,8 +130,10 @@ variable "docker_tag_tor" {
 }
 
 variable "docker_tag_prometheus" {
-  type    = string
-  default = "blockstream/prometheus@sha256:a4803e2732f6b4b47f425ef9bceeb7942865a4d5ceef4d8e3ee9c7db8363a3d3"
+  type = string
+
+  # docker inspect --format='{{index .RepoDigests 0}}' prom/prometheus:v2.29.1
+  default = "prom/prometheus@sha256:ccc801f38fdac43f0ed3e1b0220777e976828d6558f8ef3baad9028e0d1797ae"
 }
 
 variable "min_ready_sec" {
@@ -152,10 +152,6 @@ variable "prometheus_allowed_source_ip" {
   type        = list(any)
   description = "The IPs that are allowed to access the prometheus instance."
   default     = []
-}
-
-variable "opsgenie_api_key" {
-  default = ""
 }
 
 variable "kms_location" {
