@@ -74,6 +74,10 @@ else
         NGINX_REWRITE='rewrite ^/liquidtestnet(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/liquidtestnet(/.*)$ " /liquidtestnet/nojs$1?" permanent'
         NGINX_NOSLASH_PATH="liquidtestnet"
+
+        ELECTRS_ARGS="$ELECTRS_ARGS --asset-db-path /srv/liquid-assets-db"
+        ASSETS_GIT=${ASSETS_GIT:-https://github.com/Blockstream/asset_registry_testnet_db}
+        ASSETS_GPG=${ASSETS_GPG:-/srv/explorer/source/contrib/asset_registry_testnet_pubkey.asc}
     else
         ELECTRS_NETWORK="liquid"
         PARENT_NETWORK="--parent-network bitcoin"
@@ -164,18 +168,22 @@ fi
 
 preprocess /srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}.conf.in /data/.${DAEMON}.conf
 
-if [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
-    mkdir -p /etc/service/bitcoin/log /etc/service/liquid-assets-poller/log /data/logs/bitcoin /data/logs/poller
+if [ "$DAEMON" == "liquid" ]; then
+    if [ "$NETWORK" == "mainnet" ]; then
+        mkdir -p /etc/service/bitcoin/log /data/logs/bitcoin
+        preprocess /srv/explorer/source/contrib/bitcoin-mainnet-pruned-for-liquid.conf.in /data/.bitcoin.conf
+        cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid.runit /etc/service/bitcoin/run
+        cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log.runit /etc/service/bitcoin/log/run
+        cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log-config.runit /data/logs/bitcoin/config
+    fi
 
-    preprocess /srv/explorer/source/contrib/bitcoin-mainnet-pruned-for-liquid.conf.in /data/.bitcoin.conf
-    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid.runit /etc/service/bitcoin/run
-    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log.runit /etc/service/bitcoin/log/run
-    cp /srv/explorer/source/contrib/runits/bitcoin_for_liquid-log-config.runit /data/logs/bitcoin/config
-
-    preprocess /srv/explorer/source/contrib/runits/liquid-assets-poller.runit /etc/service/liquid-assets-poller/run
-    cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log.runit /etc/service/liquid-assets-poller/log/run
-    cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log-config.runit /data/logs/poller/config
-    chmod +x /etc/service/liquid-assets-poller/run
+    if [ "$NETWORK" == "mainnet" ] || [ "$NETWORK" == "testnet" ]; then
+        mkdir -p /etc/service/liquid-assets-poller/log /data/logs/poller
+        preprocess /srv/explorer/source/contrib/runits/liquid-assets-poller.runit /etc/service/liquid-assets-poller/run
+        cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log.runit /etc/service/liquid-assets-poller/log/run
+        cp /srv/explorer/source/contrib/runits/liquid-assets-poller-log-config.runit /data/logs/poller/config
+        chmod +x /etc/service/liquid-assets-poller/run
+    fi
 fi
 
 if [ -f /data/public_nodes ]; then
