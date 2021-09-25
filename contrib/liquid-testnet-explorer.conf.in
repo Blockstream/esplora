@@ -3,7 +3,6 @@ chain=liquidtestnet
 [liquidtestnet]
 
 # General settings:
-txindex=1
 validatepegin=0
 anyonecanspendaremine=0
 initialfreecoins=2100000000000000
@@ -11,7 +10,6 @@ con_dyna_deploy_start=0
 con_max_block_sig_size=150
 connect=liquid-testnet.blockstream.com:18892
 fallbackfee=0.00000100
-daemon=1
 con_has_parent_chain=0
 parentgenesisblockhash=NULL
 pubkeyprefix=36
