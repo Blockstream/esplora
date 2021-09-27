@@ -57,6 +57,7 @@ build_staging:
     - /^staging_bitcoin_mainnet.*/
     - /^staging_bitcoin_testnet.*/
     - /^staging_liquid_mainnet.*/
+    - /^staging_liquid_testnet.*/
   script:
     - docker pull debian:buster || true
     - docker pull blockstream/esplora-base:latest || true
@@ -83,6 +84,7 @@ build:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
     - /^liquid_mainnet.*/
+    - /^liquid_testnet.*/
     - master@greenaddress/esplora
   script:
     - docker pull debian:buster || true
