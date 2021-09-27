@@ -133,7 +133,6 @@ plan:
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -var "ssl_certs=$SSL_CERTS"
-        -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false)
 
@@ -160,7 +159,6 @@ plan_main:
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -var "ssl_certs=$SSL_CERTS"
-        -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false)
 
@@ -188,7 +186,6 @@ deploy_main:
         -var "regions=$REGIONS"
         -var "zones=$ZONES"
         -var "ssl_certs=$SSL_CERTS"
-        -var "opsgenie_api_key=$OPSGENIE_API_KEY"
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -input=false -auto-approve)
 

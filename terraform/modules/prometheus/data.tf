@@ -12,7 +12,6 @@ data "template_cloudinit_config" "prometheus" {
       docker_tag               = var.docker_tag
       docker_tag_node_exporter = var.docker_tag_node_exporter
       retention                = var.retention
-      opsgenie_api_key         = var.opsgenie_api_key
     })
   }
 }

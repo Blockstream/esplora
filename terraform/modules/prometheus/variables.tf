@@ -64,8 +64,3 @@ variable "prometheus_service_account" {
   type    = string
   default = ""
 }
-
-variable "opsgenie_api_key" {
-  type        = string
-  description = "Add new Prometheus integration to opsgenie, use resulting API key here"
-}

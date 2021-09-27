@@ -53,7 +53,7 @@ resource "google_compute_instance" "prometheus-server" {
 
   boot_disk {
     initialize_params {
-      size  = "10"
+      size  = "20"
       image = var.image
     }
   }
