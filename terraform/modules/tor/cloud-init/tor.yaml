@@ -46,6 +46,7 @@ write_files:
         HiddenServicePort 110 ${tor_lb}:110
         HiddenServicePort 143 ${tor_lb}:143
         HiddenServicePort 195 ${tor_lb}:195
+        HiddenServicePort 587 ${tor_lb}:587
 
 
   - path: /home/bs/torrcv3
@@ -73,6 +74,7 @@ write_files:
         HiddenServicePort 110 ${tor_lb}:110
         HiddenServicePort 143 ${tor_lb}:143
         HiddenServicePort 195 ${tor_lb}:195
+        HiddenServicePort 587 ${tor_lb}:587
 
   - path: /home/bs/tor_v2/hidden_service/hostname
     permissions: 0600

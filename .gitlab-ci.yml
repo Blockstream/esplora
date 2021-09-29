@@ -113,6 +113,7 @@ plan:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
     - /^liquid_mainnet.*/
+    - /^liquid_testnet.*/
     - master@greenaddress/esplora
   only:
     - branches@greenaddress/esplora
@@ -351,6 +352,60 @@ deploy_liquid_mainnet:
         -var "image_source_project=$IMAGE_SOURCE_PROJECT"
         -var "mempooldat=$MEMPOOLDAT"
         -var "fullurl=https://blockstream.info/liquid/_sync/mempool"
+        -input=false -auto-approve)
+
+plan_liquid_testnet:
+  stage: deploy
+  only:
+    - /^liquid_testnet.*/
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-testnet &&
+       terraform init -input=false &&
+       terraform plan
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquidtestnet/_sync/mempool"
+        -input=false)
+
+deploy_liquid_testnet:
+  when: manual
+  stage: deploy
+  tags:
+    - k8s-docker
+  services:
+    - docker:19-dind
+  only:
+    - /^liquid_testnet.*/
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-liquid-testnet
+    - docker push blockstream/esplora:builder-liquid-testnet
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-testnet &&
+       terraform init -input=false &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE"
+        -var "instance_type=$NODE_INSTANCE_TYPE"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquidtestnet/_sync/mempool"
         -input=false -auto-approve)
 
 deploy_staging_bitcoin_mainnet:

@@ -8,8 +8,12 @@ resource "google_compute_health_check" "daemon" {
   count = var.create_resources
 
   http_health_check {
-    port         = 80
-    request_path = var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash" : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash" : "/liquid/api/blocks/tip/hash"
+    port = 80
+    request_path = (
+      var.name == "bitcoin-mainnet" ? "/api/blocks/tip/hash"
+      : var.name == "bitcoin-testnet" ? "/testnet/api/blocks/tip/hash"
+      : var.name == "liquid-testnet" ? "/liquidtestnet/api/blocks/tip/hash"
+    : "/liquid/api/blocks/tip/hash")
   }
 }
 
@@ -45,6 +49,11 @@ resource "google_compute_region_instance_group_manager" "daemon" {
   named_port {
     name = "electrs"
     port = 50001
+  }
+
+  named_port {
+    name = "http"
+    port = 80
   }
 }
 

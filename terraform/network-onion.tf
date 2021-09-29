@@ -66,48 +66,11 @@ resource "google_compute_url_map" "onion-proxy" {
       paths   = ["/liquid", "/liquid/*"]
       service = data.terraform_remote_state.liquid-mainnet.outputs.daemon_backend_service["liquid-mainnet"]
     }
-  }
 
-  test {
-    service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
-    host    = var.hosts_onion[0]
-    path    = "/"
-  }
-
-  test {
-    service = data.terraform_remote_state.bitcoin-testnet.outputs.daemon_backend_service["bitcoin-testnet"]
-    host    = var.hosts_onion[0]
-    path    = "/testnet"
-  }
-
-  test {
-    service = data.terraform_remote_state.liquid-mainnet.outputs.daemon_backend_service["liquid-mainnet"]
-    host    = var.hosts_onion[0]
-    path    = "/liquid"
-  }
-
-  test {
-    service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
-    host    = var.hosts_onion[1]
-    path    = "/"
-  }
-
-  test {
-    service = data.terraform_remote_state.bitcoin-testnet.outputs.daemon_backend_service["bitcoin-testnet"]
-    host    = var.hosts_onion[1]
-    path    = "/testnet"
-  }
-
-  test {
-    service = data.terraform_remote_state.liquid-mainnet.outputs.daemon_backend_service["liquid-mainnet"]
-    host    = var.hosts_onion[1]
-    path    = "/liquid"
-  }
-
-  test {
-    service = google_compute_backend_bucket.onion_deadhole_backend[0].self_link
-    host    = google_compute_global_address.onion-lb[0].address
-    path    = "/"
+    path_rule {
+      paths   = ["/liquidtestnet", "/liquidtestnet/*"]
+      service = data.terraform_remote_state.liquid-testnet.outputs.daemon_backend_service["liquid-testnet"]
+    }
   }
 }
 

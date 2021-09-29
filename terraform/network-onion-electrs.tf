@@ -29,6 +29,16 @@ resource "google_compute_global_forwarding_rule" "liquid-electrs-tcp-onion" {
   count = local.create_main
 }
 
+resource "google_compute_global_forwarding_rule" "liquidtestnet-electrs-tcp-onion" {
+  name        = "explorer-forwarding-rule-liquidtestnet-electrs-tcp-onion"
+  target      = google_compute_target_tcp_proxy.liquidtestnet-electrs-tcp-proxy-onion[0].self_link
+  port_range  = "587"
+  ip_protocol = "TCP"
+  ip_address  = google_compute_global_address.onion-lb[0].address
+
+  count = local.create_main
+}
+
 # TCP Proxies
 resource "google_compute_target_tcp_proxy" "mainnet-electrs-tcp-proxy-onion" {
   name            = "explorer-mainnet-electrs-tcp-proxy-onion"
@@ -47,6 +57,13 @@ resource "google_compute_target_tcp_proxy" "testnet-electrs-tcp-proxy-onion" {
 resource "google_compute_target_tcp_proxy" "liquid-electrs-tcp-proxy-onion" {
   name            = "explorer-liquid-electrs-tcp-proxy-onion"
   backend_service = data.terraform_remote_state.liquid-mainnet.outputs.daemon_backend_service_electrs["liquid-mainnet"]
+
+  count = local.create_main
+}
+
+resource "google_compute_target_tcp_proxy" "liquidtestnet-electrs-tcp-proxy-onion" {
+  name            = "explorer-liquidtestnet-electrs-tcp-proxy-onion"
+  backend_service = data.terraform_remote_state.liquid-testnet.outputs.daemon_backend_service_electrs["liquid-testnet"]
 
   count = local.create_main
 }

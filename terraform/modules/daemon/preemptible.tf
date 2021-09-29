@@ -31,6 +31,11 @@ resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
     name = "electrs"
     port = 50001
   }
+
+  named_port {
+    name = "http"
+    port = 80
+  }
 }
 
 ## Create instance template

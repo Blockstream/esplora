@@ -45,3 +45,14 @@ data "terraform_remote_state" "liquid-mainnet" {
 
   workspace = "liquid-mainnet"
 }
+
+data "terraform_remote_state" "liquid-testnet" {
+  backend = "gcs"
+
+  config = {
+    bucket = "terraform-bs-source"
+    prefix = "green-address-explorer"
+  }
+
+  workspace = "liquid-testnet"
+}

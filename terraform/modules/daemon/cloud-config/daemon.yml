@@ -125,9 +125,6 @@ write_files:
 
 runcmd:
   - systemctl daemon-reload
-  - systemctl start explorer.service
-  - systemctl enable explorer.service
-  - systemctl start node-exporter.service
-  - systemctl enable node-exporter.service
-  - systemctl start process-exporter.service
-  - systemctl enable process-exporter.service
+  - systemctl enable --now explorer.service
+  - systemctl enable --now node-exporter.service
+  - systemctl enable --now process-exporter.service
