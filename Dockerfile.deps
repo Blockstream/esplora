@@ -48,7 +48,7 @@ RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
  && cd electrs \
- && git checkout 7220a867c8d81d190448c0bd95349d9c5fb72f0f \
+ && git checkout e3a819e0743a1a18907646dd99f3e233163cb6ba \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
  && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
