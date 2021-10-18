@@ -1103,10 +1103,6 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 
 /* START ASSET TABLE */
 
-.main-nav li.active a{
-  border: 1px solid #46beae;
-}
-
 .assets-table .assets-table-row {
   display: table;
   table-layout: fixed;
