@@ -1,0 +1,17 @@
+
+.sub-nav .active {
+    border-bottom: solid 2px rgba(168, 184, 201, 1);
+}
+
+.details-btn > div { 
+    color: rgba(168, 184, 201, 1);
+    border: 1px solid rgba(168, 184, 201, 1);
+}
+
+.transaction-box > .footer > div:nth-child(3) {
+    color: rgba(168, 184, 201, 1);
+}
+
+.navbar {
+    background-image: linear-gradient(-90deg, rgba(84, 103, 124, 1) 0%, rgba(29, 72, 111, 1) 18%, rgba(24, 53, 80, 1) 36%, rgba(29, 37, 48, 1) 58%, rgba(14, 16, 17, 1) 100%);
+}
