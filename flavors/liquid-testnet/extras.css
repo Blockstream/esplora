@@ -15,3 +15,25 @@
 .navbar {
     background-image: linear-gradient(-90deg, rgba(84, 103, 124, 1) 0%, rgba(29, 72, 111, 1) 18%, rgba(24, 53, 80, 1) 36%, rgba(29, 37, 48, 1) 58%, rgba(14, 16, 17, 1) 100%);
 }
+
+.testnetWidget{
+    position: fixed;
+    bottom: 50px;
+    right: 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 132px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: #05989a;
+    font-size: 12px;
+    padding: 10px 13px;
+    line-height: 1.17;
+  
+}
+
+.testnetWidget img{
+    width: 18px;
+    margin-right: 8px;
+}
