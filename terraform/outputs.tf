@@ -24,15 +24,6 @@ output "daemon_backend_service_electrs" {
   }
 }
 
-output "http_backend_service" {
-  value = {
-    bitcoin-mainnet = module.bitcoin-mainnet-http.backend_service
-    bitcoin-testnet = module.bitcoin-testnet-http.backend_service
-    liquid-mainnet  = module.liquid-mainnet-http.backend_service
-    liquid-testnet  = module.liquid-testnet-http.backend_service
-  }
-}
-
 output "service_accounts" {
   value = {
     bitcoin-mainnet = module.bitcoin-mainnet.service_account

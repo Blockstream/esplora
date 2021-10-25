@@ -42,7 +42,7 @@ resource "google_compute_target_http_proxy" "http-proxy" {
 
 resource "google_compute_url_map" "http-proxy" {
   name            = "explorer-http-urlmap"
-  default_service = data.terraform_remote_state.bitcoin-mainnet.outputs.http_backend_service["bitcoin-mainnet"]
+  default_service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
 
   count = local.create_main
 
@@ -53,26 +53,14 @@ resource "google_compute_url_map" "http-proxy" {
 
   path_matcher {
     name            = "allpaths"
-    default_service = data.terraform_remote_state.bitcoin-mainnet.outputs.http_backend_service["bitcoin-mainnet"]
+    default_service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
 
     path_rule {
-      paths   = ["/*"]
-      service = data.terraform_remote_state.bitcoin-mainnet.outputs.http_backend_service["bitcoin-mainnet"]
-    }
-
-    path_rule {
-      paths   = ["/testnet", "/testnet/*"]
-      service = data.terraform_remote_state.bitcoin-testnet.outputs.http_backend_service["bitcoin-testnet"]
-    }
-
-    path_rule {
-      paths   = ["/liquid", "/liquid/*"]
-      service = data.terraform_remote_state.liquid-mainnet.outputs.http_backend_service["liquid-mainnet"]
-    }
-
-    path_rule {
-      paths   = ["/liquidtestnet", "/liquidtestnet/*"]
-      service = data.terraform_remote_state.liquid-testnet.outputs.http_backend_service["liquid-testnet"]
+      paths = ["/*"]
+      url_redirect {
+        https_redirect = true
+        strip_query    = false
+      }
     }
   }
 }
