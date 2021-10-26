@@ -1,7 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import search from './search'
 
-
 export default ( t, isTouch, activeTab) =>
   <div className="sub-navbar">
     <div className="container sub-nav-container">
