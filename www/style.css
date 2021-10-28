@@ -1101,11 +1101,6 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 
 .address-qr-code { width: 182px; }
 
-/* Liquid TESTNET widget set to display none but 
-set to display block in liquid-testnet extras.css */
-.testnetWidget{
-  display: none;
-}
 
 /* START FOOTER */
 .explorer-container > .footer {
