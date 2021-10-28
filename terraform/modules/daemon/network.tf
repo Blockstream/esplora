@@ -38,7 +38,8 @@ resource "google_compute_backend_service" "daemon" {
     for_each = google_compute_region_instance_group_manager.daemon
     iterator = group
     content {
-      group = group.value.instance_group
+      group           = group.value.instance_group
+      max_utilization = 0.8
     }
   }
 
@@ -46,7 +47,8 @@ resource "google_compute_backend_service" "daemon" {
     for_each = google_compute_region_instance_group_manager.preemptible-daemon
     iterator = group
     content {
-      group = group.value.instance_group
+      group           = group.value.instance_group
+      max_utilization = 0.8
     }
   }
 
@@ -64,7 +66,8 @@ resource "google_compute_backend_service" "daemon-electrs" {
     for_each = google_compute_region_instance_group_manager.daemon
     iterator = group
     content {
-      group = group.value.instance_group
+      group           = group.value.instance_group
+      max_utilization = 0.8
     }
   }
 
@@ -72,7 +75,8 @@ resource "google_compute_backend_service" "daemon-electrs" {
     for_each = google_compute_region_instance_group_manager.preemptible-daemon
     iterator = group
     content {
-      group = group.value.instance_group
+      group           = group.value.instance_group
+      max_utilization = 0.8
     }
   }
 
