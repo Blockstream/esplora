@@ -1,4 +1,16 @@
 
+#BitcoinTestnet, #LiquidTestnet{
+    display: block;
+}
+
+#Bitcoin, #Liquid{
+    display: none;
+}
+
+.main-nav li.active a{
+    border: 1px solid rgba(168, 184, 201, 1);
+}
+
 .sub-nav .active {
     border-bottom: solid 2px rgba(168, 184, 201, 1);
 }
@@ -24,9 +36,6 @@
     display: flex;
 }
 
-.main-nav .menu-logo{
-    display: none;
-}
 .main-nav li a{
     color: #78838e;
 }
@@ -35,38 +44,20 @@
     color: white !important;
 }
 
-.main-nav .nav-item:nth-child(1) .nav-link span:nth-child(1):after {
-    content:"";
-    display: block; 
-    background: url('img/icons/bitcoin-testnet-icon.png') no-repeat;
-    background-size: cover;
-    width: 21px;
-    height: 21px;
-    margin-right: 8px;
-    margin-bottom: 2px;
-}
-
-.main-nav .nav-item:nth-child(2) .nav-link span:nth-child(1):after {
-    content:"";
-    display: block; 
-    background: url('img/icons/liquid-testnet-icon.png') no-repeat;
-    background-size: cover;
-    width: 21px;
-    height: 21px;
-    margin-right: 8px;
-    margin-bottom: 2px;
-}
-
 .sub-navbar:before {
     content: "Liquid Testnet is used for testing. Funds have no value!";
     width: 100%;
     height: 35px;
     background: #ba042a;
     position: absolute;
-    margin-top: -18px;
+    margin-top: -10px;
     text-align: center;
     font-size: 14px;
     line-height: 2.4;
+}
+
+.sub-nav-container{
+    margin-top: 25px;
 }
 
 .table-title:after, .block-header-title:after, .transaction-header-title:after, .asset-page h1:after {

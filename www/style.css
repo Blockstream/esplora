@@ -102,6 +102,10 @@ a, a:link, a:visited, a:hover, a:focus {
   margin-bottom: 2px;
 }
 
+#BitcoinTestnet, #LiquidTestnet{
+  display: none;
+}
+
 
 /* Menu Toggle Icon -- Toggle Style and Animation*/
 
