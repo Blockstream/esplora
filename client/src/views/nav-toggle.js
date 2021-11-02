@@ -44,8 +44,8 @@ export default (t, theme, page) =>
           <ul>
             <li><a href="/" rel="external">Bitcoin</a></li>
             <li><a href="/liquid/" rel="external">Liquid Network</a></li>
-            <li><a href="/testnet/" rel="external">Bitcoin Testnet</a></li>
-            <li><a href="/liquidtestnet/" rel="external">Liquid Testnet</a></li>
+            <li><a href="/testnet/" rel="external" target="_blank">Bitcoin Testnet</a></li>
+            <li><a href="/liquidtestnet/" rel="external" target="_blank">Liquid Testnet</a></li>
           </ul>
           <h4 className="menu-title">Developer Tools</h4>
           <ul>
