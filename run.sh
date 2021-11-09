@@ -67,6 +67,9 @@ else
         NGINX_REWRITE='rewrite ^/liquidregtest(/.*)$ $1 break;'
         NGINX_REWRITE_NOJS='rewrite ^/liquidregtest(/.*)$ " /liquidregtest/nojs$1?" permanent'
         NGINX_NOSLASH_PATH="liquidregtest"
+
+	# The --jsonrpc-import works around electrs not yet being aware of the magic number change for liquid regtest in elements 21.
+        ELECTRS_ARGS="$ELECTRS_ARGS --jsonrpc-import"
     elif [ "${NETWORK}" == "testnet" ]; then
         ELECTRS_NETWORK="liquidtestnet"
         PARENT_NETWORK="--parent-network regtest"
@@ -265,6 +268,8 @@ if [ "${NETWORK}" == "regtest" ]; then
     else
         /srv/explorer/$DAEMON/bin/${DAEMON}d -conf=/data/.$DAEMON.conf -datadir=/data/$DAEMON -daemon
     fi
+    echo "Creating default wallet"
+    cli -rpcwait loadwallet default || cli createwallet default
     address=$(cli -rpcwait getnewaddress)
     cli generatetoaddress 100 ${address}
     cli stop
