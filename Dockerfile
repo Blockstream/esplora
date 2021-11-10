@@ -1,6 +1,6 @@
 FROM blockstream/esplora-base:latest AS build
 
-FROM debian:buster@sha256:1092695e843ad975267131f27a2b523128c4e03d2d96574bbdd7cf949ed51475
+FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
 
 COPY --from=build /srv/explorer /srv/explorer
 COPY --from=build /srv/wally_wasm /srv/wally_wasm

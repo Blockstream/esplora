@@ -12,7 +12,7 @@ RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wally_dist || ( \
     && git submodule sync --recursive && git submodule update --init --recursive \
     && ./tools/build_wasm.sh --enable-elements)'
 
-FROM debian:buster@sha256:1092695e843ad975267131f27a2b523128c4e03d2d96574bbdd7cf949ed51475
+FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p /srv/explorer \
@@ -20,10 +20,10 @@ RUN mkdir -p /srv/explorer \
  && apt-get -yqq upgrade \
  && apt-get -yqq install clang cmake curl git tor
 
-RUN git clone --quiet --depth 1 --single-branch --branch v0.33.11 https://github.com/creationix/nvm.git /root/.nvm \
+RUN git clone --quiet --depth 1 --single-branch --branch v0.39.0 https://github.com/nvm-sh/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
  && source /root/.nvm/nvm.sh \
- && nvm install v12.16.1
+ && nvm install v17.1.0
 
 ENV SHA256SUM_BITCOINCORE=59ebd25dd82a51638b7a6bb914586201e67db67b919b2a1ff08925a7936d1b16
 ENV VERSION_BITCOINCORE=22.0
