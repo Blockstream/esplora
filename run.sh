@@ -215,7 +215,6 @@ sed -i 's/user www-data;/user root;/' /etc/nginx/nginx.conf
 
 # Make mempool contents available over nginx, protected with SYNC_SECRET
 if [ -n "$SYNC_SECRET" ]; then
-    #echo "$SYNC_SECRET" | htpasswd -c -i /srv/explorer/htpasswd sync
     echo "sync:{PLAIN}$SYNC_SECRET" > /srv/explorer/htpasswd
     preprocess /srv/explorer/source/contrib/nginx-sync.conf.in /tmp/nginx-sync.conf
     # insert nginx-sync.conf inside the server {} block
@@ -268,7 +267,7 @@ if [ "${NETWORK}" == "regtest" ]; then
     cli stop
 fi
 
-# Sync mempool contents from SYNC_SOURCE
+# Sync mempool and feeestimation contents from SYNC_SOURCE
 if [ -n "$SYNC_SOURCE" ]; then
   # wait for bitcoind to fully sync up,
   if [ "${DAEMON}-${NETWORK}" == "liquid-mainnet" ]; then
@@ -283,7 +282,8 @@ if [ -n "$SYNC_SOURCE" ]; then
     cli_bitcoin stop
   fi
   # then fetch a recent mempool.dat,
-  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE || true
+  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
+  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
   # and let the runit services take over
 fi
 

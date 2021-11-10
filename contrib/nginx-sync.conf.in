@@ -9,10 +9,29 @@ location = /{NGINX_PATH}_sync/mempool {
     }
 }
 
+# Dump the current mempool and return it
+location = /{NGINX_PATH}_sync/fee_estimates {
+    auth_basic "private";
+    auth_basic_user_file /srv/explorer/htpasswd;
+
+    content_by_lua_block {
+        os.execute("/usr/bin/cli savefeeestimates");
+        ngx.exec("/_sync/fee_estimates.dat");
+    }
+}
+
 # Return mempool.dat without dumping it first, used as an internal redirect
 # from the location block above
 location = /{NGINX_PATH}_sync/mempool.dat {
     auth_basic "private";
     auth_basic_user_file /srv/explorer/htpasswd;
     alias {DAEMON_DIR}/mempool.dat;
+}
+
+# Return fee_estimates.dat without dumping it first, used as an internal redirect
+# from the location block above
+location = /{NGINX_PATH}_sync/fee_estimates.dat {
+    auth_basic "private";
+    auth_basic_user_file /srv/explorer/htpasswd;
+    alias {DAEMON_DIR}/fee_estimates.dat;
 }

@@ -12,7 +12,7 @@ RUN wget $TORGZ.asc && wget $TORGZ
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 0x6AFEE6D49E92B601 \
   && gpg --verify tor-$TOR_VER.tar.gz.asc || { echo "Couldn't verify sig"; exit; }
 RUN tar xfz tor-$TOR_VER.tar.gz && cd tor-$TOR_VER \
-  && ./configure && make install
+  && ./configure && make -j $(grep ^processor /proc/cpuinfo | wc -l) install
 
 FROM alpine@sha256:ab00606a42621fb68f2ed6ad3c88be54397f981a7b70a79db3d1172b11c4367d
 

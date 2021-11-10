@@ -15,23 +15,45 @@ RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wally_dist || ( \
 FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
 SHELL ["/bin/bash", "-c"]
 
+ENV CORE_BUILD_DEPS="autoconf autotools-dev automake libtool pkg-config bsdmainutils build-essential"
+ENV ESPLORA_BUILD_DEPS="clang cmake curl git"
 RUN mkdir -p /srv/explorer \
  && apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install clang cmake curl git tor
+ && apt-get -yqq install ${ESPLORA_BUILD_DEPS} tor ${CORE_BUILD_DEPS}
+
 
 RUN git clone --quiet --depth 1 --single-branch --branch v0.39.0 https://github.com/nvm-sh/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
  && source /root/.nvm/nvm.sh \
  && nvm install v17.1.0
 
-ENV SHA256SUM_BITCOINCORE=59ebd25dd82a51638b7a6bb914586201e67db67b919b2a1ff08925a7936d1b16
-ENV VERSION_BITCOINCORE=22.0
-RUN curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-x86_64-linux-gnu.tar.gz" \
- && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
- && tar xzf bitcoin.tar.gz -C /srv/explorer \
- && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
- && rm bitcoin.tar.gz
+# Build core from sources until PR https://github.com/bitcoin/bitcoin/pull/23387 is merged
+ENV CORE_PATCH=contrib/0001-add-support-to-save-fee-estimates-without-shutting-d.patch
+ENV CORE_SRC=/root/bitcoin
+COPY ${CORE_PATCH} /${CORE_PATCH}
+RUN git clone --quiet --depth 1 --branch v22.0 --single-branch --recursive https://github.com/bitcoin/bitcoin.git ${CORE_SRC} \
+ && (cd ${CORE_SRC} \
+ && git checkout a0988140b71485ad12c3c3a4a9573f7c21b1eff8 \
+ && git apply /${CORE_PATCH} \
+ && (cd depends \
+ && make HOST=x86_64-pc-linux-gnu NO_QT=1 -j $(grep ^processor /proc/cpuinfo | wc -l)) \
+ && ./autogen.sh \
+ && CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=/srv/explorer/bitcoin --disable-man --disable-zmq --disable-qt --disable-gui-tests --disable-bench \
+                --enable-experimental-asm --without-utils --enable-util-cli --without-libs --with-daemon --disable-maintainer-mode \
+                --disable-glibc-back-compat --disable-ccache --disable-dependency-tracking --disable-tests --with-gui=no \
+ && make -j $(grep ^processor /proc/cpuinfo | wc -l) \
+ && make install -j $(grep ^processor /proc/cpuinfo | wc -l) \
+ && strip /srv/explorer/bitcoin/bin/* \
+ && rm -fr ${CORE_SRC} /${CORE_PATCH})
+
+#ENV SHA256SUM_BITCOINCORE=59ebd25dd82a51638b7a6bb914586201e67db67b919b2a1ff08925a7936d1b16
+#ENV VERSION_BITCOINCORE=22.0
+#RUN curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-x86_64-linux-gnu.tar.gz" \
+# && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
+# && tar xzf bitcoin.tar.gz -C /srv/explorer \
+# && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
+# && rm bitcoin.tar.gz
 
 ENV SHA256SUM_ELEMENTS=ebe1f0c6e8510c3059a82936f61a64c2353a193409be245761de05f3152fbe53
 ENV VERSION_ELEMENTS=0.21.0.1
@@ -47,18 +69,17 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.56.1
 RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
- && cd electrs \
+ && (cd electrs \
  && git checkout 703c6a20d52b61a234a18812503bd754d448992a \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
  && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
- && cd .. \
  && rm -fr /root/.cargo electrs \
- && strip /srv/explorer/electrs_*/bin/electrs
+ && strip /srv/explorer/electrs_*/bin/electrs)
 
 
 # cleanup
-RUN apt-get --auto-remove remove -yqq --purge clang cmake manpages curl git \
+RUN apt-get --auto-remove remove -yqq --purge ${ESPLORA_BUILD_DEPS} manpages ${CORE_BUILD_DEPS} \
  && apt-get clean \
  && apt-get autoclean \
  && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
