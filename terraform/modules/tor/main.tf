@@ -52,6 +52,7 @@ resource "google_compute_instance_template" "tor" {
       "compute-ro",
       "storage-ro",
       "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write",
     ]
   }
 
