@@ -37,13 +37,13 @@ RUN git clone --quiet --depth 1 --branch v22.0 --single-branch --recursive https
  && git checkout a0988140b71485ad12c3c3a4a9573f7c21b1eff8 \
  && git apply /${CORE_PATCH} \
  && (cd depends \
- && make HOST=x86_64-pc-linux-gnu NO_QT=1 -j $(grep ^processor /proc/cpuinfo | wc -l)) \
+ && make HOST=x86_64-pc-linux-gnu NO_QT=1 -j $(nproc --all)) \
  && ./autogen.sh \
  && CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=/srv/explorer/bitcoin --disable-man --disable-zmq --disable-qt --disable-gui-tests --disable-bench \
                 --enable-experimental-asm --without-utils --enable-util-cli --without-libs --with-daemon --disable-maintainer-mode \
                 --disable-glibc-back-compat --disable-ccache --disable-dependency-tracking --disable-tests --with-gui=no \
- && make -j $(grep ^processor /proc/cpuinfo | wc -l) \
- && make install -j $(grep ^processor /proc/cpuinfo | wc -l) \
+ && make -j $(nproc --all) \
+ && make install -j $(nproc --all) \
  && strip /srv/explorer/bitcoin/bin/* \
  && rm -fr ${CORE_SRC} /${CORE_PATCH})
 
@@ -73,9 +73,9 @@ RUN source /root/.cargo/env \
  && git checkout 703c6a20d52b61a234a18812503bd754d448992a \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
- && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
+ && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid) \
  && rm -fr /root/.cargo electrs \
- && strip /srv/explorer/electrs_*/bin/electrs)
+ && strip /srv/explorer/electrs_*/bin/electrs
 
 
 # cleanup
