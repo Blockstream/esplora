@@ -33,8 +33,8 @@ RUN curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSI
  && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=37129b7227f107ba918a60d2901e6a0a2f5043ab353dd8fb2a8e55f8741a7991
-ENV VERSION_ELEMENTS=0.21.0
+ENV SHA256SUM_ELEMENTS=ebe1f0c6e8510c3059a82936f61a64c2353a193409be245761de05f3152fbe53
+ENV VERSION_ELEMENTS=0.21.0.1
 RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
  && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
  && tar xzf elements.tar.gz -C /srv/explorer \
