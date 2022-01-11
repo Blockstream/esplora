@@ -59,6 +59,8 @@ The server will be available at http://localhost:5000/
 
 To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
 
+[nvm](https://github.com/nvm-sh/nvm#intro) is suppported but not required
+
 ## Building
 
 To build the static assets directory for production deployment, set config options (see below)
@@ -103,7 +105,7 @@ All options are optional.
 - `NOSCRIPT_REDIR` - redirect noscript users to `{request_path}?nojs` (should be captured server-side and redirected to the prerender server, also see `NOSCRIPT_REDIR_BASE` in dev server options)
 
 Note that `API_URL` should be set to the publicly-reachable URL where the user's browser can issue requests at.
-(that is, *not* via `localhost`, unless you're setting up a dev environment where the browser is running on the same machine as the API server.)
+(that is, _not_ via `localhost`, unless you're setting up a dev environment where the browser is running on the same machine as the API server.)
 
 Elements-only configuration:
 
@@ -234,9 +236,11 @@ docker build --squash -t blockstream/tor:latest -f Dockerfile.tor .
 docker push blockstream/tor:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/tor
 ```
+
 Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
 
 Example torrc:
+
 ```
 DataDirectory /home/tor/tor
 PidFile /var/run/tor/tor.pid
