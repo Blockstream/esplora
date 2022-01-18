@@ -78,7 +78,8 @@ else
         NGINX_REWRITE_NOJS='rewrite ^/liquidtestnet(/.*)$ " /liquidtestnet/nojs$1?" permanent'
         NGINX_NOSLASH_PATH="liquidtestnet"
 
-        ELECTRS_ARGS="$ELECTRS_ARGS --asset-db-path /srv/liquid-assets-db"
+        # The --jsonrpc-import works around electrs not yet being aware of the magic number change for liquid testnet
+        ELECTRS_ARGS="$ELECTRS_ARGS --jsonrpc-import --asset-db-path /srv/liquid-assets-db"
         ASSETS_GIT=${ASSETS_GIT:-https://github.com/Blockstream/asset_registry_testnet_db}
         ASSETS_GPG=${ASSETS_GPG:-/srv/explorer/source/contrib/asset_registry_testnet_pubkey.asc}
     else
