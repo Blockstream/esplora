@@ -1,0 +1,11 @@
+{
+  "name": "esplora-tests",
+  "scripts": {
+    "test": "cypress run",
+    "test:runner": "cypress open"
+  },
+  "dependencies": {
+    "bitcoin-core": "^3.0.0",
+    "cypress": "^9.3.1"
+  }
+}
