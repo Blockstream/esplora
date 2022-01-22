@@ -271,7 +271,7 @@ if [ "${NETWORK}" == "regtest" ]; then
     echo "Creating default wallet"
     cli -rpcwait loadwallet default || cli createwallet default
     address=$(cli -rpcwait getnewaddress)
-    cli generatetoaddress 100 ${address}
+    cli generatetoaddress 105 ${address}
     cli stop
 fi
 
