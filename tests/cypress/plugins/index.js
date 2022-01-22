@@ -38,6 +38,12 @@ module.exports = (on, config) => {
       }
       return { txids, addr }
     }
+
+  , "bitcoind:newaddr": () =>
+      bitcoind.getNewAddress()
+
+  , "bitcoind:sendto": ({ addr, amount }) =>
+      bitcoind.sendToAddress(addr, amount)
   })
 
   return config
