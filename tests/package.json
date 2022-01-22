@@ -2,7 +2,8 @@
   "name": "esplora-tests",
   "scripts": {
     "test": "cypress run",
-    "test:runner": "cypress open"
+    "test:runner": "cypress open",
+    "test:docker": "./run-docker.sh"
   },
   "dependencies": {
     "bitcoin-core": "^3.0.0",
