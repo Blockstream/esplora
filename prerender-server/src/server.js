@@ -40,7 +40,10 @@ app.use((req, res, next) => {
   render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang }, (err, resp) => {
     if (err) return next(err)
     if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
-    if (resp.errorCode) return res.sendStatus(resp.errorCode)
+    if (resp.errorCode) {
+      console.error(`Failed with code ${resp.errorCode}:`, resp)
+      return res.sendStatus(resp.errorCode)
+    }
 
     res.status(resp.status || 200)
     res.render(indexView, {
