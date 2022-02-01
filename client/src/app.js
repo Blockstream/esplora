@@ -44,7 +44,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goRecent$ = route('/tx/recent')
   , goScan$   = route('/scan-qr').mapTo(true)
   , goMempool$= route('/mempool')
-  , goSearch$ = route('/search').map(loc => loc.query.q)
+  , goSearch$ = route('/search').map(loc => loc.query.q).filter(Boolean)
 
   // Elements only
   , goAsset$ = !process.env.IS_ELEMENTS ? O.empty() : route('/asset/:asset_id').map(loc => ({
