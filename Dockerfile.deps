@@ -73,10 +73,20 @@ RUN source /root/.cargo/env \
  && git checkout a808b51d0d9301fa82390b985c57551966001f9b \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
- && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid) \
- && rm -fr /root/.cargo electrs \
+ && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \
+    ) \
+ && rm -fr electrs \
  && strip /srv/explorer/electrs_*/bin/electrs
 
+# Install websocat v1.9.0 with none of the default features, which aren't needed (ssl, subprocess support and stdio support)
+RUN source /root/.cargo/env \
+ && git clone --no-checkout https://github.com/vi/websocat \
+ && (cd websocat \
+ && git checkout 9f301bd82bbb28e385a5020870738f98ab9010b1 \
+ && cargo install --root /srv/explorer/websocat --locked --path . --no-default-features \
+    ) \
+ && strip /srv/explorer/websocat/bin/websocat \
+ && rm -fr /root/.cargo websocat
 
 # cleanup
 RUN apt-get --auto-remove remove -yqq --purge ${ESPLORA_BUILD_DEPS} manpages ${CORE_BUILD_DEPS} \
