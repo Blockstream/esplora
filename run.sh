@@ -152,18 +152,25 @@ function preprocess(){
 }
 
 if [ "$MODE" == "explorer" ]; then
-    mkdir -p /etc/service/prerenderer/log /etc/service/nginx/log /etc/service/electrs/log
-    mkdir -p /data/logs/prerenderer /data/logs/nginx /data/logs/electrs
+    mkdir -p /etc/service/{prerenderer,nginx,electrs,websocket}/log
+    mkdir -p /data/logs/{prerenderer,nginx,electrs,websocket}
+
     preprocess /srv/explorer/source/contrib/runits/electrs.runit /etc/service/electrs/run
     cp /srv/explorer/source/contrib/runits/electrs-log.runit /etc/service/electrs/log/run
     cp /srv/explorer/source/contrib/runits/electrs-log-config.runit /data/logs/electrs/config
+
     cp /srv/explorer/source/contrib/runits/nginx.runit /etc/service/nginx/run
     cp /srv/explorer/source/contrib/runits/nginx-log.runit /etc/service/nginx/log/run
     cp /srv/explorer/source/contrib/runits/nginx-log-config.runit /data/logs/nginx/config
+
     preprocess /srv/explorer/source/contrib/runits/prerenderer.runit /etc/service/prerenderer/run
     cp /srv/explorer/source/contrib/runits/prerenderer-log.runit /etc/service/prerenderer/log/run
     cp /srv/explorer/source/contrib/runits/prerenderer-log-config.runit /data/logs/prerenderer/config
     chmod +x /etc/service/prerenderer/run /etc/service/electrs/run
+
+    cp /srv/explorer/source/contrib/runits/websocket.runit /etc/service/websocket/run
+    cp /srv/explorer/source/contrib/runits/websocket-log.runit /etc/service/websocket/log/run
+    cp /srv/explorer/source/contrib/runits/websocket-log-config.runit /data/logs/websocket/config
 elif [ "$MODE" != "private-bridge" ] && [ "$MODE" != "public-bridge" ]; then
     echo "Mode can only be private-bridge, public-bridge or explorer"
     exit 1

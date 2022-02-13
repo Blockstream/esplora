@@ -1,0 +1,3 @@
+#!/bin/sh -e
+exec 2>&1
+exec /srv/explorer/websocat/bin/websocat -E -b l-ws-unix:/var/electrum-websocket.sock tcp:127.0.0.1:50001
