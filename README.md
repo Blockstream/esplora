@@ -206,6 +206,12 @@ docker run -p 50001:50001 -p 8094:80 \
            bash -c "/srv/explorer/run.sh bitcoin-regtest explorer"
 ```
 
+## Regtest options
+
+When run for Bitcoin regtest or Liquid regtest, the esplora container will
+create a default wallet and mine 100 blocks internally. You can disable this behavior
+by setting `NO_REGTEST_MINING=1`.
+
 ## Docker config options
 
 Set `-e DEBUG=verbose` to enable more verbose logging.
