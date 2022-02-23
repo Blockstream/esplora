@@ -25,7 +25,7 @@ test_docker_build_image:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   before_script:
     - echo "Disabling before script"
   except:
@@ -52,7 +52,7 @@ build_staging:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^staging_bitcoin_mainnet.*/
     - /^staging_bitcoin_testnet.*/
@@ -79,7 +79,7 @@ build:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^bitcoin_mainnet.*/
     - /^bitcoin_testnet.*/
@@ -218,7 +218,7 @@ deploy_bitcoin_mainnet:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^bitcoin_mainnet.*/
   script:
@@ -272,7 +272,7 @@ deploy_bitcoin_testnet:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^bitcoin_testnet.*/
   script:
@@ -326,7 +326,7 @@ deploy_liquid_mainnet:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^liquid_mainnet.*/
   script:
@@ -380,7 +380,7 @@ deploy_liquid_testnet:
   tags:
     - k8s-docker
   services:
-    - docker:19-dind
+    - docker:20.10.12-dind
   only:
     - /^liquid_testnet.*/
   script:
