@@ -1,5 +1,4 @@
 import run from '@cycle/rxjs-run'
-import storageDriver from '@cycle/storage'
 import { makeHTTPDriver } from '@cycle/http'
 import { makeDOMDriver } from '@cycle/dom'
 import { makeHistoryDriver, captureClicks } from '@cycle/history'
@@ -21,6 +20,15 @@ const titleDriver = title$ => O.from(title$)
 const blindingDriver = process.env.IS_ELEMENTS
   ? require('./driver/blinding')
   : _ => O.empty()
+
+let storageDriver
+try {
+  localStorage // this will fail if localStorage/cookies is blocked
+  storageDriver = require('@cycle/storage').default
+} catch (e) {
+  // dummy storage driver. writes are ignored, reads always return null
+  storageDriver = _ => ({ local: { getItem: key => O.of(null) } })
+}
 
 run(main, {
   DOM: makeDOMDriver('#explorer')
