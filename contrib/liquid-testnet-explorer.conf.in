@@ -11,6 +11,7 @@ con_max_block_sig_size=150
 addnode=liquid-testnet.blockstream.com:18892
 addnode=liquidtestnet.com:18891
 addnode=liquidcert.com:18886
+addnode=liquid.network:18444
 checkblockindex=0 
 fallbackfee=0.00000100
 con_has_parent_chain=0
