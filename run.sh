@@ -255,7 +255,7 @@ cp /srv/explorer/source/contrib/runits/nodedaemon-log.runit /etc/service/${DAEMO
 cp /srv/explorer/source/contrib/runits/nodedaemon-log-config.runit /data/logs/nodedaemon/config
 chmod +x /etc/service/${DAEMON}/run
 
-if [ "${NETWORK}" == "regtest" ]; then
+if [ "${NETWORK}" == "regtest" ] && [ -z "${NO_REGTEST_MINING}" ]; then
     if [ "${DAEMON}" != "liquid" ]; then
         /srv/explorer/bitcoin/bin/bitcoind -conf=/data/.bitcoin.conf -datadir=/data/bitcoin -daemon -regtest
     else
