@@ -198,6 +198,13 @@ if [ -f /data/private_nodes ]; then
     cat /data/private_nodes >> /data/.${DAEMON}.conf
 fi
 
+if [ -n "$EXPOSE_BITCOIND_RPC" ]; then
+    cat << CONF >> /data/.${DAEMON}.conf
+rpcbind=0.0.0.0
+rpcallowip=0.0.0.0/0
+CONF
+fi
+
 TORRCFILE="/srv/explorer/source/contrib/${DAEMON}-${NETWORK}-${MODE}-torrc"
 if [ -f $TORRCFILE ]; then
     cp $TORRCFILE /etc/tor/torrc
@@ -264,7 +271,7 @@ if [ "${NETWORK}" == "regtest" ] && [ -z "${NO_REGTEST_MINING}" ]; then
     echo "Creating default wallet"
     cli -rpcwait loadwallet default || cli createwallet default
     address=$(cli -rpcwait getnewaddress)
-    cli generatetoaddress 100 ${address}
+    cli generatetoaddress 105 ${address}
     cli stop
 fi
 
