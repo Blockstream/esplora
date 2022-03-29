@@ -20,7 +20,7 @@ write_files:
             project: green-address-explorer
 
         scrape_configs:
-        - job_name: esplora-metrics
+        - job_name: esplora-node-exporters
           relabel_configs:
             - source_labels:
               - '__meta_gce_label_network'
@@ -33,15 +33,6 @@ write_files:
               target_label: 'instance_name'
           gce_sd_configs:
             - project: green-address-explorer
-              zone: asia-northeast1-a
-              port: 9100
-            - project: green-address-explorer
-              zone: asia-northeast1-b
-              port: 9100
-            - project: green-address-explorer
-              zone: asia-northeast1-c
-              port: 9100
-            - project: green-address-explorer
               zone: europe-west4-a
               port: 9100
             - project: green-address-explorer
@@ -72,14 +63,27 @@ write_files:
               zone: us-east1-c
               port: 9100
             - project: green-address-explorer
-              zone: asia-northeast1-a
-              port: 4224
+              zone: us-east4-a
+              port: 9100
             - project: green-address-explorer
-              zone: asia-northeast1-b
-              port: 4224
+              zone: us-east4-b
+              port: 9100
             - project: green-address-explorer
-              zone: asia-northeast1-c
-              port: 4224
+              zone: us-east4-c
+              port: 9100
+
+        - job_name: esplora-electrs-metrics
+          relabel_configs:
+            - source_labels:
+              - '__meta_gce_label_network'
+              target_label: 'network'
+            - source_labels:
+              - '__meta_gce_label_name'
+              target_label: 'name'
+            - source_labels:
+              - '__meta_gce_instance_name'
+              target_label: 'instance_name'
+          gce_sd_configs:
             - project: green-address-explorer
               zone: europe-west4-a
               port: 4224
@@ -110,15 +114,19 @@ write_files:
             - project: green-address-explorer
               zone: us-east1-c
               port: 4224
-            - project: green-address-explorer
-              zone: asia-northeast1-a
-              port: 9256
-            - project: green-address-explorer
-              zone: asia-northeast1-b
-              port: 9256
-            - project: green-address-explorer
-              zone: asia-northeast1-c
-              port: 9256
+
+        - job_name: esplora-process-exporters
+          relabel_configs:
+            - source_labels:
+              - '__meta_gce_label_network'
+              target_label: 'network'
+            - source_labels:
+              - '__meta_gce_label_name'
+              target_label: 'name'
+            - source_labels:
+              - '__meta_gce_instance_name'
+              target_label: 'instance_name'
+          gce_sd_configs:
             - project: green-address-explorer
               zone: europe-west4-a
               port: 9256
@@ -169,6 +177,7 @@ write_files:
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
         ExecStartPre=/sbin/iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 9090
         ExecStart=/usr/bin/docker run \
+            --log-driver=gcplogs \
             --network=host \
             -v /mnt/disks/data:/data:rw \
             -v /home/bs/prometheus:/config:ro \

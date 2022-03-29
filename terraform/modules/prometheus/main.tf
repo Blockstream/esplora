@@ -44,10 +44,10 @@ resource "google_compute_instance" "prometheus-server" {
     email = local.service_account
 
     scopes = [
-      "https://www.googleapis.com/auth/compute.readonly",
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/pubsub",
-      "https://www.googleapis.com/auth/logging.write"
+      "compute-rw",
+      "storage-ro",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write",
     ]
   }
 
@@ -73,7 +73,6 @@ resource "google_compute_instance" "prometheus-server" {
   }
 
   metadata = {
-    user-data              = data.template_cloudinit_config.prometheus.rendered
-    google-logging-enabled = "true"
+    user-data = data.template_cloudinit_config.prometheus.rendered
   }
 }
