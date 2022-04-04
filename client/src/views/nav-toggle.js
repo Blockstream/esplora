@@ -64,7 +64,7 @@ export default (t, theme, page) =>
             <li><a href="https://blockstream.com/jade/" target="_blank">Blockstream Jade</a></li>
             <li><a href="https://blockstream.com/satellite/" target="_blank">Blockstream Satellite</a></li>
             <li><a href="https://blockstream.com/cryptofeed/" target="_blank">Crypto Data Feed</a></li>
-            <li><a href="https://blockstream.com/lightning/" target="_blank">c-lightning</a></li>
+            <li><a href="https://blockstream.com/lightning/" target="_blank">Core Lightning</a></li>
             <li><a href="https://blockstream.com/elements/" target="_blank">Elements</a></li>
           </ul>
         </div>
