@@ -29,7 +29,7 @@ module "prometheus" {
   region                     = var.regions[0]
   instances                  = 1
   machine_type               = var.instance_type[2]
-  retention                  = "7d"
+  retention                  = "2d"
   project                    = var.project
   docker_tag                 = var.docker_tag_prometheus
   docker_tag_node_exporter   = var.docker_tag_node_exporter
