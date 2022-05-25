@@ -28,7 +28,7 @@ module "prometheus" {
   zones                      = var.zones
   region                     = var.regions[0]
   instances                  = 1
-  machine_type               = var.instance_type[2]
+  machine_type               = var.instance_type
   retention                  = "2d"
   project                    = var.project
   docker_tag                 = var.docker_tag_prometheus
@@ -47,7 +47,7 @@ module "electrum" {
   zones                    = var.zones
   region                   = var.regions[0]
   instances                = 1
-  machine_type             = var.instance_type[2]
+  machine_type             = var.instance_type
   project                  = var.project
   electrum_service_account = terraform.workspace != "main" ? data.terraform_remote_state.main.outputs.electrum_service_account : ""
 
@@ -63,7 +63,7 @@ module "tor" {
   region                   = var.regions[0]
   instances                = 1
   project                  = var.project
-  tor_machine_type         = var.instance_type[3]
+  tor_machine_type         = var.instance_type
   tor_lb                   = element(concat(google_compute_global_address.onion-lb.*.address, tolist([""])), 0)
   docker_tag               = var.docker_tag_tor
   hosts_onion              = var.hosts_onion
@@ -86,8 +86,8 @@ module "bitcoin-testnet" {
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
   network                     = "testnet"
-  instance_type               = var.instance_type[1]
-  preemptible_instance_type   = var.preemptible_instance_type[1]
+  instance_type               = var.instance_type
+  preemptible_instance_type   = var.preemptible_instance_type
   size                        = var.cluster_size
   preemptible_size            = var.preemptible_cluster_size
   project                     = var.project
@@ -111,8 +111,8 @@ module "bitcoin-mainnet" {
   network                     = "mainnet"
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
-  instance_type               = var.instance_type[0]
-  preemptible_instance_type   = var.preemptible_instance_type[0]
+  instance_type               = var.instance_type
+  preemptible_instance_type   = var.preemptible_instance_type
   size                        = var.cluster_size
   preemptible_size            = var.preemptible_cluster_size
   project                     = var.project
@@ -136,8 +136,8 @@ module "liquid-mainnet" {
   network                     = "mainnet"
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
-  instance_type               = var.instance_type[1]
-  preemptible_instance_type   = var.preemptible_instance_type[1]
+  instance_type               = var.instance_type
+  preemptible_instance_type   = var.preemptible_instance_type
   size                        = var.cluster_size
   preemptible_size            = var.preemptible_cluster_size
   project                     = var.project
@@ -161,8 +161,8 @@ module "liquid-testnet" {
   network                     = "testnet"
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
-  instance_type               = var.instance_type[1]
-  preemptible_instance_type   = var.preemptible_instance_type[1]
+  instance_type               = var.instance_type
+  preemptible_instance_type   = var.preemptible_instance_type
   size                        = var.cluster_size
   preemptible_size            = var.preemptible_cluster_size
   project                     = var.project

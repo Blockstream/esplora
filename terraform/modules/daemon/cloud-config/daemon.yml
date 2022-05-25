@@ -43,7 +43,6 @@ write_files:
         ExecStartPre=/bin/bash /home/bs/prep_disk.sh
         ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,50001 -j ACCEPT
         ExecStart=/usr/bin/docker run \
-            --log-driver=gcplogs \
             --network=host \
             --pid=host \
             --name=${container_name} \
@@ -75,7 +74,6 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
         ExecStart=/usr/bin/docker run \
-            --log-driver=gcplogs \
             --name=node-exporter \
             --network=host \
             --read-only \
@@ -109,7 +107,6 @@ write_files:
         ExecStartPre=/usr/bin/docker pull ${docker_tag_process_exporter}
         ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
         ExecStart=/usr/bin/docker run \
-            --log-driver=gcplogs \
             --name=process-exporter \
             --pid=host \
             --read-only \

@@ -73,6 +73,7 @@ resource "google_compute_instance" "prometheus-server" {
   }
 
   metadata = {
-    user-data = data.template_cloudinit_config.prometheus.rendered
+    user-data              = data.template_cloudinit_config.prometheus.rendered
+    google-logging-enabled = "true"
   }
 }
