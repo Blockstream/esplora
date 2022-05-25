@@ -90,13 +90,13 @@ variable "zones" {
 }
 
 variable "instance_type" {
-  type    = list(any)
-  default = ["", "", "", ""]
+  type    = string
+  default = ""
 }
 
 variable "preemptible_instance_type" {
-  type    = list(any)
-  default = ["", "", "", ""]
+  type    = string
+  default = ""
 }
 
 variable "hosts" {
