@@ -23,12 +23,6 @@ export default (t, theme, page) =>
       <div className="section1">
         <h4 className="menu-title">Wallets</h4>
         <div className="wallets-link">
-            <p>AQUA</p>
-            <div>
-            <a href="https://apps.apple.com/app/id1500791973" target="_blank"><img src={`${staticRoot}img/icons/apple.png`} /><span>App Store</span></a>
-            </div>
-        </div>
-        <div className="wallets-link">
             <p>Blockstream Green</p>
             <div>
               <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590" target="_blank"><img src={`${staticRoot}img/icons/apple.png`} /><span>App Store</span></a>
