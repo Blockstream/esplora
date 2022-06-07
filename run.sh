@@ -282,6 +282,7 @@ if [ -n "$SYNC_SOURCE" ]; then
   if [ "${DAEMON}-${NETWORK}" == "liquid-mainnet" ]; then
     cli_bitcoin stop
   fi
+  sleep 2 # without this, the download below would occasionally start while the terminating bitcoind is still flushing its mempool.dat
   # then fetch a recent mempool.dat,
   curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
   curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
