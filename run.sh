@@ -284,8 +284,9 @@ if [ -n "$SYNC_SOURCE" ]; then
   fi
   sleep 2 # without this, the download below would occasionally start while the terminating bitcoind is still flushing its mempool.dat
   # then fetch a recent mempool.dat,
-  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
-  curl -f -s -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
+  curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
+  curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
+  ls -l $DAEMON_DIR/{mempool,fee_estimates}.dat
   # and let the runit services take over
 fi
 
