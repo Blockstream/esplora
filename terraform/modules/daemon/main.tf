@@ -80,7 +80,7 @@ resource "google_compute_instance_template" "daemon" {
     disk_type    = "pd-ssd"
     auto_delete  = true
     boot         = true
-    disk_size_gb = "50"
+    disk_size_gb = "100"
   }
 
   network_interface {
