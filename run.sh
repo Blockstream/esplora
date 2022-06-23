@@ -25,7 +25,7 @@ ELECTRS_NETWORK=${NETWORK}
 
 DAEMON_DIR="/data/$DAEMON"
 if [ "$DAEMON-$NETWORK" == "bitcoin-testnet" ]; then
-  DAEMON_DIR="$DAEMON_DIR/testnet"
+  DAEMON_DIR="$DAEMON_DIR/testnet3"
 elif [ "$DAEMON-$NETWORK" == "bitcoin-signet" ]; then
   DAEMON_DIR="$DAEMON_DIR/signet"
 elif [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
