@@ -286,7 +286,7 @@ if [ -n "$SYNC_SOURCE" ]; then
   # then fetch a recent mempool.dat,
   curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
   curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
-  ls -l $DAEMON_DIR/{mempool,fee_estimates}.dat
+  ls -l $DAEMON_DIR/{mempool,fee_estimates}.dat || true
   # and let the runit services take over
 fi
 
