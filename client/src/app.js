@@ -45,6 +45,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goScan$   = route('/scan-qr').mapTo(true)
   , goMempool$= route('/mempool')
   , goSearch$ = route('/search').map(loc => loc.query.q).filter(Boolean)
+  , goLnExplorer$ = route('/ln/recent')
+  , goLnChannels$ = route('/channels/recent')
+  , goLnNodes$ = route('/nodes/recent')
 
   // Elements only
   , goAsset$ = !process.env.IS_ELEMENTS ? O.empty() : route('/asset/:asset_id').map(loc => ({
@@ -228,6 +231,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goHome$.mapTo('dashBoard')
                   , goBlocks$.mapTo('recentBlocks')
                   , goRecent$.mapTo('recentTxs')
+                  , goLnExplorer$.mapTo('lnExplorer')
+                  , goLnChannels$.mapTo('lnChannels')
+                  , goLnNodes$.mapTo('lnNodes')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
                   , addr$.filter(notNully).mapTo('addr')
@@ -249,7 +255,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , goAssetList$.withLatestFrom(t$, (_, t) => t`Registered assets`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
-                   , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
+                   , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`)
+                   , goLnExplorer$.withLatestFrom(t$, (_, t) => t`Lightning Explorer`)
+                   , goLnChannels$.withLatestFrom(t$, (_, t) => t`Lightning Channels`)
+                   , goLnNodes$.withLatestFrom(t$, (_, t) => t`Lightning Nodes`))
 
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
@@ -337,6 +346,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // ... and every 5 seconds while dashBoard remains open
     , tickWhileViewing(5000, 'dashBoard', view$)
     .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+
+    // // fetch recent Lightning network info when opening the recent LN explorer page
+    // , goLnExplorer$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
+    // // ... and every 5 seconds while it remains open
+    // , tickWhileViewing(5000, 'lnExplorer', view$)
+    //    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])

@@ -2509,3 +2509,11 @@ h3.table-title{
     margin-right: 20px;
   }
 }
+
+.node-rgb-color {
+  height: 8px;
+  width: 8px;
+  border-radius: 15%;
+  float: left;
+  margin: 5px 5px;
+}
