@@ -1,11 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
 import { formatTime, formatNumber } from './util'
+import load from '../components/loading'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
 export const blks = (blocks, viewMore, loadMore, { t, loading, ...S }) =>
   <div className="block-container">
-  { !blocks ? <img src="img/Loading.gif" className="loading-delay" />
+  { !blocks ? load()
   : !blocks.length ? <p>{t`No recent blocks`}</p>
   : <div className="blocks-table">
       <h3 className="table-title">{t`Latest Blocks`}</h3>
@@ -36,7 +37,7 @@ export const blks = (blocks, viewMore, loadMore, { t, loading, ...S }) =>
        <div className="load-more-container">
         <div>
         { loading
-        ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
+        ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{load("small")}</div></div>
         : pagingNav({ ...S, t }) }
         </div>
       </div> 

@@ -1,6 +1,7 @@
 import Snabbdom from 'snabbdom-pragma'
 import { getSupply } from './util'
 import layout from './layout'
+import load from '../components/loading'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 export default ({ assetList, goAssetList, loading, t, ...S }) => {
@@ -13,7 +14,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
   return layout(
     <div>
       <div className="container">
-        { !assets ? <div className="load-more-container"><img src="img/Loading.gif" /></div>
+        { !assets ? <div className="load-more-container">{load()}</div>
           : !assets.length ? <p>{t`No registered assets`}</p>
           : <div className="assets-table">
             <h3 className="table-title">{t`All Assets`}</h3>
