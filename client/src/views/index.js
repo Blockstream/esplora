@@ -4,6 +4,8 @@ export { recentTxs }          from './transactions-all'
 export { lnExplorer }         from './ln-explorer'
 export { lnChannels }         from './ln-channels-list'
 export { lnNodes }            from './ln-nodes-list'
+export { lnChannelProfile }   from './ln-channel-profile'
+export { lnNode }             from './ln-node-profile';
 export { default as block }   from './block'
 export { default as addr }    from './addr'
 export { default as tx }      from './tx'

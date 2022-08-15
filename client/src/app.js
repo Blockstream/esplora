@@ -16,6 +16,9 @@ if (process.browser) {
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
+const lnApiBase = (process.env.LN_API_URL || '/api').replace(/\/+$/, '')
+, lnSetBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : lnApiBase + path })
+
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
@@ -47,6 +50,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , goSearch$ = route('/search').map(loc => loc.query.q).filter(Boolean)
   , goLnExplorer$ = route('/ln/recent')
   , goLnChannels$ = route('/channels/recent')
+  , goLnChannel$ = route('/channel/:scid').map(loc => loc.params.scid)
+  , goLnNode$ = route('/nodeprofile/:nodeid').map(loc => loc.params.nodeid)
   , goLnNodes$ = route('/nodes/recent')
 
   // Elements only
@@ -233,6 +238,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goRecent$.mapTo('recentTxs')
                   , goLnExplorer$.mapTo('lnExplorer')
                   , goLnChannels$.mapTo('lnChannels')
+                  , goLnChannel$.mapTo('lnChannelProfile')
+                  , goLnNode$.mapTo('lnNode')
                   , goLnNodes$.mapTo('lnNodes')
                   , block$.filter(notNully).mapTo('block')
                   , tx$.filter(notNully).mapTo('tx')
@@ -257,7 +264,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
                    , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`)
                    , goLnExplorer$.withLatestFrom(t$, (_, t) => t`Lightning Explorer`)
+                   , goLnNode$.withLatestFrom(t$, (_, t) => t`Lightning Node`)
                    , goLnChannels$.withLatestFrom(t$, (_, t) => t`Lightning Channels`)
+                   , goLnChannel$.withLatestFrom(t$, (_, t) => t`Lightning Channel`)
                    , goLnNodes$.withLatestFrom(t$, (_, t) => t`Lightning Nodes`))
 
   // App state
@@ -282,6 +291,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
 
   /// Sinks
+
+  // HTTP request sink for LN explorer
+
+  
 
   // HTTP request sink
   , req$ = O.merge(
@@ -312,7 +325,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
-
+    
     // push tx
     , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'POST', path: `/tx`, send: rawtx, type: 'text/plain' }))
 
