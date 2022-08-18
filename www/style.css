@@ -160,6 +160,42 @@ a, a:link, a:visited, a:hover, a:focus {
   box-shadow: 0 20px 40px black;
   background-image: radial-gradient(circle at 7% 50%, #1c2127, #15181c 80%);
 }
+
+/** Loading **/
+.spinner{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  visibility: hidden;
+  animation: 0.3s showDelayed;
+  animation-fill-mode: forwards;
+}
+
+.spinner .ring{
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #00ccff;
+  width: 50px;
+  height: 50px;
+  animation: spin .5s linear infinite;
+}
+
+.spinner .small{
+  width: 25px;
+  height: 25px;
+}
+
+.spinner .loading{
+  font-size: 16px;
+  color: white;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /** New Design Ends **/
 
 

@@ -5,6 +5,7 @@ import search from './search'
 import { txBox } from './tx'
 import { formatSat, formatNumber } from './util'
 import { addrTxsPerPage as perPage, maxMempoolTxs } from '../const'
+import loader from '../components/loading'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
@@ -114,12 +115,12 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
           <div className="transactions">
             <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
             { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, addr, ...S }))
-                       : <img src="img/Loading.gif" className="loading-delay" /> }
+                       : loader() }
           </div>
 
           <div className="load-more-container">
             <div>
-              { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div><img src="img/Loading.gif" /></div></div>
+              { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{loader("small")}</div></div>
                         : pagingNav(addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) }
             </div>
           </div>
