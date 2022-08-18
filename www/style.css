@@ -167,6 +167,9 @@ a, a:link, a:visited, a:hover, a:focus {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  visibility: hidden;
+  animation: 0.3s showDelayed;
+  animation-fill-mode: forwards;
 }
 
 .spinner .ring{

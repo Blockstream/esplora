@@ -1,13 +1,13 @@
 
 import Snabbdom from 'snabbdom-pragma'
 import { formatSat, formatNumber } from './util'
-import load from '../components/loading'
+import loader from '../components/loading'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
 export const transactions = (txs, viewMore, { t } ) => 
     <div className="tx-container">
-      { !txs ? load()
+      { !txs ? loader()
       : !txs.length ? <p>{t`No recent transactions`}</p>
       : <div className="transactions-table">
             <h3 className="table-title">{t`Latest Transactions`}</h3>

@@ -4,7 +4,7 @@ import { txBox } from './tx'
 import { updateQuery } from '../util'
 import { formatTime, formatHex, formatNumber } from './util'
 import { blockTxsPerPage as perPage } from '../const'
-import load from '../components/loading'
+import loader from '../components/loading'
 
 
 const staticRoot = process.env.STATIC_ROOT || ''
@@ -125,12 +125,12 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       <div className="transactions">
         <h3>{txsShownText(b.tx_count, goBlock.start_index, blockTxs && blockTxs.length, t)}</h3>
         { blockTxs ? blockTxs.map(tx => txBox( { ...tx, status: txsStatus }, { openTx, tipHeight, t, spends }))
-                   : load() }
+                   : loader() }
       </div>
 
       <div className="load-more-container">
         <div>
-          { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{load("small")}</div></div>
+          { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{loader("small")}</div></div>
                     : pagingNav(b, { ...S, t }) }
         </div>
       </div>
