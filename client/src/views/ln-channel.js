@@ -16,8 +16,7 @@ const sampleChannelData = {
     "scid": "768301342164779008",
     "amount_sat": 1151,
     "closing_height": [
-        "false",
-        "701920"
+        "false"
     ],
     "block": "698766",
     "tx_id": "1072",
@@ -26,8 +25,7 @@ const sampleChannelData = {
     "node_id_2": "03a7c61c056023c804c6d63693345e00ed8e2b28c8d2e0c455964bfff31128df40",
     "txid": "f66b819e37a241f0505605fc65de5cc945e93f9156d00d251b6be5b75f98b805",
     "closing": [
-        "false",
-        "91ec05560f57d8c7a719573d40613e5d58796c34ec7589880f48d5147d159e7f"
+        "false"
     ]
 }
 
@@ -105,6 +103,198 @@ const sampleTxData = {
     }
 }
 
+const sampleChannelUpdate = [
+    {
+        "scid": "612015659904139264",
+        "direction": 0,
+        "timestamp_given": "Tue Jun 28 2022 17:08:41 GMT-0600 (Mountain Daylight Time)",
+        "signature": "40707d38c9318b04125701be8a0ff19d27ae12164b7d0ab56a8a71be2e7a92f6197a34ba31a266c67f0585ad25530bc22b406f146cf2edea07f16ee3077cb697",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1656436121,
+        "message_flags": 1,
+        "channel_flags": 2,
+        "cltv_expiry_delta": 18,
+        "htlc_minimum_msat": 1000000,
+        "fee_base_msat": 0,
+        "fee_proportional_millionths": 0,
+        "htlc_maximum_msat": 297000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 0,
+        "timestamp_given": "Tue Jun 28 2022 17:10:32 GMT-0600 (Mountain Daylight Time)",
+        "signature": "f112a6991ee57c2142aa84ae7df0df36a19ffb6701e450d4a37f317a6963ae9059a0d7d4218ca62dca46599386a6b506b9612d1d010ab8f04b8297366050e052",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1656436232,
+        "message_flags": 1,
+        "channel_flags": 0,
+        "cltv_expiry_delta": 18,
+        "htlc_minimum_msat": 1000000,
+        "fee_base_msat": 0,
+        "fee_proportional_millionths": 0,
+        "htlc_maximum_msat": 297000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 1,
+        "timestamp_given": "Wed Jun 29 2022 20:21:28 GMT-0600 (Mountain Daylight Time)",
+        "signature": "0fc4ebac1175a4c2158db9c724add5cdcbcee71e86791681b1a299d6c94b1c3b5891c42378678cd8136c92e726973004c0ef95a50daa650d07846eba0d9d56de",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1656534088,
+        "message_flags": 1,
+        "channel_flags": 1,
+        "cltv_expiry_delta": 144,
+        "htlc_minimum_msat": 1000,
+        "fee_base_msat": 1000,
+        "fee_proportional_millionths": 1,
+        "htlc_maximum_msat": 300000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 1,
+        "timestamp_given": "Sat Jul 02 2022 05:53:25 GMT-0600 (Mountain Daylight Time)",
+        "signature": "94e00cc0990759d411a122b91912784f8fd20efc62d5c8696bcf9df3af06e7f842b1b311e4fe3a9e80290682b7d0a8d16593dd93bd17a429e5c5503ba3227ce2",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1656741205,
+        "message_flags": 1,
+        "channel_flags": 3,
+        "cltv_expiry_delta": 144,
+        "htlc_minimum_msat": 1000,
+        "fee_base_msat": 1000,
+        "fee_proportional_millionths": 1,
+        "htlc_maximum_msat": 300000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 1,
+        "timestamp_given": "Sun Jul 03 2022 10:58:18 GMT-0600 (Mountain Daylight Time)",
+        "signature": "786afe8ae26ef12b33947e417459899789f590c1e01f7a4c7533f48003e2152d32169d800ac2928cfb5cae9d0858e3852172f7875168e6a7977f96faa04e7af5",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1656845898,
+        "message_flags": 1,
+        "channel_flags": 1,
+        "cltv_expiry_delta": 144,
+        "htlc_minimum_msat": 1000,
+        "fee_base_msat": 1000,
+        "fee_proportional_millionths": 1,
+        "htlc_maximum_msat": 300000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 0,
+        "timestamp_given": "Wed Jul 06 2022 11:36:03 GMT-0600 (Mountain Daylight Time)",
+        "signature": "77ce071f4be902e29d3f9a0dc9c73ad499ef23432f61377a2fabfaf5baaf8a3c22ad181d6fdb2cd48599f1c571f70015089ff7e5ef3e5b688473008b6128efe4",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1657107363,
+        "message_flags": 1,
+        "channel_flags": 0,
+        "cltv_expiry_delta": 18,
+        "htlc_minimum_msat": 1000000,
+        "fee_base_msat": 0,
+        "fee_proportional_millionths": 0,
+        "htlc_maximum_msat": 297000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 0,
+        "timestamp_given": "Thu Jul 07 2022 23:46:52 GMT-0600 (Mountain Daylight Time)",
+        "signature": "425ee3f56e0887ea0433af4f92d073d8911ca20a91e170f65d93a138528f777e048ee3ddf485c1870e3a0658b8db9a04d9fcd680d1b0ba6ace668fb92be1d8a9",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1657237612,
+        "message_flags": 1,
+        "channel_flags": 2,
+        "cltv_expiry_delta": 18,
+        "htlc_minimum_msat": 1000000,
+        "fee_base_msat": 0,
+        "fee_proportional_millionths": 0,
+        "htlc_maximum_msat": 297000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 0,
+        "timestamp_given": "Fri Jul 08 2022 00:14:07 GMT-0600 (Mountain Daylight Time)",
+        "signature": "be658ee580fc0401e93cd77757dbf245baee059145f9a1b45b5cc15c5c77472b122b38c5b592c2ae721d7217e5dc22c952bcc1d8cf87e10407a2d56d7da5d9b4",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1657239247,
+        "message_flags": 1,
+        "channel_flags": 0,
+        "cltv_expiry_delta": 18,
+        "htlc_minimum_msat": 1000000,
+        "fee_base_msat": 0,
+        "fee_proportional_millionths": 0,
+        "htlc_maximum_msat": 297000000
+    },
+    {
+        "scid": "612015659904139264",
+        "direction": 1,
+        "timestamp_given": "Mon Jul 11 2022 00:21:28 GMT-0600 (Mountain Daylight Time)",
+        "signature": "974b662759f7aff5eda77ac9e6672c1edc9a74b000610aa164183fddade0d58123250986c52194f74bd96289ebbf9594cfa4b7802f49e883e7604d6959c21777",
+        "chain_hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+        "short_channel_id": {
+            "block": 556625,
+            "tx_id": 1424,
+            "output_index": 0,
+            "short_channel_id": "556625x1424x0"
+        },
+        "timestamp": 1657498888,
+        "message_flags": 1,
+        "channel_flags": 1,
+        "cltv_expiry_delta": 144,
+        "htlc_minimum_msat": 1000,
+        "fee_base_msat": 1000,
+        "fee_proportional_millionths": 1,
+        "htlc_maximum_msat": 300000000
+    }
+]
+
 console.log(scid)
 async function fetchChannelData(){
     await  axios.get(`${LN_API_URL}/channel_profile/${scid}`)
@@ -113,6 +303,11 @@ async function fetchChannelData(){
         axios.get(`${API_URL}/tx/${sampleChannelData.txid}`)
             .then(function (response) {
             Object.assign(sampleTxData,response.data)
+        })
+        axios.get(`${LN_API_URL}/channel_updates/${scid}`)
+        .then( function (response) {
+            console.log(response.data)
+            Object.assign(sampleChannelData,response.data)
         })
     })
 }
@@ -168,6 +363,49 @@ export const channelProfile = (channelInfo, viewMore, { t } ) =>
         <div><a href={`tx/${sampleChannelData.txid}`}>{sampleChannelData.txid}</a></div>
         </div>
     </div>
+
+    <div className="transactions">
+        <h3>Channel Updates</h3>
+        <div className="transaction-box" id="transaction-box">
+            <div className="ins-and-outs">
+                <div>
+                {
+                    sampleChannelUpdate.map((item,index) => 
+                    <div className="channel-update">
+                        <div className="stats-table">
+                            <div>
+                            <div>{`Direction`}</div>
+                            <div>{item.direction}</div>
+                            </div>
+                            <div>
+                            <div>{`TimeStamp`}</div>
+                            <div>{formatTime(item.timestamp)}</div>
+                            </div>
+                            <div>
+                            <div>{`cltv_expiry_delta`}</div>
+                            <div>{(item.cltv_expiry_delta)}</div>
+                            </div>
+                            <div>
+                            <div>{`htlc msat`}</div>
+                            <div>Maximum: {(item.htlc_maximum_msat)} / Minimum: {item.htlc_minimum_msat}</div>
+                            </div>
+                            <div>
+                            <div>{`Fee Base msat`}</div>
+                            <div>{(item.fee_base_msat)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    )
+                }
+                </div>
+            </div>
+            <div className="footer">
+            <div></div>
+            <div></div>
+            </div>
+        </div>
+    </div>
+
     <div className="transactions">
         <h3>Closing Info</h3>
         <div className="transaction-box" id="transaction-box">

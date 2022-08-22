@@ -12,7 +12,8 @@ const sampleNodeData = {
         "776847846067863553",
         "767638336719421441"
     ],
-    "rgb_color": "68f442"
+    "rgb_color": "68f442",
+    "alias": "6d794e6f6465534b000000000000000000000000000000000000000000000000"
 }
 
 if(nodeid.includes('channel')) {
@@ -58,6 +59,10 @@ export const nodeProfile = (nodeInfo, viewMore, { t } ) =>
         <div>
         <div>{`RGB color`}</div>
         <div data-label={`rgb_color`}>{sampleNodeData.rgb_color}<div className="node-rgb-color" style={{backgroundColor: `#${sampleNodeData.rgb_color}`}}></div></div>
+        </div>
+        <div>
+        <div>{`Node Alias`}</div>
+        <div>{sampleNodeData.alias}</div>
         </div>
     </div>
 </div>
