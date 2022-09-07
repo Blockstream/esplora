@@ -31,7 +31,7 @@ resource "google_compute_backend_service" "daemon" {
   name        = "${var.name}-explorer-backend-service"
   protocol    = "HTTP"
   port_name   = "http"
-  timeout_sec = 30
+  timeout_sec = 3600
   enable_cdn  = true
 
   dynamic "backend" {
