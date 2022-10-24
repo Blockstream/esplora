@@ -3,6 +3,10 @@ body.theme-light {
     background-color: #FFF;
 }
 
+.theme-light a, .theme-light a:link, .theme-light a:visited, .theme-light a:hover, .theme-light a:focus {
+    color: #1187C1;
+  }
+
 .theme-light .main-nav li a, .theme-light .sub-nav a{
     color: rgba(21, 24, 28, 1);
 }
@@ -17,9 +21,47 @@ body.theme-light {
     color: rgba(21, 24, 28, 1);
 }
 
-.theme-light .toggle-menu .section1 .wallets-link a{
-    background-color: #a8b1b5;
+.theme-light .toggle-menu .section2 a:hover{
+    color: #1187C1;
 }
+
+.theme-light .toggle-menu .section1 .wallets-link .store-icons a{
+    color: rgba(21, 24, 28, 1);;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .store-icons a:hover{
+    color: #1187C1;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .wallets-logo .lightmode {
+    display: block;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .wallets-logo .darkmode {
+    display: none;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .wallets-logo a:hover img{
+    filter: brightness(0) invert(0);
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .wallets-logo a:nth-child(4){
+    border-left: 1px solid #78838e;
+    margin-left: 20px;
+    height: 30px;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .store-icons a img.lightmode{
+    display:block;
+}
+
+.theme-light .toggle-menu .section1 .wallets-link .store-icons a img.darkmode{
+    display:none;
+}
+
+.theme-light .nav-link:hover {
+    color: #1187C1 !important;
+  }
 
 .theme-light .sub-navbar{
     background-color: whitesmoke;
@@ -36,8 +78,18 @@ body.theme-light {
     color: rgba(21, 24, 28, 1);
 }
 
+.theme-light .pagination .pagelink img{
+    filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%);
+}
+
+
+.theme-light .pagination .numbers .current{
+    border: 1px solid #1187C1;
+}
+
+
 .theme-light .pagination .control a{
-    color: #00ccff;
+    color: #1187C1;
 }
 
 .theme-light .blocks-table-row {
@@ -50,6 +102,10 @@ body.theme-light {
 
 .theme-light .assets-table-row {
     color: rgba(21, 24, 28, 1) !important;
+}
+
+.theme-light .highlighted-text {
+    color: #1187C1 !important;
 }
 
 .theme-light .explorer-container > .footer {
@@ -72,7 +128,8 @@ body.theme-light {
 }
 
 .theme-light .language-selector, .theme-light .language-submit {
-    background-color: rgba(169, 177, 182, 1);
+    background-color: transparent;
+    color: rgba(21, 24, 28, 1);
 }
 
 .theme-light .prev-next-blocks-btns > div a > div {
@@ -99,7 +156,13 @@ body.theme-light {
 .theme-light .load-more, .theme-light .load-more:link {
     color: #22242c;
     background-color: #fff;
+    border: 1px solid #1187C1;
 }
+
+.theme-light .load-more > div img{
+    filter: brightness(0) invert(0);
+}
+
 .theme-light .title-bar-recent h1 .active {
       color: #000000;
 }
@@ -110,6 +173,12 @@ body.theme-light {
 
 .theme-light .transactions-table .transactions-table-row.transaction-data {
     border-top: 1px #dcdcdc solid;
+}
+
+.theme-light .blocks-table .blocks-table-row.block-data:not(.loading):hover,
+.theme-light .transactions-table .transactions-table-row.transaction-data:not(.loading):hover,
+.theme-light .assets-table .assets-table-row.asset-data:not(.loading):hover {
+    background-color: whitesmoke;
 }
 
 .theme-light .assets-table .assets-table-row.asset-data {
@@ -128,6 +197,14 @@ body.theme-light {
     color: #22242c;
 }
 
+.theme-light .dash-container .view-more img{
+   filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%); 
+}
+
+.theme-light .direction-arrow, .theme-light .arrow-prev, .theme-light .arrow-next {
+    filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%);
+}
+
 
 /* keep this for now - dark menu button */
 /* .theme-light .navbar-toggler {
@@ -141,9 +218,8 @@ body.theme-light {
   color: inherit !important;
 }
 
-.theme-light .footer_container_content_row_social-media_link{
-    background-color: lightgray;
-    border: none;
+.theme-light .footer_container_content_row_social-media_item{
+    filter: brightness(0) invert(0);
 }
 
 .theme-light .nav-bar_moon_icon {

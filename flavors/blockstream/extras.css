@@ -1,9 +1,13 @@
 .navbar-brand::before {
-  background: url(img/icons/blockstream-logo-text.svg);
+  background: url(img/icons/explorer_logo.svg);
   background-size: cover;
   width: 240px;
   margin: 0;
   background-repeat: no-repeat;
+}
+
+.theme-light .navbar-brand::before {
+  background: url(img/icons/explorer_dark_logo.svg);
 }
 
 .footer-logo::before {

@@ -158,7 +158,7 @@ a, a:link, a:visited, a:hover, a:focus {
   transition: .1s;
   border-radius: 8px;
   box-shadow: 0 20px 40px black;
-  background-image: radial-gradient(circle at 7% 50%, #1c2127, #15181c 80%);
+  background-color: #1D2127;
 }
 
 /** Loading **/
@@ -639,7 +639,7 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 }
 
 .blocks-table .blocks-table-row.block-data {
-  border-top: 1px #22242c solid;
+  border-top: 1px #2d2f39 solid;
 }
 
 .blocks-table .blocks-table-row.block-data:not(.loading):hover {
@@ -699,7 +699,7 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 }
 
 .transactions-table .transactions-table-row.transaction-data {
-  border-top: 1px #22242c solid;
+  border-top: 1px #2d2f39 solid;
 }
 
 .transactions-table .transactions-table-row.transaction-data:not(.loading):hover {
@@ -816,7 +816,7 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 
 .stats-table > div {
   height: 52px;
-  border-top: 1px solid #22242c;
+  border-top: 1px solid #2d2f39;
   font-size: 16px;
 }
 
@@ -832,7 +832,7 @@ body > .container, .navbar > .container, > .container, .content-wrap > div > .co
 }
 
 .stats-table > div:last-child {
-  border-bottom: 1px solid #22242c;
+  border-bottom: 1px solid #2d2f39;
 }
 
 .stats-table > div > div:nth-child(1) {
@@ -1615,7 +1615,6 @@ body::after{
       align-items: center;
       width: 100% !important;
       text-align: right;
-      /* border-top: 1px solid #22242C; */
     }
 
     .transactions-table-row {
@@ -1703,7 +1702,6 @@ body::after{
       align-items: center;
       width: 100% !important;
       text-align: right;
-      /* border-top: 1px solid #22242C; */
     }
 
     .blocks-table-row {
@@ -2238,7 +2236,37 @@ dl.mempool-histogram .bar:before {
   margin-bottom: 10px;
 }
 
-.toggle-menu .section1 .wallets-link div{
+.toggle-menu .section1 .wallets-link .wallets-logo{
+  display: flex;
+  margin-top: 4px;
+  width: 40%;
+}
+
+.toggle-menu .section1 .wallets-link .wallets-logo .lightmode {
+  display: none;
+}
+
+.toggle-menu .section1 .wallets-link .wallets-logo img{
+  height: 28px;
+}
+
+.toggle-menu .section1 .wallets-link .wallets-logo a:hover img{
+  filter: brightness(0) invert(1);
+}
+
+.toggle-menu .section1 .wallets-link .wallets-logo a:nth-child(2){
+   border-left: 1px solid #78838e;
+   margin-left: 20px;
+   height: 30px;
+}
+
+.toggle-menu .section1 .wallets-link .wallets-logo .green-logo{
+  display: block;
+  margin: 0 20px;
+  height: 30px;
+}
+
+.toggle-menu .section1 .wallets-link .store-icons{
   display: flex;
   flex-flow: wrap;
   width: 60%;
@@ -2251,7 +2279,7 @@ dl.mempool-histogram .bar:before {
   opacity: 0.7;
 }
 
-.toggle-menu .section1 .wallets-link a{
+.toggle-menu .section1 .wallets-link .store-icons a{
     display: flex;
     font-size: 12px;
     justify-content: center;
@@ -2261,16 +2289,20 @@ dl.mempool-histogram .bar:before {
     padding: 5px 10px;
     border-radius: 5px;
     margin-right: 5px;
-    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
-.toggle-menu .section1 .wallets-link a img{
+.toggle-menu .section1 .wallets-link .store-icons a img{
   width: 12px;
   height: 12px;
   margin-right: 5px;
 }
 
-.toggle-menu .section1 .wallets-link a:hover{
+.toggle-menu .section1 .wallets-link .store-icons a img.lightmode{
+  display:none;
+}
+
+.toggle-menu .section1 .wallets-link .store-icons a:hover{
   color: #00ccff;
 }
 
@@ -2385,8 +2417,7 @@ a.back-link img{
   padding: 30px 0;
   border-radius: 8px;
   box-shadow: 0 20px 32px 0 rgba(0, 0, 0, 0.08);
-  background: rgb(28,33,39);
-  background: linear-gradient(90deg, rgba(28,33,39,0.87) 7%, rgba(21,24,28,1) 50%);
+  background: #1D2127;
 }
 
 .blocks-table .blocks-table-row, .transactions-table .transactions-table-row {
@@ -2478,6 +2509,19 @@ h3.table-title{
 
   .toggle-container .toggle-menu .toggle-menu-header {
     justify-content: flex-start;
+  }
+
+  .toggle-menu .section1 .wallets-link{
+    flex-direction: column;
+  }
+
+  .toggle-menu .section1 .wallets-link .wallets-logo{
+    width: auto;
+  }
+
+  .toggle-menu .section1 .wallets-link .store-icons{
+    width: 100%;
+    margin-top: 30px;
   }
 
   .navbar-brand{
