@@ -6,6 +6,7 @@ The blockstream.info public APIs are available at:
 - Bitcoin: https://blockstream.info/api/
 - Bitcoin Testnet: https://blockstream.info/testnet/api/
 - Liquid: https://blockstream.info/liquid/api/
+- Liquid Testnet: https://blockstream.info/liquidtestnet/api/
 
 For example:
 ```bash
