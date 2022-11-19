@@ -1,82 +1,82 @@
-From 3cf380db8f763f4522ef1bda21b3c5f200dced75 Mon Sep 17 00:00:00 2001
+From 9fc9638e54a3550f9842e0a5a8d5dce6551ed7ed Mon Sep 17 00:00:00 2001
 From: Lawrence Nahum <lawrence@greenaddress.it>
-Date: Fri, 29 Oct 2021 17:39:28 +0200
+Date: Sat, 19 Nov 2022 16:27:16 +0100
 Subject: [PATCH] add support to save fee estimates without shutting down the
  node
 
 ---
- src/policy/fees.cpp                           | 18 ++++---
+ src/policy/fees.cpp                           | 16 ++++--
  src/policy/fees.h                             |  3 ++
- src/rpc/misc.cpp                              | 27 ++++++++++
+ src/rpc/mempool.cpp                           | 29 ++++++++++
  src/test/fuzz/rpc.cpp                         |  1 +
  .../feature_fee_estimates_persist.py          | 54 +++++++++++++++++++
  test/functional/test_runner.py                |  1 +
- 6 files changed, 98 insertions(+), 6 deletions(-)
+ 6 files changed, 99 insertions(+), 5 deletions(-)
  create mode 100755 test/functional/feature_fee_estimates_persist.py
 
 diff --git a/src/policy/fees.cpp b/src/policy/fees.cpp
-index 2ae5798eb..8a5ac99fb 100644
+index 2b940be07..7edd5807f 100644
 --- a/src/policy/fees.cpp
 +++ b/src/policy/fees.cpp
-@@ -883,12 +883,7 @@ CFeeRate CBlockPolicyEstimator::estimateSmartFee(int confTarget, FeeCalculation
+@@ -903,11 +903,7 @@ CFeeRate CBlockPolicyEstimator::estimateSmartFee(int confTarget, FeeCalculation
  
  void CBlockPolicyEstimator::Flush() {
      FlushUnconfirmed();
 -
--    fs::path est_filepath = gArgs.GetDataDirNet() / FEE_ESTIMATES_FILENAME;
--    CAutoFile est_file(fsbridge::fopen(est_filepath, "wb"), SER_DISK, CLIENT_VERSION);
+-    AutoFile est_file{fsbridge::fopen(m_estimation_filepath, "wb")};
 -    if (est_file.IsNull() || !Write(est_file)) {
--        LogPrintf("Failed to write fee estimates to %s. Continue anyway.\n", est_filepath.string());
+-        LogPrintf("Failed to write fee estimates to %s. Continue anyway.\n", fs::PathToString(m_estimation_filepath));
 -    }
 +    Write();
  }
  
- bool CBlockPolicyEstimator::Write(CAutoFile& fileout) const
-@@ -916,6 +911,17 @@ bool CBlockPolicyEstimator::Write(CAutoFile& fileout) const
+ bool CBlockPolicyEstimator::Write(AutoFile& fileout) const
+@@ -935,6 +931,16 @@ bool CBlockPolicyEstimator::Write(AutoFile& fileout) const
      return true;
  }
  
 +bool CBlockPolicyEstimator::Write() const
 +{
-+    fs::path est_filepath = gArgs.GetDataDirNet() / FEE_ESTIMATES_FILENAME;
-+    CAutoFile est_file(fsbridge::fopen(est_filepath, "wb"), SER_DISK, CLIENT_VERSION);
++    AutoFile est_file{fsbridge::fopen(m_estimation_filepath, "wb")};
 +    if (est_file.IsNull() || !Write(est_file)) {
-+        LogPrintf("Failed to write fee estimates to %s. Continue anyway.\n", est_filepath.string());
++        LogPrintf("Failed to write fee estimates to %s. Continue anyway.\n", fs::PathToString(m_estimation_filepath));
 +        return false;
 +    }
 +    return true;
 +}
 +
- bool CBlockPolicyEstimator::Read(CAutoFile& filein)
+ bool CBlockPolicyEstimator::Read(AutoFile& filein)
  {
      try {
 diff --git a/src/policy/fees.h b/src/policy/fees.h
-index c444d71a3..9d178d0a6 100644
+index e4628bf85..f4ac5c00e 100644
 --- a/src/policy/fees.h
 +++ b/src/policy/fees.h
-@@ -213,6 +213,9 @@ public:
-     /** Write estimation data to a file */
-     bool Write(CAutoFile& fileout) const;
+@@ -223,6 +223,9 @@ public:
+     bool Write(AutoFile& fileout) const
+         EXCLUSIVE_LOCKS_REQUIRED(!m_cs_fee_estimator);
  
 +    /** Write estimation data to the default file */
-+    bool Write() const;
++    bool Write() const EXCLUSIVE_LOCKS_REQUIRED(!m_cs_fee_estimator);
 +
      /** Read estimation data from a file */
-     bool Read(CAutoFile& filein);
+     bool Read(AutoFile& filein)
+         EXCLUSIVE_LOCKS_REQUIRED(!m_cs_fee_estimator);
+diff --git a/src/rpc/mempool.cpp b/src/rpc/mempool.cpp
+index 5c1770704..20083a974 100644
+--- a/src/rpc/mempool.cpp
++++ b/src/rpc/mempool.cpp
+@@ -22,6 +22,9 @@
+ #include <util/moneystr.h>
+ #include <util/time.h>
  
-diff --git a/src/rpc/misc.cpp b/src/rpc/misc.cpp
-index 5178ce60e..0050b82a6 100644
---- a/src/rpc/misc.cpp
-+++ b/src/rpc/misc.cpp
-@@ -14,6 +14,7 @@
- #include <key_io.h>
- #include <node/context.h>
- #include <outputtype.h>
 +#include <policy/fees.h>
- #include <rpc/blockchain.h>
- #include <rpc/server.h>
- #include <rpc/util.h>
-@@ -328,6 +329,31 @@ static RPCHelpMan verifymessage()
++
++
+ using kernel::DumpMempool;
+ 
+ using node::DEFAULT_MAX_RAW_TX_FEE_RATE;
+@@ -705,6 +708,31 @@ static RPCHelpMan getmempoolinfo()
      };
  }
  
@@ -105,22 +105,22 @@ index 5178ce60e..0050b82a6 100644
 +    };
 +}
 +
- static RPCHelpMan signmessagewithprivkey()
+ static RPCHelpMan savemempool()
  {
-     return RPCHelpMan{"signmessagewithprivkey",
-@@ -759,6 +785,7 @@ static const CRPCCommand commands[] =
-     { "util",               &deriveaddresses,         },
-     { "util",               &getdescriptorinfo,       },
-     { "util",               &verifymessage,           },
-+    { "util",               &savefeeestimates,        },
-     { "util",               &signmessagewithprivkey,  },
-     { "util",               &getindexinfo,            },
- 
+     return RPCHelpMan{"savemempool",
+@@ -898,6 +926,7 @@ void RegisterMempoolRPCCommands(CRPCTable& t)
+         {"blockchain", &getmempoolinfo},
+         {"blockchain", &getrawmempool},
+         {"blockchain", &savemempool},
++        {"blockchain", &savefeeestimates},
+         {"hidden", &submitpackage},
+     };
+     for (const auto& c : commands) {
 diff --git a/src/test/fuzz/rpc.cpp b/src/test/fuzz/rpc.cpp
-index 9195cc487..df41004fa 100644
+index 26913a41d..977ae63a9 100644
 --- a/src/test/fuzz/rpc.cpp
 +++ b/src/test/fuzz/rpc.cpp
-@@ -76,6 +76,7 @@ const std::vector<std::string> RPC_COMMANDS_NOT_SAFE_FOR_FUZZING{
+@@ -80,6 +80,7 @@ const std::vector<std::string> RPC_COMMANDS_NOT_SAFE_FOR_FUZZING{
      "importwallet", // avoid reading from disk
      "loadwallet",   // avoid reading from disk
      "prioritisetransaction", // avoid signed integer overflow in CTxMemPool::PrioritiseTransaction(uint256 const&, long const&) (https://github.com/bitcoin/bitcoin/issues/20626)
@@ -189,10 +189,10 @@ index 000000000..c6d82345b
 +if __name__ == "__main__":
 +    FeeEstimatesPersistTest().main()
 diff --git a/test/functional/test_runner.py b/test/functional/test_runner.py
-index 725706947..a2f50b537 100755
+index d78c1c634..bf9dbe12a 100755
 --- a/test/functional/test_runner.py
 +++ b/test/functional/test_runner.py
-@@ -134,6 +134,7 @@ BASE_SCRIPTS = [
+@@ -136,6 +136,7 @@ BASE_SCRIPTS = [
      # vv Tests less than 30s vv
      'wallet_keypool_topup.py --legacy-wallet',
      'wallet_keypool_topup.py --descriptors',
@@ -201,5 +201,5 @@ index 725706947..a2f50b537 100755
      'interface_zmq.py',
      'rpc_invalid_address_message.py',
 -- 
-2.20.1
+2.30.2
 
