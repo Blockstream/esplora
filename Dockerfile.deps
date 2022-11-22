@@ -65,7 +65,7 @@ RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/rel
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.56.1
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.65.0
 RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
