@@ -55,12 +55,12 @@ RUN git clone --quiet --depth 1 --branch v24.0 --single-branch --recursive https
 # && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
 # && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=3018116794429b77ce0dd7436c2906f8be4eb5d6163b8451c5ce7e7bedad152b
-ENV VERSION_ELEMENTS=0.21.0.2
-RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
+ENV SHA256SUM_ELEMENTS=0278017429236f2cc651bb746e8ae826b740811d73789d07d1682649f2414465
+ENV VERSION_ELEMENTS=22.0.2
+RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
  && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
  && tar xzf elements.tar.gz -C /srv/explorer \
- && ln -s "/srv/explorer/elements-elements-${VERSION_ELEMENTS}" /srv/explorer/liquid \
+ && ln -s "/srv/explorer/elements-${VERSION_ELEMENTS}" /srv/explorer/liquid \
  && mv /srv/explorer/liquid/bin/{elementsd,liquidd} \
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
