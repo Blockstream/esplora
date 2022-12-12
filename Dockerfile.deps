@@ -32,9 +32,9 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.39.0 https://github.
 ENV CORE_PATCH=contrib/0001-add-support-to-save-fee-estimates-without-shutting-d.patch
 ENV CORE_SRC=/root/bitcoin
 COPY ${CORE_PATCH} /${CORE_PATCH}
-RUN git clone --quiet --depth 1 --branch v24.0 --single-branch --recursive https://github.com/bitcoin/bitcoin.git ${CORE_SRC} \
+RUN git clone --quiet --depth 1 --branch v24.1 --single-branch --recursive https://github.com/bitcoin/bitcoin.git ${CORE_SRC} \
  && (cd ${CORE_SRC} \
- && git checkout dd314fe0c2f64818d2789955a8ceef50d3d6597d \
+ && git checkout 3116ccd790e76de8f64d2ef9aa5a2641c15bbd8b \
  && git apply /${CORE_PATCH} \
  && (cd depends \
  && make HOST=x86_64-pc-linux-gnu NO_QT=1 -j $(nproc --all)) \
