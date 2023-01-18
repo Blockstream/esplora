@@ -83,9 +83,10 @@ export default (t, theme, page) =>
           <ul>
             <li><a href="https://help.blockstream.com/hc/en-us" target="_blank">Help Center</a></li>
             <li><a href="https://help.blockstream.com/hc/en-us/requests/new?ticket_form_id=8613" target="_blank">Submit a bug / request</a></li>
-            <li><a href="https://blockstream.com/press-releases/" target="_blank">Press</a></li>
             <li><a href="https://blockstream.com/about/" target="_blank">About Blockstream</a></li>
-            <li><a href="https://blockstream.com/newsroom/" target="_blank">News</a></li>
+            <li><a href="https://blog.blockstream.com/" target="_blank">Blog</a></li>
+            <li><a href="https://blockstream.com/newsroom/" target="_blank">In The News</a></li>
+            <li><a href="https://blockstream.com/press-releases/" target="_blank">Press Releases</a></li>
           </ul>
         </div>
       </div>
