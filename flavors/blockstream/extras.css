@@ -1,7 +1,7 @@
 .navbar-brand::before {
   background: url(img/icons/explorer_logo.svg);
   background-size: cover;
-  width: 240px;
+  width: 245px;
   margin: 0;
   background-repeat: no-repeat;
 }
