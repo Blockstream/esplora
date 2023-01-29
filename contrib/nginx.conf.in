@@ -41,6 +41,11 @@ server {
     keepalive_timeout 650s;
     {NGINX_LOGGING};
     server_tokens off;
+
+    # client timeouts
+    client_body_timeout 5s;
+    client_header_timeout 5s;
+
     add_header X-Frame-Options SAMEORIGIN always;
     add_header Content-Security-Policy "{NGINX_CSP}" always;
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
@@ -66,6 +71,7 @@ server {
     }
     location /{NGINX_PATH}electrum-websocket/ {
         limit_req zone=lightlimitzone burst=10 nodelay;
+        client_body_timeout 60s;
         proxy_pass http://electrum_websocket/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -75,9 +81,11 @@ server {
     }
 
     location = /{NGINX_PATH}nojs {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         return 301 " /{NGINX_PATH}nojs/";
     }
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|[a-zA-Z0-9]+$) {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
@@ -85,6 +93,7 @@ server {
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
@@ -92,6 +101,7 @@ server {
         {NGINX_REWRITE}
     }
     location = /{NGINX_NOSLASH_PATH} {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
         }
