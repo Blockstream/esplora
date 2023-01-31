@@ -1,0 +1,40 @@
+.dind_setup:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://localhost:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_BUILDKIT: 1
+  services:
+    - docker:20.10.12-dind
+
+.tf_setup:
+  stage: deploy
+  before_script:
+    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
+        (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
+    - TMPF=$(mktemp) || exit 1
+    - echo $GCLOUD_KEY > $TMPF
+    - export GOOGLE_APPLICATION_CREDENTIALS=$TMPF
+    - gcloud auth activate-service-account --key-file=$TMPF
+    - gcloud auth list
+    - gcloud --version
+
+.k8s_setup:
+  stage: deploy
+  when: manual
+  image: blockstream/kubectl:v1.24.8
+  before_script:
+    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
+        (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
+    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
+    - kubectl --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU version
+  script:
+    - |
+      kubectl --v=8 --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US \
+      -n $KUBE_NAMESPACE set image $KUBE_WORKLOAD $KUBE_CONTAINER=$IMAGE:$CI_COMMIT_SHA
+    - |
+      kubectl --v=8 --server=$KUBE_SERVER_EU --token=$KUBE_TOKEN_EU \
+      -n $KUBE_NAMESPACE set image $KUBE_WORKLOAD $KUBE_CONTAINER=$IMAGE:$CI_COMMIT_SHA

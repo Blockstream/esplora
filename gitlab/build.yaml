@@ -1,0 +1,49 @@
+test_docker_build_esplora:
+  extends: .dind_setup
+  script:
+    - docker pull ${IMAGE}:latest || true
+    - docker build
+        --network=host
+        --build-arg BUILDKIT_INLINE_CACHE=1
+        --cache-from ${IMAGE}:latest
+        -f Dockerfile
+        -t ${IMAGE} .
+    - docker rmi ${IMAGE} || true
+
+build_esplora:
+  extends: .dind_setup
+  when: manual
+  script:
+    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
+        docker pull ${IMAGE}:latest
+        && docker build
+          --network=host
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+          --cache-from ${IMAGE}:latest
+          -t ${IMAGE}:latest
+          -t ${IMAGE}:$CI_COMMIT_SHA .
+        && docker push ${IMAGE}:$CI_COMMIT_SHA)
+    - if [ $CI_COMMIT_BRANCH == "master" ]; then docker push ${IMAGE}:latest; fi
+
+build_base:
+  extends: .dind_setup
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        paths:
+          - Dockerfile.deps
+  script:
+    - docker pull ${BULLSEYE_IMAGE} || true
+    - docker pull ${IMAGE_BASE}:latest || true
+    - >
+      docker build
+      -f Dockerfile.deps
+      --network=host
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from ${IMAGE_BASE}:latest
+      -t ${IMAGE_BASE}:$CI_COMMIT_SHA
+      -t ${IMAGE_BASE}:latest
+      .
+    - docker push ${IMAGE_BASE}:$CI_COMMIT_SHA
+    - docker push ${IMAGE_BASE}:latest

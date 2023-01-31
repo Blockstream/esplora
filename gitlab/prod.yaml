@@ -1,0 +1,199 @@
+plan_bitcoin_mainnet:
+  extends: .tf_setup
+  only:
+    - /^bitcoin_mainnet.*/
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-mainnet &&
+       terraform init -input=false &&
+       terraform plan
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_BTCM"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCM"
+        -var "instance_type=$NODE_INSTANCE_TYPE_BTCM"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCM"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=300"
+        -var "initial_delay_sec=1200"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/_sync"
+        -input=false)
+
+deploy_bitcoin_mainnet:
+  extends: .tf_setup
+  when: manual
+  only:
+    - /^bitcoin_mainnet.*/
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-bitcoin-mainnet
+    - docker push blockstream/esplora:builder-bitcoin-mainnet
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-mainnet &&
+       terraform init -input=false &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_BTCM"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCM"
+        -var "instance_type=$NODE_INSTANCE_TYPE_BTCM"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCM"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=300"
+        -var "initial_delay_sec=1200"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/_sync"
+        -input=false -auto-approve)
+
+plan_bitcoin_testnet:
+  extends: .tf_setup
+  only:
+    - /^bitcoin_testnet.*/
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-testnet &&
+       terraform init -input=false &&
+       terraform plan
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_BTCT"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCT"
+        -var "instance_type=$NODE_INSTANCE_TYPE_BTCT"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCT"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=600"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/testnet/_sync"
+        -input=false)
+
+deploy_bitcoin_testnet:
+  extends: .tf_setup
+  when: manual
+  only:
+    - /^bitcoin_testnet.*/
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-bitcoin-testnet
+    - docker push blockstream/esplora:builder-bitcoin-testnet
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select bitcoin-testnet &&
+       terraform init -input=false &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_BTCT"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCT"
+        -var "instance_type=$NODE_INSTANCE_TYPE_BTCT"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCT"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=600"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/testnet/_sync"
+        -input=false -auto-approve)
+
+plan_liquid_mainnet:
+  extends: .tf_setup
+  only:
+    - /^liquid_mainnet.*/
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-mainnet &&
+       terraform init -input=false &&
+       terraform plan
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_LQM"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQM"
+        -var "instance_type=$NODE_INSTANCE_TYPE_LQM"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQM"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquid/_sync"
+        -input=false)
+
+deploy_liquid_mainnet:
+  extends: .tf_setup
+  when: manual
+  only:
+    - /^liquid_mainnet.*/
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-liquid-mainnet
+    - docker push blockstream/esplora:builder-liquid-mainnet
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-mainnet &&
+       terraform init -input=false &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_LQM"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQM"
+        -var "instance_type=$NODE_INSTANCE_TYPE_LQM"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQM"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquid/_sync"
+        -input=false -auto-approve)
+
+plan_liquid_testnet:
+  extends: .tf_setup
+  only:
+    - /^liquid_testnet.*/
+  script:
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-testnet &&
+       terraform init -input=false &&
+       terraform plan
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_LQT"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQT"
+        -var "instance_type=$NODE_INSTANCE_TYPE_LQT"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQT"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquidtestnet/_sync"
+        -input=false)
+
+deploy_liquid_testnet:
+  extends: .tf_setup
+  when: manual
+  only:
+    - /^liquid_testnet.*/
+  script:
+    - docker pull blockstream/esplora:$CI_COMMIT_SHA
+    - docker tag blockstream/esplora:$CI_COMMIT_SHA blockstream/esplora:builder-liquid-testnet
+    - docker push blockstream/esplora:builder-liquid-testnet
+    - (cd terraform && terraform init -input=false &&
+       terraform workspace select liquid-testnet &&
+       terraform init -input=false &&
+       terraform apply
+        -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
+        -var "cluster_size=$NODE_CLUSTER_SIZE_LQT"
+        -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQT"
+        -var "instance_type=$NODE_INSTANCE_TYPE_LQT"
+        -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQT"
+        -var "regions=$REGIONS"
+        -var "zones=$ZONES"
+        -var "min_ready_sec=60"
+        -var "initial_delay_sec=900"
+        -var "image_source_project=$IMAGE_SOURCE_PROJECT"
+        -var "mempooldat=$MEMPOOLDAT"
+        -var "fullurl=https://blockstream.info/liquidtestnet/_sync"
+        -input=false -auto-approve)
