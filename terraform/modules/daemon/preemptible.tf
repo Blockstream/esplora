@@ -1,7 +1,7 @@
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   provider = google-beta
-  name     = "${var.name}-explorer-pig-${each.value}"
+  name     = "${var.name}-explorer-pig-${each.value}-0"
   for_each = var.create_resources ? toset(var.regions) : []
 
   base_instance_name = "${var.name}-pexplorer-${each.value}"
@@ -35,6 +35,13 @@ resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   named_port {
     name = "http"
     port = 80
+  }
+
+  lifecycle {
+    ignore_changes = [
+      name,
+      base_instance_name,
+    ]
   }
 }
 

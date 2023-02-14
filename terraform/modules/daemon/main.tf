@@ -23,7 +23,7 @@ resource "google_compute_region_instance_group_manager" "daemon" {
   name     = "${var.name}-explorer-ig-${each.value}"
   for_each = var.create_resources ? toset(var.regions) : []
 
-  base_instance_name = "${var.name}-explorer-${each.value}-"
+  base_instance_name = "${var.name}-explorer-${each.value}"
 
   version {
     instance_template = google_compute_instance_template.daemon[each.value].self_link
@@ -54,6 +54,13 @@ resource "google_compute_region_instance_group_manager" "daemon" {
   named_port {
     name = "http"
     port = 80
+  }
+
+  lifecycle {
+    ignore_changes = [
+      name,
+      base_instance_name,
+    ]
   }
 }
 

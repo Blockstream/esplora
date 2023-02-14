@@ -4,7 +4,7 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
   DOCKER_TLS_CERTDIR: ""
 
-image: blockstream/gcloud-docker@sha256:b714bd30f6686816fd3dd68b0a7ccf2f422f6f4aab0b0a74b99eeec4e40cc05e
+image: blockstream/gcloud-docker@sha256:d4ef1abaf8c9ffccdbd96b0eb3bf0363f3ca30835ea1d8eea57802c3b562d73c
 stages:
   - build
   - plan
