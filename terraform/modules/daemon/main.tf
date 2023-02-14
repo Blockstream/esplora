@@ -20,17 +20,17 @@ resource "google_compute_health_check" "daemon" {
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "daemon" {
   provider = google-beta
-  name     = "${var.name}-explorer-ig-${var.regions[count.index]}"
-  count    = var.create_resources > 0 ? length(var.regions) : 0
+  name     = "${var.name}-explorer-ig-${each.value}"
+  for_each = var.create_resources ? toset(var.regions) : []
 
-  base_instance_name = "${var.name}-explorer-${var.regions[count.index]}-${count.index}"
+  base_instance_name = "${var.name}-explorer-${each.value}-"
 
   version {
-    instance_template = google_compute_instance_template.daemon[0].self_link
+    instance_template = google_compute_instance_template.daemon[each.value].self_link
     name              = "original"
   }
 
-  region      = var.regions[count.index]
+  region      = each.value
   target_size = var.size
 
   update_policy {
@@ -57,17 +57,37 @@ resource "google_compute_region_instance_group_manager" "daemon" {
   }
 }
 
+module "daemon_template" {
+  source = "./cloud-config"
+
+  for_each = var.create_resources ? toset(var.regions) : []
+
+  docker_tag                  = var.docker_tag_explorer
+  daemon                      = var.daemon
+  network                     = var.network
+  container_name              = "${var.name}-explorer"
+  name                        = var.name
+  docker_tag_node_exporter    = var.docker_tag_node_exporter
+  docker_tag_process_exporter = var.docker_tag_process_exporter
+  docker_tag_gcloud           = var.docker_tag_gcloud
+  image_source_project        = var.image_source_project
+  mempooldat                  = var.mempooldat
+  fullurl                     = var.fullurl
+  region                      = each.value
+}
+
 ## Create instance template
 resource "google_compute_instance_template" "daemon" {
   name_prefix  = "${var.name}-explorer-template-"
   description  = "This template is used to create ${var.name} instances."
   machine_type = var.instance_type
-  count        = var.create_resources
+  for_each     = var.create_resources ? toset(var.regions) : []
 
   labels = {
     type    = "explorer"
     name    = var.name
     network = var.network
+    region  = each.value
   }
 
   scheduling {
@@ -91,7 +111,7 @@ resource "google_compute_instance_template" "daemon" {
 
   metadata = {
     google-logging-enabled = "true"
-    user-data              = data.template_cloudinit_config.daemon.rendered
+    user-data              = module.daemon_template[each.value].template.rendered
   }
 
   service_account {

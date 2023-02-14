@@ -2,123 +2,157 @@ users:
   - name: bs
     uid: 2000
 
-
 write_files:
   - path: /home/bs/prep_disk.sh
     permissions: 0644
     owner: root
     content: |
-        #!/bin/bash
+      #!/bin/bash
 
-        INSTANCE_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google')
-        ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google')
+      INSTANCE_NAME=$(curl http://metadata.google.internal/computeMetadata/v1/instance/name -H 'Metadata-Flavor: Google')
+      ZONE=$(curl http://metadata.google.internal/computeMetadata/v1/instance/zone -H 'Metadata-Flavor: Google')
 
-        if ! mount | grep -q /mnt/disks/data
-        then
-          echo "creating and attaching disk"
-          disk=$(docker run --rm --name create-disk-from-image --tmpfs /tmp ${docker_tag_gcloud} gcloud compute disks create $${INSTANCE_NAME}-data --type pd-ssd --image-project ${image_source_project} --image-family ${name} --zone $${ZONE})
-          docker run --rm --name attach-disk --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances attach-disk $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE} --device-name=data
-          docker run --rm --name set-disk-auto-delete --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances set-disk-auto-delete $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE}
-          mkdir -p /mnt/disks/data
-          mount -o "rw,noatime,discard,nobarrier,nodev" /dev/disk/by-id/google-data /mnt/disks/data
-        fi
+      if ! mount | grep -q /mnt/disks/data
+      then
+        echo "creating and attaching disk"
+        disk=$(docker run --rm --name create-disk-from-image --tmpfs /tmp ${docker_tag_gcloud} gcloud compute disks create $${INSTANCE_NAME}-data --type pd-ssd --image-project ${image_source_project} --image-family ${name} --zone $${ZONE})
+        docker run --rm --name attach-disk --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances attach-disk $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE} --device-name=data
+        docker run --rm --name set-disk-auto-delete --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances set-disk-auto-delete $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE}
+        mkdir -p /mnt/disks/data
+        mount -o "rw,noatime,discard,nobarrier,nodev" /dev/disk/by-id/google-data /mnt/disks/data
+      fi
+
+  - path: /home/bs/insert_instance_list.sh
+    permissions: 0644
+    owner: root
+    content: |
+      #!/bin/bash
+
+      # Exit if not bitcoin.
+      if [ "${daemon}" != "bitcoin" ]
+      then
+        echo "[insert-instance-list] bitcoin only, this is ${daemon}, exiting!"
+        exit 0
+      fi
+
+      # Sleep until `getblockchaininfo` works.
+      while ! docker exec ${container_name} cli getblockchaininfo > /dev/null 2>&1
+      do
+        echo "[insert-instance-list] waiting for explorer to be ready"
+        sleep 5
+      done
+
+      # List all guri's of the non-preemptible instances in the instance group.
+      INSTANCES=$(docker run --rm --name instance-group-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instance-groups list-instances ${name}-explorer-ig-${region} --region ${region} --uri)
+
+      # Addnode each instance's internal IP.
+      for instance in $INSTANCES
+      do
+        IFS='/' read -r -a parts <<< $instance
+        # ZONE=$${parts[8]}
+        ID=$${parts[10]}
+        INTERNAL_IP=$(docker run --rm --name instance-group-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances list --filter="name=( 'NAME' '$ID')" --format=json | jq -r '.[0].networkInterfaces[0].networkIP')
+        docker exec ${container_name} cli addnode $INTERNAL_IP:$8333 add
+        echo "[insert-instance-list] added $INTERNAL_IP:$8333 to ${container_name}"
+      done
 
   - path: /etc/systemd/system/explorer.service
     permissions: 0644
     owner: root
     content: |
-        [Unit]
-        Description=explorer
-        Wants=gcr-online.target docker.service
-        After=gcr-online.service docker.service
+      [Unit]
+      Description=explorer
+      Wants=gcr-online.target docker.service
+      After=gcr-online.service docker.service
 
-        [Service]
-        Restart=always
-        RestartSec=1
-        TimeoutStartSec=1200
-        Environment=HOME=/home/bs
-        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
-        ExecStartPre=/usr/bin/docker pull ${docker_tag}
-        ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
-        ExecStartPre=/bin/bash /home/bs/prep_disk.sh
-        ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,50001 -j ACCEPT
-        ExecStart=/usr/bin/docker run \
-            --network=host \
-            --pid=host \
-            --name=${container_name} \
-            --tmpfs /tmp/ \
-            -v /mnt/disks/data:/data:rw \
-            --ulimit nofile=524288:524288 \
-            "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
-        ExecStop=/usr/bin/docker stop ${container_name}
-        ExecStopPost=/usr/bin/docker rm ${container_name}
-        ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 80,4224,50001 -j ACCEPT
+      [Service]
+      Restart=always
+      RestartSec=1
+      TimeoutStartSec=1200
+      Environment=HOME=/home/bs
+      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+      ExecStartPre=/usr/bin/docker pull ${docker_tag}
+      ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
+      ExecStartPre=/bin/bash /home/bs/prep_disk.sh
+      ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,8333,50001 -j ACCEPT
+      ExecStart=/usr/bin/docker run \
+          --network=host \
+          --pid=host \
+          --name=${container_name} \
+          --tmpfs /tmp/ \
+          -v /mnt/disks/data:/data:rw \
+          --ulimit nofile=524288:524288 \
+          "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
+      ExecStartPost=-/bin/bash /home/bs/insert_instance_list.sh
+      ExecStop=/usr/bin/docker stop ${container_name}
+      ExecStopPost=/usr/bin/docker rm ${container_name}
+      ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 80,4224,8333,50001 -j ACCEPT
 
-        [Install]
-        WantedBy=multi-user.target
+      [Install]
+      WantedBy=multi-user.target
 
   - path: /etc/systemd/system/node-exporter.service
     permissions: 0644
     owner: root
     content: |
-        [Unit]
-        Description=prometheus node-exporter
-        Wants=gcr-online.target docker.service
-        After=gcr-online.service docker.service
+      [Unit]
+      Description=prometheus node-exporter
+      Wants=gcr-online.target docker.service
+      After=gcr-online.service docker.service
 
-        [Service]
-        Restart=always
-        RestartSec=1
-        Environment=HOME=/home/bs
-        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
-        ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
-        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
-        ExecStart=/usr/bin/docker run \
-            --name=node-exporter \
-            --network=host \
-            --read-only \
-            -v /proc:/host/proc:ro \
-            -v /sys:/host/sys:ro \
-            -v /:/rootfs:ro \
-            -v metrics:/metrics:ro \
-            -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro \
-            "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))" --collector.systemd
-        ExecStop=/usr/bin/docker stop node-exporter
-        ExecStopPost=/usr/bin/docker rm node-exporter
-        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+      [Service]
+      Restart=always
+      RestartSec=1
+      Environment=HOME=/home/bs
+      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+      ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
+      ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
+      ExecStart=/usr/bin/docker run \
+          --name=node-exporter \
+          --network=host \
+          --read-only \
+          -v /proc:/host/proc:ro \
+          -v /sys:/host/sys:ro \
+          -v /:/rootfs:ro \
+          -v metrics:/metrics:ro \
+          -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro \
+          "${docker_tag_node_exporter}" --path.procfs /host/proc --path.sysfs /host/sys --collector.textfile.directory /metrics --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc($|/))" --collector.systemd
+      ExecStop=/usr/bin/docker stop node-exporter
+      ExecStopPost=/usr/bin/docker rm node-exporter
+      ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
 
-        [Install]
-        WantedBy=multi-user.target
+      [Install]
+      WantedBy=multi-user.target
 
   - path: /etc/systemd/system/process-exporter.service
     permissions: 0644
     owner: root
     content: |
-        [Unit]
-        Description=prometheus process-exporter
-        Wants=gcr-online.target docker.service
-        After=gcr-online.service docker.service
+      [Unit]
+      Description=prometheus process-exporter
+      Wants=gcr-online.target docker.service
+      After=gcr-online.service docker.service
 
-        [Service]
-        Restart=always
-        RestartSec=1
-        Environment=HOME=/home/bs
-        ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
-        ExecStartPre=/usr/bin/docker pull ${docker_tag_process_exporter}
-        ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
-        ExecStart=/usr/bin/docker run \
-            --name=process-exporter \
-            --pid=host \
-            --read-only \
-            -v /proc:/host/proc:ro \
-            -p 9256:9256 \
-            "${docker_tag_process_exporter}" --procfs /host/proc -procnames electrs,bitcoind,elementsd,liquidd,tor,nginx
-        ExecStop=/usr/bin/docker stop process-exporter
-        ExecStopPost=/usr/bin/docker rm process-exporter
-        ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
+      [Service]
+      Restart=always
+      RestartSec=1
+      Environment=HOME=/home/bs
+      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
+      ExecStartPre=/usr/bin/docker pull ${docker_tag_process_exporter}
+      ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
+      ExecStart=/usr/bin/docker run \
+          --name=process-exporter \
+          --pid=host \
+          --read-only \
+          -v /proc:/host/proc:ro \
+          -p 9256:9256 \
+          "${docker_tag_process_exporter}" --procfs /host/proc -procnames electrs,bitcoind,elementsd,liquidd,tor,nginx
+      ExecStop=/usr/bin/docker stop process-exporter
+      ExecStopPost=/usr/bin/docker rm process-exporter
+      ExecStopPost=/sbin/iptables -D INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
 
-        [Install]
-        WantedBy=multi-user.target
+      [Install]
+      WantedBy=multi-user.target
 
 runcmd:
   - systemctl daemon-reload

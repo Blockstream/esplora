@@ -1,17 +1,17 @@
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   provider = google-beta
-  name     = "${var.name}-explorer-pig-${var.regions[count.index]}"
-  count    = var.create_resources > 0 ? length(var.regions) : 0
+  name     = "${var.name}-explorer-pig-${each.value}"
+  for_each = var.create_resources ? toset(var.regions) : []
 
-  base_instance_name = "${var.name}-pexplorer-${var.regions[count.index]}-${count.index}"
+  base_instance_name = "${var.name}-pexplorer-${each.value}"
 
   version {
-    instance_template = google_compute_instance_template.preemptible-daemon[0].self_link
+    instance_template = google_compute_instance_template.preemptible-daemon[each.value].self_link
     name              = "original"
   }
 
-  region      = var.regions[count.index]
+  region      = each.value
   target_size = var.preemptible_size
 
   update_policy {
@@ -43,13 +43,14 @@ resource "google_compute_instance_template" "preemptible-daemon" {
   name_prefix  = "${var.name}-pexplorer-template-"
   description  = "This template is used to create preemptible ${var.name} instances."
   machine_type = var.preemptible_instance_type
-  count        = var.create_resources
+  for_each     = var.create_resources ? toset(var.regions) : []
 
   labels = {
     type        = "explorer"
     name        = var.name
     network     = var.network
     preemptible = "1"
+    region      = each.value
   }
 
   scheduling {
@@ -74,7 +75,7 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 
   metadata = {
     google-logging-enabled = "true"
-    user-data              = data.template_cloudinit_config.daemon.rendered
+    user-data              = module.daemon_template[each.value].template.rendered
   }
 
   service_account {

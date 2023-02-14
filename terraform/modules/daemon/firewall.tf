@@ -53,3 +53,21 @@ resource "google_compute_firewall" "prom-traffic" {
     google_service_account.daemon[0].email,
   ]
 }
+
+resource "google_compute_firewall" "internal_daemon_traffic" {
+  name    = "${var.name}-internal-daemon-access"
+  network = data.google_compute_network.default.self_link
+
+  count = var.create_resources
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8333"]
+  }
+
+  source_ranges = ["10.0.0.0/8"]
+
+  target_service_accounts = [
+    google_service_account.daemon[0].email,
+  ]
+}
