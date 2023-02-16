@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "cd ../node_modules/.bin &&  patch-package",
-    "dist": "cd ../ && cd node_modules && cd .bin && babel -d dist src"
+    "dist": "cd ../node_modules/.bin && babel -d dist src"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.11",
