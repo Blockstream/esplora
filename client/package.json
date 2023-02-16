@@ -4,8 +4,8 @@
   "author": "Nadav Ivgi",
   "license": "MIT",
   "scripts": {
-    "postinstall": "../node_modules/.bin/patch-package",
-    "dist": "../node_modules/.bin/babel -d dist src"
+    "postinstall": "cd ../node_modules/.bin &&  patch-package",
+    "dist": "cd ../ && cd node_modules && cd .bin || babel -d dist src"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.11",
