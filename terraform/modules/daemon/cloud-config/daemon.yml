@@ -52,8 +52,8 @@ write_files:
         # ZONE=$${parts[8]}
         ID=$${parts[10]}
         INTERNAL_IP=$(docker run --rm --name instance-group-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances list --filter="name=( 'NAME' '$ID')" --format=json | jq -r '.[0].networkInterfaces[0].networkIP')
-        docker exec ${container_name} cli addnode $INTERNAL_IP:$8333 add
-        echo "[insert-instance-list] added $INTERNAL_IP:$8333 to ${container_name}"
+        docker exec ${container_name} cli addnode $INTERNAL_IP:8333 add
+        echo "[insert-instance-list] added $INTERNAL_IP:8333 to ${container_name}"
       done
 
   - path: /etc/systemd/system/explorer.service
