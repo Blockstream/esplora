@@ -42,18 +42,16 @@ write_files:
         sleep 5
       done
 
-      # List all guri's of the non-preemptible instances in the instance group.
-      INSTANCES=$(docker run --rm --name instance-group-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instance-groups list-instances ${name}-explorer-ig-${region} --region ${region} --uri)
+      HEALTHY_INSTANCES=$(docker run --rm --name backend-service-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute backend-services get-health --global ${name}-explorer-backend-service --filter="backend~.*\/${name}-explorer-ig-.* AND status.healthStatus[].healthState=HEALTHY" --format="value(status.healthStatus[].ipAddress)" | tr ';' "\n")
 
       # Addnode each instance's internal IP.
-      for instance in $INSTANCES
+      for ip in $HEALTHY_INSTANCES
       do
         IFS='/' read -r -a parts <<< $instance
         # ZONE=$${parts[8]}
         ID=$${parts[10]}
-        INTERNAL_IP=$(docker run --rm --name instance-group-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances list --filter="name=( 'NAME' '$ID')" --format=json | jq -r '.[0].networkInterfaces[0].networkIP')
-        docker exec ${container_name} cli addnode $INTERNAL_IP:8333 add
-        echo "[insert-instance-list] added $INTERNAL_IP:8333 to ${container_name}"
+        docker exec ${container_name} cli addnode $ip:8333 add
+        echo "[insert-instance-list] added $ip:8333 to ${container_name}"
       done
 
   - path: /etc/systemd/system/explorer.service
