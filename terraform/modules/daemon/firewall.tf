@@ -62,7 +62,7 @@ resource "google_compute_firewall" "internal_daemon_traffic" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8333"]
+    ports    = ["18333", "8333"]
   }
 
   source_ranges = ["10.0.0.0/8"]

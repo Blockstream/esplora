@@ -44,14 +44,20 @@ write_files:
 
       HEALTHY_INSTANCES=$(docker run --rm --name backend-service-list --tmpfs /tmp ${docker_tag_gcloud} gcloud compute backend-services get-health --global ${name}-explorer-backend-service --filter="backend~.*\/${name}-explorer-ig-.* AND status.healthStatus[].healthState=HEALTHY" --format="value(status.healthStatus[].ipAddress)" | tr ';' "\n")
 
+      if [ "${network}" == "testnet" ]; then
+        PORT=18333
+      else
+        PORT=8333
+      fi
+
       # Addnode each instance's internal IP.
       for ip in $HEALTHY_INSTANCES
       do
         IFS='/' read -r -a parts <<< $instance
         # ZONE=$${parts[8]}
         ID=$${parts[10]}
-        docker exec ${container_name} cli addnode $ip:8333 add
-        echo "[insert-instance-list] added $ip:8333 to ${container_name}"
+        docker exec ${container_name} cli addnode $ip:$PORT add
+        echo "[insert-instance-list] added $ip:$PORT to ${container_name}"
       done
 
   - path: /etc/systemd/system/explorer.service
@@ -72,7 +78,7 @@ write_files:
       ExecStartPre=/usr/bin/docker pull ${docker_tag}
       ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
       ExecStartPre=/bin/bash /home/bs/prep_disk.sh
-      ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,8333,50001 -j ACCEPT
+      ExecStartPre=/sbin/iptables -A INPUT -m multiport -p tcp --dports 80,4224,18333,8333,50001 -j ACCEPT
       ExecStart=/usr/bin/docker run \
           --network=host \
           --pid=host \
@@ -84,7 +90,7 @@ write_files:
       ExecStartPost=-/bin/bash /home/bs/insert_instance_list.sh
       ExecStop=/usr/bin/docker stop ${container_name}
       ExecStopPost=/usr/bin/docker rm ${container_name}
-      ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 80,4224,8333,50001 -j ACCEPT
+      ExecStopPost=/sbin/iptables -D INPUT -m multiport -p tcp --dports 80,4224,18333,8333,50001 -j ACCEPT
 
       [Install]
       WantedBy=multi-user.target
