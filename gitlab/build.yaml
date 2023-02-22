@@ -24,7 +24,7 @@ build_esplora:
           -t ${IMAGE}:latest
           -t ${IMAGE}:$CI_COMMIT_SHA .
         && docker push ${IMAGE}:$CI_COMMIT_SHA)
-    - if [ $CI_COMMIT_BRANCH == "master" ]; then docker push ${IMAGE}:latest; fi
+    - if [ $CI_COMMIT_BRANCH == "master" ]; then docker pull ${IMAGE}:$CI_COMMIT_SHA; docker tag ${IMAGE}:$CI_COMMIT_SHA ${IMAGE}:latest; docker push ${IMAGE}:latest; fi
 
 build_base:
   extends: .dind_setup
@@ -33,6 +33,7 @@ build_base:
       changes:
         paths:
           - Dockerfile.deps
+        compare_to: master
   script:
     - docker pull ${BULLSEYE_IMAGE} || true
     - docker pull ${IMAGE_BASE}:latest || true
