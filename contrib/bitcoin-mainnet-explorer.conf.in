@@ -7,3 +7,4 @@ listenonion=1
 listen=1
 mempoolfullrbf=1
 blocknotify=pkill -USR1 electrs
+maxmempool=1000
