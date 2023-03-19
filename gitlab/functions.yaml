@@ -1,7 +1,4 @@
 .dind_setup:
-  stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://localhost:2375
@@ -9,6 +6,12 @@
     DOCKER_BUILDKIT: 1
   services:
     - docker:20.10.12-dind
+
+.build_setup:
+  stage: build
+  extends: .dind_setup
+  rules:
+    - if: $CI_COMMIT_BRANCH
 
 .tf_setup:
   stage: deploy

@@ -22,7 +22,9 @@ plan_bitcoin_mainnet:
         -input=false)
 
 deploy_bitcoin_mainnet:
-  extends: .tf_setup
+  extends:
+    - .tf_setup
+    - .dind_setup
   when: manual
   only:
     - /^bitcoin_mainnet.*/
@@ -72,7 +74,9 @@ plan_bitcoin_testnet:
         -input=false)
 
 deploy_bitcoin_testnet:
-  extends: .tf_setup
+  extends:
+    - .tf_setup
+    - .dind_setup
   when: manual
   only:
     - /^bitcoin_testnet.*/
@@ -122,7 +126,9 @@ plan_liquid_mainnet:
         -input=false)
 
 deploy_liquid_mainnet:
-  extends: .tf_setup
+  extends:
+    - .tf_setup
+    - .dind_setup
   when: manual
   only:
     - /^liquid_mainnet.*/
@@ -172,7 +178,9 @@ plan_liquid_testnet:
         -input=false)
 
 deploy_liquid_testnet:
-  extends: .tf_setup
+  extends:
+    - .tf_setup
+    - .dind_setup
   when: manual
   only:
     - /^liquid_testnet.*/

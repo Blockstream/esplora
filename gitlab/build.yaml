@@ -1,5 +1,5 @@
 test_docker_build_esplora:
-  extends: .dind_setup
+  extends: .build_setup
   script:
     - docker pull ${IMAGE}:latest || true
     - docker build
@@ -11,7 +11,7 @@ test_docker_build_esplora:
     - docker rmi ${IMAGE} || true
 
 build_esplora:
-  extends: .dind_setup
+  extends: .build_setup
   when: manual
   script:
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
@@ -27,7 +27,7 @@ build_esplora:
     - if [ $CI_COMMIT_BRANCH == "master" ]; then docker pull ${IMAGE}:$CI_COMMIT_SHA; docker tag ${IMAGE}:$CI_COMMIT_SHA ${IMAGE}:latest; docker push ${IMAGE}:latest; fi
 
 build_base:
-  extends: .dind_setup
+  extends: .build_setup
   rules:
     - if: $CI_COMMIT_BRANCH
       changes:
