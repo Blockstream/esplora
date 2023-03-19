@@ -171,6 +171,11 @@ variable "kms_location" {
   default = "us-central1"
 }
 
+variable "disk_type" {
+  type    = string
+  default = "pd-balanced"
+}
+
 variable "image_source_project" {
   type    = string
   default = ""

@@ -57,3 +57,8 @@ variable "region" {
   type    = string
   default = ""
 }
+
+variable "disk_type" {
+  type    = string
+  default = ""
+}

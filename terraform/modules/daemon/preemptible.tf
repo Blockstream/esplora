@@ -1,7 +1,7 @@
 # Create regional instance group
 resource "google_compute_region_instance_group_manager" "preemptible-daemon" {
   provider = google-beta
-  name     = "${var.name}-explorer-pig-${each.value}-0"
+  name     = "${var.name}-explorer-pig-${each.value}"
   for_each = var.create_resources ? toset(var.regions) : []
 
   base_instance_name = "${var.name}-pexplorer-${each.value}"
@@ -68,7 +68,7 @@ resource "google_compute_instance_template" "preemptible-daemon" {
 
   disk {
     source_image = var.boot-image
-    disk_type    = "pd-ssd"
+    disk_type    = var.disk_type
     auto_delete  = true
     boot         = true
     disk_size_gb = "20"

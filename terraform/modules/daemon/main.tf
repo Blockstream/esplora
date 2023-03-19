@@ -80,6 +80,7 @@ module "daemon_template" {
   image_source_project        = var.image_source_project
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
+  disk_type                   = var.disk_type
   region                      = each.value
 }
 
@@ -104,7 +105,7 @@ resource "google_compute_instance_template" "daemon" {
 
   disk {
     source_image = var.boot-image
-    disk_type    = "pd-ssd"
+    disk_type    = var.disk_type
     auto_delete  = true
     boot         = true
     disk_size_gb = "100"

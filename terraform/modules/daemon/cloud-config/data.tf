@@ -17,6 +17,7 @@ data "template_cloudinit_config" "daemon" {
       mempooldat                  = var.mempooldat
       fullurl                     = var.fullurl
       region                      = var.region
+      disk_type                   = var.disk_type
     })
   }
 }

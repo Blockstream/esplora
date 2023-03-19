@@ -86,6 +86,7 @@ module "bitcoin-testnet" {
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
   network                     = "testnet"
+  disk_type                   = var.disk_type
   instance_type               = var.instance_type
   preemptible_instance_type   = var.preemptible_instance_type
   size                        = var.cluster_size
@@ -109,6 +110,7 @@ module "bitcoin-mainnet" {
   name                        = "bitcoin-mainnet"
   daemon                      = "bitcoin"
   network                     = "mainnet"
+  disk_type                   = var.disk_type
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
   instance_type               = var.instance_type
@@ -134,6 +136,7 @@ module "liquid-mainnet" {
   name                        = "liquid-mainnet"
   daemon                      = "liquid"
   network                     = "mainnet"
+  disk_type                   = var.disk_type
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
   instance_type               = var.instance_type
@@ -159,6 +162,7 @@ module "liquid-testnet" {
   name                        = "liquid-testnet"
   daemon                      = "liquid"
   network                     = "testnet"
+  disk_type                   = var.disk_type
   mempooldat                  = var.mempooldat
   fullurl                     = var.fullurl
   instance_type               = var.instance_type

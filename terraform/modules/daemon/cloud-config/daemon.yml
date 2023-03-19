@@ -15,7 +15,7 @@ write_files:
       if ! mount | grep -q /mnt/disks/data
       then
         echo "creating and attaching disk"
-        disk=$(docker run --rm --name create-disk-from-image --tmpfs /tmp ${docker_tag_gcloud} gcloud compute disks create $${INSTANCE_NAME}-data --type pd-ssd --image-project ${image_source_project} --image-family ${name} --zone $${ZONE})
+        disk=$(docker run --rm --name create-disk-from-image --tmpfs /tmp ${docker_tag_gcloud} gcloud compute disks create $${INSTANCE_NAME}-data --type ${disk_type} --image-project ${image_source_project} --image-family ${name} --zone $${ZONE})
         docker run --rm --name attach-disk --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances attach-disk $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE} --device-name=data
         docker run --rm --name set-disk-auto-delete --tmpfs /tmp ${docker_tag_gcloud} gcloud compute instances set-disk-auto-delete $${INSTANCE_NAME} --disk $${INSTANCE_NAME}-data --zone $${ZONE}
         mkdir -p /mnt/disks/data
