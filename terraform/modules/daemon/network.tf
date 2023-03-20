@@ -34,6 +34,14 @@ resource "google_compute_backend_service" "daemon" {
   timeout_sec = 3600
   enable_cdn  = true
 
+  cdn_policy {
+    cache_key_policy {
+      include_host = true
+      include_protocol = true
+      include_query_string = true
+    }
+  }
+
   dynamic "backend" {
     for_each = google_compute_region_instance_group_manager.daemon
     iterator = group
