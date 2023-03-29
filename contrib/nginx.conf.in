@@ -9,8 +9,12 @@ map $limit $limit_key {
     1 $http_x_forwarded_for;
 }
 
-limit_req_zone $limit_key zone=lightlimitzone:20m rate=50r/s;
+limit_req_zone $limit_key zone=lightlimitzone:10m rate=50r/s;
+limit_req_zone $limit_key zone=heavylimitzone:10m rate=5r/s;
+limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
 
+limit_req_status 429;
+limit_conn_status 429;
 
 upstream backend {
     server unix:/var/electrs-rest.sock;
@@ -54,7 +58,8 @@ server {
     add_header Referrer-Policy "no-referrer" always;
 
     location /{NGINX_PATH}api/ {
-        limit_req zone=lightlimitzone burst=100 nodelay;
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
 
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin * always;
@@ -70,7 +75,9 @@ server {
         proxy_set_header Connection "";
     }
     location /{NGINX_PATH}electrum-websocket/ {
-        limit_req zone=lightlimitzone burst=10 nodelay;
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
+
         client_body_timeout 60s;
         proxy_pass http://electrum_websocket/;
         proxy_http_version 1.1;
@@ -85,7 +92,9 @@ server {
         return 301 " /{NGINX_PATH}nojs/";
     }
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|[a-zA-Z0-9]+$) {
-        limit_req zone=lightlimitzone burst=10 nodelay;
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
+
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
