@@ -4,7 +4,8 @@ import { sat2btc } from 'fmtbtc'
 import { nativeAssetLabel } from '../const'
 import { isNativeOut } from '../util'
 
-const DEFAULT_PRECISION = 0
+const DEFAULT_ISSUED_PRECISION = 0
+    , NATIVE_PRECISION = 8
 
 const pad = n => n < 10 ? '0'+n : n
 
@@ -21,7 +22,7 @@ export const formatTime = (unix, with_tz = true) => {
        + (with_tz ? ' ' + formatTimezone(time) : '')
 }
 
-export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats))} ${label}`
+export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats), NATIVE_PRECISION)} ${label}`
 
 export const formatAssetAmount = (value, precision=0, t) =>
   <span>
@@ -33,14 +34,14 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
 
   if (isNativeOut(vout)) {
     return <span>
-      {formatNumber(sat2btc(vout.value))}
+      {formatNumber(sat2btc(vout.value), NATIVE_PRECISION)}
       { ' ' }
       {!vout.asset ? nativeAssetLabel : <a href={`asset/${vout.asset}`}>{nativeAssetLabel}</a>}
     </span>
   }
 
   const [ domain, ticker, name, _precision ] = vout.asset && assetMap && assetMap[vout.asset] || []
-      , precision = _precision != null ? _precision : DEFAULT_PRECISION
+      , precision = _precision != null ? _precision : DEFAULT_ISSUED_PRECISION
       , short_id = vout.asset && vout.asset.substr(0, 10)
       , asset_url = vout.asset && `asset/${vout.asset}`
 
