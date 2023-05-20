@@ -6,6 +6,10 @@ resource "google_compute_disk" "electrum-data" {
   zone    = var.zones[count.index]
   size    = var.size
   image   = var.image
+
+  lifecycle {
+    ignore_changes = image
+  }
 }
 
 resource "google_compute_address" "electrum-address" {

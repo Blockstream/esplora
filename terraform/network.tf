@@ -81,11 +81,6 @@ resource "google_compute_url_map" "https-proxy" {
     default_service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
 
     path_rule {
-      paths   = ["/*"]
-      service = data.terraform_remote_state.bitcoin-mainnet.outputs.daemon_backend_service["bitcoin-mainnet"]
-    }
-
-    path_rule {
       paths   = ["/testnet", "/testnet/*"]
       service = data.terraform_remote_state.bitcoin-testnet.outputs.daemon_backend_service["bitcoin-testnet"]
     }
