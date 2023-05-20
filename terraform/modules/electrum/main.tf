@@ -8,7 +8,7 @@ resource "google_compute_disk" "electrum-data" {
   image   = var.image
 
   lifecycle {
-    ignore_changes = image
+    ignore_changes = [image]
   }
 }
 
