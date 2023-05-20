@@ -47,7 +47,7 @@ module "electrum" {
   zones                    = var.zones
   region                   = var.regions[0]
   instances                = 1
-  machine_type             = var.instance_type
+  machine_type             = "e2-standard-2"
   project                  = var.project
   electrum_service_account = terraform.workspace != "main" ? data.terraform_remote_state.main.outputs.electrum_service_account : ""
 
