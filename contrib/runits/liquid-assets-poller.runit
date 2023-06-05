@@ -12,7 +12,7 @@ fi
 
 # Clone repo
 if [ ! -d /srv/liquid-assets-db ]; then
-  git clone -c gpg.program=gitgpg-assets --no-checkout {ASSETS_GIT} /srv/liquid-assets-db
+  git clone -c gpg.program=gitgpg-assets --no-checkout {ASSETS_GIT} /srv/liquid-assets-db --depth 1
 fi
 
 cd /srv/liquid-assets-db
