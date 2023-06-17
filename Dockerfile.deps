@@ -55,8 +55,8 @@ RUN git clone --quiet --depth 1 --branch v24.0 --single-branch --recursive https
 # && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
 # && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=0278017429236f2cc651bb746e8ae826b740811d73789d07d1682649f2414465
-ENV VERSION_ELEMENTS=22.0.2
+ENV SHA256SUM_ELEMENTS=67aca46c12b8a81c960798502f81463b18c54d3ebd5c0804b26f1a336d148042
+ENV VERSION_ELEMENTS=22.1.1
 RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
  && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
  && tar xzf elements.tar.gz -C /srv/explorer \

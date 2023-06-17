@@ -3,11 +3,11 @@ test_docker_build_esplora:
   script:
     - docker pull ${IMAGE}:latest || true
     - docker build
-        --network=host
-        --build-arg BUILDKIT_INLINE_CACHE=1
-        --cache-from ${IMAGE}:latest
-        -f Dockerfile
-        -t ${IMAGE} .
+      --network=host
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from ${IMAGE}:latest
+      -f Dockerfile
+      -t ${IMAGE} .
     - docker rmi ${IMAGE} || true
 
 build_esplora:
@@ -15,15 +15,15 @@ build_esplora:
   when: manual
   script:
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
-        docker pull ${IMAGE}:latest
-        && docker build
-          --network=host
-          --build-arg BUILDKIT_INLINE_CACHE=1
-          --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
-          --cache-from ${IMAGE}:latest
-          -t ${IMAGE}:latest
-          -t ${IMAGE}:$CI_COMMIT_SHA .
-        && docker push ${IMAGE}:$CI_COMMIT_SHA)
+      docker pull ${IMAGE}:latest
+      && docker build
+      --network=host
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+      --cache-from ${IMAGE}:latest
+      -t ${IMAGE}:latest
+      -t ${IMAGE}:$CI_COMMIT_SHA .
+      && docker push ${IMAGE}:$CI_COMMIT_SHA)
     - if [ $CI_COMMIT_BRANCH == "master" ]; then docker pull ${IMAGE}:$CI_COMMIT_SHA; docker tag ${IMAGE}:$CI_COMMIT_SHA ${IMAGE}:latest; docker push ${IMAGE}:latest; fi
 
 build_base:

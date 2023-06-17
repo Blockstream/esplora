@@ -17,7 +17,7 @@
   stage: deploy
   before_script:
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
-        (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
+      (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
     - TMPF=$(mktemp) || exit 1
     - echo $GCLOUD_KEY > $TMPF
     - export GOOGLE_APPLICATION_CREDENTIALS=$TMPF
@@ -31,7 +31,7 @@
   image: blockstream/kubectl:v1.24.8
   before_script:
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
-        (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
+      (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
     - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
   script:
     - |
