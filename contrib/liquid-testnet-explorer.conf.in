@@ -33,3 +33,4 @@ peerbloomfilters=0
 enforcenodebloom=1
 disablewallet=1
 blocknotify=pkill -USR1 electrs
+rpcport=7040
