@@ -24,9 +24,9 @@ export default (t, theme, page) =>
         <h4 className="menu-title">Wallets</h4>
         <div className="wallets-link">
             <div className="wallets-logo">
-              <a href="https://store.blockstream.com/product/blockstream-jade/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="darkmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo.svg`} alt="jade logo"/></a>
+              <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="darkmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo.svg`} alt="jade logo"/></a>
               <a href="https://blockstream.com/green/" className="darkmode" target="_blank"><img className="green-logo" src={`${staticRoot}img/icons/green_logo.svg`} alt="green logo"/></a>
-              <a href="https://store.blockstream.com/product/blockstream-jade/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="lightmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo_light.svg`} alt="jade logo"/></a>
+              <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="lightmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo_light.svg`} alt="jade logo"/></a>
               <a href="https://blockstream.com/green/" className="lightmode" target="_blank"><img className="green-logo" src={`${staticRoot}img/icons/green_logo_light.svg`} alt="green logo"/></a>
             </div>
             <div className="store-icons">
