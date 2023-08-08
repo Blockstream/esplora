@@ -15,7 +15,8 @@ build_esplora:
   when: manual
   script:
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
-      docker pull ${IMAGE}:latest
+      sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" Dockerfile
+      && docker pull ${IMAGE}:latest
       && docker build
       --network=host
       --build-arg BUILDKIT_INLINE_CACHE=1
