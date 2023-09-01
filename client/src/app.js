@@ -58,7 +58,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
     , limit: +loc.query.limit || 50,
     }))
-  , blindingReq$ = !process.env.IS_ELEMENTS ? O.empty()
+  , blindingReq$ = !(process.env.IS_ELEMENTS && process.browser) ? O.empty()
       : page$.map(loc => loc.hash.startsWith('#blinded=') ? loc.hash.substr(9) : null)
   // End Elements only
 
