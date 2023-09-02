@@ -4,3 +4,5 @@ validatepegin=0
 initialfreecoins=2100000000000000
 blocknotify=pkill -USR1 electrs
 fallbackfee=0.000001
+blockmintxfee=0.00000099
+minrelaytxfee=0.00000099
