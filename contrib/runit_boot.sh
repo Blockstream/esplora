@@ -1,7 +1,7 @@
 #!/bin/bash
 
 shutdown() {
-  echo "shutting down container"
+  echo "shutting down the container"
 
   # first shutdown any service started by runit
   for _srv in $(ls -1 /etc/service); do
@@ -22,7 +22,7 @@ shutdown() {
   exit
 }
 
-# store enviroment variables
+# store environment variables
 export > /etc/envvars
 
 PATH=/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin
