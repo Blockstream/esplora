@@ -33,6 +33,8 @@ resource "google_compute_backend_service" "daemon" {
   port_name   = "http"
   timeout_sec = 3600
   enable_cdn  = true
+  
+  security_policy = var.name == "bitcoin-mainnet" ? "https://www.googleapis.com/compute/v1/projects/${var.project}/global/securityPolicies/esplora-block-rule" : "" # TODO: add to TF
 
   cdn_policy {
     cache_key_policy {
