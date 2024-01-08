@@ -108,7 +108,7 @@ resource "google_compute_instance_template" "daemon" {
     disk_type    = var.disk_type
     auto_delete  = true
     boot         = true
-    disk_size_gb = var.name == "bitcoin-mainnet" ? "250" : "100"
+    disk_size_gb = var.name == "bitcoin-mainnet" ? "150" : "100"
   }
 
   network_interface {

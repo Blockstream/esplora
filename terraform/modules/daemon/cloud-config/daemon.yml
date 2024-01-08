@@ -66,15 +66,14 @@ write_files:
     content: |
       [Unit]
       Description=explorer
-      Wants=gcr-online.target docker.service
-      After=gcr-online.service docker.service
+      Wants=docker.service
+      After=docker.service
 
       [Service]
       Restart=always
       RestartSec=1
       TimeoutStartSec=1200
       Environment=HOME=/home/bs
-      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
       ExecStartPre=/usr/bin/docker pull ${docker_tag}
       ExecStartPre=/usr/bin/docker pull ${docker_tag_gcloud}
       ExecStartPre=/bin/bash /home/bs/prep_disk.sh
@@ -84,6 +83,8 @@ write_files:
           --pid=host \
           --name=${container_name} \
           --tmpfs /tmp/ \
+          --log-opt max-size=25g \
+          --log-opt max-file=3 \
           -v /mnt/disks/data:/data:rw \
           --ulimit nofile=524288:524288 \
           "${docker_tag}" bash -c '/srv/explorer/run.sh ${daemon}-${network}-blockstream explorer nonverbose ${mempooldat} ${fullurl}'
@@ -101,14 +102,13 @@ write_files:
     content: |
       [Unit]
       Description=prometheus node-exporter
-      Wants=gcr-online.target docker.service
-      After=gcr-online.service docker.service
+      Wants=docker.service
+      After=docker.service
 
       [Service]
       Restart=always
       RestartSec=1
       Environment=HOME=/home/bs
-      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
       ExecStartPre=/usr/bin/docker pull ${docker_tag_node_exporter}
       ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9100 -j ACCEPT
       ExecStart=/usr/bin/docker run \
@@ -134,14 +134,13 @@ write_files:
     content: |
       [Unit]
       Description=prometheus process-exporter
-      Wants=gcr-online.target docker.service
-      After=gcr-online.service docker.service
+      Wants=docker.service
+      After=docker.service
 
       [Service]
       Restart=always
       RestartSec=1
       Environment=HOME=/home/bs
-      ExecStartPre=/usr/bin/docker-credential-gcr configure-docker
       ExecStartPre=/usr/bin/docker pull ${docker_tag_process_exporter}
       ExecStartPre=/sbin/iptables -A INPUT -m tcp -p tcp --dport 9256 -j ACCEPT
       ExecStart=/usr/bin/docker run \
