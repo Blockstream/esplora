@@ -2589,3 +2589,23 @@ h3.table-title{
     margin-right: 20px;
   }
 }
+
+.node-rgb-color {
+  height: 8px;
+  width: 8px;
+  border-radius: 15%;
+  float: left;
+  margin: 5px 5px;
+}
+
+.channel-update {
+  background-color: #21272D;
+  border-radius: 5px;
+  border: 1px solid #21272D;
+  min-height: 46px;
+  line-height: 20px;
+  font-size: 13px;
+  word-break: break-all;
+  margin: 10px 0px;
+  padding: 12px 24px;
+}
