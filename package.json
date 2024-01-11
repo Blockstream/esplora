@@ -2,6 +2,7 @@
   "name": "esplora",
   "version": "0.1.0",
   "scripts": {
+    "start": "nodemon --exec ./node_modules/.bin/babel-node dev-server.js",
     "dev-server": "babel-node dev-server.js",
     "prerender-server": "cd prerender-server && npm start",
     "postinstall": "(cd client && npm install) && (cd prerender-server && npm install)",
@@ -16,7 +17,8 @@
     "browserify-middleware": "^8.1.1",
     "express": "^4.17.1",
     "glob": "^7.1.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19"
   },
   "dependencies": {
     "@babel/cli": "^7.12.10",
@@ -26,6 +28,7 @@
     "browserify": "^17.0.0",
     "bundle-collapser": "^1.4.0",
     "cssjanus": "^2.0.1",
+    "lit-html": "^2.2.6",
     "move-decimal-point": "0.0.4",
     "patch-package": "^6.2.2",
     "pofile": "^1.1.0",

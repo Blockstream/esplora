@@ -9,6 +9,7 @@ export default ( t, isTouch, activeTab) =>
         <a href="blocks/recent" class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>
         <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
         { process.env.IS_ELEMENTS ? <a href="assets" class={{ active: activeTab == 'assets' }}>Assets<sup className="highlight"></sup></a> : "" }
+        { process.env.IS_LN ? <a href="ln/recent" class={{ active: activeTab == 'lnExplorer' }}>LN explorer</a> : "" }
       </div>
 
       { search({ t, autofocus: !isTouch }) }
