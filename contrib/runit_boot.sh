@@ -3,14 +3,20 @@
 shutdown() {
   echo "shutting down the container"
 
-  # first shutdown any service started by runit
+  # first shut down socat (avoid "Iterrupted by signal 15" error)
+  sv -w "$SVWAIT" force-stop socat
+
+  # next shut down electrs (avoid long wait + losing blocks in bitcoind)
+  sv -w "$SVWAIT" force-stop electrs
+
+  # then shutdown any other service started by runit
   for _srv in $(ls -1 /etc/service); do
-    sv force-stop $_srv
+    sv -w "$SVWAIT" force-stop "$_srv"
   done
 
   # shutdown runsvdir command
-  kill -HUP $RUNSVDIR
-  wait $RUNSVDIR
+  kill -HUP "$RUNSVDIR"
+  wait "$RUNSVDIR"
 
   # give processes time to stop
   sleep 0.5
@@ -39,7 +45,7 @@ echo "wait for processes to start...."
 
 sleep 5
 for _srv in $(ls -1 /etc/service); do
-    sv status $_srv
+    sv status "$_srv"
 done
 
 # catch shutdown signals
