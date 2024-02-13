@@ -149,7 +149,7 @@ index 000000000..c6d82345b
 +  - call the savefeeestimates RPC and verify the RPC succeeds and
 +    that the file exists
 +  - make the file read only and attempt to call the savefeeestimates RPC
-+    with the expecation that it will fail
++    with the expectation that it will fail
 +  - move the read only file and shut down the node, verify the node writes
 +    on shutdown a file that is identical to the one we saved via the RPC
 +
