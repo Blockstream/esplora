@@ -139,7 +139,7 @@ variable "docker_tag_explorer" {
 
 variable "docker_tag_tor" {
   type    = string
-  default = "blockstream/tor@sha256:378aa7ee44452617ba46369e7e27cc89c2704b9d53442cf016543a24e46f984a"
+  default = "blockstream/tor:0.4.8.10"
 }
 
 variable "docker_tag_prometheus" {
