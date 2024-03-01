@@ -150,7 +150,7 @@ Alternatively, you may use the pre-built [`blockstream/esplora` image](https://h
 ```
 docker run -p 50001:50001 -p 8080:80 \
            --volume $PWD/data_bitcoin_mainnet:/data \
-           --rm -i -t esplora \
+           --rm -i -t blockstream/esplora \
            bash -c "/srv/explorer/run.sh bitcoin-mainnet explorer"
 ```
 
@@ -159,7 +159,7 @@ docker run -p 50001:50001 -p 8080:80 \
 ```
 docker run -p 50001:50001 -p 8082:80 \
            --volume $PWD/data_liquid_mainnet:/data \
-           --rm -i -t esplora \
+           --rm -i -t blockstream/esplora \
            bash -c "/srv/explorer/run.sh liquid-mainnet explorer"
 ```
 
@@ -168,7 +168,7 @@ docker run -p 50001:50001 -p 8082:80 \
 ```
 docker run -p 50001:50001 -p 8084:80 \
            --volume $PWD/data_bitcoin_testnet:/data \
-           --rm -i -t esplora \
+           --rm -i -t blockstream/esplora \
            bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
 ```
 
@@ -195,7 +195,7 @@ docker run -p 50001:50001 -p 8096:80 \
 ```
 docker run -p 50001:50001 -p 8092:80 \
            --volume $PWD/data_liquid_regtest:/data \
-           --rm -i -t esplora \
+           --rm -i -t blockstream/esplora \
            bash -c "/srv/explorer/run.sh liquid-regtest explorer"
 ```
 
@@ -204,7 +204,7 @@ docker run -p 50001:50001 -p 8092:80 \
 ```
 docker run -p 50001:50001 -p 8094:80 \
            --volume $PWD/data_bitcoin_regtest:/data \
-           --rm -i -t esplora \
+           --rm -i -t blockstream/esplora \
            bash -c "/srv/explorer/run.sh bitcoin-regtest explorer"
 ```
 
