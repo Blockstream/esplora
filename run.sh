@@ -7,6 +7,7 @@ MODE=$2
 
 SYNC_SECRET=$4
 SYNC_SOURCE=$5
+NGINX_GCLB_IP=${NGINX_GCLB_IP:-35.201.74.156} # bs.info
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-mainnet, bitcoin-testnet, bitcoin-signet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
@@ -220,6 +221,11 @@ fi
 
 preprocess /srv/explorer/source/contrib/nginx.conf.in /etc/nginx/sites-enabled/default
 sed -i 's/user www-data;/user root;/' /etc/nginx/nginx.conf
+
+# Set real IP of service
+if [ -n "NGINX_GCLB_IP" ]; then
+  sed -i "/set_real_ip_from 35.191.0.0\/16;/a set_real_ip_from ${NGINX_GCLB_IP}\/32; # GCLB public IP" /etc/nginx/sites-enabled/default
+fi
 
 # Make mempool contents available over nginx, protected with SYNC_SECRET
 if [ -n "$SYNC_SECRET" ]; then
