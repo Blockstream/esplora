@@ -10,6 +10,7 @@ geo $limit {
     default 1;
     34.70.28.228/32 0;
     127.0.0.1/32 0;
+    216.38.154.82 0;
 }
 
 map $limit $limit_key {
