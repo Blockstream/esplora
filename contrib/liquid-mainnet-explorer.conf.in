@@ -9,3 +9,12 @@ listen=0
 blocknotify=pkill -USR1 electrs
 blockmintxfee=0.00000099
 minrelaytxfee=0.00000099
+# https://github.com/ElementsProject/elements/blob/master/contrib/seeds/liquid/nodes_main.txt
+addnode=35.196.16.254:7042
+addnode=35.237.176.63:7042
+addnode=35.237.81.14:7042
+addnode=35.237.147.21:7042
+addnode=35.227.95.109:7042
+addnode=35.231.141.173:7042
+addnode=104.196.48.184:7042
+addnode=35.231.10.147:7042
