@@ -8,6 +8,10 @@
 
 .theme-light .navbar-brand::before {
   background: url(img/icons/explorer_dark_logo.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 245px;
+  margin: 0;
 }
 
 .footer-logo::before {
@@ -40,7 +44,7 @@
     margin-top: 30px;
   }
 
-  .navbar-brand::before {
+  .theme-light .navbar-brand::before, .navbar-brand::before {
     background: url(img/icons/blockstream-logo.png);
     background-size: 54px 54px;
     width: 54px;

@@ -21,7 +21,7 @@ export default (t, theme, page) =>
         }
       </div>
       <div className="section1">
-        <h4 className="menu-title">Wallets</h4>
+        <h4 className="menu-title font-h5">Wallets</h4>
         <div className="wallets-link">
             <div className="wallets-logo">
               <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="darkmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo.svg`} alt="jade logo"/></a>
@@ -29,7 +29,7 @@ export default (t, theme, page) =>
               <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="lightmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo_light.svg`} alt="jade logo"/></a>
               <a href="https://blockstream.com/green/" className="lightmode" target="_blank"><img className="green-logo" src={`${staticRoot}img/icons/green_logo_light.svg`} alt="green logo"/></a>
             </div>
-            <div className="store-icons">
+            <div className="store-icons font-p4">
               <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590" target="_blank">
                 <img className="darkmode" src={`${staticRoot}img/icons/apple.png`} />
                 <img className="lightmode" src={`${staticRoot}img/icons/apple_dark.png`} />
@@ -51,15 +51,15 @@ export default (t, theme, page) =>
       </div>
       <div className="section2">
         <div className="link-list">
-          <h4 className="menu-title">Explorers</h4>
-          <ul>
+          <h4 className="menu-title font-h5">Explorers</h4>
+          <ul className="font-p3">
             <li><a href="/" rel="external">Bitcoin</a></li>
             <li><a href="/liquid/" rel="external">Liquid Network</a></li>
             <li><a href="/testnet/" rel="external" target="_blank">Bitcoin Testnet</a></li>
             <li><a href="/liquidtestnet/" rel="external" target="_blank">Liquid Testnet</a></li>
           </ul>
-          <h4 className="menu-title">Developer Tools</h4>
-          <ul>
+          <h4 className="menu-title font-h5">Developer Tools</h4>
+          <ul className="font-p3">
             <li><a href="https://github.com/Blockstream/esplora/blob/master/API.md" target="_blank">API</a></li>
             <li><a href="tx/push">Broadcast Transactions</a></li>
             <li> { hasCam ? <a href="scan-qr">Scan QR</a> : ""}</li>
@@ -67,8 +67,8 @@ export default (t, theme, page) =>
           </ul>
         </div>
         <div className="link-list">
-          <h4 className="menu-title">Other Products</h4>
-          <ul>
+          <h4 className="menu-title font-h5">Other Products</h4>
+          <ul className="font-p3">
             <li><a href="https://blockstream.com/liquid/" target="_blank">Liquid Network</a></li>
             <li><a href="https://blockstream.com/mining/" target="_blank">Blockstream Mining</a></li>
             <li><a href="https://blockstream.com/amp/" target="_blank">Blockstream AMP</a></li>
@@ -79,8 +79,8 @@ export default (t, theme, page) =>
           </ul>
         </div>
         <div className="link-list">
-          <h4 className="menu-title">Useful Links</h4>
-          <ul>
+          <h4 className="menu-title font-h5">Useful Links</h4>
+          <ul className="font-p3">
             <li><a href="https://help.blockstream.com/hc/en-us" target="_blank">Help Center</a></li>
             <li><a href="https://help.blockstream.com/hc/en-us/requests/new?ticket_form_id=8613" target="_blank">Submit a bug / request</a></li>
             <li><a href="https://blockstream.com/about/" target="_blank">About Blockstream</a></li>

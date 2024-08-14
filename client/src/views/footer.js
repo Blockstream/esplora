@@ -13,7 +13,7 @@ export default ({ t, page }) =>
             { !process.browser && Object.entries(page.query).map(([k, v]) =>
               k != 'lang' && <input type="hidden" name={k} value={v} />
             ) }
-            <select className="language-selector" name="lang">
+            <select className="language-selector font-h4" name="lang">
               { Object.entries(t.langs).map(([ lang_id, lang_t ]) =>
                 <option value={lang_id} attrs={lang_id == t.lang_id ? { selected: true } : {}}>{lang_t`lang_name`}</option>
               ) }
@@ -35,13 +35,13 @@ export default ({ t, page }) =>
             <div className="footer_container_content_row_onion_container">
               <div className="footer_container_content_row_onion_icon"></div>
               <div className="footer_container_content_row_onion_link-container">
-                { process.env.ONION_V3 && <a className="footer_container_content_row_onion_link" href={ process.env.ONION_V3 } target="_blank">Onion V3</a> }
+                { process.env.ONION_V3 && <a className="footer_container_content_row_onion_link font-p4" href={ process.env.ONION_V3 } target="_blank">Onion V3</a> }
               </div>
             </div>
           }
 
         </div>
-        <div className="footer_container_content_copyright">
+        <div className="footer_container_content_copyright font-p3">
           <div>
           { process.env.TERMS && <span><a href={ process.env.TERMS } target="_blank">Terms &amp; </a></span> }
           { process.env.PRIVACY && <span><a href={ process.env.PRIVACY } target="_blank">Privacy</a></span> }

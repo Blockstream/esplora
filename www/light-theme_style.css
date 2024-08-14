@@ -71,6 +71,7 @@ body.theme-light {
 .theme-light .blocks-table, .theme-light .transactions-table, .theme-light .stats-table, .theme-light .assets-table{
     background: none;
     box-shadow: 1px 0px 5px 1px lightgray;
+    padding: 30px;
 }
 
 .theme-light .pagination .pagelink{
@@ -153,16 +154,6 @@ body.theme-light {
     background-color: #fff;
 }
 
-.theme-light .load-more, .theme-light .load-more:link {
-    color: #22242c;
-    background-color: #fff;
-    border: 1px solid #1187C1;
-}
-
-.theme-light .load-more > div img{
-    filter: brightness(0) invert(0);
-}
-
 .theme-light .title-bar-recent h1 .active {
       color: #000000;
 }
@@ -238,9 +229,17 @@ body.theme-light {
   border-color: #dee2e6 !important;
 }
 
+.theme-light .blocks-table .blocks-table-row > * {
+    color: #080B0E;
+}
+
 
 @media only screen and (max-width: 850px) {
     .theme-light .assets-table-link-row:nth-child(odd)  .assets-table-row {
        color: #fff !important; 
     }
 } 
+
+.theme-light .prev-next-blocks-btns > div a > div:hover {
+    background-color: #B7BABD;
+  }

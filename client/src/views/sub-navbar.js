@@ -4,7 +4,7 @@ import search from './search'
 export default ( t, isTouch, activeTab) =>
   <div className="sub-navbar">
     <div className="container sub-nav-container">
-      <div className="sub-nav">
+      <div className="sub-nav font-h4">
         <a href="." class={{ active: activeTab == 'dashBoard' }}>Dashboard</a>
         <a href="blocks/recent" class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>
         <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>

@@ -10,12 +10,12 @@ export const transactions = (txs, viewMore, { t } ) =>
       { !txs ? loader()
       : !txs.length ? <p>{t`No recent transactions`}</p>
       : <div className="transactions-table">
-            <h3 className="table-title">{t`Latest Transactions`}</h3>
+            <h3 className="table-title font-h3">{t`Latest Transactions`}</h3>
             <div className="transactions-table-row header">
-              <div className="transactions-table-cell">{t`Transaction ID`}</div>
-              { txs[0].value != null && <div className="transactions-table-cell">{t`Value`}</div> }
-              <div className="transactions-table-cell">{t`Size`}</div>
-              <div className="transactions-table-cell">{t`Fee`}</div>
+              <div className="transactions-table-cell font-h4">{t`Transaction ID`}</div>
+              { txs[0].value != null && <div className="transactions-table-cell font-h4">{t`Value`}</div> }
+              <div className="transactions-table-cell font-h4">{t`Size`}</div>
+              <div className="transactions-table-cell font-h4">{t`Fee`}</div>
             </div>
             {txs.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
               <div className="transactions-table-link-row">
@@ -29,7 +29,7 @@ export const transactions = (txs, viewMore, { t } ) =>
             )})}
 
             {txs && viewMore ?
-              <a className="view-more" href="tx/recent">
+              <a className="view-more font-link-semibold" href="tx/recent">
                 <span>{t`View more transactions`}</span>
                 <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
               </a> : ""}

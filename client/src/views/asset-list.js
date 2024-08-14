@@ -17,7 +17,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
         { !assets ? <div className="load-more-container">{loader()}</div>
           : !assets.length ? <p>{t`No registered assets`}</p>
           : <div className="assets-table">
-            <h3 className="table-title">{t`All Assets`}</h3>
+            <h3 className="table-title font-h3">{t`All Assets`}</h3>
               <div className="assets-table-row header">
                 <a href={`assets?sort_field=name&sort_dir=${reverseSortDir}`}
                   className={`assets-table-cell sortable ${sort_field === "name" ? sort_dir : ""}`}>{t`Name`}

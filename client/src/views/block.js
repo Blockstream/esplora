@@ -16,13 +16,13 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
     <div className="block-page">
       <div className="container">
         <div>
-          <h1 className="block-header-title">{t`Block ${b.height}`}</h1>
-          <div className="block-hash"><span>{b.id}</span>
+          <h1 className="block-header-title font-h2">{t`Block ${b.height}`}</h1>
+          <div className="block-hash font-p1"><span className="text-gray">{b.id}</span>
             { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={b.id}></div>
             </div> }
           </div>
-          <div className="prev-next-blocks-btns">
+          <div className="prev-next-blocks-btns font-h5">
             <div>
               { b.previousblockhash &&
                 <a href={`block/${b.previousblockhash}`}>
@@ -50,7 +50,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
     <div className="container">
       {btnDetails(b.id, openBlock == b.id, page.query, t)}
 
-      <div className="stats-table">
+      <div className="stats-table font-p2">
         <div>
           <div>{t`Height`}</div>
           <div><a href={`block/${b.id}`}>{b.height}</a></div>
@@ -123,14 +123,14 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       </div>
 
       <div className="transactions">
-        <h3>{txsShownText(b.tx_count, goBlock.start_index, blockTxs && blockTxs.length, t)}</h3>
+        <h3 className="font-h3">{txsShownText(b.tx_count, goBlock.start_index, blockTxs && blockTxs.length, t)}</h3>
         { blockTxs ? blockTxs.map(tx => txBox( { ...tx, status: txsStatus }, { openTx, tipHeight, t, spends }))
                    : loader() }
       </div>
 
       <div className="load-more-container">
         <div>
-          { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{loader("small")}</div></div>
+          { loading ? <div className="load-more g-btn font-btn-2 disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
                     : pagingNav(b, { ...S, t }) }
         </div>
       </div>
@@ -147,9 +147,8 @@ const pagingNav = (block, { nextBlockTxs, prevBlockTxs, t }) =>
   process.browser
 
 ? nextBlockTxs &&
-    <div className="load-more" role="button" data-loadmoreTxsIndex={nextBlockTxs} data-loadmoreTxsBlock={block.id}>
-      <span>{t`Load more`}</span>
-      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    <div className="load-more g-btn primary-btn font-btn-2" role="button" data-loadmoreTxsIndex={nextBlockTxs} data-loadmoreTxsBlock={block.id}>
+      {t`Load more`}
     </div>
 
 : [
@@ -167,9 +166,9 @@ const pagingNav = (block, { nextBlockTxs, prevBlockTxs, t }) =>
 
 const btnDetails = (blockhash, isOpen, query, t) => process.browser
   // dynamic button in browser env
-  ? <div className="details-btn float-right mb-2" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
+  ? <div className="details-btn font-btn-2 font-h5 float-right mb-2" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
   // or a plain link in server-side rendered env
-  :  <a className="details-btn float-right mb-2" href={`block/${blockhash}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
+  :  <a className="details-btn font-btn-2 font-h5 float-right mb-2" href={`block/${blockhash}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
