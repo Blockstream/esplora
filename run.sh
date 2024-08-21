@@ -7,7 +7,7 @@ MODE=$2
 
 SYNC_SECRET=$4
 SYNC_SOURCE=$5
-NGINX_GCLB_IP=${NGINX_GCLB_IP:-35.201.74.156} # bs.info
+NGINX_GCLB_IP=${NGINX_GCLB_IP:-34.36.36.12} # bs.info
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-mainnet, bitcoin-testnet, bitcoin-signet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
