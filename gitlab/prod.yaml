@@ -9,9 +9,7 @@ plan_bitcoin_mainnet:
       terraform plan
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_BTCM"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCM"
       -var "instance_type=$NODE_INSTANCE_TYPE_BTCM"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCM"
       -var "regions=$BTC_MAINNET_REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=300"
@@ -38,9 +36,7 @@ deploy_bitcoin_mainnet:
       terraform apply
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_BTCM"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCM"
       -var "instance_type=$NODE_INSTANCE_TYPE_BTCM"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCM"
       -var "regions=$BTC_MAINNET_REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=300"
@@ -61,9 +57,7 @@ plan_bitcoin_testnet:
       terraform plan
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_BTCT"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCT"
       -var "instance_type=$NODE_INSTANCE_TYPE_BTCT"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCT"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"
@@ -90,9 +84,7 @@ deploy_bitcoin_testnet:
       terraform apply
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_BTCT"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_BTCT"
       -var "instance_type=$NODE_INSTANCE_TYPE_BTCT"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_BTCT"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"
@@ -113,9 +105,7 @@ plan_liquid_mainnet:
       terraform plan
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_LQM"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQM"
       -var "instance_type=$NODE_INSTANCE_TYPE_LQM"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQM"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"
@@ -142,9 +132,7 @@ deploy_liquid_mainnet:
       terraform apply
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_LQM"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQM"
       -var "instance_type=$NODE_INSTANCE_TYPE_LQM"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQM"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"
@@ -165,9 +153,7 @@ plan_liquid_testnet:
       terraform plan
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_LQT"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQT"
       -var "instance_type=$NODE_INSTANCE_TYPE_LQT"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQT"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"
@@ -194,9 +180,7 @@ deploy_liquid_testnet:
       terraform apply
       -var "docker_tag_explorer=blockstream/esplora:$CI_COMMIT_SHA"
       -var "cluster_size=$NODE_CLUSTER_SIZE_LQT"
-      -var "preemptible_cluster_size=$NODE_PREEMPTIBLE_CLUSTER_SIZE_LQT"
       -var "instance_type=$NODE_INSTANCE_TYPE_LQT"
-      -var "preemptible_instance_type=$NODE_PREEMPTIBLE_INSTANCE_TYPE_LQT"
       -var "regions=$REGIONS"
       -var "zones=$ZONES"
       -var "min_ready_sec=60"

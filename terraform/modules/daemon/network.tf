@@ -53,15 +53,6 @@ resource "google_compute_backend_service" "daemon" {
     }
   }
 
-  dynamic "backend" {
-    for_each = google_compute_region_instance_group_manager.preemptible-daemon
-    iterator = group
-    content {
-      group           = group.value.instance_group
-      max_utilization = 0.8
-    }
-  }
-
   health_checks = [google_compute_http_health_check.daemon[0].self_link]
   count         = var.create_resources
 }
@@ -74,15 +65,6 @@ resource "google_compute_backend_service" "daemon-electrs" {
 
   dynamic "backend" {
     for_each = google_compute_region_instance_group_manager.daemon
-    iterator = group
-    content {
-      group           = group.value.instance_group
-      max_utilization = 0.8
-    }
-  }
-
-  dynamic "backend" {
-    for_each = google_compute_region_instance_group_manager.preemptible-daemon
     iterator = group
     content {
       group           = group.value.instance_group

@@ -28,16 +28,7 @@ variable "instance_type" {
   default = ""
 }
 
-variable "preemptible_instance_type" {
-  type    = string
-  default = ""
-}
-
 variable "size" {
-  type = string
-}
-
-variable "preemptible_size" {
   type = string
 }
 
