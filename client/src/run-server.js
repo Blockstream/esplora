@@ -31,7 +31,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
     cb(null, data || {
       html: lastHtml
     , title: lastState.title
-    , status: lastState.view == 'notFound' ? 404 : lastState.error ? 400 : 200
+    , status: (lastState.view == 'notFound' || lastHtml.includes("Not Found")) ? 404 : lastState.error ? 400 : 200
     })
   }
 
