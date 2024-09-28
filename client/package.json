@@ -28,7 +28,7 @@
     "in-browser-language": "^1.0.3",
     "instascan": "github:shesek/instascan#packaged-lib",
     "jquery": "^3.5.1",
-    "path-to-regexp": "^6.2.0",
+    "path-to-regexp": "^8.0.0",
     "qrcode": "^1.4.4",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.3",
