@@ -112,7 +112,7 @@ export const dropErrors = r$$ => r$$.switchMap(r$ => r$.catch(_ => O.empty()))
 
 export const extractErrors = r$$ =>
   r$$.flatMap(r$ => r$.flatMap(_ => O.empty()).catch(err => O.of(err)))
-    .map(e => e.response && e.status != 502 ? parseError(e.response) : e)
+    .map(e => e.response ? responseError(e.response) : e)
 
 // Create a stream that ticks every `ms`, but only when the window is focused.
 // Returns an empty stream in the server-side pre-renderer environment.
@@ -126,10 +126,12 @@ export const tickWhileFocused = ms =>
 export const tickWhileViewing = (ms, view, view$) =>
   tickWhileFocused(ms).withLatestFrom(view$).filter(([ _, shown_view ]) => shown_view == view)
 
-const parseError = res =>
-  (res.body && Object.keys(res.body).length)
-  ? res.body.message || res.body
-  : res.text
+const responseError = res => ({
+  status: res.status,
+  message: (res.body && Object.keys(res.body).length)
+    ? res.body.message || res.body
+    : res.text
+})
 
 export const dbg = (obj, label='stream', dbg=debug(label)) =>
   Object.keys(obj).forEach(k => obj[k] && obj[k].subscribe(

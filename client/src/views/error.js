@@ -6,7 +6,7 @@ const formatError = err =>
 ? 'We encountered an error. Please try again later.'
 : (err.status && err.status === 502)
 ? 'Esplora is currently unavailable, please try again later.'
-: err.toString()
+: (err.message || err.toString())
 
 export const error = ({ t, error, ...S }) => layout(<div>
     <div className="container text-center"><h1>{ t(formatError(error)) }</h1></div>
