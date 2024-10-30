@@ -12,28 +12,3 @@
   extends: .dind_setup
   rules:
     - if: $CI_COMMIT_BRANCH
-
-.tf_setup:
-  stage: deploy
-  before_script:
-    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
-      (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
-    - TMPF=$(mktemp) || exit 1
-    - echo $GCLOUD_KEY > $TMPF
-    - export GOOGLE_APPLICATION_CREDENTIALS=$TMPF
-    - gcloud auth activate-service-account --key-file=$TMPF
-    - gcloud auth list
-    - gcloud --version
-
-.k8s_setup:
-  stage: deploy
-  when: manual
-  image: blockstream/kubectl:v1.24.8
-  before_script:
-    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "${CI_COMMIT_SHA}" ||
-      (echo "No such image blockstream/esplora:${CI_COMMIT_SHA}. Needs to be built."; exit 1)
-    - kubectl --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US version
-  script:
-    - |
-      kubectl --v=8 --server=$KUBE_SERVER_US --token=$KUBE_TOKEN_US \
-      -n $KUBE_NAMESPACE set image $KUBE_WORKLOAD $KUBE_CONTAINER=$IMAGE:$CI_COMMIT_SHA
