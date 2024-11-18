@@ -1,0 +1,44 @@
+build_base:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        paths:
+          - Dockerfile.deps
+        compare_to: master
+  script:
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      --push
+      -f Dockerfile.deps
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from ${IMAGE_BASE}:latest
+      -t ${IMAGE_BASE}:$CI_COMMIT_SHA
+      -t ${IMAGE_BASE}:latest
+      .
+
+test_docker_build_esplora:
+  stage: build
+  script:
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from ${IMAGE}:latest
+      -f Dockerfile
+      -t ${IMAGE} .
+
+build_esplora:
+  stage: build
+  when: manual
+  script:
+    - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
+      sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" Dockerfile
+      && docker buildx build
+      --platform linux/amd64,linux/arm64
+      --push
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+      --cache-from ${IMAGE}:latest
+      -t ${IMAGE}:latest
+      -t ${IMAGE}:$CI_COMMIT_SHA .)
+    - if [ $CI_COMMIT_BRANCH == "master" ]; then docker pull ${IMAGE}:$CI_COMMIT_SHA; docker tag ${IMAGE}:$CI_COMMIT_SHA ${IMAGE}:latest; docker push ${IMAGE}:latest; fi
