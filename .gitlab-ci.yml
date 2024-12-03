@@ -1,17 +1,26 @@
 variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_BUILDKIT: 1
   CI_DISPOSABLE_ENVIRONMENT: "true"
   BULLSEYE_IMAGE: debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
   IMAGE_BASE: blockstream/esplora-base
   IMAGE: blockstream/esplora
   DOCKERHUB_ESPLORA_URL: "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/"
 
-stages:
-  - build
-  - plan
-  - deploy
-
 default:
-  image: blockstream/gcloud-docker-tf:1.3.8
+  image: docker:27
+  services:
+    - name: docker:27-dind
+      command: ["dockerd", "--host=tcp://0.0.0.0:2375"]
+      alias: "docker"
+  before_script:
+    - docker info
+    - docker buildx create
+      --driver=docker-container
+      --name=buildkit-builder
+      --use
+      --platform linux/amd64,linux/arm64
   tags:
     - cloud
   retry:
@@ -21,8 +30,11 @@ default:
       - unknown_failure
       - stuck_or_timeout_failure
 
+stages:
+  - build
+
 include:
-  - gitlab/**.yaml
+  - "gitlab/**.yml"
 
 ## disables MR-triggered pipelines and allows only branch-triggered pipelines
 workflow:
