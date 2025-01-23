@@ -161,6 +161,14 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
       <div>{t`Weight units`}</div>
       <div>{`${formatNumber(tx.weight)} WU`}</div>
     </div>
+    { tx.discount_vsize != null && <div>
+      <div>{t`Discount virtual size`}</div>
+      <div>{`${formatNumber(tx.discount_vsize)} vB`}</div>
+    </div> }
+    { tx.discount_weight != null && <div>
+      <div>{t`Discount weight units`}</div>
+      <div>{`${formatNumber(tx.discount_weight)} WU`}</div>
+    </div> }
     <div>
       <div>{t`Version`}</div>
       <div>{tx.version}</div>
