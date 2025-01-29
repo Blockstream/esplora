@@ -1,3 +1,5 @@
+// client/src/app.js
+
 import '@babel/polyfill'
 import { Observable as O } from './rxjs'
 import {setAdapt} from '@cycle/run/lib/adapt';
@@ -31,6 +33,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   /// User actions
   , page$     = route()
   , goHome$ = route('/')
+  , goLanding$= route('/explorer-api')
   , goBlocks$   = route('/blocks/recent').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
@@ -226,6 +229,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('dashBoard')
+                  , goLanding$.mapTo('landing')
                   , goBlocks$.mapTo('recentBlocks')
                   , goRecent$.mapTo('recentTxs')
                   , block$.filter(notNully).mapTo('block')
