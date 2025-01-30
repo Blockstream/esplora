@@ -3,7 +3,7 @@ import layout from './layout'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-const LandingPage = ({ t, ...S }) => layout(
+const LandingPage = ({ t, infiniteScroll, ...S }) => layout(
   <div className="landing-page">      
   <div className="blur-orange"></div>
   <div className="blur-green"></div>
@@ -11,22 +11,40 @@ const LandingPage = ({ t, ...S }) => layout(
       <div className="container text-center">
         <h1 className="font-h1">Powering Bitcoin and Liquid Applications with Real-Time Blockchain Data</h1>
         <p className="font-p1 text-gray">Built to simplify development and enhance performance for existing Bitcoin and Liquid applications, the Blockstream Explorer API offers faster address lookups, robust DoS protection, and seamless integration.</p>
-        <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN OPEN BETA</a>
+        <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA</a>
       </div>
     </div>
 
     <div className="container">
-      <div className="logos-section">
-        <div className="logos">
-          <img src={`${staticRoot}img/logos/bull-bitcoin.svg`} alt="Bull Bitcoin Logo" />
-          <img src={`${staticRoot}img/logos/sideswap.svg`} alt="SideSwap Logo" />
-          <img src={`${staticRoot}img/logos/sparrow.png`} alt="Sparrow Bitcoin Wallet Logo" />
-          <img src={`${staticRoot}img/logos/blockstream-green.svg`} alt="Blockstream Green Logo" />
-          <img src={`${staticRoot}img/logos/lwk.svg`} alt="LWK Logo" />
-          <img src={`${staticRoot}img/logos/aqua.svg`} alt="Aqua Logo" />
-          <img src={`${staticRoot}img/logos/bitcoin-dev-kit.svg`} alt="Bitcoin Dev Kit" />
+        <div className="logos-section">
+            <div className="logos-desktop">
+                <div className="logos">
+                    <img src={`${staticRoot}img/logos/bull-bitcoin.svg`} alt="Bull Bitcoin Logo" />
+                    <img src={`${staticRoot}img/logos/sideswap.svg`} alt="SideSwap Logo" />
+                    <img src={`${staticRoot}img/logos/sparrow.png`} alt="Sparrow Bitcoin Wallet Logo" />
+                    <img src={`${staticRoot}img/logos/blockstream-green.svg`} alt="Blockstream Green Logo" />
+                    <img src={`${staticRoot}img/logos/lwk.svg`} alt="LWK Logo" />
+                    <img src={`${staticRoot}img/logos/aqua.svg`} alt="Aqua Logo" />
+                    <img src={`${staticRoot}img/logos/bitcoin-dev-kit.svg`} alt="Bitcoin Dev Kit" />
+                </div>
+            </div>
+
+            <div className="logos-mobile">
+                <div className="logos-container">
+                    <div className="logos-scroll">
+                        <div className="logos-track">
+                            <img src={`${staticRoot}img/logos/bull-bitcoin.svg`} alt="Bull Bitcoin Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/sideswap.svg`} alt="SideSwap Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/sparrow.png`} alt="Sparrow Bitcoin Wallet Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/blockstream-green.svg`} alt="Blockstream Green Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/lwk.svg`} alt="LWK Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/aqua.svg`} alt="Aqua Logo" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/bitcoin-dev-kit.svg`} alt="Bitcoin Dev Kit" className="logo-item" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
       <div className="info-section">
         <div className="badge">WHY EXPLORER API</div>
         <h2 className="font-h2 text-center">High performance service - optimized for scaling and uptime</h2>
@@ -67,15 +85,15 @@ const LandingPage = ({ t, ...S }) => layout(
                 <p className="font-p3 text-gray">An HTTP REST API (with Electrs RPC coming soon) provides extended transaction details and seamless integration.</p>
             </div>
             <div className="feature">
-                <img src={`${staticRoot}img/icons/issuance.svg`} alt="icon" />
+                <img src={`${staticRoot}img/icons/integration.svg`} alt="icon" />
                 <p className="font-p3 text-gray">Partner with Blockstream for seamless integration, unmatched performance, and dedicated ongoing support.</p>
             </div>
             <div className="feature">
-                <img src={`${staticRoot}img/icons/lbtc.svg`} alt="icon" />
+                <img src={`${staticRoot}img/icons/encryption.svg`} alt="icon" />
                 <p className="font-p3 text-gray">Fully encrypted connections and secure access ensure data integrity, delivering reliable performance for mission-critical operations.</p>
             </div>
             <div className="feature">
-                <img src={`${staticRoot}img/icons/security-tokens.svg`} alt="icon" />
+                <img src={`${staticRoot}img/icons/database.svg`} alt="icon" />
                 <p className="font-p3 text-gray">Advanced indexing and database storage reduce query times and remove the need to self-host expensive hardware like 2TB+ high-speed SSDs with extensive CPU resources.</p>
             </div>
         </div>
@@ -104,13 +122,13 @@ const LandingPage = ({ t, ...S }) => layout(
             <h2 className="font-h2 text-center">Pricing</h2>
             <div className="pricing">
                 <div className="pricing-card">
-                    <img src={`${staticRoot}img/icons/pricing.svg`} alt="icon" />
+                    <img src={`${staticRoot}img/icons/pricing1.svg`} alt="icon" />
                     <span className="pricing-term">FREE UP TO</span>
                     <h3 className="font-h3">500k <span>Requests/Month</span></h3>
                     <p className="font-p2 text-gray">Free API usage for unauthenticated users is capped at ~16K requests per day. Users exceeding this limit will need to provide an email for authentication, API key access, billing, and support to transition to the premium service.</p>
                 </div>
                 <div className="pricing-card">
-                    <img src={`${staticRoot}img/icons/pricing.svg`} alt="icon" />
+                    <img src={`${staticRoot}img/icons/pricing2.svg`} alt="icon" />
                     <span className="pricing-term">ONLY PAY FOR WHAT YOU USE</span>
                     <div className="pricing-table">
                         <div className="pricing-table-row">
@@ -155,7 +173,6 @@ const LandingPage = ({ t, ...S }) => layout(
         </div>
   
       </div>
-
   </div>
 , { t, activeTab: 'landing', ...S })
 

@@ -5,6 +5,7 @@ import { makeHistoryDriver, captureClicks } from '@cycle/history'
 import makeRouteDriver from './driver/route'
 import makeSearchDriver from './driver/search'
 import makeScanDriver from './driver/instascan'
+import makeInfiniteScrollDriver from './driver/infinite-scroll'
 
 import { Observable as O } from './rxjs'
 
@@ -39,4 +40,5 @@ run(main, {
 , title: titleDriver
 , scanner: makeScanDriver()
 , blinding: blindingDriver
+, infiniteScroll: makeInfiniteScrollDriver()
 })
