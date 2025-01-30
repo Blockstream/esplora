@@ -1,10 +1,9 @@
 (function() {
-    let scrollInterval;
+    let animationFrame;
     
     function initInfiniteScroll() {
-        
-        if (scrollInterval) {
-            clearInterval(scrollInterval);
+        if (animationFrame) {
+            cancelAnimationFrame(animationFrame);
         }
 
         function setupScroll() {
@@ -19,34 +18,48 @@
             }
 
             const originalLogos = Array.from(track.children);
+            const originalWidth = track.scrollWidth;
 
-            originalLogos.forEach(logo => {
-                const clone = logo.cloneNode(true);
-                track.appendChild(clone);
-            });
+            while (track.scrollWidth < originalWidth * 3) {
+                originalLogos.forEach(logo => {
+                    const clone = logo.cloneNode(true);
+                    track.appendChild(clone);
+                });
+            }
 
             let position = 0;
-            const speed = 1;
+            const speed = 0.5;
             
             function animate() {
                 position += speed;
-                const trackWidth = track.scrollWidth / 2;
+                const resetPoint = originalWidth;
                 
-                if (position >= trackWidth) {
+                if (position >= resetPoint) {
                     position = 0;
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(0)`;
+                    track.offsetHeight;
+                    track.style.transition = 'transform 0.1s linear';
                 }
                 
                 track.style.transform = `translateX(-${position}px)`;
-                requestAnimationFrame(animate);
+                animationFrame = requestAnimationFrame(animate);
             }
 
-            requestAnimationFrame(animate);
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            track.offsetHeight; // Force reflow
+            track.style.transition = 'transform 0.1s linear';
+
+            animationFrame = requestAnimationFrame(animate);
         }
 
         setupScroll();
 
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            setupScroll();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(setupScroll, 150);
         });
     }
 
