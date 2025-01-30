@@ -167,7 +167,7 @@ const LandingPage = ({ t, ...S }) => layout(
                             <div className="pricing-table-description">Above 60M Requests Unlimited Usage</div>
                         </div>
                     </div>
-                    <p className="font-p2 text-gray">Contact Support now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
+                    <p className="font-p2 text-gray"><a href="mailto:explorer-support@blockstream.com">Contact Support</a> now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
                     <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA NOW</a>
                 </div>
             </div>
