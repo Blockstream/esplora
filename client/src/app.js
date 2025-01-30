@@ -1,5 +1,3 @@
-// client/src/app.js
-
 import '@babel/polyfill'
 import { Observable as O } from './rxjs'
 import {setAdapt} from '@cycle/run/lib/adapt';
@@ -23,7 +21,7 @@ const reservedPaths = [ 'mempool', 'assets', 'search' ]
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
 
-export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
+export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$, infiniteScroll }) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
@@ -97,6 +95,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , lang$ = storage.local.getItem('lang').first().map(lang => lang || defaultLang)
       .concat(on('select[name=lang]', 'input').map(e => e.target.value))
       .distinctUntilChanged()
+
+  , infiniteScroll$ = O.merge(
+      goLanding$.mapTo(true),
+      page$.filter(loc => loc.pathname !== '/explorer-api').mapTo(false)
+    ).distinctUntilChanged()
 
   /// Model
 
@@ -264,6 +267,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$, theme$
+                     , infiniteScroll$
                      })
 
   // Update query options with ?expand
@@ -450,5 +454,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // elements only
   , blinding: blindingReq$
+  , infiniteScroll: infiniteScroll$
   }
 }

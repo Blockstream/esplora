@@ -2829,8 +2829,6 @@ h3.table-title{
   .sub-nav{
     margin-top: 30px;
     justify-content: space-between;
-    padding-left: 5px;
-    padding-right: 5px;
   }
 
   .sub-nav a{
@@ -2922,6 +2920,12 @@ h3.table-title{
   z-index: -100;
 }
 
+@media screen and (max-width: 820px) {
+  .blur-green , .blur-orange {
+    display: none;
+  }
+}
+
 .hero-section h1 {
   margin: 20px 0 32px;
 }
@@ -2933,11 +2937,68 @@ h3.table-title{
 .logos-section {
   margin-bottom: 100px;
 }
+.logos-desktop {
+  display: none;
+}
 
-.logos {
+.logos img {
+  height: 40px;
+  width: auto;
+}
+
+.logos-mobile {
+  display: none;
+}
+
+.logos-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.logos-scroll {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.logos-track {
   display: flex;
-  justify-content: space-between;
   gap: 36px;
+  width: max-content;
+  transform: translateX(0);
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+.logo-item {
+  height: 30px;
+  width: auto;
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: 821px) {
+  .logos-desktop {
+    display: block;
+  }
+  .logos-mobile {
+    display: none;
+  }
+  .logos {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .logos-desktop {
+    display: none;
+  }
+  .logos-mobile {
+    display: block;
+  }
 }
 
 .badge {
@@ -3024,7 +3085,7 @@ h3.table-title{
   gap: 10px;
 }
 
-@media only screen and (max-width: 475px) {
+@media only screen and (max-width: 820px) {
   .cta-card {
     flex-direction: column-reverse;
   }
@@ -3058,9 +3119,10 @@ h3.table-title{
   gap: 50px;
 }
 
-@media only screen and (max-width: 475px) {
+@media only screen and (max-width: 820px) {
   .pricing {
     flex-direction: column;
+    align-items: center;
   }
 }
 
