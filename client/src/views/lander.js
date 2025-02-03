@@ -20,7 +20,6 @@ const LandingPage = ({ t, ...S }) => layout(
         <div className="logos-section">
             <div className="logos-desktop">
                 <div className="logos">
-                    <img src={`${staticRoot}img/logos/bull-bitcoin.svg`} alt="Bull Bitcoin Logo" />
                     <img src={`${staticRoot}img/logos/sideswap.svg`} alt="SideSwap Logo" />
                     <img src={`${staticRoot}img/logos/sparrow.png`} alt="Sparrow Bitcoin Wallet Logo" />
                     <img src={`${staticRoot}img/logos/blockstream-green.svg`} alt="Blockstream Green Logo" />
@@ -34,7 +33,6 @@ const LandingPage = ({ t, ...S }) => layout(
                 <div className="logos-container">
                     <div className="logos-scroll">
                         <div className="logos-track">
-                            <img src={`${staticRoot}img/logos/bull-bitcoin.svg`} alt="Bull Bitcoin Logo" className="logo-item" />
                             <img src={`${staticRoot}img/logos/sideswap.svg`} alt="SideSwap Logo" className="logo-item" />
                             <img src={`${staticRoot}img/logos/sparrow.png`} alt="Sparrow Bitcoin Wallet Logo" className="logo-item" />
                             <img src={`${staticRoot}img/logos/blockstream-green.svg`} alt="Blockstream Green Logo" className="logo-item" />
@@ -106,8 +104,8 @@ const LandingPage = ({ t, ...S }) => layout(
             <div className="cta-card">
                 <div className="cta-left">
                     <img src={`${staticRoot}img/icons/rest-api.svg`} alt="icon" />
-                    <h2 className="font-h2">HTTP Rest API</h2>
-                    <p className="font-p3 text-gray">Access real-time blockchain data with low latency and high throughput, ensuring the most up-to-date information for your applications.</p>
+                    <h2 className="font-h2">HTTP REST API<br/> for Bitcoin and Liquid</h2>
+                    <p className="font-p3 text-gray">Get real-time access to network data with simple RESTful endpoints, delivering low-latency, high-availability insights into UTXOs, balances, mempool transactions, and fee estimates, with seamless transaction broadcasting.</p>
                     <a href="https://github.com/Blockstream/esplora/blob/master/API.md" target="_blank" className="g-btn primary-btn">EXPLORE DOCUMENTATION</a>
                 </div>
                 <div className="cta-right">
