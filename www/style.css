@@ -38,25 +38,85 @@ body[lang=he] {
 
 .font-h1 { font-size: 48px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-h1 {
+    font-size: 36px;
+  }
+}
+
 .font-h2 { font-size: 40px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) { 
+  .font-h2 {
+    font-size: 24px;
+  }
+}
 
 .font-h3 { font-size: 28px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-h3 {
+    font-size: 20px;
+  }
+}
+
 .font-h4 { font-size: 20px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-h4 {
+    font-size: 16px;
+  }
+}
+
 .font-h5 { font-size: 16px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) { 
+  .font-h5 {
+    font-size: 14px;
+  }
+}
 
 .font-h6 { font-size: 14px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
 .font-p1 { font-size: 18px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-p1 {
+    font-size: 16px;
+  }
+}
+
 .font-p2 { font-size: 16px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) { 
+  .font-p2 {
+    font-size: 14px;
+  }
+}
 
 .font-p3 { font-size: 14px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-p3 {
+    font-size: 12px;
+  }
+}
+
 .font-p4 { font-size: 14px; font-weight: 600; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
+@media only screen and (max-width: 475px) { 
+  .font-p4 {
+    font-size: 12px;
+  }
+}
+
 .font-p5 { font-size: 12x; font-weight: 400; font-family: "Inter", sans-serif; line-height: 20px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) { 
+  .font-p5 {
+    font-size: 11px;
+  }
+}
 
 .font-btn-1 { font-size: 18px; }
 
@@ -2630,6 +2690,7 @@ dl.mempool-histogram .bar:before {
 .sub-nav{
   display: flex;
   width: 100%;
+  padding-top: 10px;
 }
 
 .sub-nav a{
@@ -2859,6 +2920,10 @@ h3.table-title{
 
 @media only screen and (max-width: 475px) {
 
+  .sub-nav {
+    padding-top: auto;
+  }
+
   .main-nav li a,   .sub-nav a {
     font-size: 16px;
   }
@@ -2986,7 +3051,7 @@ h3.table-title{
   }
   .logos {
     display: flex;
-    gap: 15px;
+    gap: 36px;
     justify-content: center;
     align-items: center;
   }
@@ -3003,7 +3068,7 @@ h3.table-title{
 
 .badge {
   display: flex;
-  padding: 5px 39px;
+  padding: 8px 39px;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
@@ -3172,6 +3237,14 @@ h3.table-title{
 
 .pricing-card p {
   margin-top: 50px;
+}
+
+.pricing-card p > a {
+  color: #FF9417;
+}
+
+.pricing-card p > a:hover {
+  color: #22E1C9;
 }
 
 .pricing-card .g-btn {
