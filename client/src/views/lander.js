@@ -9,10 +9,17 @@ const LandingPage = ({ t, ...S }) => layout(
   <div className="blur-orange"></div>
   <div className="blur-green"></div>
     <div className="hero-section">
-      <div className="container text-center">
-        <h1 className="font-h1">Powering Bitcoin and Liquid Applications with Real-Time Blockchain Data</h1>
-        <p className="font-p1 text-gray">Built to simplify development and enhance performance for existing Bitcoin and Liquid applications, the Blockstream Explorer API offers faster address lookups, robust DoS protection, and seamless integration.</p>
-        <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA</a>
+      <div className="container">
+        <div className="hero-wrapper">
+            <div className="hero-text">
+                <h1 className="font-h1">Powering Bitcoin and Liquid Applications with Real-Time Blockchain Data</h1>
+                <p className="font-p1 text-gray">Built to simplify development and enhance performance for existing Bitcoin and Liquid applications, the Blockstream Explorer API offers faster address lookups, robust DoS protection, and seamless integration.</p>
+                <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA</a>
+            </div>
+            <div className="hero-image">
+                <img src={`${staticRoot}img/hero-explorer-api.png`} alt="Hero Image" />
+            </div>
+        </div>
       </div>
     </div>
 
@@ -164,7 +171,7 @@ const LandingPage = ({ t, ...S }) => layout(
                                 <span className="currency">$</span>
                                 <span className="amount">4,000</span>
                             </div>
-                            <div className="pricing-table-description">Above 60M Requests Unlimited Usage</div>
+                            <div className="pricing-table-description" style={{lineHeight: `15px`}}>Above 60M Requests Unlimited Usage</div>
                         </div>
                     </div>
                     <p className="font-p2 text-gray"><a href="mailto:explorer-support@blockstream.com">Contact Support</a> now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
