@@ -1,6 +1,6 @@
 .navbar-brand::before {
   background: url(img/icons/explorer_logo.svg);
-  background-size: cover;
+  background-size: contain;
   width: 245px;
   margin: 0;
   background-repeat: no-repeat;
@@ -9,7 +9,7 @@
 .theme-light .navbar-brand::before {
   background: url(img/icons/explorer_dark_logo.svg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   width: 245px;
   margin: 0;
 }
@@ -45,9 +45,17 @@
   }
 
   .theme-light .navbar-brand::before, .navbar-brand::before {
-    background: url(img/icons/blockstream-logo.png);
+    
     background-size: 54px 54px;
     width: 54px;
+  }
+
+  .theme-light .navbar-brand::before {
+    background: url(img/icons/dark-logo-icon.svg);
+  }
+
+  .navbar-brand::before {
+    background: url(img/icons/light-logo-icon.svg);
   }
 }
 

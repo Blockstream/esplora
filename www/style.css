@@ -2958,7 +2958,7 @@ h3.table-title{
 }
 
 .hero-section {
-  margin-bottom: 65px;
+  margin-bottom: 100px;
   position: relative;
 
 }
@@ -2989,6 +2989,40 @@ h3.table-title{
   .blur-green , .blur-orange {
     display: none;
   }
+}
+
+.hero-wrapper {
+  display: flex;
+  margin-top: 90px;
+}
+
+@media screen and (max-width: 820px) {
+  .hero-wrapper {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}
+
+.hero-text {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 820px) {
+  .hero-text, .hero-image {width: 100%;}
+}
+
+.hero-image > img {
+  max-width: 390px;
+  width: 100%;
 }
 
 .hero-section h1 {
@@ -3046,7 +3080,7 @@ h3.table-title{
   flex: 0 0 auto;
 }
 
-@media screen and (min-width: 821px) {
+@media screen and (min-width: 1141px) {
   .logos-desktop {
     display: block;
   }
@@ -3061,7 +3095,7 @@ h3.table-title{
   }
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 1140px) {
   .logos-desktop {
     display: none;
   }
@@ -3080,6 +3114,10 @@ h3.table-title{
   max-width: max-content;
   color: #0C0C0F;
   margin: 0 auto;
+}
+
+.info-section {
+  margin-bottom: 100px;
 }
 
 .info-section h2 {
@@ -3235,8 +3273,10 @@ h3.table-title{
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 36px; 
-  color: #B5BDC2;
+  line-height: 22px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  letter-spacing: normal;
 }
 
 .pricing-card p {
