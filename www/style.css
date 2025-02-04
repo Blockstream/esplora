@@ -3036,6 +3036,10 @@ h3.table-title{
   will-change: transform;
 }
 
+.logos img:last-child, .logos-track img:last-child {
+  max-width: 180px;
+}
+
 .logo-item {
   height: 30px;
   width: auto;

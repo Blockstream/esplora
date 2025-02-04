@@ -26,6 +26,7 @@ const LandingPage = ({ t, ...S }) => layout(
                     <img src={`${staticRoot}img/logos/lwk.svg`} alt="LWK Logo" />
                     <img src={`${staticRoot}img/logos/aqua.svg`} alt="Aqua Logo" />
                     <img src={`${staticRoot}img/logos/bitcoin-dev-kit.svg`} alt="Bitcoin Dev Kit" />
+                    <img src={`${staticRoot}img/logos/nunchuk.svg`} alt="Nunchuk" />
                 </div>
             </div>
 
@@ -39,6 +40,7 @@ const LandingPage = ({ t, ...S }) => layout(
                             <img src={`${staticRoot}img/logos/lwk.svg`} alt="LWK Logo" className="logo-item" />
                             <img src={`${staticRoot}img/logos/aqua.svg`} alt="Aqua Logo" className="logo-item" />
                             <img src={`${staticRoot}img/logos/bitcoin-dev-kit.svg`} alt="Bitcoin Dev Kit" className="logo-item" />
+                            <img src={`${staticRoot}img/logos/nunchuk.svg`} alt="Nunchuk" className="logo-item" />
                         </div>
                     </div>
                 </div>
