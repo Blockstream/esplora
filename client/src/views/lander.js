@@ -5,9 +5,10 @@ const staticRoot = process.env.STATIC_ROOT || ''
 
 const LandingPage = ({ t, ...S }) => layout(
   <div className="landing-page">   
-  <script src="/js/infinite-scroll.js" async></script>   
-  <div className="blur-orange"></div>
-  <div className="blur-green"></div>
+    <script src="/js/infinite-scroll.js" async></script>   
+    <div className="blur-orange"></div>
+    <div className="blur-green"></div>
+    <div className="laser-lines"></div>
     <div className="hero-section">
       <div className="container">
         <div className="hero-wrapper">
@@ -17,7 +18,7 @@ const LandingPage = ({ t, ...S }) => layout(
                 <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA</a>
             </div>
             <div className="hero-image">
-                <img src={`${staticRoot}img/hero-explorer-api.png`} alt="Hero Image" />
+                <img src={`${staticRoot}img/hero-explorer-api.svg`} alt="Hero Image" />
             </div>
         </div>
       </div>
