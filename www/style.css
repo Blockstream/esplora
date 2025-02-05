@@ -408,6 +408,7 @@ a, a:link, a:visited, a:hover, a:focus {
 .content-wrap {
   min-height: calc(100vh - 60px - 24px);
   margin-bottom: 24px;
+  overflow: hidden;
 }
 
 .table { color: inherit }
@@ -2985,9 +2986,49 @@ h3.table-title{
   z-index: -100;
 }
 
+.laser-lines {
+  background: url(img/explorer-laser-lines.svg);
+  background-size: cover;
+  background-position: center;
+  width: 1070px;
+  height: 815px;
+  position: absolute;
+  top: -5%;
+  left: 20%;
+  z-index: -50;
+  overflow: visible;
+}
+
 @media screen and (max-width: 820px) {
-  .blur-green , .blur-orange {
-    display: none;
+  .blur-green {
+    top: -5%;
+    left: 10%;
+    width: 550px;
+    height: 800px;
+  } 
+  
+  .blur-orange {
+    filter: blur(70px);
+    top: -6%;
+    left: -80%;
+    width: 550px;
+    height: 800px;
+  }
+  .laser-lines {
+    width: 840px;
+    height: 609px;
+    top: -2%;
+    left: -5%;
+  }
+
+}
+
+@media screen and (max-width: 475px) {
+  .laser-lines {
+    width: 608px;
+    height: 609px;
+    top: -2%;
+    left: -5%;
   }
 }
 
