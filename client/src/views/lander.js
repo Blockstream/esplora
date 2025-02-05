@@ -5,7 +5,7 @@ const staticRoot = process.env.STATIC_ROOT || ''
 
 const LandingPage = ({ t, ...S }) => layout(
   <div className="landing-page">   
-    <script src="/js/infinite-scroll.js" async></script>   
+    <script src={`${staticRoot}/js/infinite-scroll.js`} async></script>   
     <div className="blur-orange"></div>
     <div className="blur-green"></div>
     <div className="laser-lines"></div>
