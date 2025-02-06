@@ -31,7 +31,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   /// User actions
   , page$     = route()
   , goHome$ = route('/')
-  , goLanding$= route('/explorer-api')
+  , goAPILanding$= route('/explorer-api')
   , goBlocks$   = route('/blocks/recent').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
   , goBlock$  = route('/block/:hash').map(loc => ({ hash: loc.params.hash, start_index: +loc.query.start || 0 }))
   , goHeight$ = route('/block-height/:height').map(loc => loc.params.height)
@@ -227,7 +227,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('dashBoard')
-                  , goLanding$.mapTo('landing')
+                  , goAPILanding$.mapTo('apiLanding')
                   , goBlocks$.mapTo('recentBlocks')
                   , goRecent$.mapTo('recentTxs')
                   , block$.filter(notNully).mapTo('block')
@@ -244,7 +244,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Page title
   , title$ = O.merge(page$.mapTo(null)
-                   , goLanding$.withLatestFrom(t$, (_, t) => t`Explorer API`)
+                   , goAPILanding$.withLatestFrom(t$, (_, t) => t`Explorer API`)
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)

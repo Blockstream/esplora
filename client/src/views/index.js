@@ -1,5 +1,5 @@
 export { dashBoard }       from './home'
-export { default as landing } from './lander'
+export { default as apiLanding } from './lander'
 export { recentBlocks }       from './blocks-all'
 export { recentTxs }          from './transactions-all'
 export { default as block }   from './block'

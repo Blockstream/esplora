@@ -183,6 +183,6 @@ const LandingPage = ({ t, ...S }) => layout(
   
       </div>
   </div>
-, { t, activeTab: 'landing', ...S })
+, { t, activeTab: 'apiLanding', ...S })
 
 export default LandingPage
