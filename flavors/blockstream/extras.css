@@ -52,11 +52,35 @@
 
   .theme-light .navbar-brand::before {
     background: url(img/icons/dark-logo-icon.svg);
+    background-repeat: no-repeat;
   }
 
   .navbar-brand::before {
     background: url(img/icons/light-logo-icon.svg);
+    background-repeat: no-repeat;
   }
 }
 
+.theme-light .primary-btn, 
+.theme-light .primary-btn:link, 
+.theme-light .primary-btn:visited, 
+.theme-light .primary-btn:hover, 
+.theme-light .primary-btn:focus {
+  color: #0C0C0F;
+}
 
+.theme-light .hero-section p, .theme-light .info-section p, .theme-light .feature p, .theme-light .cta-section p   {
+  color: #080B0E;
+}
+
+.theme-light .cta-section {
+  background-color: #F6F7F9;
+}
+
+.theme-light .pricing-card {
+  background: #fff;
+}
+
+.theme-light .pricing-card p > a {
+  color: #FF9417;
+}

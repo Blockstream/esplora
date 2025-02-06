@@ -2960,7 +2960,6 @@ h3.table-title{
 .hero-section {
   margin-bottom: 100px;
   position: relative;
-
 }
 
 .blur-orange {
@@ -3170,6 +3169,12 @@ h3.table-title{
   margin: 0 auto 50px;
 }
 
+@media only screen and (max-width: 475px) {
+  .info-section p {
+    margin-bottom: 25px;
+  }
+}
+
 .info-cards {
   display: flex;
   justify-content: space-between;
@@ -3213,6 +3218,7 @@ h3.table-title{
 @media only screen and (max-width: 475px) {
   .feature {
     flex: 0 1 100%;
+    margin-bottom: 25px; 
   }
 }
 
@@ -3257,7 +3263,7 @@ h3.table-title{
 }
 
 .pricing-section h2 {
-  margin: 25px auto 50px;
+  margin: 25px auto;
 }
 
 .pricing {
@@ -3277,13 +3283,19 @@ h3.table-title{
   border-radius: 16px;
   border: 1px solid rgba(151, 151, 151, 0.70);
   background: #05090A;
-  max-width: 380px;
+  max-width: 410px;
   width: 100%;
   min-height: 590px;
   height: 100%;
   padding: 40px;
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 820px) {
+  .pricing-card {
+    min-height: auto;
+  }
 }
 
 .pricing-card img {
@@ -3297,7 +3309,6 @@ h3.table-title{
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  letter-spacing: -1.498px;
 }
 
 .pricing-card h3 {
@@ -3306,7 +3317,6 @@ h3.table-title{
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
-  letter-spacing: -1px;
 }
 
 .pricing-card h3 span {
@@ -3355,7 +3365,6 @@ h3.table-title{
   font-style: normal;
   font-weight: 250;
   line-height: 36px; 
-  letter-spacing: -1px;
   font-family: "Chakra Petch", sans-serif;
 }
 
@@ -3368,7 +3377,6 @@ h3.table-title{
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
-  letter-spacing: -1px;
   font-family: "Chakra Petch", sans-serif;
 }
 
