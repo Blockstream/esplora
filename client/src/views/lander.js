@@ -110,7 +110,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/lbtc.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Access data across Bitcoin Mainnet, Testnet, Signet, and Liquid networks, offering a broad spectrum of blockchain data for diverse applications.</p>
+                    <p className="font-p3 text-gray">Access data across Bitcoin Mainnet, Testnet, and Liquid networks, offering a broad spectrum of blockchain data for diverse applications.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/security-tokens.svg`} alt="icon" />
