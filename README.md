@@ -173,6 +173,15 @@ docker run -p 50001:50001 -p 8084:80 \
            bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
 ```
 
+## How to run the explorer for Bitcoin testnet4
+
+```
+docker run -p 50001:50001 -p 8084:80 \
+           --volume $PWD/data_bitcoin_testnet4:/data \
+           --rm -i -t esplora \
+           bash -c "/srv/explorer/run.sh bitcoin-testnet4 explorer"
+```
+
 ## How to run the explorer for Bitcoin signet
 
 ```bash
