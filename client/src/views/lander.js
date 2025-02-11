@@ -157,7 +157,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                         <img src={`${staticRoot}img/icons/pricing1.svg`} alt="icon" />
                         <span className="pricing-term">FREE UP TO</span>
                         <h3 className="font-h3">500k <span>Requests/Month</span></h3>
-                        <p className="font-p2 text-gray">Free API usage for unauthenticated users is capped at ~16K requests per day. Users exceeding this limit will need to provide an email for authentication, API key access, billing, and support to transition to the premium service.</p>
+                        <p className="font-p2 text-gray">Authenticated users benefit from 500K requests per month for free and higher daily limits providing more capacity than the free public Esplora endpoints. Authenticated users also benefit from dedicated onboarding & support, and a 99.9% SLA for enhanced reliability.</p>
                     </div>
                     <div className="pricing-card">
                         <img src={`${staticRoot}img/icons/pricing2.svg`} alt="icon" />
