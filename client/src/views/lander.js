@@ -96,7 +96,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                 <div className="info-card">
                     <img src={`${staticRoot}img/icons/privacy.svg`} alt="icon" />
                     <h3 className="font-h2">Privacy & Security</h3>
-                    <p className="font-p3 text-gray">With no persistent logging and full end-to-end encryption, the service ensures confidentiality and adherence to best practices. Robust security protocols eliminate the need for self-managed security solutions.</p>
+                    <p className="font-p3 text-gray">With no persistent logging and full end-to-end encryption, the service ensures confidentiality and adherence to best practices. Robust security protocols reduce the need for self-managed security solutions.</p>
                 </div>
             </div>
         </div>
