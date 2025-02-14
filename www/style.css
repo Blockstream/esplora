@@ -2919,6 +2919,14 @@ h3.table-title{
   }
 }
 
+@media only screen and (max-width: 1280px) {
+
+  .sub-nav a{
+    margin-right: 30px;
+  }
+
+}
+
 @media only screen and (max-width: 475px) {
 
   .sub-nav {
@@ -2943,10 +2951,6 @@ h3.table-title{
 
   .sub-nav{
     flex-wrap: wrap;
-  }
-
-  .sub-nav a{
-    margin-right: 20px;
   }
 }
 
