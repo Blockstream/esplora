@@ -9,27 +9,27 @@ export const blks = (blocks, viewMore, loadMore, { t, loading, ...S }) =>
   { !blocks ? loader()
   : !blocks.length ? <p>{t`No recent blocks`}</p>
   : <div className="blocks-table">
-      <h3 className="table-title">{t`Latest Blocks`}</h3>
+      <h3 className="table-title font-h3">{t`Latest Blocks`}</h3>
       <div className="blocks-table-row header">
-        <div className="blocks-table-cell">{t`Height`}</div>
-        <div className="blocks-table-cell">{process.browser ? t`Timestamp` : t`Timestamp (UTC)`}</div>
-        <div className="blocks-table-cell">{t`Transactions`}</div>
-        <div className="blocks-table-cell">{t`Size (KB)`}</div>
-        <div className="blocks-table-cell">{t`Weight (KWU)`}</div>
+        <div className="blocks-table-cell font-h4">{t`Height`}</div>
+        <div className="blocks-table-cell font-h4">{process.browser ? t`Timestamp` : t`Timestamp (UTC)`}</div>
+        <div className="blocks-table-cell font-h4">{t`Transactions`}</div>
+        <div className="blocks-table-cell font-h4">{t`Size (KB)`}</div>
+        <div className="blocks-table-cell font-h4">{t`Weight (KWU)`}</div>
       </div>
       { blocks && blocks.map(b =>
         <div className="blocks-table-link-row">
         <a className="blocks-table-row block-data" href={`block/${b.id}`}>
-          <div className="blocks-table-cell highlighted-text" data-label={t`Height`}>{b.height}</div>
-          <div className="blocks-table-cell" data-label={t`Timestamp`}>{formatTime(b.timestamp, false)}</div>
-          <div className="blocks-table-cell" data-label={t`Transactions`}>{formatNumber(b.tx_count)}</div>
-          <div className="blocks-table-cell" data-label={t`Size (KB)`}>{formatNumber(b.size/1000)}</div>
-          <div className="blocks-table-cell" data-label={t`Weight (KWU)`}>{formatNumber(b.weight/1000)}</div>
+          <div className="blocks-table-cell highlighted-text font-p2" data-label={t`Height`}>{b.height}</div>
+          <div className="blocks-table-cell font-p2" data-label={t`Timestamp`}>{formatTime(b.timestamp, false)}</div>
+          <div className="blocks-table-cell font-p2" data-label={t`Transactions`}>{formatNumber(b.tx_count)}</div>
+          <div className="blocks-table-cell font-p2" data-label={t`Size (KB)`}>{formatNumber(b.size/1000)}</div>
+          <div className="blocks-table-cell font-p2" data-label={t`Weight (KWU)`}>{formatNumber(b.weight/1000)}</div>
         </a>
         </div>
       )}
       {blocks && viewMore ?
-      <a className="view-more" href="blocks/recent">
+      <a className="view-more font-link-semibold" href="blocks/recent">
       <span>{t`View more blocks`}</span>
         <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a> : ""}
@@ -51,9 +51,8 @@ const pagingNav = ({ nextBlocks, prevBlocks, t }) =>
   process.browser
 
 ? nextBlocks != null &&
-    <div className="load-more" role="button" data-loadmoreBlockHeight={''+nextBlocks}>
-      <span>{t`Load more`}</span>
-      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    <div className="load-more g-btn primary-btn font-btn-2" role="button" data-loadmoreBlockHeight={''+nextBlocks}>
+      {t`Load more`}
     </div>
 
 : [

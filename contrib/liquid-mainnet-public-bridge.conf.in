@@ -3,3 +3,5 @@ peerbloomfilters=0
 enforcenodebloom=1
 disablewallet=1
 mainchainrpccookiefile=/data/bitcoin/.cookie
+blockmintxfee=0.00000099
+minrelaytxfee=0.00000099

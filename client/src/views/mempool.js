@@ -11,9 +11,9 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
     <div className="mempool-page">
       <div className="container">
         <div>
-          <h1 className="transaction-header-title">{t`Mempool`}</h1>
+          <h1 className="transaction-header-title font-h2">{t`Mempool`}</h1>
         </div>
-        <div className="stats-table">
+        <div className="stats-table font-p2">
           <div>
             <div>{t`Total transactions`}</div>
             <div>{mempool.count}</div>

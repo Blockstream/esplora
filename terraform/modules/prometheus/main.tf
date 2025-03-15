@@ -1,36 +1,32 @@
 resource "google_compute_disk" "prometheus-data" {
-  count   = var.create_resources > 0 ? var.instances : 0
+  count   = var.instances
   name    = "prometheus-${var.name}-data-disk-${count.index}"
   project = var.project
   type    = "pd-standard"
-  zone    = var.zones[count.index]
+  zone    = var.zone
   size    = var.size
 }
 
 resource "google_compute_address" "prometheus-address" {
-  count   = var.create_resources > 0 ? var.instances : 0
+  count   = var.instances
   name    = "prometheus-${var.name}-address-${count.index}"
   project = var.project
   region  = var.region
 }
 
 resource "google_compute_address" "prometheus-internal-address" {
-  count        = var.create_resources > 0 ? var.instances : 0
+  count        = var.instances
   name         = "prometheus-${var.name}-internal-address-${count.index}"
   project      = var.project
   region       = var.region
   address_type = "INTERNAL"
 }
 
-locals {
-  service_account = terraform.workspace == "main" ? element(concat(google_service_account.prometheus.*.email, tolist([""])), 0) : var.prometheus_service_account
-}
-
 resource "google_compute_instance" "prometheus-server" {
-  count                     = var.create_resources > 0 ? var.instances : 0
+  count                     = var.instances
   name                      = "prometheus-${var.name}-${count.index}"
   machine_type              = var.machine_type
-  zone                      = var.zones[count.index]
+  zone                      = var.zone
   project                   = var.project
   allow_stopping_for_update = true
 
@@ -41,7 +37,7 @@ resource "google_compute_instance" "prometheus-server" {
   }
 
   service_account {
-    email = local.service_account
+    email = google_service_account.prometheus.email
 
     scopes = [
       "compute-rw",

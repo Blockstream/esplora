@@ -26,6 +26,8 @@ dynamic_epoch_length=1000
 signblockscript=51210217e403ddb181872c32a0cd468c710040b2f53d8cac69f18dad07985ee37e9a7151ae
 evbparams=dynafed:0:::
 multi_data_permitted=1
+blockmintxfee=0.00000099
+minrelaytxfee=0.00000099
 
 listenonion=1
 listen=0
@@ -33,3 +35,4 @@ peerbloomfilters=0
 enforcenodebloom=1
 disablewallet=1
 blocknotify=pkill -USR1 electrs
+rpcport=7040

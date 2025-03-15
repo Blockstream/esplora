@@ -43,9 +43,9 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
         <div className="container">
           <div className="row">
             <div className="col-sm-8">
-              <h1>{t`Address`}</h1>
-              <div className="block-hash">
-                <span>{display_addr}</span>
+              <h1 className="font-h2">{t`Address`}</h1>
+              <div className="block-hash font-p1">
+                <span className="text-gray">{display_addr}</span>
                 { process.browser && <div className="code-button">
                   <div className="code-button-btn" role="button" data-clipboardCopy={display_addr}></div>
                 </div> }
@@ -58,7 +58,7 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
         </div>
       </div>
       <div className="container">
-        <div className="stats-table">
+        <div className="stats-table font-p2">
         { is_confidential && [
           <div>
             <div>{ t`Confidential` }</div>
@@ -113,14 +113,14 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
 
         <div>
           <div className="transactions">
-            <h3>{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
+            <h3 className="font-h3">{txsShownText(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
             { addrTxs ? addrTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, addr, ...S }))
                        : loader() }
           </div>
 
           <div className="load-more-container">
             <div>
-              { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{loader("small")}</div></div>
+              { loading ? <div className="load-more g-btn font-btn-2 disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
                         : pagingNav(addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) }
             </div>
           </div>
@@ -144,9 +144,8 @@ const pagingNav = (addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_
   process.browser
 
 ? last_seen_txid != null &&
-    <div className="load-more" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAddr={addr.address}>
-      <span>{t`Load more`}</span>
-      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    <div className="load-more g-btn primary-btn font-btn-2" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAddr={addr.address}>
+      {t`Load more`}
     </div>
 
 : [

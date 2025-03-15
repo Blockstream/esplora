@@ -1,7 +1,16 @@
+# Set the IP ranges of your Google Cloud Load Balancer
+set_real_ip_from 130.211.0.0/22;
+set_real_ip_from 35.191.0.0/16;
+
+# Use the IP address in the X-Forwarded-For header as the client IP
+real_ip_header X-Forwarded-For;
+real_ip_recursive on;
+
 geo $limit {
     default 1;
     34.70.28.228/32 0;
     127.0.0.1/32 0;
+    216.38.154.82 0;
 }
 
 map $limit $limit_key {
@@ -9,8 +18,12 @@ map $limit $limit_key {
     1 $http_x_forwarded_for;
 }
 
-limit_req_zone $limit_key zone=lightlimitzone:20m rate=50r/s;
+limit_req_zone $limit_key zone=lightlimitzone:10m rate=50r/s;
+limit_req_zone $limit_key zone=heavylimitzone:10m rate=5r/s;
+limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
 
+limit_req_status 429;
+limit_conn_status 429;
 
 upstream backend {
     server unix:/var/electrs-rest.sock;
@@ -41,6 +54,11 @@ server {
     keepalive_timeout 650s;
     {NGINX_LOGGING};
     server_tokens off;
+
+    # client timeouts
+    client_body_timeout 5s;
+    client_header_timeout 5s;
+
     add_header X-Frame-Options SAMEORIGIN always;
     add_header Content-Security-Policy "{NGINX_CSP}" always;
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
@@ -49,7 +67,8 @@ server {
     add_header Referrer-Policy "no-referrer" always;
 
     location /{NGINX_PATH}api/ {
-        limit_req zone=lightlimitzone burst=100 nodelay;
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
 
         proxy_pass http://backend/;
         add_header Access-Control-Allow-Origin * always;
@@ -65,7 +84,10 @@ server {
         proxy_set_header Connection "";
     }
     location /{NGINX_PATH}electrum-websocket/ {
-        limit_req zone=lightlimitzone burst=10 nodelay;
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
+
+        client_body_timeout 60s;
         proxy_pass http://electrum_websocket/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -75,9 +97,13 @@ server {
     }
 
     location = /{NGINX_PATH}nojs {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         return 301 " /{NGINX_PATH}nojs/";
     }
     location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|[a-zA-Z0-9]+$) {
+        limit_req zone=heavylimitzone burst=10 nodelay;
+        limit_conn conn_limit_per_ip 10;
+
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
@@ -85,6 +111,7 @@ server {
         try_files $uri /index.html;
     }
     location /{NGINX_PATH} {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         expires 60m;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
@@ -92,6 +119,7 @@ server {
         {NGINX_REWRITE}
     }
     location = /{NGINX_NOSLASH_PATH} {
+        limit_req zone=lightlimitzone burst=10 nodelay;
         if ($args = "nojs") {
             {NGINX_REWRITE_NOJS};
         }

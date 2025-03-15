@@ -1,4 +1,4 @@
-From 9fc9638e54a3550f9842e0a5a8d5dce6551ed7ed Mon Sep 17 00:00:00 2001
+From 014590d449f798d9d58bcf310003edcc56a0f0ce Mon Sep 17 00:00:00 2001
 From: Lawrence Nahum <lawrence@greenaddress.it>
 Date: Sat, 19 Nov 2022 16:27:16 +0100
 Subject: [PATCH] add support to save fee estimates without shutting down the
@@ -149,7 +149,7 @@ index 000000000..c6d82345b
 +  - call the savefeeestimates RPC and verify the RPC succeeds and
 +    that the file exists
 +  - make the file read only and attempt to call the savefeeestimates RPC
-+    with the expecation that it will fail
++    with the expectation that it will fail
 +  - move the read only file and shut down the node, verify the node writes
 +    on shutdown a file that is identical to the one we saved via the RPC
 +
@@ -189,7 +189,7 @@ index 000000000..c6d82345b
 +if __name__ == "__main__":
 +    FeeEstimatesPersistTest().main()
 diff --git a/test/functional/test_runner.py b/test/functional/test_runner.py
-index d78c1c634..bf9dbe12a 100755
+index caa4af957..c9086aefd 100755
 --- a/test/functional/test_runner.py
 +++ b/test/functional/test_runner.py
 @@ -136,6 +136,7 @@ BASE_SCRIPTS = [

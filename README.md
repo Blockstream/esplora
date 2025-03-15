@@ -143,6 +143,8 @@ be configured to the URL reachable by the server, typically `http://localhost:30
 docker build -t esplora .
 ```
 
+Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub.
+
 ## How to run the explorer for Bitcoin mainnet
 
 ```

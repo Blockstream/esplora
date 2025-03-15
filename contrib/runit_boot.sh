@@ -1,16 +1,25 @@
 #!/bin/bash
 
 shutdown() {
-  echo "shutting down container"
+  echo "shutting down the container"
 
-  # first shutdown any service started by runit
+  # first shut down socat (avoid "Iterrupted by signal 15" error)
+  sv -w "$SVWAIT" force-stop socat
+
+  # next shut down electrs (avoid long wait + losing blocks in bitcoind)
+  sv -w "$SVWAIT" force-stop electrs
+
+  # next shut down bitcoin (longer timeout to allow for a clean shutdown)
+  sv -w "$BCWAIT" force-stop bitcoin
+
+  # then shutdown any other service started by runit
   for _srv in $(ls -1 /etc/service); do
-    sv force-stop $_srv
+    sv -w "$SVWAIT" force-stop "$_srv"
   done
 
   # shutdown runsvdir command
-  kill -HUP $RUNSVDIR
-  wait $RUNSVDIR
+  kill -HUP "$RUNSVDIR"
+  wait "$RUNSVDIR"
 
   # give processes time to stop
   sleep 0.5
@@ -22,11 +31,12 @@ shutdown() {
   exit
 }
 
-# store enviroment variables
+# store environment variables
 export > /etc/envvars
 
 PATH=/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin
 SVWAIT=60  # wait process to end up to SVWAIT seconds before sending kill signal
+BCWAIT=300 # custom timeout for bitcoind before sending kill signal
 
 # run all scripts in the run_once folder
 /bin/run-parts /etc/run_once
@@ -39,7 +49,7 @@ echo "wait for processes to start...."
 
 sleep 5
 for _srv in $(ls -1 /etc/service); do
-    sv status $_srv
+    sv status "$_srv"
 done
 
 # catch shutdown signals

@@ -1,13 +1,17 @@
 .navbar-brand::before {
   background: url(img/icons/explorer_logo.svg);
-  background-size: cover;
-  width: 240px;
+  background-size: contain;
+  width: 245px;
   margin: 0;
   background-repeat: no-repeat;
 }
 
 .theme-light .navbar-brand::before {
   background: url(img/icons/explorer_dark_logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 245px;
+  margin: 0;
 }
 
 .footer-logo::before {
@@ -40,11 +44,43 @@
     margin-top: 30px;
   }
 
-  .navbar-brand::before {
-    background: url(img/icons/blockstream-logo.png);
+  .theme-light .navbar-brand::before, .navbar-brand::before {
+    
     background-size: 54px 54px;
     width: 54px;
   }
+
+  .theme-light .navbar-brand::before {
+    background: url(img/icons/dark-logo-icon.svg);
+    background-repeat: no-repeat;
+  }
+
+  .navbar-brand::before {
+    background: url(img/icons/light-logo-icon.svg);
+    background-repeat: no-repeat;
+  }
 }
 
+.theme-light .primary-btn, 
+.theme-light .primary-btn:link, 
+.theme-light .primary-btn:visited, 
+.theme-light .primary-btn:hover, 
+.theme-light .primary-btn:focus {
+  color: #0C0C0F;
+}
 
+.theme-light .hero-section p, .theme-light .info-section p, .theme-light .feature p, .theme-light .cta-section p, .theme-light .pricing-card p {
+  color: #080B0E;
+}
+
+.theme-light .cta-section {
+  background-color: #F6F7F9;
+}
+
+.theme-light .pricing-card {
+  background: #fff;
+}
+
+.theme-light .pricing-card p > a {
+  color: #FF9417;
+}

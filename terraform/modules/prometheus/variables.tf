@@ -1,7 +1,3 @@
-variable "create_resources" {
-  type = string
-}
-
 variable "project" {
   type = string
 }
@@ -19,9 +15,9 @@ variable "region" {
   type = string
 }
 
-variable "zones" {
-  type    = list(any)
-  default = ["us-central1-a"]
+variable "zone" {
+  type    = string
+  default = "us-central1-a"
 }
 
 variable "instances" {
@@ -58,9 +54,4 @@ variable "docker_tag_node_exporter" {
 variable "allowed_source_ip" {
   type        = list(any)
   description = "Which IPs are allowed to access the instance?"
-}
-
-variable "prometheus_service_account" {
-  type    = string
-  default = ""
 }

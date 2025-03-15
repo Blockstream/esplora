@@ -6,6 +6,7 @@
 .details-btn > div { 
     color: #46beae;
     border: 1px solid #46beae;
+    background: none;
 }
 
 .transaction-box > .footer > div:nth-child(3) {

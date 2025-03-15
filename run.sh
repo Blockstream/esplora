@@ -7,6 +7,7 @@ MODE=$2
 
 SYNC_SECRET=$4
 SYNC_SOURCE=$5
+NGINX_GCLB_IP=${NGINX_GCLB_IP:-34.36.36.12} # bs.info
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
     echo "Please provide bitcoin-mainnet, bitcoin-testnet, bitcoin-signet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
@@ -221,6 +222,11 @@ fi
 preprocess /srv/explorer/source/contrib/nginx.conf.in /etc/nginx/sites-enabled/default
 sed -i 's/user www-data;/user root;/' /etc/nginx/nginx.conf
 
+# Set real IP of service
+if [ -n "NGINX_GCLB_IP" ]; then
+  sed -i "/set_real_ip_from 35.191.0.0\/16;/a set_real_ip_from ${NGINX_GCLB_IP}\/32; # GCLB public IP" /etc/nginx/sites-enabled/default
+fi
+
 # Make mempool contents available over nginx, protected with SYNC_SECRET
 if [ -n "$SYNC_SECRET" ]; then
     echo "sync:{PLAIN}$SYNC_SECRET" > /srv/explorer/htpasswd
@@ -292,8 +298,7 @@ if [ -n "$SYNC_SOURCE" ]; then
   sleep 2 # without this, the download below would occasionally start while the terminating bitcoind is still flushing its mempool.dat
   # then fetch a recent mempool.dat,
   curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/mempool.dat $SYNC_SOURCE/mempool || true
-  curl -v -u sync:$SYNC_SECRET -o $DAEMON_DIR/fee_estimates.dat $SYNC_SOURCE/fee_estimates || true
-  ls -l $DAEMON_DIR/{mempool,fee_estimates}.dat || true
+  ls -l $DAEMON_DIR/{mempool}.dat || true
   # and let the runit services take over
 fi
 

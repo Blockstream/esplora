@@ -61,7 +61,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
         </div>
       </div>
       <div className="container">
-        <div className="stats-table">
+        <div className="stats-table font-p2">
           <div>
             <div>{t`Asset id`}</div>
             <div className="mono">{asset.asset_id}</div>
@@ -236,14 +236,14 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
         <div>
           <div className="transactions">
-            <h3>{(is_native_asset ? txsShownTextNative : txsShownTextIssued)(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
+            <h3 className="font-h3">{(is_native_asset ? txsShownTextNative : txsShownTextIssued)(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
             { assetTxs ? assetTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
                        : loader()}
           </div>
 
           <div className="load-more-container">
             <div>
-              { loading ? <div className="load-more disabled"><span>{t`Load more`}</span><div>{loader("small")}</div></div>
+              { loading ? <div className="load-more g-btn font-btn-2 disabled disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
                         : pagingNav(asset, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) }
             </div>
           </div>
@@ -269,9 +269,8 @@ const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging
   process.browser
 
 ? last_seen_txid != null &&
-    <div className="load-more" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAsset={asset.asset_id}>
-      <span>{t`Load more`}</span>
-      <div><img alt="" src={`${staticRoot}img/icons/arrow_down.png`} /></div>
+    <div className="load-more g-btn primary-btn font-btn-2" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAsset={asset.asset_id}>
+      {t`Load more`}
     </div>
 
 : [

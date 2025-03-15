@@ -1,6 +1,6 @@
 # Build libwally wasm files. Used for client-side blinding verification on Elements-based chains
 
-FROM greenaddress/wallycore@sha256:d63d222be12f6b2535e1548aa7f21cf649e2230d6c9e01bd518c23eb0bccd46f AS libwally-wasm
+FROM blockstream/wallycore@sha256:62cc52bd3ad9176b55cb486482368f858a4debee248a15d2fada0a62eb074a05 AS libwally-wasm
 ARG NO_LIQUID
 ENV EXPORTED_FUNCTIONS="['_malloc', '_free', '_wally_init','_wally_asset_value_commitment','_wally_asset_generator_from_bytes']"
 ENV EXTRA_EXPORTED_RUNTIME_METHODS="['getValue', 'ccall']"
@@ -12,7 +12,7 @@ RUN sh -c '[ -n "$NO_LIQUID" ] && mkdir -p /wally/wally_dist || ( \
     && git submodule sync --recursive && git submodule update --init --recursive \
     && ./tools/build_wasm.sh --enable-elements)'
 
-FROM debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
+FROM debian:bookworm-slim
 SHELL ["/bin/bash", "-c"]
 
 ENV CORE_BUILD_DEPS="autoconf autotools-dev automake libtool pkg-config bsdmainutils build-essential"
@@ -23,54 +23,49 @@ RUN mkdir -p /srv/explorer \
  && apt-get -yqq install ${ESPLORA_BUILD_DEPS} tor ${CORE_BUILD_DEPS}
 
 
-RUN git clone --quiet --depth 1 --single-branch --branch v0.39.0 https://github.com/nvm-sh/nvm.git /root/.nvm \
+RUN git clone --quiet --depth 1 --single-branch --branch v0.40.1 https://github.com/nvm-sh/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
  && source /root/.nvm/nvm.sh \
- && nvm install v17.1.0
+ && nvm install v18.20.4
 
-# Build core from sources until PR https://github.com/bitcoin/bitcoin/pull/23387 is merged
-ENV CORE_PATCH=contrib/0001-add-support-to-save-fee-estimates-without-shutting-d.patch
-ENV CORE_SRC=/root/bitcoin
-COPY ${CORE_PATCH} /${CORE_PATCH}
-RUN git clone --quiet --depth 1 --branch v24.0 --single-branch --recursive https://github.com/bitcoin/bitcoin.git ${CORE_SRC} \
- && (cd ${CORE_SRC} \
- && git checkout dd314fe0c2f64818d2789955a8ceef50d3d6597d \
- && git apply /${CORE_PATCH} \
- && (cd depends \
- && make HOST=x86_64-pc-linux-gnu NO_QT=1 -j $(nproc --all)) \
- && ./autogen.sh \
- && CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=/srv/explorer/bitcoin --disable-man --disable-zmq --disable-qt --disable-gui-tests --disable-bench \
-                --enable-experimental-asm --without-utils --enable-util-cli --without-libs --with-daemon --disable-maintainer-mode \
-                --disable-glibc-back-compat --disable-ccache --disable-dependency-tracking --disable-tests --with-gui=no \
- && make -j $(nproc --all) \
- && make install -j $(nproc --all) \
- && strip /srv/explorer/bitcoin/bin/* \
- && rm -fr ${CORE_SRC} /${CORE_PATCH})
+ARG TARGETARCH
+ENV SHA256SUM_ELEMENTS_X86_64="6e0c747ec4ba4e54eb3426e7219354b5ea150b393a4e2b8a536cab64a5d9c7a8"
+ENV SHA256SUM_ELEMENTS_ARM64="5c6f8219fd1baf4d4c2b05b6dd9ec71bb348754bd46aeb3faa7ba0ba69aff0e8"
+ENV SHA256SUM_BITCOINCORE_X86_64="2a6974c5486f528793c79d42694b5987401e4a43c97f62b1383abf35bcee44a8"
+ENV SHA256SUM_BITCOINCORE_ARM64="cb35e250ae9d0328aa90e7aad0b877ed692597420a1092e8ab1a5dd756209722"
 
-#ENV SHA256SUM_BITCOINCORE=59ebd25dd82a51638b7a6bb914586201e67db67b919b2a1ff08925a7936d1b16
-#ENV VERSION_BITCOINCORE=22.0
-#RUN curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-x86_64-linux-gnu.tar.gz" \
-# && echo "${SHA256SUM_BITCOINCORE}  bitcoin.tar.gz" | sha256sum --check \
-# && tar xzf bitcoin.tar.gz -C /srv/explorer \
-# && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
-# && rm bitcoin.tar.gz
+ENV VERSION_BITCOINCORE=27.0
+RUN if [ "${TARGETARCH}" = "arm64" ]; then \
+   curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-aarch64-linux-gnu.tar.gz"; \
+   echo "${SHA256SUM_BITCOINCORE_ARM64}  bitcoin.tar.gz" | sha256sum --check; \
+   else \
+   curl -sL -o bitcoin.tar.gz "https://bitcoincore.org/bin/bitcoin-core-${VERSION_BITCOINCORE}/bitcoin-${VERSION_BITCOINCORE}-x86_64-linux-gnu.tar.gz"; \
+   echo "${SHA256SUM_BITCOINCORE_X86_64}  bitcoin.tar.gz" | sha256sum --check; \
+   fi \
+ && tar xzf bitcoin.tar.gz -C /srv/explorer \
+ && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
+ && rm bitcoin.tar.gz
 
-ENV SHA256SUM_ELEMENTS=0278017429236f2cc651bb746e8ae826b740811d73789d07d1682649f2414465
-ENV VERSION_ELEMENTS=22.0.2
-RUN curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz" \
- && echo "${SHA256SUM_ELEMENTS}  elements.tar.gz" | sha256sum --check \
+ENV VERSION_ELEMENTS=23.2.4
+RUN if [ "${TARGETARCH}" = "arm64" ]; then \
+   curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-aarch64-linux-gnu.tar.gz"; \
+   echo "${SHA256SUM_ELEMENTS_ARM64}  elements.tar.gz" | sha256sum --check; \
+   else \
+   curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-x86_64-linux-gnu.tar.gz"; \
+   echo "${SHA256SUM_ELEMENTS_X86_64}  elements.tar.gz" | sha256sum --check; \
+   fi \
  && tar xzf elements.tar.gz -C /srv/explorer \
  && ln -s "/srv/explorer/elements-${VERSION_ELEMENTS}" /srv/explorer/liquid \
  && mv /srv/explorer/liquid/bin/{elementsd,liquidd} \
  && mv /srv/explorer/liquid/bin/{elements-cli,liquid-cli} \
  && rm elements.tar.gz
 
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.65.0
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.75.0
 RUN source /root/.cargo/env \
  && mkdir -p /srv/explorer/electrs{,_liquid} \
  && git clone --no-checkout https://github.com/blockstream/electrs.git \
  && (cd electrs \
- && git checkout a808b51d0d9301fa82390b985c57551966001f9b \
+ && git checkout 306f66acf2ab10bcd99b8012e95a0de30b2cc012 \
  && cp contrib/popular-scripts.txt /srv/explorer \
  && cargo install --root /srv/explorer/electrs_bitcoin --locked --path . --features electrum-discovery \
  && cargo install --root /srv/explorer/electrs_liquid --locked --path . --features electrum-discovery,liquid \

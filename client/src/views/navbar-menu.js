@@ -13,7 +13,7 @@ export default ({ t, theme, page }) =>
   <ul className="main-nav">
     { items && Object.entries(items).map(([ name, url ]) =>
         <li id={name.replace(/ /g, '')} className={`nav-item ${name == active ? 'active' : ''}`}>
-          <a className="nav-link" href={url} rel="external">
+          <a className="nav-link font-h4" href={url} rel="external">
             <span><img className="menu-logo" alt="" src={`${staticRoot}img/icons/${name.replace(/ /g, '')}-menu-logo.svg`} /></span>
             <span>{t(name)}</span>
           </a>

@@ -31,9 +31,9 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
     <div className="transaction-page">
       <div className="container">
         <div>
-          <h1 className="transaction-header-title">{t`Transaction`}</h1>
-          <div className="block-hash">
-            <span>{tx.txid}</span>
+          <h1 className="transaction-header-title font-h2">{t`Transaction`}</h1>
+          <div className="block-hash font-p1">
+            <span className="text-gray">{tx.txid}</span>
             { process.browser && <div className="code-button">
               <div className="code-button-btn" role="button" data-clipboardCopy={tx.txid}></div>
             </div> }
@@ -61,7 +61,7 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query, unblinded, ...S
 
   return <div className="transaction-box" id="transaction-box">
     <div className="header">
-      <div className="txn"><a href={`tx/${tx.txid}`}>{tx.txid}</a></div>
+      <div className="txn font-p2"><a href={`tx/${tx.txid}`}>{tx.txid}</a></div>
       {btnDetails(tx.txid, vopt.isOpen, query, t)}
     </div>
     <div className="ins-and-outs">
@@ -95,9 +95,9 @@ export const txBox = (tx, { t, openTx, tipHeight, spends, query, unblinded, ...S
 
 const btnDetails = (txid, isOpen, query, t) => process.browser
   // dynamic button in browser env
-  ? <div className="details-btn" data-toggleTx={txid}>{btnDetailsContent(isOpen, t)}</div>
+  ? <div className="details-btn font-btn-2 font-h5" data-toggleTx={txid}>{btnDetailsContent(isOpen, t)}</div>
   // or a plain link in server-side rendered env
-  :  <a className="details-btn" href={`tx/${txid}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
+  :  <a className="details-btn font-btn-2 font-h5" href={`tx/${txid}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
@@ -109,7 +109,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
                       , txAnalysis: { feerate, mempoolDepth, confEstimate, overpaying, privacyAnalysis, segwitGains } }) => {
 
   return (
-  <div className="stats-table">
+  <div className="stats-table font-p2">
     <div>
       <div>{t`Status`}</div>
       <div>{confirmationText(tx.status, tipHeight, t)}</div>
@@ -140,7 +140,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
     { feerate != null && <div>
       <div>{t`Transaction fees`}</div>
       <div>
-        <span className="amount">{t`${formatSat(tx.fee)} (${feerate.toFixed(1)} sat/vB)`}</span>
+        <span className="amount">{t`${formatSat(tx.fee)} (${feerate.toFixed(2)} sat/vB)`}</span>
         { overpaying > OVERPAYMENT_WARN &&
           <p className={`text-${ overpaying > OVERPAYMENT_WARN*1.5 ? 'danger' : 'warning' } mb-0`} title={t`compared to bitcoind's suggested fee of ${feeEst[2].toFixed(1)} sat/vB for confirmation within 2 blocks`}>
             ⓘ {t`overpaying by ${Math.round((overpaying-1)*100)}%`}
@@ -161,6 +161,14 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
       <div>{t`Weight units`}</div>
       <div>{`${formatNumber(tx.weight)} WU`}</div>
     </div>
+    { tx.discount_vsize != null && <div>
+      <div>{t`Discount virtual size`}</div>
+      <div>{`${formatNumber(tx.discount_vsize)} vB`}</div>
+    </div> }
+    { tx.discount_weight != null && <div>
+      <div>{t`Discount weight units`}</div>
+      <div>{`${formatNumber(tx.discount_weight)} WU`}</div>
+    </div> }
     <div>
       <div>{t`Version`}</div>
       <div>{tx.version}</div>
