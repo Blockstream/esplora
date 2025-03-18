@@ -38,7 +38,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                 <div className="hero-text">
                     <h1 className="font-h1">Powering Bitcoin and Liquid Applications with Real-Time Blockchain Data</h1>
                     <p className="font-p1 text-gray">Built to simplify development and enhance performance for existing Bitcoin and Liquid applications, the Blockstream Explorer API offers faster address lookups, robust DoS protection, and seamless integration.</p>
-                    <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA</a>
+                    <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY</a>
                 </div>
                 <div className="hero-image">
                     <img src={`${staticRoot}img/hero-explorer-api.svg`} alt="Hero Image" />
@@ -169,7 +169,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/100</span>
                                 </div>
-                                <div className="pricing-table-description">Next 15M Requests</div>
+                                <div className="pricing-table-description">Next 9.5M Requests (Tier 1)</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -178,7 +178,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/200</span>
                                 </div>
-                                <div className="pricing-table-description">Following 15M Requests</div>
+                                <div className="pricing-table-description">Following 40M Requests (Tier 2)</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -187,7 +187,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/500</span>
                                 </div>
-                                <div className="pricing-table-description">Beyond 30M Requests</div>
+                                <div className="pricing-table-description">Beyond 50M Requests (Tier 3)</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -195,11 +195,11 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="currency">$</span>
                                     <span className="amount">4,000</span>
                                 </div>
-                                <div className="pricing-table-description" style={{lineHeight: `15px`}}>Above 60M Requests Unlimited Usage</div>
+                                <div className="pricing-table-description" style={{lineHeight: `15px`}}>Above 100M Requests (Unlimited Usage)</div>
                             </div>
                         </div>
                         <p className="font-p2 text-gray"><a href="mailto:explorer-support@blockstream.com">Contact Support</a> now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
-                        <a href="https://blockstream.com/explorerbeta" target="_blank" className="g-btn primary-btn">JOIN THE OPEN BETA NOW</a>
+                        <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY</a>
                     </div>
                 </div>
             </div>
