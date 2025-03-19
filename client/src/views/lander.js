@@ -169,7 +169,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/100</span>
                                 </div>
-                                <div className="pricing-table-description">Next 9.5M Requests (Tier 1)</div>
+                                <div className="pricing-table-description">500K - 10M requests</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -178,7 +178,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/200</span>
                                 </div>
-                                <div className="pricing-table-description">Following 40M Requests (Tier 2)</div>
+                                <div className="pricing-table-description">10M - 50M requests</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -187,7 +187,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="amount">0.01</span>
                                     <span className="rate">/500</span>
                                 </div>
-                                <div className="pricing-table-description">Beyond 50M Requests (Tier 3)</div>
+                                <div className="pricing-table-description">50M - 100M requests</div>
                             </div>
 
                             <div className="pricing-table-row">
@@ -195,7 +195,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                                     <span className="currency">$</span>
                                     <span className="amount">4,000</span>
                                 </div>
-                                <div className="pricing-table-description" style={{lineHeight: `15px`}}>Above 100M Requests (Unlimited Usage)</div>
+                                <div className="pricing-table-description" style={{lineHeight: `15px`}}>100M+ requests (Unlimited Usage)</div>
                             </div>
                         </div>
                         <p className="font-p2 text-gray"><a href="mailto:explorer-support@blockstream.com">Contact Support</a> now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
