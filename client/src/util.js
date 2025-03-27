@@ -17,6 +17,51 @@ export const isHash256 = str => reHash256.test(str)
 
 export const parseHashes = str => (''+str).split(',').filter(isHash256)
 
+/**
+ * 
+ * @returns {function} function that takes a transaction, mempool, and fee Estimates 
+ *      and returns an object with the following properties:
+ * - tx: the transaction
+ * - mempool: the mempool object
+ * - feeEst: the fee estimate object
+ * - feerate: the fee rate of the transaction
+ * - discount_feerate: the discount fee rate of the transaction
+ */
+export const calculateFeeEstimate = () => {
+  return (tx, mempool, feeEst) => {
+    const feerate = tx.fee ? tx.fee / tx.weight : null;
+    const discount_feerate = tx.fee && tx.discount_vsize ? tx.fee / tx.discount_vsize : null;
+    return {
+      tx, mempool, feeEst, feerate, discount_feerate
+    };
+  };
+};
+
+/**
+ * 
+ * @param {Transaction} tx 
+ * @param {number} feeRate 
+ * @param {number} discount_feerate
+ * @param {Array<number>} feeEst 
+ * @returns number
+ */
+export const calculateOverpaying = (tx, feeRate, discount_feerate,  feeEst) => {
+  const txConfirmed = tx.status.confirmed;
+  const feeRateValid = feeRate !== null;
+  const feeEstValid = feeEst != null && feeEst[2] != null;
+  const hasDiscountDifference = discount_feerate !== null;
+  if(feeEstValid && hasDiscountDifference) {
+    const rate = discount_feerate / feeEst[2];
+    return rate;
+  } else  if (!txConfirmed && feeRateValid && feeEstValid) {
+    const rate = feeRate / feeEst[2];
+    return rate;
+  } else {
+    return null;
+  }
+}
+
+
 // update the `current` list of blocks with `to_add`, which can either contain an updated
 // list of the most recent blocks at the tip, or older blocks to be appended at the end
 export const updateBlocks = (current, to_add) => {
