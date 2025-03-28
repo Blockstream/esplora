@@ -5,7 +5,24 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
-import { dbg, combine, extractErrors, dropErrors, last, updateQuery, notNully, processGoAddr, parseHashes, isHash256, makeAddressQR, tickWhileFocused, tickWhileViewing, updateBlocks } from './util'
+import {
+    dbg,
+    combine,
+    extractErrors,
+    dropErrors,
+    last,
+    updateQuery,
+    notNully,
+    processGoAddr,
+    parseHashes,
+    isHash256,
+    makeAddressQR,
+    tickWhileFocused,
+    tickWhileViewing,
+    updateBlocks,
+    calculateFeerates,
+    calculateOverpayment,
+} from './util'
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
@@ -191,15 +208,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Transaction analysis
   , txAnalysis$ = tx$.filter(Boolean)
-      .combineLatest(mempool$, feeEst$, (tx, mempool, feeEst) =>
-          ({ tx, mempool, feeEst, feerate: tx.fee ? tx.fee / tx.weight * 4 : null }))
-      .map(({ tx, feerate, mempool, feeEst }) => ({
+      .combineLatest(mempool$, feeEst$, calculateFeerates)
+      .map(({ tx, feerate, mempool, feeEst, effectiveFeerate}) => ({
         feerate
       , privacyAnalysis: getPrivacyAnalysis(tx)
       , segwitGains: calcSegwitFeeGains(tx)
-      , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
-      , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
-      , overpaying: !tx.status.confirmed && feerate != null && feeEst && feeEst[2] != null ? feerate/feeEst[2] : null
+      , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, effectiveFeerate) : null
+      , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, effectiveFeerate) : null
+      , overpaying: !tx.status.confirmed && feerate != null && feeEst ? calculateOverpayment(effectiveFeerate, feeEst) : null
       }))
 
   // Asset and associated txs (elements only)
