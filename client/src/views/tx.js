@@ -142,7 +142,7 @@ const txHeader = (tx, { tipHeight, mempool, feeEst, t
       <div>
         <span className="amount">{t`${formatSat(tx.fee)} (${feerate.toFixed(2)} sat/vB)`}</span>
         { overpaying > OVERPAYMENT_WARN &&
-          <p className={`text-${ overpaying > OVERPAYMENT_WARN*1.5 ? 'danger' : 'warning' } mb-0`} title={t`compared to bitcoind's suggested fee of ${feeEst[2].toFixed(1)} sat/vB for confirmation within 2 blocks`}>
+          <p className={`text-${ overpaying > OVERPAYMENT_WARN*1.5 ? 'danger' : 'warning' } mb-0`} title={t`compared to the suggested fee of ${feeEst[2].toFixed(1)} sat/vB for confirmation within 2 blocks`}>
             ⓘ {t`overpaying by ${Math.round((overpaying-1)*100)}%`}
           </p>
         }
