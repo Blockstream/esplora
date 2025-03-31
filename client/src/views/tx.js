@@ -43,7 +43,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
     </div>
     <div className="container">
       {txHeader(tx, { t, tipHeight, ...S })}
-      {(unblinded && unblinded.error) ? <div className="text-center text-danger mt-3">{t`Warning:`} {unblinded.error}</div> : <div></div>}
+      {(unblinded && unblinded.error) ? <div className="text-center text-danger mt-3">{t`Warning:`} {unblinded.error.toString()}</div> : <div></div>}
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
   </div>
