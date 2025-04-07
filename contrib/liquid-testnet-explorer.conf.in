@@ -3,36 +3,13 @@ chain=liquidtestnet
 [liquidtestnet]
 
 # General settings:
-validatepegin=0
-anyonecanspendaremine=0
-initialfreecoins=2100000000000000
-con_dyna_deploy_start=0
-con_max_block_sig_size=150
 addnode=liquid-testnet.blockstream.com:18892
 addnode=liquidtestnet.com:18891
 addnode=liquidcert.com:18886
 addnode=liquid.network:18444
-checkblockindex=0 
 fallbackfee=0.00000100
-con_has_parent_chain=0
-parentgenesisblockhash=NULL
-pubkeyprefix=36
-scriptprefix=19
-blindedprefix=23
-bech32_hrp=tex
-blech32_hrp=tlq
-pchmessagestart=410edd62
-dynamic_epoch_length=1000
-signblockscript=51210217e403ddb181872c32a0cd468c710040b2f53d8cac69f18dad07985ee37e9a7151ae
-evbparams=dynafed:0:::
-multi_data_permitted=1
-blockmintxfee=0.00000099
-minrelaytxfee=0.00000099
-
 listenonion=1
-listen=0
-peerbloomfilters=0
-enforcenodebloom=1
+listen=1
 disablewallet=1
 blocknotify=pkill -USR1 electrs
 rpcport=7040
