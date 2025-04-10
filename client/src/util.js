@@ -60,6 +60,18 @@ export const outTotal = tx => tx.vout.reduce((N, vout) => N + (vout.value || 0),
 
 export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vout.asset === nativeAssetId
 
+export const calculateFeerates = (tx, mempool, feeEst) => {
+  const feerate = tx.fee ? tx.fee / tx.weight * 4 : null;
+  const discountFeerate = tx.fee && tx.discount_vsize ? tx.fee / tx.discount_vsize : null;
+  const effectiveFeerate = discountFeerate ? discountFeerate : feerate;
+  return { tx, mempool, feeEst, feerate, discountFeerate, effectiveFeerate };
+}
+
+export const calculateOverpayment = (feerate, feeEst) => {
+  const feeEstValid = feeEst != null && feeEst[2] != null;
+  return feeEstValid ? feerate / feeEst[2] : null;
+}
+
 // Address helpers
 
 // Try removing blinding key from confidential address and return in standard address encoding
