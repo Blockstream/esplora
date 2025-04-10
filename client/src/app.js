@@ -209,13 +209,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Transaction analysis
   , txAnalysis$ = tx$.filter(Boolean)
       .combineLatest(mempool$, feeEst$, calculateFeerates)
-      .map(({ tx, feerate, mempool, feeEst, discountFeerate}) => ({
+      .map(({ tx, feerate, mempool, feeEst, effectiveFeerate}) => ({
         feerate
       , privacyAnalysis: getPrivacyAnalysis(tx)
       , segwitGains: calcSegwitFeeGains(tx)
-      , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, feerate) : null
-      , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, feerate) : null
-      , overpaying: !tx.status.confirmed ? calculateOverpayment(feerate, feeEst, discountFeerate) : null
+      , mempoolDepth: !tx.status.confirmed && feerate != null && mempool ? getMempoolDepth(mempool.fee_histogram, effectiveFeerate) : null
+      , confEstimate: !tx.status.confirmed && feerate != null && feeEst ? getConfEstimate(feeEst, effectiveFeerate) : null
+      , overpaying: !tx.status.confirmed ? calculateOverpayment(effectiveFeerate, feeEst) : null
       }))
 
   // Asset and associated txs (elements only)
