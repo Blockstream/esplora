@@ -3,7 +3,6 @@ variables:
   DOCKER_TLS_CERTDIR: ""
   DOCKER_BUILDKIT: 1
   CI_DISPOSABLE_ENVIRONMENT: "true"
-  BULLSEYE_IMAGE: debian:bullseye@sha256:4d6ab716de467aad58e91b1b720f0badd7478847ec7a18f66027d0f8a329a43c
   IMAGE_BASE: blockstream/esplora-base
   IMAGE: blockstream/esplora
   DOCKERHUB_ESPLORA_URL: "https://hub.docker.com/v2/repositories/blockstream/esplora/tags/"
@@ -12,15 +11,8 @@ default:
   image: docker:27
   services:
     - name: docker:27-dind
-      command: ["dockerd", "--host=tcp://0.0.0.0:2375"]
+      command: ["dockerd", "--host=tcp://0.0.0.0:2375", "--mtu=1450"]
       alias: "docker"
-  before_script:
-    - docker info
-    - docker buildx create
-      --driver=docker-container
-      --name=buildkit-builder
-      --use
-      --platform linux/amd64,linux/arm64
   tags:
     - cloud
   retry:

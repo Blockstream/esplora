@@ -1,4 +1,4 @@
-build_base:
+.build_esplora_base:
   stage: build
   rules:
     - if: $CI_COMMIT_BRANCH
@@ -6,39 +6,127 @@ build_base:
         paths:
           - Dockerfile.deps
         compare_to: master
+  before_script:
+    - docker buildx create
+      --driver=docker-container
+      --name=buildkit-builder
+      --use
+      --platform linux/${ARCH}
   script:
+    - docker pull ${IMAGE_BASE}:latest-${ARCH} || true
     - docker buildx build
-      --platform linux/amd64,linux/arm64
       --push
+      --platform linux/${ARCH}
       -f Dockerfile.deps
       --build-arg BUILDKIT_INLINE_CACHE=1
-      --cache-from ${IMAGE_BASE}:latest
-      -t ${IMAGE_BASE}:$CI_COMMIT_SHA
-      -t ${IMAGE_BASE}:latest
-      .
-
-test_docker_build_esplora:
+      --cache-from ${IMAGE_BASE}:latest-${ARCH}
+      -t ${IMAGE_BASE}:latest-${ARCH} .
+build_esplora_base_amd64:
+  extends:
+    - .build_esplora_base
+  variables:
+    ARCH: amd64
+build_esplora_base_arm64:
+  extends:
+    - .build_esplora_base
+  variables:
+    ARCH: arm64
+  tags:
+    - cloud-arm
+build_and_push_esplora_base:
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        paths:
+          - Dockerfile.deps
+        compare_to: master
+  needs:
+    - build_esplora_base_amd64
+    - build_esplora_base_arm64
   script:
+    - docker buildx imagetools create
+      -t ${IMAGE_BASE}:latest
+      ${IMAGE_BASE}:latest-amd64
+      ${IMAGE_BASE}:latest-arm64
+
+.build_esplora_test:
+  stage: build
+  only:
+    - merge_requests
+  before_script:
+    - docker buildx create
+      --driver=docker-container
+      --name=buildkit-builder
+      --use
+      --platform linux/${ARCH}
+  script:
+    - docker pull ${IMAGE}:latest-${ARCH} || true
     - docker buildx build
-      --platform linux/amd64,linux/arm64
+      --platform linux/${ARCH}
       --build-arg BUILDKIT_INLINE_CACHE=1
-      --cache-from ${IMAGE}:latest
+      --cache-from ${IMAGE}:latest-${ARCH}
       -f Dockerfile
       -t ${IMAGE} .
+build_esplora_test_amd64:
+  extends:
+    - .build_esplora_test
+  variables:
+    ARCH: amd64
+build_esplora_test_arm64:
+  tags:
+    - cloud-arm
+  extends:
+    - .build_esplora_test
+  variables:
+    ARCH: arm64
 
-build_esplora:
+.build_esplora_latest:
   stage: build
-  when: manual
+  only:
+    - master
+  except:
+    - triggers
+  before_script:
+    - docker buildx create
+      --driver=docker-container
+      --name=buildkit-builder
+      --use
+      --platform linux/${ARCH}
   script:
+    - docker pull ${IMAGE}:latest-${ARCH} || true
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
       sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" Dockerfile
       && docker buildx build
-      --platform linux/amd64,linux/arm64
+      --platform linux/${ARCH}
       --push
       --build-arg BUILDKIT_INLINE_CACHE=1
       --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
-      --cache-from ${IMAGE}:latest
+      --cache-from ${IMAGE}:latest-${ARCH}
+      -t ${IMAGE}:latest-${ARCH} .)
+build_esplora_latest_amd64:
+  extends:
+    - .build_esplora_latest
+  variables:
+    ARCH: amd64
+build_esplora_latest_arm64:
+  tags:
+    - cloud-arm
+  extends:
+    - .build_esplora_latest
+  variables:
+    ARCH: arm64
+build_and_push_esplora_latest:
+  stage: build
+  only:
+    - master
+  except:
+    - triggers
+  needs:
+    - build_esplora_latest_amd64
+    - build_esplora_latest_arm64
+  script:
+    - docker buildx imagetools create
       -t ${IMAGE}:latest
-      -t ${IMAGE}:$CI_COMMIT_SHA .)
-    - if [ $CI_COMMIT_BRANCH == "master" ]; then docker pull ${IMAGE}:$CI_COMMIT_SHA; docker tag ${IMAGE}:$CI_COMMIT_SHA ${IMAGE}:latest; docker push ${IMAGE}:latest; fi
+      ${IMAGE}:latest-amd64
+      ${IMAGE}:latest-arm64

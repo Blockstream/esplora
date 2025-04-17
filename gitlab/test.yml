@@ -1,0 +1,73 @@
+report_github_status:
+  stage: build
+  variables:
+    GIT_STRATEGY: none
+    ARCH: amd64
+  rules:
+    # Only run this job if:
+    # 1. The pipeline was started by an API trigger (`CI_PIPELINE_SOURCE == "trigger"`)
+    # 2. The required variables from GitHub Actions are present.
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $GITHUB_PR_SHA && $GH_STATUS_TOKEN && $GITHUB_REPO && $GITHUB_PR_REF'
+  before_script:
+    # Make sure curl and git are available
+    - apk add --no-cache curl git
+    # Report "pending" status to GitHub as soon as the job starts
+    - |
+      echo "Reporting pending status to GitHub commit $GITHUB_PR_SHA"
+      curl --fail --request POST \
+        --url "https://api.github.com/repos/${GITHUB_REPO}/statuses/${GITHUB_PR_SHA}" \
+        --header "Authorization: Bearer ${GH_STATUS_TOKEN}" \
+        --header "Accept: application/vnd.github.v3+json" \
+        --header "Content-Type: application/json" \
+        --data @- <<EOF
+      {
+        "state": "pending",
+        "target_url": "${CI_PIPELINE_URL}",
+        "description": "GitLab CI pipeline is running...",
+        "context": "ci/gitlab/pipeline-status"
+      }
+      EOF
+    - |
+      docker buildx create \
+      --driver=docker-container \
+      --name=buildkit-builder \
+      --use \
+      --platform linux/${ARCH}
+  script:
+    - git clone -b "$GITHUB_PR_REF" https://github.com/blockstream/esplora.git .
+    - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
+    - |
+      docker buildx build \
+        --push \
+        --platform "linux/${ARCH}" \
+        -f Dockerfile.deps \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --cache-from "${IMAGE_BASE}:latest-${ARCH}" \
+        -t "${IMAGE_BASE}:latest-${ARCH}" .
+  after_script:
+    # Report final status ("success" or "failure") to GitHub after the job finishes
+    # This block runs even if the main 'script' fails
+    - |
+      FINAL_STATE="success" # Assume success
+      DESCRIPTION="GitLab CI pipeline succeeded."
+      # Check the GitLab CI job status variable
+      if [ -z "${CI_JOB_STATUS}" ] || [ "${CI_JOB_STATUS}" != "success" ]; then
+        echo "Job status was $CI_JOB_STATUS, reporting failure."
+        FINAL_STATE="failure"
+        DESCRIPTION="GitLab CI pipeline failed."
+      fi
+
+      echo "Reporting $FINAL_STATE status to GitHub commit $GITHUB_PR_SHA"
+      curl --fail --request POST \
+        --url "https://api.github.com/repos/${GITHUB_REPO}/statuses/${GITHUB_PR_SHA}" \
+        --header "Authorization: Bearer ${GH_STATUS_TOKEN}" \
+        --header "Accept: application/vnd.github.v3+json" \
+        --header "Content-Type: application/json" \
+        --data @- <<EOF
+      {
+        "state": "${FINAL_STATE}",
+        "target_url": "${CI_PIPELINE_URL}",
+        "description": "${DESCRIPTION}",
+        "context": "ci/gitlab/pipeline-status"
+      }
+      EOF
