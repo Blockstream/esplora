@@ -4,7 +4,7 @@
     - if: $CI_COMMIT_BRANCH
       changes:
         paths:
-          - Dockerfile.deps
+          - contrib/Dockerfile.base
         compare_to: master
   before_script:
     - docker buildx create
@@ -17,7 +17,7 @@
     - docker buildx build
       --push
       --platform linux/${ARCH}
-      -f Dockerfile.deps
+      -f contrib/Dockerfile.base
       --build-arg BUILDKIT_INLINE_CACHE=1
       --cache-from ${IMAGE_BASE}:latest-${ARCH}
       -t ${IMAGE_BASE}:latest-${ARCH} .
@@ -39,7 +39,7 @@ build_and_push_esplora_base:
     - if: $CI_COMMIT_BRANCH
       changes:
         paths:
-          - Dockerfile.deps
+          - contrib/Dockerfile.base
         compare_to: master
   needs:
     - build_esplora_base_amd64
@@ -53,21 +53,42 @@ build_and_push_esplora_base:
 .build_esplora_test:
   stage: build
   only:
-    - merge_requests
+    - branches
+  except:
+    - master
+    - triggers
   before_script:
+    - apk add --no-cache curl
     - docker buildx create
       --driver=docker-container
       --name=buildkit-builder
       --use
       --platform linux/${ARCH}
   script:
+    - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
+    - |
+      docker buildx build \
+        --push \
+        --platform "linux/${ARCH}" \
+        -f contrib/Dockerfile.base \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --cache-from "${IMAGE_BASE}:latest-${ARCH}" \
+        -t "${IMAGE_BASE}:latest" .
+    # Now, build the esplora image
     - docker pull ${IMAGE}:latest-${ARCH} || true
-    - docker buildx build
-      --platform linux/${ARCH}
-      --build-arg BUILDKIT_INLINE_CACHE=1
-      --cache-from ${IMAGE}:latest-${ARCH}
-      -f Dockerfile
-      -t ${IMAGE} .
+    - docker compose -f contrib/docker-compose.yml up --build -d
+    # Give it some time to settle
+    - sleep 20
+    # When done, check to see if we get a blockheight
+    - curl --fail --silent --show-error http://localhost/regtest/api/blocks/tip/height
+    - |
+      if curl --fail --silent --show-error --max-time 10 http://localhost/regtest/api/blocks/tip/height | grep -q -x "100"; then
+        echo "Success: Block height is 100."
+      else
+        echo "Failure: Block height is not 100 or curl failed."
+        exit 1 # If in a script
+      fi
+    - docker compose -f contrib/docker-compose.yml down
 build_esplora_test_amd64:
   extends:
     - .build_esplora_test
@@ -96,10 +117,11 @@ build_esplora_test_arm64:
   script:
     - docker pull ${IMAGE}:latest-${ARCH} || true
     - curl -s "${DOCKERHUB_ESPLORA_URL}" | grep -q "$CI_COMMIT_SHA" || (
-      sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" Dockerfile
+      sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" contrib/Dockerfile
       && docker buildx build
       --platform linux/${ARCH}
       --push
+      -f contrib/Dockerfile
       --build-arg BUILDKIT_INLINE_CACHE=1
       --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
       --cache-from ${IMAGE}:latest-${ARCH}

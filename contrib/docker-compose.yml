@@ -1,0 +1,15 @@
+services:
+  esplora:
+    image: blockstream/esplora
+    build:
+      context: ../
+      dockerfile: contrib/Dockerfile
+    restart: always
+    ports:
+      - "50001:50001"
+      - "8080:8080"
+      - "80:80"
+    command:
+      - bash
+      - -c
+      - '/srv/explorer/run.sh bitcoin-regtest explorer nonverbose'

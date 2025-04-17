@@ -1,8 +1,7 @@
-report_github_status:
+.report_github_status:
   stage: build
   variables:
     GIT_STRATEGY: none
-    ARCH: amd64
   rules:
     # Only run this job if:
     # 1. The pipeline was started by an API trigger (`CI_PIPELINE_SOURCE == "trigger"`)
@@ -23,8 +22,8 @@ report_github_status:
       {
         "state": "pending",
         "target_url": "${CI_PIPELINE_URL}",
-        "description": "GitLab CI pipeline is running...",
-        "context": "ci/gitlab/pipeline-status"
+        "description": "GitLab CI (${ARCH}) pipeline is running...",
+        "context": "ci/gitlab/pipeline-status/${ARCH}"
       }
       EOF
     - |
@@ -35,26 +34,42 @@ report_github_status:
       --platform linux/${ARCH}
   script:
     - git clone -b "$GITHUB_PR_REF" https://github.com/blockstream/esplora.git .
+    # Make sure we test with the latest base image
     - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
     - |
       docker buildx build \
         --push \
         --platform "linux/${ARCH}" \
-        -f Dockerfile.deps \
+        -f contrib/Dockerfile.base \
         --build-arg BUILDKIT_INLINE_CACHE=1 \
         --cache-from "${IMAGE_BASE}:latest-${ARCH}" \
-        -t "${IMAGE_BASE}:latest-${ARCH}" .
+        -t "${IMAGE_BASE}:latest" .
+    # Now, build the esplora image
+    - docker pull ${IMAGE}:latest-${ARCH} || true
+    - docker compose -f contrib/docker-compose.yml up --build -d
+    # Give it some time to settle
+    - sleep 20
+    # When done, check to see if we get a blockheight
+    - curl --fail --silent --show-error http://localhost/regtest/api/blocks/tip/height
+    - |
+      if curl --fail --silent --show-error --max-time 10 http://localhost/regtest/api/blocks/tip/height | grep -q -x "100"; then
+        echo "Success: Block height is 100."
+      else
+        echo "Failure: Block height is not 100 or curl failed."
+        exit 1 # If in a script
+      fi
+    - docker compose -f contrib/docker-compose.yml down
   after_script:
     # Report final status ("success" or "failure") to GitHub after the job finishes
     # This block runs even if the main 'script' fails
     - |
       FINAL_STATE="success" # Assume success
-      DESCRIPTION="GitLab CI pipeline succeeded."
+      DESCRIPTION="GitLab CI (${ARCH}) pipeline succeeded."
       # Check the GitLab CI job status variable
       if [ -z "${CI_JOB_STATUS}" ] || [ "${CI_JOB_STATUS}" != "success" ]; then
         echo "Job status was $CI_JOB_STATUS, reporting failure."
         FINAL_STATE="failure"
-        DESCRIPTION="GitLab CI pipeline failed."
+        DESCRIPTION="GitLab CI (${ARCH}) pipeline failed."
       fi
 
       echo "Reporting $FINAL_STATE status to GitHub commit $GITHUB_PR_SHA"
@@ -68,6 +83,20 @@ report_github_status:
         "state": "${FINAL_STATE}",
         "target_url": "${CI_PIPELINE_URL}",
         "description": "${DESCRIPTION}",
-        "context": "ci/gitlab/pipeline-status"
+        "context": "ci/gitlab/pipeline-status/${ARCH}"
       }
       EOF
+
+report_github_status_amd64:
+  extends:
+    - .report_github_status
+  variables:
+    ARCH: amd64
+
+report_github_status_arm64:
+  extends:
+    - .report_github_status
+  variables:
+    ARCH: arm64
+  tags:
+    - cloud-arm
