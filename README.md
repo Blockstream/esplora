@@ -55,7 +55,7 @@ $ export API_URL=http://localhost:3000/ # or https://blockstream.info/api/ if yo
 $ npm run dev-server
 ```
 
-The server will be available at http://localhost:5000/
+The server will be available at <http://localhost:5000/>
 
 To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
 
@@ -78,7 +78,7 @@ $ export STATIC_ROOT=http://localhost:5000/ # for loading CSS, images and fonts
 $ npm run prerender-server
 ```
 
-The server will be available at http://localhost:5001/
+The server will be available at <http://localhost:5001/>
 
 ## Configuration options
 
@@ -139,15 +139,15 @@ be configured to the URL reachable by the server, typically `http://localhost:30
 
 ## How to build the Docker image
 
-```
-docker build -t esplora .
+```bash
+docker build -t esplora -f contrib/Dockerfile .
 ```
 
 Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub.
 
 ## How to run the explorer for Bitcoin mainnet
 
-```
+```bash
 docker run -p 50001:50001 -p 8080:80 \
            --volume $PWD/data_bitcoin_mainnet:/data \
            --rm -i -t esplora \
@@ -156,7 +156,7 @@ docker run -p 50001:50001 -p 8080:80 \
 
 ## How to run the explorer for Liquid mainnet
 
-```
+```bash
 docker run -p 50001:50001 -p 8082:80 \
            --volume $PWD/data_liquid_mainnet:/data \
            --rm -i -t esplora \
@@ -165,7 +165,7 @@ docker run -p 50001:50001 -p 8082:80 \
 
 ## How to run the explorer for Bitcoin testnet3
 
-```
+```bash
 docker run -p 50001:50001 -p 8084:80 \
            --volume $PWD/data_bitcoin_testnet:/data \
            --rm -i -t esplora \
@@ -174,7 +174,7 @@ docker run -p 50001:50001 -p 8084:80 \
 
 ## How to run the explorer for Bitcoin signet
 
-```
+```bash
 docker run -p 50001:50001 -p 8084:80 \
            --volume $PWD/data_bitcoin_signet:/data \
            --rm -i -t esplora \
@@ -183,7 +183,7 @@ docker run -p 50001:50001 -p 8084:80 \
 
 ## How to run the explorer for Liquid testnet
 
-```
+```bash
 docker run -p 50001:50001 -p 8096:80 \
            --volume $PWD/data_liquid_testnet:/data \
            --rm -i -t esplora \
@@ -192,7 +192,7 @@ docker run -p 50001:50001 -p 8096:80 \
 
 ## How to run the explorer for Liquid regtest
 
-```
+```bash
 docker run -p 50001:50001 -p 8092:80 \
            --volume $PWD/data_liquid_regtest:/data \
            --rm -i -t esplora \
@@ -201,7 +201,7 @@ docker run -p 50001:50001 -p 8092:80 \
 
 ## How to run the explorer for Bitcoin regtest
 
-```
+```bash
 docker run -p 50001:50001 -p 8094:80 \
            --volume $PWD/data_bitcoin_regtest:/data \
            --rm -i -t esplora \
@@ -229,23 +229,19 @@ Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
 
 ## Build new esplora-base
 
-```
+```bash
 docker build -t blockstream/esplora-base:latest -f Dockerfile.deps .
 docker push blockstream/esplora-base:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
 ```
 
-## Build new tor (or you can pull directly from Docker Hub - `blockstream/tor:latest`)
+## Pull tor directly from Docker Hub - `blockstream/tor:latest`
 
-```
-docker build --squash -t blockstream/tor:latest -f Dockerfile.tor .
-docker push blockstream/tor:latest
-docker inspect --format='{{index .RepoDigests 0}}' blockstream/tor
-```
 Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
 
 Example torrc:
-```
+
+```plaintext
 DataDirectory /home/tor/tor
 PidFile /var/run/tor/tor.pid
 
