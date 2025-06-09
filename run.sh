@@ -10,7 +10,7 @@ SYNC_SOURCE=$5
 NGINX_GCLB_IP=${NGINX_GCLB_IP:-34.36.36.12} # bs.info
 
 if [ -z "$FLAVOR" ] || [ ! -d /srv/explorer/static/$FLAVOR ]; then
-    echo "Please provide bitcoin-mainnet, bitcoin-testnet, bitcoin-signet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
+    echo "Please provide bitcoin-mainnet, bitcoin-testnet, bitcoin-testnet4, bitcoin-signet, bitcoin-regtest, liquid-mainnet, liquid-testnet or liquid-regtest as a parameter"
     echo "For example run.sh bitcoin-mainnet explorer"
     exit 1
 fi
@@ -26,7 +26,9 @@ ELECTRS_NETWORK=${NETWORK}
 
 DAEMON_DIR="/data/$DAEMON"
 if [ "$DAEMON-$NETWORK" == "bitcoin-testnet" ]; then
-  DAEMON_DIR="$DAEMON_DIR/testnet3"
+  DAEMON_DIR="$DAEMON_DIR/testnet"
+elif [ "$DAEMON-$NETWORK" == "bitcoin-testnet4" ]; then
+  DAEMON_DIR="$DAEMON_DIR/testnet4"
 elif [ "$DAEMON-$NETWORK" == "bitcoin-signet" ]; then
   DAEMON_DIR="$DAEMON_DIR/signet"
 elif [ "$DAEMON-$NETWORK" == "liquid-mainnet" ]; then
@@ -54,7 +56,7 @@ NGINX_REWRITE_NOJS='return 301 " /nojs$uri"'
 NGINX_CSP="default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'"
 
 if [ "${DAEMON}" != "liquid" ]; then
-    if [ "$NETWORK" == "testnet" ] || [ "$NETWORK" == "signet" ] || [ "$NETWORK" == "regtest" ]; then
+    if [ "$NETWORK" == "testnet" ] || [ "$NETWORK" == "testnet4" ] || [ "$NETWORK" == "signet" ] || [ "$NETWORK" == "regtest" ]; then
         NGINX_PATH="$NETWORK/"
         NGINX_NOSLASH_PATH="$NETWORK"
         NGINX_REWRITE='rewrite ^/'$NETWORK'(/.*)$ $1 break;'
