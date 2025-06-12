@@ -7,7 +7,7 @@ const logoSources = {
     dark: {
       sideswap: `${staticRoot}img/logos/sideswap.svg`,
       sparrow: `${staticRoot}img/logos/sparrow.png`,
-      blockstreamGreen: `${staticRoot}img/logos/blockstream-green.svg`,
+      blockstreamApp: `${staticRoot}img/logos/app_logo_darkmode.svg`,
       lwk: `${staticRoot}img/logos/lwk.svg`,
       aqua: `${staticRoot}img/logos/aqua.svg`,
       bitcoinDevKit: `${staticRoot}img/logos/bitcoin-dev-kit.svg`,
@@ -16,7 +16,7 @@ const logoSources = {
     light: {
       sideswap: `${staticRoot}img/logos/sideswap-dark.svg`,
       sparrow: `${staticRoot}img/logos/sparrow-dark.png`,
-      blockstreamGreen: `${staticRoot}img/logos/blockstream-green-dark.svg`,
+      blockstreamApp: `${staticRoot}img/logos/app_logo_lightmode.svg`,
       lwk: `${staticRoot}img/logos/lwk-dark.svg`,
       aqua: `${staticRoot}img/logos/aqua-dark.svg`,
       bitcoinDevKit: `${staticRoot}img/logos/bitcoin-dev-kit-dark.svg`,
@@ -53,7 +53,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                     <div className="logos">
                         <img src={logos.sideswap} alt="SideSwap Logo" />
                         <img src={logos.sparrow} alt="Sparrow Bitcoin Wallet Logo" />
-                        <img src={logos.blockstreamGreen} alt="Blockstream Green Logo" />
+                        <img src={logos.blockstreamApp} alt="Blockstream App Logo" />
                         <img src={logos.lwk} alt="LWK Logo" />
                         <img src={logos.aqua} alt="Aqua Logo" />
                         <img src={logos.bitcoinDevKit} alt="Bitcoin Dev Kit" />
@@ -67,7 +67,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                             <div className="logos-track">
                                 <img src={logos.sideswap} alt="SideSwap Logo" className="logo-item" />
                                 <img src={logos.sparrow} alt="Sparrow Bitcoin Wallet Logo" className="logo-item" />
-                                <img src={logos.blockstreamGreen} alt="Blockstream Green Logo" className="logo-item" />
+                                <img src={logos.blockstreamApp} alt="Blockstream App Logo" className="logo-item" />
                                 <img src={logos.lwk} alt="LWK Logo" className="logo-item" />
                                 <img src={logos.aqua} alt="Aqua Logo" className="logo-item" />
                                 <img src={logos.bitcoinDevKit} alt="Bitcoin Dev Kit" className="logo-item" />
