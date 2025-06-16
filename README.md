@@ -101,6 +101,7 @@ All options are optional.
 - `CUSTOM_ASSETS` - space separated list of static assets to add to the build
 - `CUSTOM_CSS` - space separated list of css files to append into `style.css`
 - `NOSCRIPT_REDIR` - redirect noscript users to `{request_path}?nojs` (should be captured server-side and redirected to the prerender server, also see `NOSCRIPT_REDIR_BASE` in dev server options)
+- `NAVBAR_HTML` - display navigation bar
 
 Note that `API_URL` should be set to the publicly-reachable URL where the user's browser can issue requests at.
 (that is, *not* via `localhost`, unless you're setting up a dev environment where the browser is running on the same machine as the API server.)
