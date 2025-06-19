@@ -231,7 +231,7 @@ Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
 ## Build new esplora-base
 
 ```bash
-docker build -t blockstream/esplora-base:latest -f Dockerfile.deps .
+docker build -t blockstream/esplora-base:latest -f contrib/Dockerfile.base .
 docker push blockstream/esplora-base:latest
 docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
 ```
