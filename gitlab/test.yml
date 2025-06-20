@@ -21,7 +21,7 @@
         --data @- <<EOF
       {
         "state": "pending",
-        "target_url": "${CI_PIPELINE_URL}",
+        "target_url": "https://blockstream.com",
         "description": "GitLab CI (${ARCH}) pipeline is running...",
         "context": "ci/gitlab/pipeline-status/${ARCH}"
       }
@@ -33,7 +33,7 @@
       --use \
       --platform linux/${ARCH}
   script:
-    - git clone -b "$GITHUB_PR_REF" https://github.com/blockstream/esplora.git .
+    - git clone -b "$GITHUB_PR_REF" "$GITHUB_PR_HEAD_REPO_URL" .
     # Make sure we test with the latest base image
     - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
     - |
@@ -81,7 +81,7 @@
         --data @- <<EOF
       {
         "state": "${FINAL_STATE}",
-        "target_url": "${CI_PIPELINE_URL}",
+        "target_url": "https://blockstream.com",
         "description": "${DESCRIPTION}",
         "context": "ci/gitlab/pipeline-status/${ARCH}"
       }
