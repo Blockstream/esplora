@@ -25,6 +25,7 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
           # The GitHub token for reporting status back
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO_URL: ${{ github.event.pull_request.head.repo.clone_url }}
         run: |
           # --- Safety Checks ---
           # Ensure critical secrets are actually available (they should be with pull_request_target)
