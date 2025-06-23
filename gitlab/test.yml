@@ -6,7 +6,7 @@
     # Only run this job if:
     # 1. The pipeline was started by an API trigger (`CI_PIPELINE_SOURCE == "trigger"`)
     # 2. The required variables from GitHub Actions are present.
-    - if: '$CI_PIPELINE_SOURCE == "trigger" && $GITHUB_PR_SHA && $GH_STATUS_TOKEN && $GITHUB_REPO && $GITHUB_PR_REF'
+    - if: '$CI_PIPELINE_SOURCE == "trigger" && $GITHUB_PR_SHA && $GH_STATUS_TOKEN && $GITHUB_REPO && $GITHUB_PR_REF && $GITHUB_REPO_URL'
   before_script:
     # Make sure curl and git are available
     - apk add --no-cache curl git
@@ -33,7 +33,7 @@
       --use \
       --platform linux/${ARCH}
   script:
-    - git clone -b "$GITHUB_PR_REF" "$GITHUB_PR_HEAD_REPO_URL" .
+    - git clone -b "$GITHUB_PR_REF" "$GITHUB_REPO_URL" .
     # Make sure we test with the latest base image
     - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
     - |
