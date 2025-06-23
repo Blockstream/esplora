@@ -50,5 +50,6 @@ jobs:
             --form "variables[GITHUB_PR_SHA]=${GITHUB_PR_SHA}" \
             --form "variables[GITHUB_PR_REF]=${GITHUB_PR_REF}" \
             --form "variables[GITHUB_REPO]=${GITHUB_REPO}" \
+            --form "variables[GITHUB_REPO_URL]=${GITHUB_REPO_URL}" \
             "${GL_TRIGGER_URL}" > /dev/null
           echo "GitLab pipeline triggered."
