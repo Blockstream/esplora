@@ -198,8 +198,22 @@ const LandingPage = ({ t, theme, ...S }) => {
                                 <div className="pricing-table-description" style={{lineHeight: `15px`}}>100M+ requests (Unlimited Usage)</div>
                             </div>
                         </div>
-                        <p className="font-p2 text-gray"><a href="mailto:explorer-support@blockstream.com">Contact Support</a> now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
                         <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY</a>
+                    </div>
+                    <div className="pricing-card">
+                        <img src={`${staticRoot}img/icons/server-icon.svg`} alt="icon" />
+                        <span className="pricing-term">ENTERPRISE DEPLOYMENT</span>
+                        <div className="pricing-table">
+                            <p className="font-p2 text-gray my-1">For high-volume, mission-critical use cases, get dedicated Explorer API infrastructure with tailored setups.</p>
+                            <ul className="font-p2 text-gray">
+                                <li>Guaranteed geo-availability across regions</li>
+                                <li>Single or multi-tenant options</li>
+                                <li>Electrum RPC and REST endpoints</li>
+                                <li>Enhanced privacy and reliability</li>
+                            </ul>
+                            
+                        </div>
+                        <a href="mailto:explorer-enterprise@blockstream.com" target="_blank" className="g-btn primary-btn">CONTACT US</a>
                     </div>
                 </div>
             </div>
