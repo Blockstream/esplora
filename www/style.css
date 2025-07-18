@@ -3305,7 +3305,7 @@ h3.table-title{
 .pricing-card img {
   max-width: 56px;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 26px;
 }
 
 .pricing-term {
@@ -3347,6 +3347,14 @@ h3.table-title{
 
 .pricing-card .g-btn {
   font-size: 14px;
+  margin-top: auto;
+}
+
+@media only screen and (max-width: 820px) {
+  .pricing-card .g-btn {
+    margin-top: 16px;
+  }
+
 }
 
 .pricing-table {
