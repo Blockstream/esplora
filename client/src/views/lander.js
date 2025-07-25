@@ -213,7 +213,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                             </ul>
                             
                         </div>
-                        <a href="mailto:explorer-enterprise@blockstream.com" target="_blank" className="g-btn primary-btn">CONTACT US</a>
+                        <a href="https://blockstream.typeform.com/enterpriseAPI" target="_blank" className="g-btn primary-btn">CONTACT US</a>
                     </div>
                 </div>
             </div>
