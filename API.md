@@ -5,6 +5,7 @@ JSON over RESTful HTTP. Amounts are always represented in satoshis.
 The blockstream.info public APIs are available at:
 - Bitcoin: https://blockstream.info/api/
 - Bitcoin Testnet: https://blockstream.info/testnet/api/
+- Bitcoin Signet: https://blockstream.info/signet/api/
 - Liquid: https://blockstream.info/liquid/api/
 - Liquid Testnet: https://blockstream.info/liquidtestnet/api/
 
