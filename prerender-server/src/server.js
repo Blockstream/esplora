@@ -3,6 +3,7 @@ import pug from 'pug'
 import path from 'path'
 import express from 'express'
 import request from 'superagent'
+import promClient from 'prom-client'
 
 import l10n from '../client/l10n'
 import render from '../client/run-server'
@@ -17,8 +18,36 @@ const rpath = p => path.join(__dirname, p)
 
 const indexView = rpath('../../client/index.pug')
 
+const register = new promClient.Registry()
+
+const activeRenders = new promClient.Gauge({
+  name: 'prerender_active_renders',
+  help: 'Number of active renders'
+})
+
+const totalRenders = new promClient.Counter({
+  name: 'prerender_total_renders',
+  help: 'Total number of renders completed'
+})
+
+const renderDuration = new promClient.Histogram({
+  name: 'prerender_render_duration_seconds',
+  help: 'Duration of renders in seconds'
+})
+
+register.registerMetric(activeRenders)
+register.registerMetric(totalRenders)
+register.registerMetric(renderDuration)
+
+let requestCounter = 0
+
 const app = express()
 app.engine('pug', pug.__express)
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType)
+  res.end(await register.metrics())
+})
 
 if (app.settings.env == 'development')
   app.use(require('morgan')('dev'))
@@ -37,25 +66,65 @@ app.use((req, res, next) => {
   if (!langs.includes(lang)) lang = 'en'
   if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
 
-  render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang, isHead: req.method === 'HEAD' }, (err, resp) => {
-    if (err) return next(err)
-    if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
-    if (resp.errorCode) {
-      console.error(`Failed with code ${resp.errorCode}:`, resp)
-      return res.sendStatus(resp.errorCode)
+  if (typeof process.send === 'function') {
+    const requestId = ++requestCounter
+    process.send({ type: 'startRender', requestId })
+    let responded = false
+    const handler = (msg) => {
+      if (msg.requestId === requestId && !responded) {
+        responded = true
+        clearTimeout(timeout)
+        process.removeListener('message', handler)
+        if (msg.type === 'renderAllowed') {
+          doRender()
+        } else if (msg.type === 'renderDenied') {
+          res.status(503).send('Server overloaded')
+        }
+      }
     }
+    process.on('message', handler)
+    const timeout = setTimeout(() => {
+      if (!responded) {
+        responded = true
+        process.removeListener('message', handler)
+        console.error('IPC timeout for request', requestId)
+        res.status(500).send('Internal server error')
+      }
+    }, 5000) // 5 second timeout
+  } else {
+    doRender()
+  }
 
-    res.status(resp.status || 200)
-    res.render(indexView, {
-      prerender_title: resp.title
-      , prerender_html: resp.html
-      , canon_url: canonBase ? canonBase + req.url : null
-      , noscript: true
-      , theme
-      , t: l10n[lang]
+  function doRender() {
+    activeRenders.inc()
+    const end = renderDuration.startTimer()
+    let metricsUpdated = false
+    render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang, isHead: req.method === 'HEAD' }, (err, resp) => {
+      if (!metricsUpdated) {
+        metricsUpdated = true
+        if (typeof process.send === 'function') process.send({ type: 'endRender' })
+        activeRenders.dec()
+        end()
+        totalRenders.inc()
+      }
+      if (err) return next(err)
+      if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
+      if (resp.errorCode) {
+        console.error(`Failed with code ${resp.errorCode}:`, resp)
+        return res.sendStatus(resp.errorCode)
+      }
+
+      res.status(resp.status || 200)
+      res.render(indexView, {
+        prerender_title: resp.title
+        , prerender_html: resp.html
+        , canon_url: canonBase ? canonBase + req.url : null
+        , noscript: true
+        , theme
+        , t: l10n[lang]
+      })
     })
-  })
-
+  }
 })
 
 // Cleanup socket file from previous executions
