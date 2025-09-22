@@ -7,11 +7,11 @@ import request from 'superagent'
 import l10n from '../client/l10n'
 import render from '../client/run-server'
 
-const themes = [ 'light', 'dark' ]
-    , langs = Object.keys(l10n)
-    , baseHref = process.env.BASE_HREF || '/'
-    , canonBase = process.env.CANONICAL_URL ? process.env.CANONICAL_URL.replace(/\/$/, '') : null
-    , apiUrl = process.env.API_URL.replace(/\/$/, '')
+const themes = ['light', 'dark']
+  , langs = Object.keys(l10n)
+  , baseHref = process.env.BASE_HREF || '/'
+  , canonBase = process.env.CANONICAL_URL ? process.env.CANONICAL_URL.replace(/\/$/, '') : null
+  , apiUrl = process.env.API_URL.replace(/\/$/, '')
 
 const rpath = p => path.join(__dirname, p)
 
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
   if (!langs.includes(lang)) lang = 'en'
   if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
 
-  render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang }, (err, resp) => {
+  render(req._parsedUrl.pathname, req._parsedUrl.query || '', req.body, { theme, lang, isHead: req.method === 'HEAD' }, (err, resp) => {
     if (err) return next(err)
     if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
     if (resp.errorCode) {
@@ -48,11 +48,11 @@ app.use((req, res, next) => {
     res.status(resp.status || 200)
     res.render(indexView, {
       prerender_title: resp.title
-    , prerender_html: resp.html
-    , canon_url: canonBase ? canonBase + req.url : null
-    , noscript: true
-    , theme
-    , t: l10n[lang]
+      , prerender_html: resp.html
+      , canon_url: canonBase ? canonBase + req.url : null
+      , noscript: true
+      , theme
+      , t: l10n[lang]
     })
   })
 
@@ -64,10 +64,10 @@ if (process.env.SOCKET_PATH) {
     if (fs.statSync(process.env.SOCKET_PATH).isSocket()) {
       fs.unlinkSync(process.env.SOCKET_PATH)
     }
-  } catch (_) {}
+  } catch (_) { }
 }
 
-app.listen(process.env.SOCKET_PATH || process.env.PORT || 5001, function(){
+app.listen(process.env.SOCKET_PATH || process.env.PORT || 5001, function () {
   let addr = this.address()
   if (addr.address) addr = `${addr.address}:${addr.port}`
   console.log(`HTTP server running on ${addr}`)
