@@ -42,6 +42,7 @@ register.registerMetric(renderDuration)
 let requestCounter = 0
 
 const app = express()
+app.set('trust proxy', true)
 app.engine('pug', pug.__express)
 
 app.get('/metrics', async (req, res) => {
@@ -108,7 +109,7 @@ app.use((req, res, next) => {
         totalRenders.inc()
       }
       if (err) return next(err)
-      if (resp.redirect) return res.redirect(301, baseHref + resp.redirect.substr(1))
+      if (resp.redirect) return res.redirect(301, baseHref + resp.redirect)
       if (resp.errorCode) {
         console.error(`Failed with code ${resp.errorCode}:`, resp)
         return res.sendStatus(resp.errorCode)
