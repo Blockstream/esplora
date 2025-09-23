@@ -29,7 +29,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
     dispose()
 
     cb(null, data || {
-      html: lastHtml
+      html: locals.isHead ? '' : lastHtml
     , title: lastState.title
     , status: lastState.view == 'notFound' ? 404
             : lastState.view == 'error' ? lastState.error.status || 400
@@ -38,7 +38,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
   }
 
   function htmlUpdate(html) {
-    lastHtml = html
+    if (!locals.isHead) lastHtml = html
   }
   function stateUpdate(S) {
     if (!lastState) { // the first state
