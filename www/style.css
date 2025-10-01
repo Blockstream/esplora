@@ -3191,8 +3191,12 @@ h3.table-title{
   }
 }
 
+.info-card {
+  text-align: center;
+}
+
 .info-card h3 {
-  max-width: 210px;
+  /* max-width: 210px; */
   margin: 20px 0 10px;
 }
 
@@ -3211,6 +3215,7 @@ h3.table-title{
   flex: 0 1 calc(33.333% - 20px);
   box-sizing: border-box; 
   margin-bottom: 50px; 
+  text-align: center;
 }
 
 @media only screen and (max-width: 820px) {

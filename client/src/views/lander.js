@@ -36,12 +36,13 @@ const LandingPage = ({ t, theme, ...S }) => {
         <div className="container">
             <div className="hero-wrapper">
                 <div className="hero-text">
-                    <h1 className="font-h1">Powering Bitcoin and Liquid Applications with Real-Time Blockchain Data</h1>
-                    <p className="font-p1 text-gray">Built to simplify development and enhance performance for existing Bitcoin and Liquid applications, the Blockstream Explorer API offers faster address lookups, robust DoS protection, and seamless integration.</p>
+                    <h1 className="font-h1">Build on Bitcoin <br/>at Scale</h1>
+                    <p className="font-p1 text-gray">Let the Blockstream Explorer API<br/> handle the blockchain backend for you.<br/>
+Faster, always available, and easy to integrate<br/> into wallets, exchanges, and fintech platforms.</p>
                     <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY</a>
                 </div>
                 <div className="hero-image">
-                    <img src={`${staticRoot}img/hero-explorer-api.svg`} alt="Hero Image" />
+                    <img src={`${staticRoot}img/explorer-api-compass.png`} alt="Hero Image" />
                 </div>
             </div>
         </div>
@@ -80,53 +81,53 @@ const LandingPage = ({ t, theme, ...S }) => {
         <div className="info-section">
             <div className="badge">WHY EXPLORER API</div>
             <h2 className="font-h2 text-center">High performance service - optimized for scaling and uptime</h2>
-            <p className="font-p3 text-gray text-center">Extensive blockchain data indexing powers pre-populated, cache-ready results for fast and reliable access. The infrastructure is built to handle demanding workloads, ensuring high availability and scalability, even during peak usage.</p>
+            <p className="font-p3 text-gray text-center">Proven in production, and trusted by some of the biggest names in the industry,<br/> our API is built to handle demanding workloads so your team can focus on growth.</p>
 
             <div className="info-cards">
                 <div className="info-card">
                     <img src={`${staticRoot}img/icons/integrate.svg`} alt="icon" />
-                    <h3 className="font-h2">Integrate & Scale</h3>
-                    <p className="font-p3 text-gray">Effortless integration with a transparent pricing model eliminates upfront infrastructure costs. Developers can focus on building applications without the complexity of managing backend systems, saving both time and resources.</p>
+                    <h3 className="font-h2">Plug in and Scale</h3>
+                    <p className="font-p3 text-gray">Innovate without the burden of backend systems.</p>
                 </div>
                 <div className="info-card">
                     <img src={`${staticRoot}img/icons/redundancy.svg`} alt="icon" />
-                    <h3 className="font-h2">Operational Redundancy</h3>
-                    <p className="font-p3 text-gray">Whether used as a primary solution or backup, the service eliminates costly infrastructure maintenance and disaster recovery planning. Its high reliability ensures uninterrupted access during outages or demand spikes.</p>
+                    <h3 className="font-h2">Always Online</h3>
+                    <p className="font-p3 text-gray">99.9% uptime SLA guarantee.</p>
                 </div>
                 <div className="info-card">
                     <img src={`${staticRoot}img/icons/privacy.svg`} alt="icon" />
-                    <h3 className="font-h2">Privacy & Security</h3>
-                    <p className="font-p3 text-gray">With no persistent logging and full end-to-end encryption, the service ensures confidentiality and adherence to best practices. Robust security protocols reduce the need for self-managed security solutions.</p>
+                    <h3 className="font-h2">Privacy and Security</h3>
+                    <p className="font-p3 text-gray">No persistent logging and end-to-end encryption.</p>
                 </div>
             </div>
         </div>
         <div className="features-section">
             <div className="badge">FEATURES</div>
-            <h2 className="font-h2 text-center">Fast data access, scalable infrastructure, and 99.9% uptime</h2>
+            <h2 className="font-h2 text-center">Explorer handles millions of requests on globally distributed infrastructure so your services are always online</h2>
             <div className="features">
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/issuance.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Powered by the open-source Esplora project, Blockstream Explorer can be self-hosted. Run your own instance to suit your specific needs while leveraging the same robust software that powers our Enterprise solution.</p>
+                    <p className="font-p3 text-gray">Built on the battle-tested and<br/> well-maintained Esplora stack.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/lbtc.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Access data across Bitcoin Mainnet, Testnet, and Liquid networks, offering a broad spectrum of blockchain data for diverse applications.</p>
+                    <p className="font-p3 text-gray">Access Bitcoin mainnet, testnet,<br/> and Liquid network data.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/security-tokens.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">An HTTP REST API (with Electrs RPC coming soon) provides extended transaction details and seamless integration.</p>
+                    <p className="font-p3 text-gray">API designed for developers<br/> with up-to-date documentation.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/integration.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Partner with Blockstream for seamless integration, unmatched performance, and dedicated ongoing support.</p>
+                    <p className="font-p3 text-gray">Enterprise reliability from one of the<br/> most experienced teams in Bitcoin.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/encryption.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Fully encrypted connections and secure access ensure data integrity, delivering reliable performance for mission-critical operations.</p>
+                    <p className="font-p3 text-gray">Blockstream runs the infrastructure<br/> so your team can focus on product.</p>
                 </div>
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/database.svg`} alt="icon" />
-                    <p className="font-p3 text-gray">Advanced indexing and database storage reduce query times and remove the need to self-host expensive hardware like 2TB+ high-speed SSDs with extensive CPU resources.</p>
+                    <p className="font-p3 text-gray">Pre-indexed blockchain data<br/> makes applications run faster</p>
                 </div>
             </div>
         </div>
@@ -138,7 +139,7 @@ const LandingPage = ({ t, theme, ...S }) => {
                     <div className="cta-left">
                         <img src={`${staticRoot}img/icons/rest-api.svg`} alt="icon" />
                         <h2 className="font-h2">HTTP REST API<br/> for Bitcoin and Liquid</h2>
-                        <p className="font-p3 text-gray">Get real-time access to network data with simple RESTful endpoints, delivering low-latency, high-availability insights into UTXOs, balances, mempool transactions, and fee estimates, with seamless transaction broadcasting.</p>
+                        <p className="font-p3 text-gray">Instant API keys, clear docs, and well-maintained repos make integration seamless.<br/> Access UTXOs, balances, mempool, and fee data through low-latency REST endpoints.</p>
                         <a href="https://github.com/Blockstream/esplora/blob/master/API.md" target="_blank" className="g-btn primary-btn">EXPLORE DOCUMENTATION</a>
                     </div>
                     <div className="cta-right">
