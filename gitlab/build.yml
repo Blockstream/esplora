@@ -109,6 +109,7 @@ build_esplora_test_arm64:
   except:
     - triggers
   before_script:
+    - apk add --no-cache curl
     - docker buildx create
       --driver=docker-container
       --name=buildkit-builder
