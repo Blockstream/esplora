@@ -5,7 +5,7 @@ if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
   let activeRenders = 0
-  const MAX_TOTAL_RENDERS = parseInt(process.env.MAX_TOTAL_RENDERS || '1')
+  const MAX_TOTAL_RENDERS = parseInt(process.env.MAX_TOTAL_RENDERS || numCPUs.toString())
 
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork()

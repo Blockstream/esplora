@@ -6,8 +6,9 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
-    "superagent": "^6.1.0",
-    "prom-client": "^14.0.0"
+    "express-queue": "^0.0.13",
+    "prom-client": "^14.0.0",
+    "superagent": "^6.1.0"
   },
   "scripts": {
     "start": "./start.sh",
