@@ -242,7 +242,7 @@ For example: `{ "1": 87.882, "2": 87.882, "3": 87.882, "4": 87.882, "5": 81.129,
 
 Get information about an asset.
 
-For the network's native asset (i.e. L-BTC in Liquid), returns an object with:
+For the network's native asset (i.e. LBTC in Liquid), returns an object with:
 
 - `asset_id`
 - `chain_stats` and `mempool_stats`, each with:
@@ -325,7 +325,7 @@ Does not include regular transactions transferring this asset.
 
 Get the current total supply of the specified asset.
 
-For the native asset (L-BTC), this is calculated as `{chain,mempool}_stats.peg_in_amount - {chain,mempool}_stats.peg_out_amount - {chain,mempool}_stats.burned_amount`.
+For the native asset (LBTC), this is calculated as `{chain,mempool}_stats.peg_in_amount - {chain,mempool}_stats.peg_out_amount - {chain,mempool}_stats.burned_amount`.
 
 For issued assets, this is calculated as `{chain,mempool}_stats.issued_amount - {chain,mempool}_stats.burned_amount`.
 
