@@ -97,28 +97,10 @@ export const formatVMB = bytes =>
 : '< 0.01 vMB'
 
 
-export const getSupply = (asset, t) => {
-  let { chain_stats = {}, mempool_stats = {} } = asset
-  let has_blinded_issuances =
-      chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
-  let is_native_asset = !asset.issuance_txin
-  let circulating = is_native_asset
-      ? chain_stats.peg_in_amount +
-        mempool_stats.peg_in_amount -
-        chain_stats.peg_out_amount -
-        mempool_stats.peg_out_amount -
-        chain_stats.burned_amount -
-        mempool_stats.burned_amount
-      : has_blinded_issuances
-      ? null
-      : chain_stats.issued_amount +
-        mempool_stats.issued_amount -
-        chain_stats.burned_amount -
-        mempool_stats.burned_amount;
-
-     let totalSupply = circulating == null ? t`Confidential`
-                  : formatAssetAmount(circulating, asset.precision, t)
-  return totalSupply
-}
-
 export const strTruncate  = (str) => str.substr(0, 10) + '...' + str.substr(str.length-4, str.length);
+
+
+// Convert hex string to base64
+export const hexToBase64 = (hex) => {
+    return Buffer.from(hex, 'hex').toString('base64')
+}
