@@ -1,5 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
-import { linkToParentOut, formatOutAmount, formatAssetAmount, formatHex, linkToAddr, formatNumber } from './util'
+import { linkToParentOut, formatOutAmount, formatAssetAmount, formatHex, linkToAddr, formatNumber, hexToBase64 } from './util'
+import { isSimplicitySpend, getSimplicityWitness } from '../lib/elements.js'
 
 const layout = (vin, desc, body, { t, ...S }) =>
   <div class={{ vin: true, active: isActive(vin, S), unblinded: isUnblinded(vin) }}>
@@ -103,10 +104,37 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
       </div>
     ] }
 
-    { vin.witness && <div className="vin-body-row">
+    { vin.witness && !isSimplicitySpend(vin) && <div className="vin-body-row">
       <div>{t`Witness`}</div>
       <div className="mono">{vin.witness.map(wit => [ ' ', wit.length ? wit : <em>&lt;empty&gt;</em> ])}</div>
     </div> }
+
+    { isSimplicitySpend(vin) && ((sw = getSimplicityWitness(vin)) => [
+      <div className="vin-body-row">
+        <div>{t`Simplicity witness data`}</div>
+        <div className="mono">{sw.witnessData}</div>
+      </div>
+
+    , <div className="vin-body-row">
+            <div>{t`Simplicity program`} <br></br> {t`(base64)`}</div>
+        <div className="mono">{hexToBase64(sw.program)}</div>
+      </div>
+
+    , <div className="vin-body-row">
+        <div>{t`Simplicity CMR`}</div>
+        <div className="mono">{sw.cmr}</div>
+      </div>
+
+    , <div className="vin-body-row">
+        <div>{t`Taproot control block`}</div>
+        <div className="mono">{sw.controlBlock}</div>
+      </div>
+
+    , sw.annex && <div className="vin-body-row">
+        <div>{t`Taproot Annex`}</div>
+        <div className="mono">{sw.annex}</div>
+      </div>
+    ])() }
 
     { vin.inner_redeemscript_asm && <div className="vin-body-row">
       <div>{t`P2SH redeem script`}</div>

@@ -1,5 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
-import { getSupply } from './util'
+import { getSupply } from '../lib/elements.js'
 import layout from './layout'
 import loader from '../components/loading'
 
