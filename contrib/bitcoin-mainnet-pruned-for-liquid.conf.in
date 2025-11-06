@@ -7,3 +7,4 @@ prune=550
 blocksonly=1
 persistmempool=0
 listen=0
+rpcservertimeout=600
