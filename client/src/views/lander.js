@@ -155,70 +155,60 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                 <h2 className="font-h2 text-center">Pricing</h2>
                 <div className="pricing">
                     <div className="pricing-card">
-                        <img src={`${staticRoot}img/icons/pricing1.svg`} alt="icon" />
-                        <span className="pricing-term">FREE UP TO</span>
-                        <h3 className="font-h3">500k <span>Requests/Month</span></h3>
-                        <p className="font-p2 text-gray">Authenticated users benefit from 500K requests per month for free and higher daily limits providing more capacity than the free public Esplora endpoints. Authenticated users also benefit from dedicated onboarding & support, and a 99.9% SLA for enhanced reliability.</p>
-                    </div>
-                    <div className="pricing-card">
-                        <img src={`${staticRoot}img/icons/pricing2.svg`} alt="icon" />
-                        <span className="pricing-term">ONLY PAY FOR WHAT YOU USE</span>
-                        <div className="pricing-table">
-                            <div className="pricing-table-row">
-                                <div className="pricing-table-price">
-                                    <span className="currency">$</span>
-                                    <span className="amount">0.01</span>
-                                    <span className="rate">/100</span>
-                                </div>
-                                <div className="pricing-table-description">500K - 10M requests</div>
-                            </div>
-
-                            <div className="pricing-table-row">
-                                <div className="pricing-table-price">
-                                    <span className="currency">$</span>
-                                    <span className="amount">0.01</span>
-                                    <span className="rate">/200</span>
-                                </div>
-                                <div className="pricing-table-description">10M - 50M requests</div>
-                            </div>
-
-                            <div className="pricing-table-row">
-                                <div className="pricing-table-price">
-                                    <span className="currency">$</span>
-                                    <span className="amount">0.01</span>
-                                    <span className="rate">/500</span>
-                                </div>
-                                <div className="pricing-table-description">50M - 100M requests</div>
-                            </div>
-
-                            <div className="pricing-table-row">
-                                <div className="pricing-table-price">
-                                    <span className="currency">$</span>
-                                    <span className="amount">4,000</span>
-                                </div>
-                                <div className="pricing-table-description" style={{lineHeight: `15px`}}>100M+ requests (Unlimited Usage)</div>
-                            </div>
+                        <div className="pricing-card-title">
+                            <img src={`${staticRoot}img/icons/basic.svg`} alt="icon" />
+                            <span className="pricing-term">Basic</span>
                         </div>
-                        <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY</a>
+                        <ul className="pricing-card-features font-p2 text-gray">
+                            <li>Basic support and access to help center</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (10 credits per call)</li>
+                            <li>SLA 99.9%</li>
+                        </ul>
+                        <div className="pricing-card-quotas">
+                            <p className="font-h3">500k <span>API calls for </span><i>$40</i></p>
+                        </div>
+                        <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY NOW</a>
                     </div>
                     <div className="pricing-card">
-                        <img src={`${staticRoot}img/icons/server-icon.svg`} alt="icon" />
-                        <span className="pricing-term">ENTERPRISE DEPLOYMENT</span>
-                        <div className="pricing-table">
-                            <p className="font-p2 text-gray my-1">For high-volume, mission-critical use cases, get dedicated Explorer API infrastructure with tailored setups.</p>
-                            <ul className="font-p2 text-gray">
-                                <li>Guaranteed geo-availability across regions</li>
-                                <li>Single or multi-tenant options</li>
-                                <li>Electrum RPC and REST endpoints</li>
-                                <li>Enhanced privacy and reliability</li>
-                            </ul>
-                            
+                        <div className="pricing-card-title">
+                            <img src={`${staticRoot}img/icons/advanced.svg`} alt="icon" />
+                            <span className="pricing-term">Advanced</span>
+                        </div>
+                        <ul className="pricing-card-features font-p2 text-gray">
+                            <li>Advanced support with 24h-48h response</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (5 credits per call)</li>
+                            <li>Early access to new features</li>
+                            <li>Propose new features</li>
+                            <li>SLA 99.9%</li>
+                        </ul>
+                        <div className="pricing-card-quotas">
+                            <p className="font-h3">1M <span>API calls for </span><i>$100</i></p>
+                            <p className="font-h3">5M <span>API calls for </span><i>$499</i></p>
+                            <p className="font-h3">10M <span>API calls for </span><i>$999</i></p>
+                            <p className="font-h3">30M <span>API calls for </span><i>$2,000</i></p>
+                        </div>
+                        <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY NOW</a>
+                    </div>
+                    <div className="pricing-card">
+                        <div className="pricing-card-title">
+                            <img src={`${staticRoot}img/icons/enterprise.svg`} alt="icon" />
+                            <span className="pricing-term">Enterprise</span>
+                        </div>
+                        <ul className="pricing-card-features font-p2 text-gray">
+                            <li>Optional custom agreements and dedicated servers</li>
+                            <li>Dedicated support</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (1 credits per call)</li>
+                            <li>First access to new features</li>
+                            <li>SLA 99.9%</li>
+                        </ul>
+                        <div className="pricing-card-quotas">
+                            <p className="font-h3">Unlimited <span>API calls for </span><i>$3,000</i></p>
+                            <p className="font-p2 text-gray">Contact us now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
                         </div>
                         <a href="https://blockstream.typeform.com/enterpriseAPI" target="_blank" className="g-btn primary-btn">CONTACT US</a>
                     </div>
                 </div>
             </div>
-    
         </div>
     </div>
     , { t, activeTab: 'apiLanding', ...S })
