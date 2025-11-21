@@ -66,6 +66,23 @@ Broadcast a raw transaction to the network.
 The transaction should be provided as hex in the request body.
 The `txid` will be returned on success.
 
+### `POST /txs/package`
+
+Broadcast a package of raw transactions to the network.
+
+A transaction package is a group of related transactions that may depend on each other (e.g., a child transaction spending outputs from an unconfirmed parent transaction). This is useful for CPFP (Child Pays For Parent) and other scenarios where transactions need to be evaluated together.
+
+The request body should contain a JSON array of transaction hex strings.
+
+Example request body:
+```json
+["02000000...", "02000000..."]
+```
+
+Returns a JSON object containing the package acceptance result. On success, returns information about each transaction in the package.
+
+*Note:* This endpoint requires Bitcoin Core 28.0 or later.
+
 ## Addresses
 
 ### `GET /address/:address`
