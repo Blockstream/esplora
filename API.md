@@ -144,6 +144,8 @@ Available fields: `in_best_chain` (boolean, false for orphaned blocks), `next_be
 
 Returns a list of transactions in the block (up to 25 transactions beginning at `start_index`).
 
+*Note:* The `start_index` value must be a multiple of 25.
+
 The response from this endpoint can be cached indefinitely.
 
 ### `GET /block/:hash/txids`
