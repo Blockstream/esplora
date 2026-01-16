@@ -165,7 +165,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                             <li>SLA 99.9%</li>
                         </ul>
                         <div className="pricing-card-quotas">
-                            <p className="font-h3">500k <span>API calls for </span><i>$40</i></p>
+                            <p className="font-h3">500k <span>API credits for </span><i>$40</i></p>
                         </div>
                         <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY NOW</a>
                     </div>
@@ -182,10 +182,10 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                             <li>SLA 99.9%</li>
                         </ul>
                         <div className="pricing-card-quotas">
-                            <p className="font-h3">1M <span>API calls for </span><i>$100</i></p>
-                            <p className="font-h3">5M <span>API calls for </span><i>$499</i></p>
-                            <p className="font-h3">10M <span>API calls for </span><i>$999</i></p>
-                            <p className="font-h3">30M <span>API calls for </span><i>$2,000</i></p>
+                            <p className="font-h3">1M <span>API credits for </span><i>$100</i></p>
+                            <p className="font-h3">5M <span>API credits for </span><i>$499</i></p>
+                            <p className="font-h3">10M <span>API credits for </span><i>$999</i></p>
+                            <p className="font-h3">30M <span>API credits for </span><i>$2,000</i></p>
                         </div>
                         <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY NOW</a>
                     </div>
@@ -202,7 +202,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                             <li>SLA 99.9%</li>
                         </ul>
                         <div className="pricing-card-quotas">
-                            <p className="font-h3">Unlimited <span>API calls for </span><i>$3,000</i></p>
+                            <p className="font-h3">Unlimited <span>API credits for </span><i>$3,000</i></p>
                             <p className="font-p2 text-gray">Contact us now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
                         </div>
                         <a href="https://blockstream.typeform.com/enterpriseAPI" target="_blank" className="g-btn primary-btn">CONTACT US</a>
