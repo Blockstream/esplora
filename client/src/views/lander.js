@@ -185,7 +185,6 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                             <p className="font-h3">1M <span>API credits for </span><i>$100</i></p>
                             <p className="font-h3">5M <span>API credits for </span><i>$499</i></p>
                             <p className="font-h3">10M <span>API credits for </span><i>$999</i></p>
-                            <p className="font-h3">30M <span>API credits for </span><i>$2,000</i></p>
                         </div>
                         <a href="https://dashboard.blockstream.info" target="_blank" className="g-btn primary-btn">GET YOUR API KEY NOW</a>
                     </div>
@@ -197,12 +196,11 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                         <ul className="pricing-card-features font-p2 text-gray">
                             <li>Optional custom agreements and dedicated servers</li>
                             <li>Dedicated support</li>
-                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (1 credits per call)</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync </a> access (1 credit per call)</li>
                             <li>First access to new features</li>
                             <li>SLA 99.9%</li>
                         </ul>
                         <div className="pricing-card-quotas">
-                            <p className="font-h3">Unlimited <span>API credits for </span><i>$3,000</i></p>
                             <p className="font-p2 text-gray">Contact us now if you are looking for more tailored plans designed for high-volume and enterprise-grade applications.</p>
                         </div>
                         <a href="https://blockstream.typeform.com/enterpriseAPI" target="_blank" className="g-btn primary-btn">CONTACT US</a>
