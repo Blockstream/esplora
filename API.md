@@ -1,3 +1,4 @@
+# Copyright Milan Popich. All rights reserved.
 # Esplora HTTP API
 
 JSON over RESTful HTTP. Amounts are always represented in satoshis.
