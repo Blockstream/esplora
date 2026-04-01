@@ -23,7 +23,7 @@ body {
 }
 
 body.theme-dark {
-  background-color: #111316;
+  background-color: #181818;
 }
 
 body[lang=he] {
@@ -38,7 +38,7 @@ body[lang=he] {
 
 .font-h1 { font-size: 48px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-h1 {
     font-size: 36px;
   }
@@ -46,7 +46,7 @@ body[lang=he] {
 
 .font-h2 { font-size: 40px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-h2 {
     font-size: 24px;
   }
@@ -54,7 +54,7 @@ body[lang=he] {
 
 .font-h3 { font-size: 28px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-h3 {
     font-size: 20px;
   }
@@ -62,7 +62,7 @@ body[lang=he] {
 
 .font-h4 { font-size: 20px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-h4 {
     font-size: 16px;
   }
@@ -70,7 +70,7 @@ body[lang=he] {
 
 .font-h5 { font-size: 16px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-h5 {
     font-size: 14px;
   }
@@ -80,7 +80,7 @@ body[lang=he] {
 
 .font-p1 { font-size: 18px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-p1 {
     font-size: 16px;
   }
@@ -88,7 +88,7 @@ body[lang=he] {
 
 .font-p2 { font-size: 16px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-p2 {
     font-size: 14px;
   }
@@ -96,7 +96,7 @@ body[lang=he] {
 
 .font-p3 { font-size: 14px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-p3 {
     font-size: 12px;
   }
@@ -104,7 +104,7 @@ body[lang=he] {
 
 .font-p4 { font-size: 14px; font-weight: 600; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-p4 {
     font-size: 12px;
   }
@@ -112,7 +112,7 @@ body[lang=he] {
 
 .font-p5 { font-size: 12x; font-weight: 400; font-family: "Inter", sans-serif; line-height: 20px; letter-spacing: normal; font-style: normal; }
 
-@media only screen and (max-width: 475px) { 
+@media only screen and (max-width: 475px) {
   .font-p5 {
     font-size: 11px;
   }
@@ -444,38 +444,18 @@ a, a:link, a:visited, a:hover, a:focus {
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: flex-end;
   position: relative;
 }
 
 .main-nav li{
   text-decoration: none;
   list-style: none;
-  margin-right: 30px;
 }
-
-.main-nav li a{
-  display: flex;
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-}
-
-.main-nav li.active a{
-  border: 1px solid #ffbb00;
-}
-
 
 .main-nav .menu-logo{
-  height: 30px;
-  margin-right: 8px;
-  margin-bottom: 2px;
+  width: 24px;
+  height: 24px;
 }
-
-#BitcoinTestnet, #LiquidTestnet{
-  display: none;
-}
-
 
 /* Menu Toggle Icon -- Toggle Style and Animation*/
 
@@ -488,7 +468,7 @@ a, a:link, a:visited, a:hover, a:focus {
 .toggle-container .burger-icon {
   position: relative;
   height: 20px;
-  width: 30px;
+  width: 18px;
   margin: 0;
   z-index: 5;
 }
@@ -500,8 +480,9 @@ a, a:link, a:visited, a:hover, a:focus {
   top: 50%;
   left: 0;
   display: block;
-  background: #78838e;
+  background: white;
   transition: .5s;
+  border-radius: 20px;
 }
 
 .toggle-container .burger-icon span:first-child{
@@ -631,36 +612,6 @@ table th {
   margin-right: 5px;
   margin-bottom: -8px;
 }
-
-
-
-
-.search-bar .search-bar-submit {
-  cursor: pointer !important;
-  background-color: transparent;
-  width: 50px;
-  height: 50px;
-  outline: none;
-  border: none;
-  float: right;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  background-color: #39434e;
-  background-image: url(img/icons/search.png);
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-
-
-.search-bar input.search-bar-submit:hover{
-  cursor: pointer;
-}
-
-.search-bar .qrcode-link{
-  margin-right: 20px;
-}
-
 
 .page-search-bar {
   margin: 5px auto 30px auto;
@@ -1298,7 +1249,7 @@ body > .container, .navbar > .container, body > .container, .content-wrap > div 
   max-width: 140px;
   width: 100%;
   height: 50px;
-  background-color: #FFBB00;
+  background-color: #FA8A00;
   color: #0C0C0F;
 }
 
@@ -1547,7 +1498,7 @@ body > .container, .navbar > .container, body > .container, .content-wrap > div 
 
 .language-selector, .language-submit {
   color: #FFF;
-  background-color: #111316;
+  background-color: #181818;
   border: 1px solid #22242c;
   border-radius: 4px;
 }
@@ -1573,7 +1524,7 @@ body > .container, .navbar > .container, body > .container, .content-wrap > div 
   margin-bottom: 30px;
 }
 
-.footer_container_content .language form{
+.footer-form {
   width: auto;
 }
 
@@ -1838,16 +1789,47 @@ body::after{
   margin-right: auto;
 }
 
+#Liquid .nav-link {
+  border: 1px solid #22E1C9;
+}
+
+#Bitcoin .nav-link {
+  border: 1px solid #FA8A00;
+}
+
+#LiquidTestnet .nav-link,
+#BitcoinTestnet .nav-link,
+#BitcoinTestnet4 .nav-link,
+#BitcoinSignet .nav-link,
+#BitcoinRegtest .nav-link {
+    border: 1px solid #8C8C8C;
+}
+
 .nav-link {
-  color: #fff;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  background-color: #262626;
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: normal;
+  padding: 16px;
+  gap: 12px;
+  min-width: 200px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
 }
 
-.nav-link:hover {
-  color: rgba(0, 195, 255, 1) !important;
+.nav-link span {
+  color: unset;
 }
 
-.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link {
-  color: rgba(0, 195, 255, 1) !important;
+.network-angle-down {
+  margin-left: auto;
+  fill: white;
 }
 
 .nav-toggler {
@@ -1991,7 +1973,7 @@ body::after{
 
 
 @media only screen and (max-width: 990px) {
- 
+
   .page-search-bar {
     margin: 5px auto 30px auto;
   }
@@ -2162,7 +2144,7 @@ body::after{
 }
 
 @media only screen and (max-width: 550px) {
-  
+
 
   .page-search-bar {
     margin: 5px auto 30px auto;
@@ -2222,7 +2204,7 @@ body::after{
   .title-bar-recent h1 {
     font-size: 18px;
   }
-  
+
   .title-bar-recent h1 a {
     margin-right: 20px;
   }
@@ -2517,28 +2499,32 @@ dl.mempool-histogram .bar:before {
 }
 
 
-/**** 
-  * Burger Menu Hover works on Bigscreen only 
+/****
+  * Burger Menu Hover works on Bigscreen only
   * Hover is used for displaying the dropdown menu to support NO-JS
 *****/
 @media only screen and (min-width: 500px) {
-  .toggle-container:hover .toggle-menu{
+  .toggle-container:hover .toggle-menu,
+  .toggle-container.open-menu .toggle-menu{
     height: auto;
     padding: 20px 0;
     visibility: visible;
   }
 
-  .toggle-container:hover .burger-icon span{
+  .toggle-container:hover .burger-icon span,
+  .toggle-container.open-menu .burger-icon span{
     opacity: 0;
     top: 50%;
   }
 
-  .toggle-container:hover .burger-icon span:first-child {
+  .toggle-container:hover .burger-icon span:first-child,
+  .toggle-container.open-menu .burger-icon span:first-child {
     opacity: 1;
     transform: rotate(45deg);
   }
 
-  .toggle-container:hover .burger-icon span:last-child {
+  .toggle-container:hover .burger-icon span:last-child,
+  .toggle-container.open-menu .burger-icon span:last-child {
     opacity: 1;
     transform: rotate(-45deg);
   }
@@ -2676,7 +2662,6 @@ dl.mempool-histogram .bar:before {
 
 .sub-navbar{
   width: 100%;
-  background-color: #21272d; 
   display: flex;
   margin-bottom: 40px;
 }
@@ -2688,28 +2673,33 @@ dl.mempool-histogram .bar:before {
   height: 79px;
 }
 
-.sub-nav{
+.sub-nav {
   display: flex;
-  width: 100%;
   padding-top: 10px;
+  width: fit-content;
+  white-space: nowrap;
+  gap: 30px;
 }
 
-.sub-nav a{
-  margin-right: 30px;
+.sub-nav a {
   color: #ffffff;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .sub-nav .active {
   color: #ffffff;
   position: relative;
-
 }
 
-.sub-nav .active {
- 
-  border-bottom: solid 2px #ffbb00;
-  
+.sub-nav .active:after {
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background: #FA8A00;
+  height:3px;
+  border-radius: 10px;
 }
 
 .sub-nav a sup.highlight{
@@ -2720,30 +2710,140 @@ dl.mempool-histogram .bar:before {
   border-radius: 100%;
 }
 
-form{
+/****
+  * Network selector
+*****/
+
+.nav-item {
+  cursor: pointer;
+}
+
+.nav-item.active:hover .network-hover-menu-container,
+.nav-item.active:focus-within .network-hover-menu-container,
+.nav-item.active.open-network-menu .network-hover-menu-container,
+.network-hover-menu-container:hover {
+  display: flex;
+  position: absolute;
+  top: calc(100%);
+  z-index: 1;
+}
+
+.network-hover-menu-container {
+  display: none;
+  position: absolute;
+  top: calc(100%);
+}
+
+.network-hover-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  min-width: 200px;
+  margin-top: 8px;
+  background-color: #262626;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.network-hover-menu-option-container {
+  white-space: nowrap;
+}
+
+.network-hover-menu-option-container.active, .network-hover-menu-option-container:hover {
+  display: flex;
+  margin-left: -5px;
+}
+
+.network-hover-menu-option-container.active::before, .network-hover-menu-option-container:hover::before {
+  content: '';
+  width: 6px;
+  height: 100%;
+  background-color: #FA8A00;
+  border-radius: 10px;
+}
+
+.network-hover-menu-option-container.liquid::before {
+  background-color: #22E1C9;
+}
+
+.network-hover-menu-option-container.liquidtestnet::before,
+.network-hover-menu-option-container.bitcointestnet::before,
+.network-hover-menu-option-container.bitcointestnet4::before,
+.network-hover-menu-option-container.bitcoinsignet::before,
+.network-hover-menu-option-container.bitcoinregtest::before {
+  background-color: #8C8C8C;
+}
+
+.network-hover-menu-option {
+  color: white;
+  display: flex;
+  gap: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  transition: .5s all;
+}
+
+.network-hover-menu-option-container.active .network-hover-menu-option,
+.network-hover-menu-option-container:hover .network-hover-menu-option {
+  margin-left: 8px;
+}
+
+.network-hover-menu-option .menu-logo {
+  margin-right: 12px;
+}
+
+.push-tx-form {
   width: 100%;
+}
+
+.search {
+  width: 35%;
 }
 
 .search-bar {
   display: flex;
+  gap: 12px;
   align-items: center;
   width: 100%;
-  border-radius: 4px;
-  background-color: #111316;
+  border-radius: 8px;
+  background-color: #262626;
   border: 1px solid #78838e;
+  padding: 12px;
+  height: 50px;
+  box-sizing: border-box;
 }
 
 .search-bar-input {
   width: 100%;
   color: #fff;
-  background-color: transparent;
   border: none;
-  height: 50px;
   font-size: 16px;
+  background-color: #262626;
+  padding: 0px;
 }
 
-.search-bar-input::placeholder {
-  color: #55585A;
+.search-bar-submit {
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  padding: 0;
+}
+
+.search-bar-input::-webkit-search-cancel-button {
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+[placeholder]{
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .search-bar-input:focus{
@@ -2772,11 +2872,11 @@ a.back-link img{
 }
 
 .blocks-table .blocks-table-row, .transactions-table .transactions-table-row {
-  padding:20px 30px; 
+  padding:20px 30px;
 }
 
 .assets-table .assets-table-row{
-  padding:20px 40px; 
+  padding:20px 40px;
 }
 
 .stats-table{
@@ -2805,11 +2905,7 @@ h3.table-title{
 }
 
 
-@media only screen and (max-width: 990px) {
-
-  .nav-link{
-    padding: 0.4rem;
-  }
+@media only screen and (max-width: 1100px) {
 
   .toggle-container{
     z-index: 100;
@@ -2823,8 +2919,8 @@ h3.table-title{
     padding: 0 20px;
   }
 
-/**** 
-  * Burger Menu for Mobile 
+/****
+  * Burger Menu for Mobile
   * A javascript function (toggleIcon) adds a className (open-menu) to toggle the menu
 *****/
   .toggle-container .toggle-menu{
@@ -2846,12 +2942,12 @@ h3.table-title{
     opacity: 0;
     top: 50%;
   }
-  
+
   .toggle-container.open-menu .burger-icon span:first-child {
     opacity: 1;
     transform: rotate(45deg);
   }
-  
+
   .toggle-container.open-menu .burger-icon span:last-child {
     opacity: 1;
     transform: rotate(-45deg);
@@ -2884,12 +2980,16 @@ h3.table-title{
 
   .sub-nav-container{
     height: auto;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    gap: 24px;
+    align-items: initial;
     padding: 30px 10px 10px 10px;
   }
 
   .sub-nav{
-    margin-top: 30px;
+    gap: initial;
+    width: 100%;
+    padding: 0px;
     justify-content: space-between;
   }
 
@@ -2917,32 +3017,25 @@ h3.table-title{
   h3.table-title{
     margin: 10px 20px 30px;
   }
+
+  .search {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
-@media only screen and (max-width: 475px) {
-
-  .sub-nav {
-    padding-top: auto;
-  }
-
-  .main-nav li a,   .sub-nav a {
-    font-size: 16px;
-  }
-
-}
-
-
-@media only screen and (max-width: 345px) {
+@media only screen and (max-width: 500px) {
   .toggle-container{
     padding: 30px 0 30px 10px;
   }
 
-  .nav-link {
-    padding: 0.4rem 0.2rem;
+  .nav-link,   .sub-nav a {
+    font-size: 16px;
   }
 
   .sub-nav{
     flex-wrap: wrap;
+    padding-top: auto;
   }
 }
 
@@ -2999,8 +3092,8 @@ h3.table-title{
     left: 10%;
     width: 550px;
     height: 800px;
-  } 
-  
+  }
+
   .blur-orange {
     filter: blur(70px);
     top: -6%;
@@ -3205,8 +3298,8 @@ h3.table-title{
 
 .feature {
   flex: 0 1 calc(33.333% - 20px);
-  box-sizing: border-box; 
-  margin-bottom: 50px; 
+  box-sizing: border-box;
+  margin-bottom: 50px;
   text-align: center;
 }
 
@@ -3219,7 +3312,7 @@ h3.table-title{
 @media only screen and (max-width: 475px) {
   .feature {
     flex: 0 1 100%;
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
   }
 }
 
@@ -3425,7 +3518,7 @@ h3.table-title{
   font-size: 30px;
   font-style: normal;
   font-weight: 250;
-  line-height: 36px; 
+  line-height: 36px;
   font-family: "Chakra Petch", sans-serif;
 }
 

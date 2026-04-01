@@ -6,6 +6,9 @@ const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevic
 export default ({ t, klass, autofocus }) =>
   <form className="search" action={process.browser?undefined:"search"}>
     <div className={`search-bar${klass?` ${klass}` : ''}`}>
+      <button className="search-bar-submit" type="submit" aria-label={t`Search`}>
+        <img src={`${staticRoot}img/icons/magnifying-glass.svg`} alt="" />
+      </button>
       <input
         className="form-control search-bar-input"
         type="search"
@@ -17,6 +20,5 @@ export default ({ t, klass, autofocus }) =>
         autocomplete="off"
       />
       { hasCam ? <a className="qrcode-link" href="scan-qr"><img src={`${staticRoot}img/icons/qrcode.svg`}/></a>: "" }
-      <button className="search-bar-submit" type="image"></button>
     </div>
   </form>

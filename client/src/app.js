@@ -451,6 +451,31 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     on('.toggle-container', 'click').subscribe(({ ownerTarget: burgerMenu }) => {
       burgerMenu.classList.toggle('open-menu');
     })
+
+    const closeNetworkMenus = () => {
+      document.querySelectorAll('.nav-item.open-network-menu').forEach(menu => {
+        menu.classList.remove('open-network-menu')
+        const toggle = menu.querySelector('.network-selector-toggle')
+        toggle && toggle.setAttribute('aria-expanded', 'false')
+      })
+    }
+
+    on('.network-selector-toggle', 'click', { preventDefault: true }).subscribe(({ ownerTarget: toggle }) => {
+      const menu = toggle.closest('.nav-item')
+      const isOpen = menu.classList.contains('open-network-menu')
+      closeNetworkMenus()
+      menu.classList.toggle('open-network-menu', !isOpen)
+      toggle.setAttribute('aria-expanded', String(!isOpen))
+    })
+
+    document.addEventListener('click', e => {
+      if (e.target.closest('.main-nav-container')) return
+      closeNetworkMenus()
+    })
+
+    document.addEventListener('keydown', e => {
+      if (e.key == 'Escape') closeNetworkMenus()
+    })
   }
 
   return {
