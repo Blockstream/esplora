@@ -1,9 +1,12 @@
 import Snabbdom from 'snabbdom-pragma'
 import search from './search'
+import menu from './navbar-menu'
+import networkSelection from './network-selection'
 
-export default ( t, isTouch, activeTab) =>
+export default ( t, isTouch, activeTab, theme, page) =>
   <div className="sub-navbar">
     <div className="container sub-nav-container">
+      { networkSelection({t, theme, page}) }
       <div className="sub-nav font-h5">
         <a href="." class={{ active: activeTab == 'dashBoard' }}>Dashboard</a>
         <a href="blocks/recent" class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>

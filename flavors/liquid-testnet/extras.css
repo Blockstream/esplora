@@ -1,21 +1,8 @@
-
-#BitcoinTestnet, #LiquidTestnet{
-    display: block;
+.sub-nav .active:after {
+  background: #8C8C8C;
 }
 
-#Bitcoin, #Liquid{
-    display: none;
-}
-
-.main-nav li.active a{
-    border: 1px solid rgba(168, 184, 201, 1);
-}
-
-.sub-nav .active {
-    border-bottom: solid 2px rgba(168, 184, 201, 1);
-}
-
-.details-btn > div { 
+.details-btn > div {
     color: rgba(168, 184, 201, 1);
     border: 1px solid rgba(168, 184, 201, 1);
 }
@@ -34,10 +21,6 @@
 
 .table-title, .block-header-title, .transaction-header-title, .asset-page h1 {
     display: flex;
-}
-
-.main-nav li a{
-    color: #78838e;
 }
 
 .nav-link:hover{
