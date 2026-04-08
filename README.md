@@ -140,6 +140,14 @@ be configured to the URL reachable by the server, typically `http://localhost:30
 
 ## How to build the Docker image
 
+Build the base image first:
+
+```bash
+docker build -t blockstream/esplora-base -f contrib/Dockerfile.base .
+```
+
+then the main image:
+
 ```bash
 docker build -t esplora -f contrib/Dockerfile .
 ```
