@@ -1,0 +1,115 @@
+body.theme-dark {
+  background-color: #0F1113;
+  background-image:
+    radial-gradient(circle at top right, rgba(198, 0, 1, 0.18), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(198, 0, 1, 0.1), transparent 28%);
+}
+
+.theme-light {
+  background-color: #F7F4F4;
+}
+
+.navbar-brand::before {
+  background: url(img/icons/explorer_logo.svg);
+  background-size: contain;
+  width: 290px;
+  height: 54px;
+  margin: 0;
+  background-repeat: no-repeat;
+}
+
+.theme-light .navbar-brand::before {
+  background: url(img/icons/explorer_dark_logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 290px;
+  height: 54px;
+  margin: 0;
+}
+
+.main-nav .nav-item.active .nav-link,
+.main-nav .nav-link:hover,
+.sub-nav a.active,
+.sub-nav a:hover,
+.highlight,
+.highlighted-text,
+.pagination .control a,
+.pagination .control a:link,
+.pagination .control a:visited,
+.pagination .control a:hover,
+.pagination .control a:focus {
+  color: #C60001 !important;
+}
+
+.table-title:after,
+.block-header-title:after,
+.transaction-header-title:after,
+.asset-page h1:after {
+  background-color: #C60001;
+}
+
+.primary-btn,
+.primary-btn:link,
+.primary-btn:visited,
+.primary-btn:hover,
+.primary-btn:focus {
+  background: #C60001;
+  border-color: #C60001;
+  color: #FFFFFF !important;
+}
+
+.primary-btn:hover,
+.primary-btn:focus {
+  background: #9F0707;
+  border-color: #9F0707;
+}
+
+.search-bar,
+.sub-navbar,
+.toggle-container .toggle-menu,
+.blocks-table,
+.transactions-table,
+.stats-table,
+.transaction-box,
+.assets-table,
+.explorer-container > .footer {
+  border-color: #2A2F36;
+}
+
+.search-bar-input:focus {
+  box-shadow: 0 0 0 1px rgba(198, 0, 1, 0.35);
+}
+
+.footer_container_content_row_social-media_link:hover {
+  border-color: #C60001;
+}
+
+.theme-light .sub-navbar,
+.theme-light .search-bar,
+.theme-light .toggle-container .toggle-menu,
+.theme-light .blocks-table,
+.theme-light .transactions-table,
+.theme-light .stats-table,
+.theme-light .transaction-box,
+.theme-light .assets-table,
+.theme-light .explorer-container > .footer {
+  border-color: #E6DADA;
+}
+
+@media only screen and (max-width: 900px) {
+  .theme-light .navbar-brand::before,
+  .navbar-brand::before {
+    background-size: 54px 54px;
+    width: 54px;
+  }
+
+  .theme-light .navbar-brand::before {
+    background: url(img/icons/dark-logo-icon.svg);
+    background-repeat: no-repeat;
+  }
+
+  .navbar-brand::before {
+    background: url(img/icons/light-logo-icon.svg);
+    background-repeat: no-repeat;
+  }
+}

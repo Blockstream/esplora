@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 54" width="320" height="54">
+  <image href="../favicon.png" x="0" y="0" width="54" height="54"/>
+  <text x="68" y="26" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">HashCash</text>
+  <text x="69" y="43" fill="#F4B2B2" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600" letter-spacing="2.2">BLOCK EXPLORER</text>
+</svg>

@@ -1,6 +1,9 @@
 import Snabbdom from 'snabbdom-pragma'
 import search from './search'
 
+const showApiLanding = process.env.HIDE_API_LANDING !== '1'
+const apiLandingLabel = process.env.API_LANDING_LABEL || 'API'
+
 export default ( t, isTouch, activeTab) =>
   <div className="sub-navbar">
     <div className="container sub-nav-container">
@@ -9,7 +12,7 @@ export default ( t, isTouch, activeTab) =>
         <a href="blocks/recent" class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>
         <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
         { process.env.IS_ELEMENTS ? <a href="assets" class={{ active: activeTab == 'assets' }}>Assets<sup className="highlight"></sup></a> : "" }
-        <a href="/explorer-api" class={{ active: activeTab == 'apiLanding' }}>Explorer API</a>
+        { showApiLanding ? <a href="/explorer-api" class={{ active: activeTab == 'apiLanding' }}>{apiLandingLabel}</a> : "" }
       </div>
 
       { search({ t, autofocus: !isTouch }) }

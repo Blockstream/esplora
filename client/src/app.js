@@ -260,7 +260,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Page title
   , title$ = O.merge(page$.mapTo(null)
-                   , goAPILanding$.withLatestFrom(t$, (_, t) => t`Explorer API`)
+                   , goAPILanding$.mapTo(process.env.API_LANDING_TITLE || 'API Access')
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)
