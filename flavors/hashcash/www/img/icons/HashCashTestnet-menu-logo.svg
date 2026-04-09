@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 28" width="32" height="28">
-  <image href="../favicon.png" width="28" height="28"/>
+  <image href="hcash_token.svg" width="28" height="28"/>
   <rect x="20" y="18" width="10" height="10" rx="5" fill="#111317"/>
   <text x="25" y="25" fill="#FFFFFF" font-family="Inter, Arial, sans-serif" font-size="7" font-weight="700" text-anchor="middle">T</text>
 </svg>
