@@ -5,3 +5,5 @@ terraform/.terraform/environment
 terraform/*.tfstate.backup
 terraform/*.tfstate
 *~
+.DS_Store
+AGENTS.md
