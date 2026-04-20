@@ -5,3 +5,11 @@ terraform/.terraform/environment
 terraform/*.tfstate.backup
 terraform/*.tfstate
 *~
+data_bitcoin_regtest/
+data_liquid_regtest/
+data_bitcoin_mainnet/
+data_liquid_mainnet/
+data_bitcoin_testnet/
+data_bitcoin_testnet4/
+data_bitcoin_signet/
+data_liquid_testnet/

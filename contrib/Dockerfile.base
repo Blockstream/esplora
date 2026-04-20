@@ -29,8 +29,8 @@ RUN git clone --quiet --depth 1 --single-branch --branch v0.40.1 https://github.
  && nvm install v18.20.4
 
 ARG TARGETARCH
-ENV SHA256SUM_ELEMENTS_X86_64="265004203cec6e6e70c27b7bebae820beb91caeb6616d8143c99ae3c5aa99d49"
-ENV SHA256SUM_ELEMENTS_ARM64="dfb6c7db92f2c26940aef59a2ab43d6fc4b51e8d991bbd317d720ba3d72dd128"
+ENV SHA256SUM_ELEMENTS_X86_64="90d6659a4f5d6d94bbf2321f6114e1286fbec8031cfc614b2f2319ddfcd9b3e1"
+ENV SHA256SUM_ELEMENTS_ARM64="279c6cf96ca0583e93fa8531ca671ffde91694254fce4719e6f3b1d0d883dd34"
 ENV SHA256SUM_BITCOINCORE_X86_64="6aa7bb4feb699c4c6262dd23e4004191f6df7f373b5d5978b5bcdd4bb72f75d8"
 ENV SHA256SUM_BITCOINCORE_ARM64="73e76c14edc79808a0511c744d102ffbb494807ee90cbcba176568243254b532"
 
@@ -46,7 +46,7 @@ RUN if [ "${TARGETARCH}" = "arm64" ]; then \
  && ln -s "/srv/explorer/bitcoin-${VERSION_BITCOINCORE}" /srv/explorer/bitcoin \
  && rm bitcoin.tar.gz
 
-ENV VERSION_ELEMENTS=23.3.2
+ENV VERSION_ELEMENTS=23.3.3
 RUN if [ "${TARGETARCH}" = "arm64" ]; then \
    curl -sL -o elements.tar.gz "https://github.com/ElementsProject/elements/releases/download/elements-${VERSION_ELEMENTS}/elements-${VERSION_ELEMENTS}-aarch64-linux-gnu.tar.gz"; \
    echo "${SHA256SUM_ELEMENTS_ARM64}  elements.tar.gz" | sha256sum --check; \

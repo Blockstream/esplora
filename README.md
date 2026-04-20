@@ -245,14 +245,6 @@ Set `-e ENABLE_LIGHTMODE=1` to enable [esplora-electrs's light mode](https://git
 
 Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
 
-## Build new esplora-base
-
-```bash
-docker build -t blockstream/esplora-base:latest -f contrib/Dockerfile.base .
-docker push blockstream/esplora-base:latest
-docker inspect --format='{{index .RepoDigests 0}}' blockstream/esplora-base
-```
-
 ## Pull tor directly from Docker Hub - `blockstream/tor:latest`
 
 Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
