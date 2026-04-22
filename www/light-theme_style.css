@@ -59,12 +59,27 @@ body.theme-light {
     display:none;
 }
 
-.theme-light .nav-link:hover {
-    color: #1187C1 !important;
-  }
+.theme-light .nav-link {
+    background-color: white;
+}
+
+.theme-light .nav-link span {
+  color: rgba(21, 24, 28, 1);
+}
+
+.theme-light .network-angle-down {
+    fill: rgba(21, 24, 28, 1);
+}
+
+.theme-light .network-hover-menu {
+    background-color: whitesmoke;
+}
+
+.theme-light .network-hover-menu-option {
+    color: rgba(21, 24, 28, 1);
+}
 
 .theme-light .sub-navbar{
-    background-color: whitesmoke;
     box-shadow: 1px 1px 1px lightgray;
 }
 
@@ -185,11 +200,12 @@ body.theme-light {
 }
 
 .theme-light .search-bar-input, .theme-light .search-bar-input:focus{
+    background-color: white;
     color: #22242c;
 }
 
 .theme-light .dash-container .view-more img{
-   filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%); 
+   filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%);
 }
 
 .theme-light .direction-arrow, .theme-light .arrow-prev, .theme-light .arrow-next {
@@ -236,10 +252,14 @@ body.theme-light {
 
 @media only screen and (max-width: 850px) {
     .theme-light .assets-table-link-row:nth-child(odd)  .assets-table-row {
-       color: #fff !important; 
+       color: #fff !important;
     }
-} 
+}
 
 .theme-light .prev-next-blocks-btns > div a > div:hover {
     background-color: #B7BABD;
   }
+
+.theme-light .toggle-container .burger-icon span {
+    background-color: black;
+}

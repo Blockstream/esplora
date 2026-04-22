@@ -9,7 +9,7 @@ export default ({ t, page }) =>
     <div className="container">
       <div className="footer_container_content">
         <div className="language">
-          <form method="get">
+          <form className="footer-form" method="get">
             { !process.browser && Object.entries(page.query).map(([k, v]) =>
               k != 'lang' && <input type="hidden" name={k} value={v} />
             ) }
