@@ -139,7 +139,7 @@ function doRender(req, res, next) {
       return res.sendStatus(resp.errorCode)
     }
 
-    res.status(resp.status || 200)
+    res.status(200)
     res.render(indexView, {
       prerender_title: resp.title
       , prerender_html: resp.html
