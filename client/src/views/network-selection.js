@@ -47,6 +47,7 @@ export default ({ t, theme, page }) => (
                       id={name.replace(/ /g, "")}
                       href={url}
                       className={`network-hover-menu-option-container ${name.replace(/ /g, "").toLowerCase()} ${name === activeName ? "active" : ""}`}
+                      rel="external"
                     >
                       <div
                         id={name.replace(/ /g, "")}

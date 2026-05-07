@@ -2783,6 +2783,7 @@ dl.mempool-histogram .bar:before {
   padding-bottom: 8px;
   cursor: pointer;
   transition: .5s all;
+  font-size: 16px;
 }
 
 .network-hover-menu-option-container.active .network-hover-menu-option,
