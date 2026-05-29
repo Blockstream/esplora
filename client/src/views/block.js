@@ -166,9 +166,9 @@ const pagingNav = (block, { nextBlockTxs, prevBlockTxs, t }) =>
 
 const btnDetails = (blockhash, isOpen, query, t) => process.browser
   // dynamic button in browser env
-  ? <div className="details-btn font-btn-2 font-h5 float-right mb-2" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
+  ? <div className="details-btn block-details-btn font-btn-2 font-h5 float-right" data-toggleBlock={blockhash}>{btnDetailsContent(isOpen, t)}</div>
   // or a plain link in server-side rendered env
-  :  <a className="details-btn font-btn-2 font-h5 float-right mb-2" href={`block/${blockhash}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
+  :  <a className="details-btn block-details-btn font-btn-2 font-h5 float-right" href={`block/${blockhash}${updateQuery(query, { expand: !isOpen })}`}>{btnDetailsContent(isOpen, t)}</a>
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">

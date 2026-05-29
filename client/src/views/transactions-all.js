@@ -11,8 +11,5 @@ const homeLayout = (body, { t, activeTab, ...S }) => layout(
    , { t, isTouch, activeTab, ...S })
 
 export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
-    <div className="container">
-      {transactions( mempoolRecent, false, { t, ...S })}
-    </div>
+    transactions( mempoolRecent, false, { t, ...S })
   , { ...S, t, activeTab: 'recentTxs' })
-  

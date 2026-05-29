@@ -26,10 +26,6 @@ import {
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
-if (process.browser) {
-  require('bootstrap/js/dist/collapse')
-}
-
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
@@ -70,7 +66,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({ 
+  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({
       start_index: +loc.query.start_index || 0
     , sort_field: loc.query.sort_field != null ? loc.query.sort_field : 'name'
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
@@ -150,7 +146,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , prevBlocks$ = process.browser ? O.empty()
       : goBlocks$.combineLatest(tipHeight$, (d, tipHeight) => d.start_height != null && d.start_height < tipHeight ? Math.min(tipHeight, d.start_height+blocksPerPage) : null)
-  
+
   // Single block and associated txs
   , block$ = reply('block').merge(goBlock$.mapTo(null))
   , blockStatus$ = reply('block-stat').merge(goBlock$.mapTo(null))
@@ -200,7 +196,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , mempoolRecent$ = reply('recent')
 
   // dashboard
-  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) => 
+  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) =>
         ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 5)}))
 
   // Fee estimates

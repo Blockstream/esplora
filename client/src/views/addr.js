@@ -41,8 +41,8 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
     <div>
       <div className="addr-page">
         <div className="container">
-          <div className="row">
-            <div className="col-sm-8">
+          <div className="addr-header-layout">
+            <div className="addr-header-main">
               <h1 className="font-h2">{t`Address`}</h1>
               <div className="block-hash font-p1">
                 <span className="text-gray">{display_addr}</span>
@@ -51,8 +51,8 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
                 </div> }
               </div>
             </div>
-            {show_qr && <div className="col-sm-4">
-              <img className="float-sm-right address-qr-code" src={ addrQR } />
+            {show_qr && <div className="addr-header-qr">
+              <img className="address-qr-code" src={ addrQR } />
             </div>}
           </div>
         </div>
@@ -160,5 +160,4 @@ const pagingNav = (addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_
         <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]
-
 

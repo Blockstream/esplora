@@ -27,8 +27,8 @@ const logoSources = {
 const LandingPage = ({ t, theme, ...S }) => {
     const logos = logoSources[theme || 'dark']
     return  layout(
-    <div className="landing-page">   
-        <script src={`${staticRoot}/js/infinite-scroll.js`} async></script>   
+    <div className="landing-page">
+        <script src={`${staticRoot}/js/infinite-scroll.js`} async></script>
         <div className="blur-orange"></div>
         <div className="blur-green"></div>
         <div className="laser-lines"></div>
@@ -80,8 +80,8 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
             </div>
         <div className="info-section">
             <div className="badge">WHY EXPLORER API</div>
-            <h2 className="font-h2 text-center">High performance service - optimized for scaling and uptime</h2>
-            <p className="font-p3 text-gray text-center">Proven in production, and trusted by some of the biggest names in the industry,<br/> our API is built to handle demanding workloads so your team can focus on growth.</p>
+            <h2 className="font-h2">High performance service - optimized for scaling and uptime</h2>
+            <p className="font-p3 text-gray">Proven in production, and trusted by some of the biggest names in the industry,<br/> our API is built to handle demanding workloads so your team can focus on growth.</p>
 
             <div className="info-cards">
                 <div className="info-card">
@@ -103,7 +103,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
         </div>
         <div className="features-section">
             <div className="badge">FEATURES</div>
-            <h2 className="font-h2 text-center">Explorer handles millions of requests on globally distributed infrastructure so your services are always online</h2>
+            <h2 className="font-h2">Explorer handles millions of requests on globally distributed infrastructure so your services are always online</h2>
             <div className="features">
                 <div className="feature">
                     <img src={`${staticRoot}img/icons/issuance.svg`} alt="icon" />
@@ -134,6 +134,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
         </div>
 
         <div className="cta-section">
+            <div className="landing-section-background"></div>
             <div className="container">
                 <div className="cta-card">
                     <div className="cta-left">
@@ -150,9 +151,10 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
         </div>
 
         <div className="pricing-section">
+            <div className="landing-section-background"></div>
             <div className="container">
                 <div className="badge">OUR OFFER</div>
-                <h2 className="font-h2 text-center">Pricing</h2>
+                <h2 className="title font-h2">Pricing</h2>
                 <div className="pricing">
                     <div className="pricing-card">
                         <div className="pricing-card-title">

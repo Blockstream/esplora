@@ -8,9 +8,10 @@ const formatError = err =>
 ? 'Esplora is currently unavailable, please try again later.'
 : (err.message || err.toString())
 
-export const error = ({ t, error, ...S }) => layout(<div>
-    <div className="container text-center"><h1>{ t(formatError(error)) }</h1></div>
-  </div>
+export const error = ({ t, error, ...S }) => layout(
+    <div>
+      <div className="error-text-center"><h1>{ t(formatError(error)) }</h1></div>
+    </div>
 , { t, ...S })
 
 export const notFound = S => error({ ...S, error: 'Page Not Found' })

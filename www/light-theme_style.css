@@ -204,7 +204,7 @@ body.theme-light {
     color: #22242c;
 }
 
-.theme-light .dash-container .view-more img{
+.theme-light .view-more img{
    filter: brightness(0) saturate(100%) invert(40%) sepia(89%) saturate(604%) hue-rotate(159deg) brightness(91%) contrast(96%);
 }
 

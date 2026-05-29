@@ -30,10 +30,10 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
       </div>
     </div>
     <div className="container">
-      <div className="row">
+      <div className="mempool-layout">
         { mempool.fee_histogram.length > 0 &&
-          <dl className="mempool-histogram col-md-8 col-sm-6">
-            <h4 className="text-center mb-3">Fee rate distribution</h4>
+          <dl className="mempool-histogram">
+            <h4 className="mempool-section-heading mb-3">Fee rate distribution</h4>
             { squashed = squashFeeHistogram(mempool.fee_histogram), squashed.map(([ rangeStart, binSize ], i) => binSize > 0 &&
               <dd>
                 <span className="text">{`${rangeStart.toFixed(1)}${i == 0 ? '+' : ' - '+squashed[i-1][0].toFixed(1)}`}</span>
@@ -45,9 +45,9 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
         }
 
         { !!Object.keys(feeEst).length &&
-          <div className="fee-estimates col-md-4 col-sm-6 text-center">
+          <div className="fee-estimates">
             <h4 className="mb-3">Fee rate estimates</h4>
-            <table className="table table-sm">
+            <table className="table">
                 <thead><tr><th>Target</th><th>sat/vB</th><th>Mempool depth</th></tr></thead>
                 { sortEst(feeEst).map(([ target, feerate ]) =>
                   <tr><td>{t`${target} blocks`}</td><td>{feerate.toFixed(2)}</td><td>{t`${formatVMB(getMempoolDepth(mempool.fee_histogram, feerate))} from tip`}</td></tr>
