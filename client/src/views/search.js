@@ -1,5 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
-
 const staticRoot = process.env.STATIC_ROOT || ''
 const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 

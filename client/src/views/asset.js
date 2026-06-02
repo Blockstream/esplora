@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
 import { formatNumber, formatJson, formatAssetAmount, formatSat } from './util'
 import layout from './layout'
@@ -45,7 +44,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             - chain_stats.burned_amount - mempool_stats.burned_amount
 
   return layout(
-    <div>
+    [
       <div className="asset-page">
         <div className="container">
           <a className="back-link" href="assets">
@@ -59,7 +58,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             </div> }
           </div>
         </div>
-      </div>
+      </div>,
       <div className="container">
         <div className="stats-table font-p2">
           <div>
@@ -250,7 +249,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
         </div>
       </div>
-    </div>
+    ]
   , { t, activeTab: 'assets', ...S })
 }
 
@@ -285,5 +284,4 @@ const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging
         <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]
-
 

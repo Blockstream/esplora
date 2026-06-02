@@ -30,9 +30,45 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
+    , NEW_TABLE_ENTRY_MS = 2000
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
+
+const defaultNewIds = (prev, next, getId) => {
+  if (!prev.length) return []
+
+  const prevIds = new Set(prev.map(getId))
+  return next.map(getId).filter(id => !prevIds.has(id))
+}
+
+const trackNewEntries = (items$, getId, getNewIds=defaultNewIds) => {
+  const newIds$ = items$
+    .scan(({ prev }, next) => {
+      const prevItems = prev || []
+          , nextItems = next || []
+          , newIds = prev == null ? [] : getNewIds(prevItems, nextItems, getId)
+
+      return { prev: nextItems, newIds }
+    }, { prev: null, newIds: [] })
+    .map(({ newIds }) => newIds)
+    .filter(ids => ids.length)
+    .share()
+
+  const add$ = newIds$.map(ids => current => ids.reduce((next, id) => ({ ...next, [id]: true }), current))
+      , remove$ = newIds$.flatMap(ids =>
+          O.of(ids)
+            .delay(NEW_TABLE_ENTRY_MS)
+            .map(ids => current => {
+              const next = { ...current }
+              ids.forEach(id => delete next[id])
+              return next
+            }))
+
+  return O.merge(add$, remove$)
+    .startWith(current => current)
+    .scan((current, mod) => mod(current), {})
+}
 
 export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
   const
@@ -137,6 +173,15 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .startWith([]).scan((S, mod) => mod(S))
       .share()
 
+  , newBlockEntries$ = trackNewEntries(
+      blocks$,
+      block => block.id,
+      (prev, next) => {
+        const prevTip = prev.length ? prev[0].height : null
+        return prevTip == null ? [] : next.filter(block => block.height > prevTip).map(block => block.id)
+      }
+    )
+
   , nextBlocks$ = blocks$.map(blocks => blocks && blocks.length && last(blocks).height).map(height => height > 0 ? height-1 : null)
 
   , prevBlocks$ = process.browser ? O.empty()
@@ -189,6 +234,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Mempool backlog stats
   , mempool$ = reply('mempool').startWith(null)
   , mempoolRecent$ = reply('recent')
+  , newTxEntries$ = trackNewEntries(mempoolRecent$, tx => tx.txid)
 
   // dashboard
   , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) =>
@@ -264,6 +310,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , goBlocks$, blocks$, nextBlocks$, prevBlocks$, dashboardState$
+                     , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
@@ -339,8 +386,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
 
-    // fetch recent mempool txs when opening the recent txs page
-    , goRecent$.mapTo(          { category: 'recent',     method: 'GET', path: '/mempool/recent' })
+    // fetch recent mempool txs and fee estimates when opening the recent txs page
+    , goRecent$.flatMap(_ =>   [{ category: 'recent',     method: 'GET', path: '/mempool/recent' }
+                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
     // ... and every 5 seconds while it remains open
     , tickWhileViewing(5000, 'recentTxs', view$)
        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
@@ -349,7 +397,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
-                              , { category: 'recent',    method: 'GET', path: '/mempool/recent' }])
+                              , { category: 'recent',    method: 'GET', path: '/mempool/recent' }
+                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
     //
     // elements/liquid only
     //
@@ -433,6 +482,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       btn.classList.add('show-tooltip')
       setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
     })
+
+    on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
 
     on('.toggle-container', 'click').subscribe(({ ownerTarget: burgerMenu }) => {
       burgerMenu.classList.toggle('open-menu');

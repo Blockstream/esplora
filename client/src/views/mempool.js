@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
 import { formatSat, formatVMB } from './util'
 import layout from './layout'

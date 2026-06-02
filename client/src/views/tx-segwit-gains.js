@@ -1,5 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
-
 const percent = num => `${num >= 0.01 ? Math.round(num*100) : (num*100).toFixed(2)}%`
 
 const makeMessage = ({ realizedGains, potentialBech32Gains, potentialP2shGains  }, t) =>

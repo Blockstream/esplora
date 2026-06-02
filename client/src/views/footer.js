@@ -1,5 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
-
 const staticRoot = process.env.STATIC_ROOT || ''
 const links = process.env.FOOTER_LINKS ? JSON.parse(process.env.FOOTER_LINKS) : { [staticRoot+'img/github_blue.png']: 'https://github.com/blockstream/esplora' }
 

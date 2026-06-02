@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import navToggle from './nav-toggle'
 
 

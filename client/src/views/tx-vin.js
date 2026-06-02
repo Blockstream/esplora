@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import { linkToParentOut, formatOutAmount, formatAssetAmount, formatHex, linkToAddr, formatNumber, hexToBase64 } from './util'
 import { isSimplicitySpend, getSimplicityWitness } from '../lib/elements.js'
 

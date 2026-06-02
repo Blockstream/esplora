@@ -38,18 +38,3 @@
 .sub-nav-container{
     margin-top: 25px;
 }
-
-.table-title, .block-header-title, .transaction-header-title{
-    display: flex;
-}
-
-.table-title:after, .block-header-title:after, .transaction-header-title:after {
-    content: "Testnet";
-    font-size: 13px;
-    background-color: rgb(48 59 70);
-    padding: 3px 12px;
-    border-radius: 30px;
-    margin-left: 15px;
-    display: inline-block;
-    align-self: center;
-}

@@ -1,5 +1,3 @@
-import Snabbdom from "snabbdom-pragma";
-
 const items = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS),
   active = process.env.MENU_ACTIVE;
 

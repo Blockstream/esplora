@@ -1,40 +1,85 @@
+import { formatSat, formatNumber, truncateTxid } from "./util";
+import loader from "../components/loading";
+import { CopyIcon, TxArrowsIcon } from "../components/icons";
 
-import Snabbdom from 'snabbdom-pragma'
-import { formatSat, formatNumber } from './util'
-import loader from '../components/loading'
+const staticRoot = process.env.STATIC_ROOT || "";
 
-const staticRoot = process.env.STATIC_ROOT || ''
+const feeRateClass = (feerate, feeEst) => {
+  if (!feeEst || feeEst[3] == null || feeEst[12] == null) return "";
 
-export const transactions = (txs, viewMore, { t } ) => 
-    <div className="tx-container">
-      { !txs ? loader()
-      : !txs.length ? <p>{t`No recent transactions`}</p>
-      : <div className="transactions-table">
-            <h3 className="table-title font-h3">{t`Latest Transactions`}</h3>
-            <div className="transactions-table-row header">
-              <div className="transactions-table-cell font-h4">{t`Transaction ID`}</div>
-              { txs[0].value != null && <div className="transactions-table-cell font-h4">{t`Value`}</div> }
-              <div className="transactions-table-cell font-h4">{t`Size`}</div>
-              <div className="transactions-table-cell font-h4">{t`Fee`}</div>
-            </div>
-            {txs.map(txOverview => { const feerate = txOverview.fee/txOverview.vsize; return (
-              <div className="transactions-table-link-row">
-                <a className="transactions-table-row transaction-data" href={`tx/${txOverview.txid}`}>
-                  <div className="transactions-table-cell highlighted-text" data-label={t`TXID`}>{txOverview.txid}</div>
-                  { txOverview.value != null && <div className="transactions-table-cell" data-label={t`Value`}>{formatSat(txOverview.value)}</div> }
-                  <div className="transactions-table-cell" data-label={t`Size`}>{`${formatNumber(txOverview.vsize)} vB`}</div>
-                  <div className="transactions-table-cell" data-label={t`Fee`}>{`${feerate.toFixed(1)} sat/vB`}</div>
-                </a>
-              </div>
-            )})}
+  return feerate <= feeEst[12]
+    ? "success"
+    : feerate <= feeEst[3]
+      ? "warning"
+      : "danger";
+}
 
-            {txs && viewMore ?
-              <a className="view-more font-link-semibold" href="tx/recent">
-                <span>{t`View more transactions`}</span>
-                <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
-              </a> : ""}
+export const transactions = (txs, viewMore, { t, ...S }) => (
+  <div className="tx-container">
+    {!txs ? (
+      loader()
+    ) : !txs.length ? (
+      <p>{t`No recent transactions`}</p>
+    ) : (
+      <div className="transaction-table">
+        <div className="table-header">
+          <div className="table-header-icon-container">
+            <TxArrowsIcon />
+          </div>
+          <h1 className="table-header-title">Latest Transactions</h1>
         </div>
-      }
-    </div>
 
-  
+        <div className="table-title-row">
+          <div className="transaction-table-transaction-id">TRANSACTION ID</div>
+          <div className="transaction-table-transaction-value">VALUE</div>
+          <div className="transaction-table-transaction-size">SIZE</div>
+          <div className="transaction-table-transaction-fee">
+            FEE
+          </div>
+        </div>
+
+        <div className="transaction-table-body">
+          {txs.map((txOverview) => {
+            const feerate = txOverview.fee / txOverview.vsize;
+            const feeClass = feeRateClass(feerate, S.feeEst);
+            return (
+              <a href={`tx/${txOverview.txid}`}>
+              <div className={`transaction-table-row ${S.newTxEntries && S.newTxEntries[txOverview.txid] ? "new-table-entry" : ""}`}>
+                <div className="transaction-table-transaction-id">
+                  <p>{truncateTxid(txOverview.txid)}</p>
+                  <div
+                    className="table-copy-button code-button-btn"
+                    role="button"
+                    tabindex="0"
+                    data-clipboardCopy={txOverview.txid}
+                    aria-label={`Copy transaction id ${txOverview.txid}`}
+                  >
+                    <CopyIcon />
+                  </div>
+                </div>
+                <div className="transaction-table-transaction-value">
+                  {txOverview.value ?
+                    formatSat(txOverview.value) : "Confidential"}
+                </div>
+                <div className="transaction-table-transaction-size">{`${formatNumber(txOverview.vsize)} vB`}</div>
+                <div className={`transaction-table-transaction-fee ${feeClass}`}>{`${feerate.toFixed(1)} sat/vB`}</div>
+              </div>
+              </a>
+            );
+          })}
+        </div>
+
+        {txs && viewMore ? (
+          <a className="view-more font-link-semibold" href="tx/recent">
+            <span>{t`See more`}</span>
+            <div>
+              <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
+            </div>
+          </a>
+        ) : (
+          ""
+        )}
+      </div>
+    )}
+  </div>
+);

@@ -1,6 +1,6 @@
 {
   presets: [ "@babel/env" ]
 , plugins: [
-    ["@babel/plugin-transform-react-jsx", {"pragma": "Snabbdom.createElement"}]
+    ["@babel/plugin-transform-react-jsx", {"pragma": "require('snabbdom-pragma').createElement"}]
   ]
 }

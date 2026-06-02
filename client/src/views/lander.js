@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 
 const staticRoot = process.env.STATIC_ROOT || ''

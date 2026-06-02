@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import search from './search'
 import vinView from './tx-vin'
@@ -27,7 +26,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
   }
 
   return layout(
-  <div>
+  [
     <div className="transaction-page">
       <div className="container">
         <div>
@@ -40,13 +39,13 @@ export default ({ t, tx, tipHeight, spends, openTx, page, unblinded, ...S }) => 
           </div>
         </div>
       </div>
-    </div>
+    </div>,
     <div className="container">
       {txHeader(tx, { t, tipHeight, ...S })}
       {(unblinded && unblinded.error) ? <div className="transaction-warning text-danger mt-3">{t`Warning:`} {unblinded.error.toString()}</div> : <div></div>}
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
-  </div>
+  ]
   , { t, page, activeTab: 'recentTxs', ...S })
 }
 

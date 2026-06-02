@@ -39,11 +39,11 @@
     margin-top: 25px;
 }
 
-.table-title, .block-header-title, .transaction-header-title{
+.block-header-title, .transaction-header-title{
     display: flex;
 }
 
-.table-title:after, .block-header-title:after, .transaction-header-title:after {
+.block-header-title:after, .transaction-header-title:after {
     content: "Testnet4";
     font-size: 13px;
     background-color: rgb(48 59 70);

@@ -1,5 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
-
 // each issue type is a tuple of (type, title, description, url)
 //
 // the issues marked as "danger" (displayed in red) are the ones where it is relatively trivial

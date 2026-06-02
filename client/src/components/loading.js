@@ -1,6 +1,6 @@
-import Snabbdom from 'snabbdom-pragma'
-
-export default (size) => 
-        <div className="spinner">
-            <div className={`ring ${size}`}></div>
+export default (size) =>
+        <div className="loading-container">
+            <div className="spinner">
+                <div className={`ring ${size}`}></div>
+            </div>
         </div>

@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import { nativeAssetId } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''

@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import { formatOutAmount, linkToAddr, linkToParentAddr, formatNumber } from './util'
 
 const unspendable_types = [ 'op_return', 'provably_unspendable', 'fee' ]

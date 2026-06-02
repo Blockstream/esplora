@@ -1,250 +1,360 @@
 /* START ASSET TABLE */
 
+:root {
+  --primary-color: #22E1C9;
+}
+
 .assets-table .assets-table-row {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-  }
-  
-  .assets-table .assets-table-row > * {
-    display: table-cell;
-    vertical-align: middle;
-  }
-  
-  .assets-table .assets-table-row.header, .assets-table .assets-table-row.asset-data {
-    height: 52px;
-  }
-  
-  .assets-table .assets-table-row.header > *, .assets-table .assets-table-row.asset-data > * {
-    font-size: 16px;
-  }
-  
-  .assets-table .assets-table-row.header > * {
-    color: #78838e;
-    font-weight: 600;
-  }
-  
-  .assets-table .assets-table-row.asset-data {
-    border-top: 1px #2d2f39 solid;
-  }
-  
-  .assets-table .assets-table-row.asset-data:not(.loading):hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  
-  .assets-table .assets-table-row.asset-data > * {
-    font-size: 16px;
-    word-break: break-all;
-  }
-  
-  .assets-table .assets-table-row.loading img {
-    display: block;
-    margin: auto;
-    height: 45px;
-    width: 45px;
-    padding: 3px 0;
-  }
-  
-  .assets-table .assets-table-row > div:nth-child(1) {
-    padding-left: 0px;
-  }
-  
-  .assets-table-row {
-    color: #FFF !important;
-  }
-  
-  .assets-table-row:not(.header) .asset-id {
-    word-break: break-all;
-  }
-  
-  .assets-table .right-align {
-    text-align: right;
-  }
-  
-  .sortable{
-    cursor: pointer;
-  }
-  .desc::after{
-    content: "\25B2";
-    font-size: 12px;
-    margin-left:4px;
-  }
-  
-  .asc::after{
-    content: "\25BC";
-    font-size: 12px;
-    margin-left:4px;
-  }
-  
-  .sortable:hover {
-    color: #c2c2c3 !important;
-  }
-  
-  .asset-error{
-    display: block;
-    text-align: center;
-    width: 100%;
-    margin-bottom: 20px;
-    margin-top: 60px;
-    color: #a95c5c;
-  }
-  
-  .pagination{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
-    font-size: 1.2rem;
-    color: #eee;
-  }
-  
-  .pagination .numbers{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .pagination .pagelink{
-    display: block;
-    width: 40px;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: #22242c;
-    color: white;
-    margin: 0 .2rem 0 .2rem;
-  }
-  
-  .pagination .numbers .current{
-    border: 1px solid #00ccff;
-  }
-  
-  .pagination .control{
-    display: flex;
-    margin: 0 .5rem 0 .5rem;
-  }
-  
-  .pagination .control a{
-    color: #00ccff;
-    margin-right:.5rem;
-  }
-  
-  
-  @media only screen and (min-width: 851px) {
-    .assets-table .assets-table-row .ticker {
-      width: 6em;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.assets-table .assets-table-row > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.assets-table .assets-table-row.header > * {
+  color: #78838e;
+  font-weight: 600;
+}
+
+.assets-table .assets-table-row.loading img {
+  display: block;
+  margin: auto;
+  height: 45px;
+  width: 45px;
+  padding: 3px 0;
+}
+
+.assets-table .assets-table-row > div:nth-child(1) {
+  padding-left: 0px;
+}
+
+.sortable{
+  cursor: pointer;
+}
+.desc::after{
+  content: "\25B2";
+  font-size: 12px;
+  margin-left:4px;
+}
+
+.asc::after{
+  content: "\25BC";
+  font-size: 12px;
+  margin-left:4px;
+}
+
+.sortable:hover {
+  color: #c2c2c3 !important;
+}
+
+.asset-error{
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 60px;
+  color: #a95c5c;
+}
+
+/******* ASSET TABLE *******/
+
+.asset-container {
+  margin-top: 40px;
+  background-color: #1c1c1c;
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.asset-list-name,
+.asset-list-ticker,
+.asset-list-total-supply,
+.asset-list-issuer-domain {
+  flex: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: auto;
+}
+
+.asset-list-ticker,
+.asset-list-total-supply {
+  color: #FFF !important;
+}
+
+.table-title-row .asset-list-issuer-domain,
+.table-title-row .asset-list-name {
+  text-decoration: none !important;
+}
+
+.table-title-row .asset-list-name,
+.table-title-row .asset-list-ticker,
+.table-title-row .asset-list-total-supply,
+.table-title-row .asset-list-issuer-domain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asset-sort-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #B5BDC2;
+}
+
+.asset-sort-icon svg {
+  width: 7px;
+  height: auto;
+}
+
+.asset-sort-chevron-muted {
+  opacity: .5;
+}
+
+.asset-sort-icon-inactive {
+  opacity: .5;
+}
+
+.asset-list-issuer-domain {
+  text-decoration: underline !important;
+}
+
+.asset-list-name {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: underline !important;
+}
+
+.asset-list-name .currency-dollar {
+  color: #22E1C9;
+  width: 14px;
+}
+
+.asset-list-body {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.asset-list-body .assets-table-row {
+  transition: opacity .2s ease;
+}
+
+.asset-list-body-loading .assets-table-row {
+  opacity: .5;
+}
+
+.assets-table-row {
+  display: flex;
+  background-color: #181818;
+  border: 1px solid #181818;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 10px;
+}
+
+.assets-table-row:hover {
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+}
+
+.asset-list-footer {
+  margin-top: 24px;
+}
+
+.asset-list-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.pagelink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.pagination {
+  display: flex;
+}
+
+.pagelink:hover {
+  background-color: rgba(255, 255, 255, 0.05);;
+}
+
+.pagination .numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination .numbers .current {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.pagination .numbers .number {
+  padding: 6px 12px;
+}
+
+.prev, .next {
+  font-size: 14px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.prev-disabled, .next-disabled {
+  color: #B5BDC2 !important;
+  pointer-events: none;
+}
+
+.pagination-dropdown-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.pagination-dropdown-container p {
+  color: #B5BDC2;
+  margin: 0;
+}
+
+.pagination-dropdown {
+  position: relative;
+  min-width: 85px;
+  background-color: #282828;
+  color: white;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, .06);
+}
+
+.pagination-dropdown-current {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.pagination-dropdown-options {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 10;
+  flex-direction: column;
+  min-width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: #181818;
+  border-radius: 4px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, .24);
+}
+
+.pagination-dropdown:hover .pagination-dropdown-options,
+.pagination-dropdown:focus-within .pagination-dropdown-options {
+  display: flex;
+}
+
+.pagination-dropdown-option {
+  padding: 8px 12px;
+  color: white !important;
+  white-space: nowrap;
+}
+
+.pagination-dropdown-option:hover,
+.pagination-dropdown-option.current {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/***************************/
+
+@media only screen and (max-width: 850px) {
+
+    /* assets table */
+
+    .asset-label{
+      width: 40%;
     }
-  }
-  
-  @media only screen and (max-width: 1000px) {
-    .blocks-table .blocks-table-row > div:nth-child(2) {
-      width: 250px;
+
+    .asset-text{
+      text-align: right;
+      width: 60%;
     }
-  }
-  
-  @media only screen and (max-width: 850px) {
-  
-      /* assets table */
-  
-      .asset-label{
-        width: 40%;
-      }
-  
-      .asset-text{
-        text-align: right;
-        width: 60%;
-      }
-  
-      div.assets-table-row.header .supply{
-        display:none;
-      }
-  
-      div.assets-table-row.header .domain{
-        width: 50%;
-      }
-  
-      /* table row (asset) */
-      .assets-table-row {
-        margin: 0 0 1rem 0;
-        display: flex;
-        flex-direction: column;
-        height: auto !important;
-        padding: 20px;
-      }
-  
-      .assets-table-link-row {
-        margin-bottom: 20px;
-      }
-  
-      .assets-table-link-row:nth-child(odd) {
-        background: #22242c;
-      }
-  
-      /* table row (transaction item) */
-      .assets-table .assets-table-row.asset-data > *{
-        border: none;
-        position: relative;
-        padding-left: 0 !important;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100% !important;
-        text-align: right;
-      }
-  
-      .assets-table-row {
-        /* Behave  like a "row" */
-        display: block;
-      }
-  
-      div.assets-table-cell:before {
-        width: 45%;
-        padding-right: 10px;
-        font-weight: 600;
-        color: #78838e;
-        word-break: initial;
-      }
-  
-      /*
-      Label the data
-      */
-      div.assets-table-cell:before { content: attr(data-label); text-align: left;}
-  }
-  
+
+    div.assets-table-row.header .supply{
+      display:none;
+    }
+
+    div.assets-table-row.header .domain{
+      width: 50%;
+    }
+
+    /* table row (asset) */
+    .assets-table-row {
+      margin: 0 0 1rem 0;
+      display: flex;
+      flex-direction: column;
+      height: auto !important;
+      padding: 20px;
+    }
+
+    .assets-table-link-row {
+      margin-bottom: 20px;
+    }
+
+    .assets-table-link-row:nth-child(odd) {
+      background: #22242c;
+    }
+
+    .assets-table-row {
+      /* Behave  like a "row" */
+      display: block;
+    }
+}
+
 
 
 
 /* ASSET TABLE MOBILE */
 
 
- /* Pagination remove numbers on Mobile - show Next and Prev instead */
- @media only screen and (max-width: 500px) {
-    .pagination .numbers{
-      display: none;
-    }
-    .pagination .next, .pagination .prev{
-      width: 85px;
-      display: flex;
-    }
-    .pagination .next::before {
-      content: "Next";
-      line-height: 1.7;
-      padding: 0 4px;
-    }
-    .pagination .prev::after {
-      content: "Prev";
-      line-height: 1.7;
-      padding: 0 4px;
-    }
+/* Pagination remove numbers on Mobile - show Next and Prev instead */
+@media only screen and (max-width: 500px) {
+  .pagination .numbers{
+    display: none;
   }
-  
-  /* smallest iPhone */
-  @media only screen and (max-width: 320px) {
-    .assets-table .assets-table-row.header .assets-table-cell{
-      font-size: 12px;
-    }
+  .pagination .next, .pagination .prev{
+    width: 85px;
+    display: flex;
   }
-  
-  
-  
+  .pagination .next::before {
+    content: "Next";
+    line-height: 1.7;
+    padding: 0 4px;
+  }
+  .pagination .prev::after {
+    content: "Prev";
+    line-height: 1.7;
+    padding: 0 4px;
+  }
+}

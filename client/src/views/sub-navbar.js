@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import search from './search'
 import menu from './navbar-menu'
 import networkSelection from './network-selection'

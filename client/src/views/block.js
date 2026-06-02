@@ -1,4 +1,3 @@
-import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
 import { txBox } from './tx'
 import { updateQuery } from '../util'
@@ -12,7 +11,7 @@ const staticRoot = process.env.STATIC_ROOT || ''
 const makeStatus = b => b && ({ confirmed: true, block_height: b.height, block_hash: b.id })
 
 export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, openBlock, goBlock, tipHeight, loading, page, txsStatus=makeStatus(b), ...S }) => b && layout(
-  <div>
+  [
     <div className="block-page">
       <div className="container">
         <div>
@@ -46,7 +45,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
           </div>
         </div>
       </div>
-    </div>
+    </div>,
     <div className="container">
       {btnDetails(b.id, openBlock == b.id, page.query, t)}
 
@@ -135,7 +134,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
         </div>
       </div>
     </div>
-  </div>
+  ]
 , { t, page, activeTab: 'recentBlocks', ...S })
 
 const txsShownText = (total, start, shown, t) =>

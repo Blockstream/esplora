@@ -19,7 +19,7 @@
     display: none;
 }
 
-.table-title, .block-header-title, .transaction-header-title, .asset-page h1 {
+.block-header-title, .transaction-header-title, .asset-page h1 {
     display: flex;
 }
 
@@ -43,7 +43,7 @@
     margin-top: 25px;
 }
 
-.table-title:after, .block-header-title:after, .transaction-header-title:after, .asset-page h1:after {
+.block-header-title:after, .transaction-header-title:after, .asset-page h1:after {
     content: "Testnet";
     font-size: 13px;
     background-color: rgb(48 59 70);
