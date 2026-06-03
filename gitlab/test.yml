@@ -8,6 +8,7 @@
     # 2. The required variables from GitHub Actions are present.
     - if: '$CI_PIPELINE_SOURCE == "trigger" && $GITHUB_PR_SHA && $GH_STATUS_TOKEN && $GITHUB_REPO && $GITHUB_PR_REF && $GITHUB_REPO_URL'
   before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     # Make sure curl and git are available
     - apk add --no-cache curl git
     # Report "pending" status to GitHub as soon as the job starts

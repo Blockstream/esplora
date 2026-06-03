@@ -7,6 +7,7 @@
           - contrib/Dockerfile.base
         compare_to: master
   before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - docker buildx create
       --driver=docker-container
       --name=buildkit-builder
@@ -41,9 +42,14 @@ build_and_push_esplora_base:
         paths:
           - contrib/Dockerfile.base
         compare_to: master
+  variables:
+    # No source checkout needed; we only tag already-built images.
+    GIT_STRATEGY: none
   needs:
     - build_esplora_base_amd64
     - build_esplora_base_arm64
+  before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
   script:
     - docker buildx imagetools create
       -t ${IMAGE_BASE}:latest
@@ -58,6 +64,7 @@ build_and_push_esplora_base:
     - master
     - triggers
   before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - apk add --no-cache curl
     - docker buildx create
       --driver=docker-container
@@ -109,6 +116,7 @@ build_esplora_test_arm64:
   except:
     - triggers
   before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - apk add --no-cache curl
     - docker buildx create
       --driver=docker-container
@@ -145,9 +153,14 @@ build_and_push_esplora_latest:
     - master
   except:
     - triggers
+  variables:
+    # No source checkout needed; we only tag already-built images.
+    GIT_STRATEGY: none
   needs:
     - build_esplora_latest_amd64
     - build_esplora_latest_arm64
+  before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
   script:
     - docker buildx imagetools create
       -t ${IMAGE}:latest
