@@ -461,6 +461,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     document.addEventListener('keydown', e => {
       if (e.key == 'Escape') closeNetworkMenus()
+
+      const hasModifier = e.metaKey || e.ctrlKey
+      , noExtraModifiers = !e.altKey && !e.shiftKey
+
+      if (hasModifier && noExtraModifiers && e.key.toLowerCase() == 'k') {
+        const searchInput = document.querySelector('.search-bar-input')
+        if (searchInput) {
+          e.preventDefault()
+          searchInput.focus()
+        }
+      }
     })
   }
 

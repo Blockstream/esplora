@@ -1,12 +1,3 @@
-.navbar-brand::before {
-  background-image: url(img/icons/explorer_logo.svg);
-  background-size: contain;
-  width: 245px;
-  height: 54px;
-  margin: 0;
-  background-repeat: no-repeat;
-}
-
 .footer-logo::before {
   width: 220px;
   height: 93px;
@@ -36,9 +27,5 @@
   .navbar-brand::before {
     width: 45px;
     background-repeat: no-repeat;
-  }
-
-  .navbar-brand::before {
-    background-image: url(img/icons/light-logo-icon.svg);
   }
 }

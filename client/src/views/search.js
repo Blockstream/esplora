@@ -19,6 +19,7 @@ export default ({ t, klass, autofocus }) =>
         required
         autocomplete="off"
       />
+      <p className="search-focus-hotkey">⌘K</p>
       { hasCam ? <a className="qrcode-link" href="scan-qr"><img src={`${staticRoot}img/icons/qrcode.svg`}/></a>: "" }
     </div>
   </form>

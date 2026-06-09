@@ -447,8 +447,8 @@ a, a:link, a:visited, a:hover, a:focus {
   width: 100%;
   min-height: 100vh;
   max-width: 1200px;
-  padding: 0px 20px;
-  padding-top: 10px;
+  padding: 0px 24px;
+  padding-top: 12px;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
@@ -463,12 +463,15 @@ a, a:link, a:visited, a:hover, a:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 30px;
 }
 
 .main-nav-container{
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  width: 200px;
 }
 
 .main-nav{
@@ -493,9 +496,11 @@ a, a:link, a:visited, a:hover, a:focus {
 /* Menu Toggle Icon -- Toggle Style and Animation*/
 
 .toggle-container{
-  position: relative;
+  position: absolute;
   display: flex;
-  padding: 30px 0 30px 30px;
+  /* Padding prevents the menu from closing when moving the mouse toward the popup. */
+  padding: 30px;
+  padding-right: 0px;
 }
 
 .toggle-container .burger-icon {
@@ -587,18 +592,7 @@ a, a:link, a:visited, a:hover, a:focus {
 
 
 .navbar-brand {
-  font-size: 0px;
-  margin-right: 0;
-}
-
-.navbar-brand::before {
-  width: 45px;
-  height: 45px;
-  background-image: url(img/icons/menu-logo.svg);
-  background-size: 45px 45px;
-  display: inline-block;
-  vertical-align: top;
-  content: ' ';
+  height: 50px;
 }
 
 /* buttons */
@@ -610,6 +604,7 @@ a, a:link, a:visited, a:hover, a:focus {
   cursor: pointer;
   line-height: 1.5;
 }
+
 .btn-primary:hover {
   background: #292e35;
 }
@@ -1890,33 +1885,18 @@ body::after{
   margin-right: auto;
 }
 
-#Liquid .nav-link {
-  border: 1px solid #22E1C9;
-}
-
-#Bitcoin .nav-link {
-  border: 1px solid #FA8A00;
-}
-
-#LiquidTestnet .nav-link,
-#BitcoinTestnet .nav-link,
-#BitcoinTestnet4 .nav-link,
-#BitcoinSignet .nav-link,
-#BitcoinRegtest .nav-link {
-    border: 1px solid #8C8C8C;
-}
-
 .nav-link {
+  height: 56px;
   color: white;
-  border: 0;
+  border: 1px solid #525252;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  background-color: #262626;
+  background-color: #1C1C1C;
   font-family: "Inter";
   font-size: 16px;
   font-weight: normal;
-  padding: 16px;
+  padding: 0px 12px;
   gap: 12px;
   min-width: 200px;
   box-sizing: border-box;
@@ -2795,15 +2775,15 @@ dl.mempool-histogram .bar:before {
 .sub-navbar{
   width: 100%;
   display: flex;
-  margin-bottom: 40px;
+  margin-top: 24px;
 }
 
 .sub-nav-container{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 79px;
-  margin-top: 10px;
+  gap: 15px;
+  width: 100%;
 }
 
 .sub-nav {
@@ -2874,7 +2854,7 @@ dl.mempool-histogram .bar:before {
   position: relative;
   min-width: 200px;
   margin-top: 8px;
-  background-color: #262626;
+  background-color: #1C1C1C;
   border-radius: 8px;
   padding: 12px 16px;
 }
@@ -2965,7 +2945,7 @@ dl.mempool-histogram .bar:before {
 }
 
 .search {
-  width: 35%;
+  width: 100%;
 }
 
 .search-bar {
@@ -2974,11 +2954,18 @@ dl.mempool-histogram .bar:before {
   align-items: center;
   width: 100%;
   border-radius: 8px;
-  background-color: #262626;
-  border: 1px solid #78838e;
+  background-color: #1C1C1C;
+  border: 1px solid #525252;
   padding: 12px;
-  height: 50px;
+  height: 56px;
   box-sizing: border-box;
+}
+
+.search-focus-hotkey {
+  font-weight: 400;
+  color: #B5BDC2;
+  font-size: 16px;
+  padding-top: 3px;
 }
 
 .search-bar-input {
@@ -2986,12 +2973,12 @@ dl.mempool-histogram .bar:before {
   color: #fff;
   border: none;
   font-size: 16px;
-  background-color: #262626;
+  background-color: inherit;
   padding: 0px;
 }
 
 .search-bar-input::placeholder {
-  color: #6c757d;
+  color: #B5BDC2;
 }
 
 .qrcode-link img {
@@ -3049,6 +3036,10 @@ a.back-link img{
   padding:20px 30px;
 }
 
+.assets-table {
+  margin-top: 40px;
+}
+
 .assets-table .assets-table-row{
   box-sizing: border-box;
   padding:20px 40px;
@@ -3081,6 +3072,24 @@ h3.table-title{
 
 
 @media only screen and (max-width: 1100px) {
+  .nav-container {
+    flex-wrap: wrap;
+  }
+
+  .main-nav-container {
+    flex-basis: 48px;
+    order: 1;
+    width: 48px;
+  }
+
+  .sub-nav {
+    order: 2;
+    margin-top: 32px;
+  }
+
+  .sub-navbar {
+    margin-top: 32px;
+  }
 
   .toggle-container{
     z-index: 100;
