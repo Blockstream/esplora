@@ -85,8 +85,8 @@ function parseBlinders(str) {
 }
 
 function verifyNum(num) {
-  if (!+num) throw new Error('Invalid blinding data (invalid number)')
-  return +num
+  if (typeof num != 'string' || !/^[1-9][0-9]*$/.test(num)) throw new Error('Invalid blinding data (invalid number)')
+  return BigInt(num)
 }
 function verifyHex32(str) {
   if (!str || !/^[0-9a-f]{64}$/i.test(str)) throw new Error('Invalid blinding data (invalid hex)')

@@ -56,7 +56,10 @@ export const isRbf = tx => tx.vin.some(vin => vin.sequence < 0xfffffffe)
 
 export const isAllNative = tx => tx.vout.every(isNativeOut)
 
-export const outTotal = tx => tx.vout.reduce((N, vout) => N + (vout.value || 0), 0)
+export const outTotal = tx =>
+  tx.vout.some(vout => typeof vout.value == 'bigint')
+    ? tx.vout.reduce((N, vout) => N + (vout.value == null ? BigInt(0) : BigInt(vout.value)), BigInt(0))
+    : tx.vout.reduce((N, vout) => N + (vout.value || 0), 0)
 
 export const isNativeOut = vout => (!vout.asset && !vout.assetcommitment) || vout.asset === nativeAssetId
 
