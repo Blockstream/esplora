@@ -1,12 +1,10 @@
 import Snabbdom from 'snabbdom-pragma'
 import { nativeAssetId } from '../const'
-import { updateQuery } from '../util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
-const otherTheme = { dark: 'light', light: 'dark' }
 
-export default (t, theme, page) =>
+export default () =>
 
 <div className="toggle-container">
     <div className="burger-icon">
@@ -15,34 +13,24 @@ export default (t, theme, page) =>
         <span></span>
     </div>
     <div className="toggle-menu">
-      <div className="toggle-menu-header">
-        { process.browser ? <div className="switch-theme-icon toggle-theme"></div>
-                        : <a href={page.pathname.substr(1) + updateQuery(page.query, { theme: otherTheme[theme] })} className="switch-theme-icon"></a>
-        }
-      </div>
       <div className="section1">
         <h4 className="menu-title font-h5">Wallets</h4>
         <div className="wallets-link">
             <div className="wallets-logo">
-              <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="darkmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo.svg`} alt="jade logo"/></a>
-              <a href="https://blockstream.com/app/" className="darkmode" target="_blank"><img className="app-logo" src={`${staticRoot}img/icons/app_logo_darkmode.svg`} alt="blockstream app logo"/></a>
-              <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" className="lightmode" target="_blank"><img src={`${staticRoot}img/icons/jade_logo_light.svg`} alt="jade logo"/></a>
-              <a href="https://blockstream.com/app/" className="lightmode" target="_blank"><img className="app-logo" src={`${staticRoot}img/icons/app_logo_lightmode.svg`} alt="blockstream app logo"/></a>
+              <a href="https://store.blockstream.com/product/jade-hardware-wallet/?utm_source=Blockstream_Explorer&utm_medium=referral&utm_campaign=Blockstream_Explorer_Banner" target="_blank"><img src={`${staticRoot}img/icons/jade_logo.svg`} alt="jade logo"/></a>
+              <a href="https://blockstream.com/app/" target="_blank"><img className="app-logo" src={`${staticRoot}img/icons/app_logo_darkmode.svg`} alt="blockstream app logo"/></a>
             </div>
             <div className="store-icons font-p4">
               <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590" target="_blank">
-                <img className="darkmode" src={`${staticRoot}img/icons/apple.png`} />
-                <img className="lightmode" src={`${staticRoot}img/icons/apple_dark.png`} />
+                <img src={`${staticRoot}img/icons/apple.png`} />
                 <span>App Store</span>
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.greenaddress.greenbits_android_wallet" target="_blank">
-                <img  className="darkmode" src={`${staticRoot}img/icons/google-play.png`} />
-                <img  className="lightmode" src={`${staticRoot}img/icons/google-play_dark.png`} />
+                <img src={`${staticRoot}img/icons/google-play.png`} />
                 <span>Google Play</span>
               </a>
               <a href="https://github.com/Blockstream/green_qt/releases/download/release_0.1.5/BlockstreamGreen-x86_64.AppImage">
-                <img  className="darkmode" src={`${staticRoot}img/icons/linux.png`} />
-                <img  className="lightmode" src={`${staticRoot}img/icons/linux_dark.png`} />
+                <img src={`${staticRoot}img/icons/linux.png`} />
                 <span>Linux</span>
               </a>
               <a href="https://blockstream.com/green/" target="_blank">+4 more</a>

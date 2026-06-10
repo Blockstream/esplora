@@ -3,9 +3,9 @@ import search from './search'
 import menu from './navbar-menu'
 import networkSelection from './network-selection'
 
-export default ( t, isTouch, activeTab, theme, page) =>
+export default ( t, isTouch, activeTab, page) =>
   <div className="sub-nav-container">
-    { networkSelection({t, theme, page}) }
+    { networkSelection({t, page}) }
     <div className="sub-nav font-h5">
       <a href="." class={{ active: activeTab == 'dashBoard' }}>Dashboard</a>
       <a href="blocks/recent" class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>

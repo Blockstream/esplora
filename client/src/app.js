@@ -91,7 +91,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null), expandTx$)
   , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null), expandBl$)
-  , togTheme$ = click('.toggle-theme')
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , pushtx$   = (process.browser
@@ -118,10 +117,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // the translation function for the currently selected language
   , t$ = lang$.map(lang => l10n[lang] || l10n[defaultLang])
-
-  // Active theme
-  , theme$ = storage.local.getItem('theme').first().map(theme => theme || 'dark')
-      .concat(togTheme$).scan(curr => curr == 'dark' ? 'light' : 'dark')
 
   // Scanner state (on/off)
   , scanning$ = O.merge(
@@ -274,7 +269,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
-                     , isReady$, loading$, page$, view$, title$, theme$
+                     , isReady$, loading$, page$, view$, title$
                      })
 
   // Update query options with ?expand
@@ -384,7 +379,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // localStorage sink
   , store$ = O.merge(
       lang$.skip(1).map(lang => ({ key: 'lang', value: lang }))
-    , theme$.skip(1).map(theme => ({ key: 'theme', value: theme }))
   )
 
   // Route navigation sink
@@ -415,11 +409,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     t$.map(t => t`style.css`).distinctUntilChanged().subscribe(styleSrc =>
       stylesheet.getAttribute('href') != styleSrc && (stylesheet.href = styleSrc))
 
-    // Apply dark/light theme, language and text direction to root element
-    theme$.subscribe(theme => {
-      document.body.classList.remove('theme-dark', 'theme-light')
-      document.body.classList.add(`theme-${theme}`)
-    })
+    // Apply language and text direction to root element
     t$.subscribe(t => {
       document.body.setAttribute('lang', t.lang_id)
       document.body.setAttribute('dir', t`ltr`)

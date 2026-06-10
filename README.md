@@ -35,8 +35,6 @@ Join the translation efforts on [Transifex](https://transifex.com/blockstream/es
 
 - Translated to 17 languages
 
-- Light and dark themes
-
 - Noscript support
 
 - For Liquid and other Elements-based chains: support for CT, peg-in/out transactions and multi-asset

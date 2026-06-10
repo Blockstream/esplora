@@ -7,8 +7,8 @@ const items  = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS)
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
-export default ({ t, theme, page }) =>
+export default () =>
 
 <div className="main-nav-container">
-  { process.env.NAVBAR_HTML ? navToggle(t, theme, page) : "" }
+  { process.env.NAVBAR_HTML ? navToggle() : "" }
 </div>

@@ -6,7 +6,7 @@ import subnav from './sub-navbar'
 export default (body, opt) =>
   <div className="explorer-container">
     { navbar(opt) }
-    {subnav(opt.t, opt.isTouch, opt.activeTab, opt.theme, opt.page)}
+    {subnav(opt.t, opt.isTouch, opt.activeTab, opt.page)}
     <main className="explorer-main">
       { body }
     </main>

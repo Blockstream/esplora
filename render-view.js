@@ -10,7 +10,6 @@ state.page = { pathname: '', query: {} }
 
 require('pug').renderFile('client/index.pug', {
   prerender_html: require('snabbdom-to-html')(view(state))
-, theme: 'dark'
 }, (err, html) => {
   if (err) throw err
   console.log(html)

@@ -12,8 +12,7 @@ if (!process.env.API_URL) {
   throw new Error('API_URL environment variable is required but not defined.');
 }
 
-const themes = ['light', 'dark']
-  , langs = Object.keys(l10n)
+const langs = Object.keys(l10n)
   , baseHref = process.env.BASE_HREF || '/'
   , canonBase = process.env.CANONICAL_URL ? process.env.CANONICAL_URL.replace(/\/$/, '') : null
   , apiUrl = process.env.API_URL.replace(/\/$/, '')
@@ -66,15 +65,11 @@ const queue = process.env.MAX_PENDING_RENDERS && require('express-queue')({
 });
 
 app.use((req, res, next) => {
-  // Middleware to check theme and lang cookies
-  let theme = req.query.theme || req.cookies.theme || 'dark'
-  if (!themes.includes(theme)) theme = 'light'
-  if (req.query.theme && req.cookies.theme !== theme) res.cookie('theme', theme)
-
+  // Middleware to check lang cookies
   let lang = req.query.lang || req.cookies.lang || 'en'
   if (!langs.includes(lang)) lang = 'en'
   if (req.query.lang && req.cookies.lang !== lang) res.cookie('lang', lang)
-  req.renderOpts = { theme, lang }
+  req.renderOpts = { lang }
   next()
 })
 

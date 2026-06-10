@@ -4,28 +4,17 @@ import layout from './layout'
 const staticRoot = process.env.STATIC_ROOT || ''
 
 const logoSources = {
-    dark: {
-      sideswap: `${staticRoot}img/logos/sideswap.svg`,
-      sparrow: `${staticRoot}img/logos/sparrow.png`,
-      blockstreamApp: `${staticRoot}img/logos/app_logo_darkmode.svg`,
-      lwk: `${staticRoot}img/logos/lwk.svg`,
-      aqua: `${staticRoot}img/logos/aqua.svg`,
-      bitcoinDevKit: `${staticRoot}img/logos/bitcoin-dev-kit.svg`,
-      nunchuk: `${staticRoot}img/logos/nunchuk.svg`,
-    },
-    light: {
-      sideswap: `${staticRoot}img/logos/sideswap-dark.svg`,
-      sparrow: `${staticRoot}img/logos/sparrow-dark.png`,
-      blockstreamApp: `${staticRoot}img/logos/app_logo_lightmode.svg`,
-      lwk: `${staticRoot}img/logos/lwk-dark.svg`,
-      aqua: `${staticRoot}img/logos/aqua-dark.svg`,
-      bitcoinDevKit: `${staticRoot}img/logos/bitcoin-dev-kit-dark.svg`,
-      nunchuk: `${staticRoot}img/logos/nunchuk-dark.svg`,
-    }
+    sideswap: `${staticRoot}img/logos/sideswap.svg`,
+    sparrow: `${staticRoot}img/logos/sparrow.png`,
+    blockstreamApp: `${staticRoot}img/logos/app_logo_darkmode.svg`,
+    lwk: `${staticRoot}img/logos/lwk.svg`,
+    aqua: `${staticRoot}img/logos/aqua.svg`,
+    bitcoinDevKit: `${staticRoot}img/logos/bitcoin-dev-kit.svg`,
+    nunchuk: `${staticRoot}img/logos/nunchuk.svg`,
 }
 
-const LandingPage = ({ t, theme, ...S }) => {
-    const logos = logoSources[theme || 'dark']
+const LandingPage = ({ t, ...S }) => {
+    const logos = logoSources
     return  layout(
     <div className="landing-page">
         <script src={`${staticRoot}/js/infinite-scroll.js`} async></script>

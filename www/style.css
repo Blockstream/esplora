@@ -1,5 +1,4 @@
 @import url("font/inconsolata/index.css");
-@import url("light-theme_style.css");
 
 @font-face {
   font-family: Inter;
@@ -24,14 +23,11 @@ body {
   text-align: left;
   font-family: "Inter", sans-serif;
   color: #fff;
+  background-color: #181818;
   margin: 0px;
   padding: 0px;
   line-height: 1.5;
   overflow-x: hidden;
-}
-
-body.theme-dark {
-  background-color: #181818;
 }
 
 body[lang=he] {
@@ -1501,10 +1497,6 @@ table th {
 .vin.active, .vout.active {
   background: #3B4147 !important;
 }
-.theme-light .vin.active, .theme-light .vout.active {
-  background: #FFFDD4 !important;
-}
-
 .transaction-box > .footer {
   height: 64px;
 }
@@ -1977,16 +1969,8 @@ body::after{
     color: #475562;
     margin-left: -19px;
 }
-.theme-light .vout-header-container > span:first-child:before, .theme-light .vin-header-container > span:first-child:before {
-  color: #c3cbd3;
-}
-
 .unblinded .vout-header, .unblinded .vin-header {
   background: #04240d;
-}
-
-.theme-light .unblinded .vout-header, .theme-light .unblinded .vin-header {
-  background: #e0ffe9;
 }
 
 .contract-json {
@@ -2708,14 +2692,6 @@ dl.mempool-histogram .bar:before {
   font-weight: bold;
 }
 
-.toggle-menu .toggle-menu-header .switch-theme-icon{
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  background: url(img/icons/switch-icon.png);
-  background-size: cover;
-}
-
 .toggle-menu .toggle-menu-header .language{
   margin-left: 50px;
 }
@@ -2729,10 +2705,6 @@ dl.mempool-histogram .bar:before {
   display: flex;
   margin-top: 4px;
   width: 40%;
-}
-
-.toggle-menu .section1 .wallets-link .wallets-logo .lightmode {
-  display: none;
 }
 
 .toggle-menu .section1 .wallets-link .wallets-logo img{
@@ -2785,10 +2757,6 @@ dl.mempool-histogram .bar:before {
   width: 12px;
   height: 12px;
   margin-right: 5px;
-}
-
-.toggle-menu .section1 .wallets-link .store-icons a img.lightmode{
-  display:none;
 }
 
 .toggle-menu .section1 .wallets-link .store-icons a:hover{

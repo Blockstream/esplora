@@ -3,7 +3,6 @@ doctype html
 - baseTitle = process.env.SITE_TITLE || 'Block Explorer'
 - staticRoot = process.env.STATIC_ROOT || ''
 - pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
-- bodyClass = theme ? `theme-${theme}` : ''
 
 - cssPath = t ? t`style.css` : 'style.css'
 - lang = t ? t.lang_id : 'en'
@@ -33,7 +32,7 @@ head
 
   != process.env.HEAD_HTML
 
-body(class=bodyClass, lang=lang, dir=dir)
+body(lang=lang, dir=dir)
   #explorer!= prerender_html || ''
 
   if !noscript

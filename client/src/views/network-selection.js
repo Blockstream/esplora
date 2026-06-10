@@ -8,7 +8,7 @@ const itemEntries = items ? Object.entries(items) : [];
 const activeName = active || (itemEntries[0] && itemEntries[0][0]);
 const activeId = activeName && activeName.replace(/ /g, "");
 
-export default ({ t, theme, page }) => (
+export default ({ t, page }) => (
   <div className="main-nav-container">
     {activeName && (
       <ul className="main-nav">
