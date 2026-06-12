@@ -53,18 +53,21 @@ export default function getPrivacyAnalysis(tx) {
 
       // if the transaction could've avoided the smallest input and still have enough to fund
       // any of the two outputs, the transaction has what appears to be an unnecessary input.
-      const minusSmallestIn = sumInputs(tx.vin) - smallestInput(tx.vin)
-          , largeOut = Math.max(o1.value, o2.value)
-          , smallOut = Math.min(o1.value, o2.value)
+      const smallestIn = smallestInput(tx.vin)
+      if (smallestIn != null) {
+        const minusSmallestIn = subtractAmounts(sumInputs(tx.vin), smallestIn)
+            , largeOut = maxAmount(o1.value, o2.value)
+            , smallOut = minAmount(o1.value, o2.value)
 
-      if (minusSmallestIn >= largeOut + tx.fee) {
-        // UIH2: if it still covers the larger output and fee, this implies this was
-        // a non-standard transaction that added extra inputs for exotic reasons
-        detected.push('exotic-detection-uih2')
-      } else if (minusSmallestIn >= smallOut + tx.fee) {
-        // UIH1: if it still covers the small output and fee, this implies the smaller
-        // output was the change and not the payment
-        detected.push('change-detection-uih1')
+        if (minusSmallestIn >= addAmounts(largeOut, tx.fee)) {
+          // UIH2: if it still covers the larger output and fee, this implies this was
+          // a non-standard transaction that added extra inputs for exotic reasons
+          detected.push('exotic-detection-uih2')
+        } else if (minusSmallestIn >= addAmounts(smallOut, tx.fee)) {
+          // UIH1: if it still covers the small output and fee, this implies the smaller
+          // output was the change and not the payment
+          detected.push('change-detection-uih1')
+        }
       }
     }
   }
@@ -92,8 +95,39 @@ export default function getPrivacyAnalysis(tx) {
 
 // Utilities
 
-const sumInputs = ins => ins.reduce((T, vin) => T + (vin.prevout && vin.prevout.value || 0), 0)
-    , smallestInput = ins => Math.min(...ins.map(vin => vin.prevout && vin.prevout.value || Math.Infinity))
+const sumInputs = ins => ins.reduce((T, vin) =>
+  addAmounts(T, vin.prevout && vin.prevout.value != null ? vin.prevout.value : 0), 0)
+
+const smallestInput = ins => ins.reduce((smallest, vin) => {
+  if (!vin.prevout || vin.prevout.value == null) return smallest
+  return smallest == null ? vin.prevout.value : minAmount(smallest, vin.prevout.value)
+}, null)
+
+const addAmounts = (a, b) =>
+  hasBigInt(a, b) ? toBigIntAmount(a) + toBigIntAmount(b) : a + b
+
+const subtractAmounts = (a, b) =>
+  hasBigInt(a, b) ? toBigIntAmount(a) - toBigIntAmount(b) : a - b
+
+const hasBigInt = (a, b) => typeof a == 'bigint' || typeof b == 'bigint'
+
+const toBigIntAmount = value => BigInt(value == null ? 0 : value)
+
+const minAmount = (a, b) => {
+  if (!hasBigInt(a, b)) return a < b ? a : b
+
+  const aBig = toBigIntAmount(a)
+      , bBig = toBigIntAmount(b)
+  return aBig < bBig ? aBig : bBig
+}
+
+const maxAmount = (a, b) => {
+  if (!hasBigInt(a, b)) return a > b ? a : b
+
+  const aBig = toBigIntAmount(a)
+      , bBig = toBigIntAmount(b)
+  return aBig > bBig ? aBig : bBig
+}
 
 // checks if there's at least one previous output of this type
 const inputsHasType = (ins, scriptpubkey_type) =>
@@ -106,7 +140,11 @@ const lostPrecision = num => {
   if (num == 0) return 0;
 
   let count = 0
-  for (let d=10; num%d==0; ++count, d*=10);
+  if (typeof num == 'bigint') {
+    for (let d=BigInt(10); num%d==0; ++count, d*=BigInt(10));
+  } else {
+    for (let d=10; num%d==0; ++count, d*=10);
+  }
   return count
 }
 

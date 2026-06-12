@@ -3,6 +3,8 @@ const WALLY_OK = 0
     , ASSET_GENERATOR_LEN = 33
     , ASSET_TAG_LEN = 32
     , BLINDING_FACTOR_LEN = 32
+    , UINT32_MASK = BigInt('0xffffffff')
+    , UINT64_MAX = BigInt('0xffffffffffffffff')
 
 const STATIC_ROOT = process.env.STATIC_ROOT || ''
     , WASM_URL = process.env.LIBWALLY_WASM_URL || `${STATIC_ROOT}libwally/wallycore.js`
@@ -51,7 +53,7 @@ export function asset_generator_from_bytes(asset, asset_blinder) {
 export function asset_value_commitment(value, value_blinder, asset_commitment) {
   // Emscripten transforms int64 function arguments into two int32 arguments, see:
   // https://emscripten.org/docs/getting_started/FAQ.html#how-do-i-pass-int64-t-and-uint64-t-values-from-js-into-wasm-functions
-  const [value_lo, value_hi] = split_int52_lo_hi(value)
+  const [value_lo, value_hi] = split_uint64_lo_hi(value)
 
   const value_commitment_ptr = Module._malloc(ASSET_COMMITMENT_LEN)
   checkCode(Module.ccall('wally_asset_value_commitment'
@@ -79,18 +81,16 @@ function readBytes(ptr, size) {
   return bytes
 }
 
-// Split a 52-bit JavaScript number into two 32-bits numbers for the low and high bits
-// https://stackoverflow.com/a/19274574
-function split_int52_lo_hi(i) {
-    let lo = i | 0
-    if (lo < 0) lo += 4294967296
+// Split a uint64 value into two exact 32-bit numbers for Emscripten's i64 ABI.
+function split_uint64_lo_hi(i) {
+  if (typeof i != 'bigint') throw new Error('not a bigint: ' + i)
 
-    let hi = i - lo
-    hi /= 4294967296
+  if (i < BigInt(0) || i > UINT64_MAX) throw new Error('not a uint64: ' + i)
 
-    if ((hi < 0) || (hi >= 1048576)) throw new Error ("not an int52: "+i)
+  const lo = Number(i & UINT32_MASK)
+      , hi = Number((i >> BigInt(32)) & UINT32_MASK)
 
-    return [ lo, hi ]
+  return [ lo, hi ]
 }
 
 function encodeHex(bytes) {

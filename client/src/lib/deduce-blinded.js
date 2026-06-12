@@ -15,10 +15,10 @@ export function deduceBlinded(tx) {
     const totals = new Map
     tx.vin.filter(vin => vin.prevout && vin.prevout.value != null)
       .forEach(({ prevout }) =>
-        totals.set(prevout.asset, (totals.get(prevout.asset) || 0) + prevout.value))
+        totals.set(prevout.asset, addAmounts(totals.get(prevout.asset) || 0, prevout.value)))
     tx.vout.filter(vout => vout.value != null)
       .forEach(vout =>
-        totals.set(vout.asset, (totals.get(vout.asset) || 0) - vout.value))
+        totals.set(vout.asset, addAmounts(totals.get(vout.asset) || 0, negateAmount(vout.value))))
 
     // There should only be a single asset where the inputs and outputs amounts mismatch,
     // which is the asset of the blinded input/output
@@ -35,7 +35,15 @@ export function deduceBlinded(tx) {
     } else {
       if (!unknown_ins.length) throw new Error('expected unknown input')
       unknown_ins[0].prevout.asset = blinded_asset
-      unknown_ins[0].prevout.value = blinded_value * -1
+      unknown_ins[0].prevout.value = negateAmount(blinded_value)
     }
   }
 }
+
+const addAmounts = (a, b) =>
+  typeof a == 'bigint' || typeof b == 'bigint'
+    ? BigInt(a) + BigInt(b)
+    : a + b
+
+const negateAmount = value =>
+  typeof value == 'bigint' ? -value : value * -1
