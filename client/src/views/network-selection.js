@@ -7,8 +7,10 @@ const staticRoot = process.env.STATIC_ROOT || "";
 const siteRoot = process.env.BASE_PREFIX || "";
 const withRoot = (url) => (siteRoot && url && url.charAt(0) === "/" ? siteRoot + url : url);
 const itemEntries = items ? Object.entries(items) : [];
+const networkId = name => name.replace(/ /g, "");
+const networkIconSrc = name => `${staticRoot}img/icons/${networkId(name)}-menu-logo.svg`;
 const activeName = active || (itemEntries[0] && itemEntries[0][0]);
-const activeId = activeName && activeName.replace(/ /g, "");
+const activeId = activeName && networkId(activeName);
 
 export default ({ t, page }) => (
   <div className="main-nav-container">
@@ -25,10 +27,10 @@ export default ({ t, page }) => (
               <img
                 className="menu-logo"
                 alt=""
-                src={`${staticRoot}img/icons/${activeId}-menu-logo.svg`}
+                src={networkIconSrc(activeName)}
               />
             </span>
-            <span>{t(activeName)}</span>
+            <span className="network-name">{t(activeName)}</span>
             <svg
               className="network-angle-down"
               width="17"
@@ -44,28 +46,27 @@ export default ({ t, page }) => (
           <div className="network-hover-menu-container">
             <div className="network-hover-menu">
               {itemEntries.map(([name, url]) => {
-                  return (
-                    <a
-                      id={name.replace(/ /g, "")}
-                      href={withRoot(url)}
-                      className={`network-hover-menu-option-container ${name.replace(/ /g, "").toLowerCase()} ${name === activeName ? "active" : ""}`}
-                      rel="external"
-                    >
-                      <div
-                        id={name.replace(/ /g, "")}
-                        className={`network-hover-menu-option`}
-                      >
-                        <span>
-                          <img
-                            className="menu-logo"
-                            src={`${staticRoot}img/icons/${name.replace(/ /g, "")}-menu-logo.svg`}
-                          />
-                        </span>
-                        {t(name)}
-                      </div>
-                    </a>
-                  );
-                })}
+                const id = networkId(name);
+
+                return (
+                  <a
+                    id={id}
+                    href={withRoot(url)}
+                    className={`network-hover-menu-option-container ${id.toLowerCase()} ${name === activeName ? "active" : ""}`}
+                    rel="external"
+                  >
+                    <div className="network-hover-menu-option">
+                      <span>
+                        <img
+                          className="menu-logo"
+                          src={networkIconSrc(name)}
+                        />
+                      </span>
+                      {t(name)}
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </li>

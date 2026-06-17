@@ -119,7 +119,7 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
 
           <div className="load-more-container">
             <div>
-              { loading ? <div className="load-more g-btn font-btn-2 disabled"><span>{t`Loading...`}</span><div>{loader("big")}</div></div>
+              { loading ? <div className="load-more g-btn font-btn-2 disabled"><span>{t`Loading...`}</span></div>
                         : pagingNav(addr, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) }
             </div>
           </div>

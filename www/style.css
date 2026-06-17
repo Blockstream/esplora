@@ -1,9 +1,5 @@
 @import url("font/inconsolata/index.css");
 
-:root {
-  --primary-color: #FA8A00;
-}
-
 @font-face {
   font-family: Inter;
   src: url("font/Inter-VariableFont_opsz,wght.ttf") format("opentype");
@@ -27,12 +23,20 @@ html {
   overflow: auto;
 }
 
+:root {
+  --accent-color: #FA8A00;
+  --background-color: #181818;
+  --surface-primary-color: #1C1C1C;
+  --surface-primary-alt-color: #26221D;
+  --surface-secondary-color: #262626;
+}
+
 body {
   direction: ltr;
   text-align: left;
   font-family: "Inter", sans-serif;
   color: #fff;
-  background-color: #181818;
+  background-color: var(--background-color);
   margin: 0px;
   padding: 0px;
   line-height: 1.5;
@@ -418,7 +422,17 @@ ul {
 
 .g-btn:hover, .g-btn:active { box-shadow: 149 157 165/20% 0px 8px 24px; transition: 0.3s ease-out; text-decoration: none; }
 
-.primary-btn { background: #FF9417; border: 1px solid #FF9417; color: #0C0C0F; border-radius: 2px; }
+.primary-btn {
+  background: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  color: #0C0C0F;
+  border-radius: 2px;
+}
+
+.landing-page .primary-btn {
+  background-color: #FF9417 !important;
+  border: 1px solid #FF9417 !important;
+}
 
 .primary-btn:link, .primary-btn:visited, .primary-btn:hover, .primary-btn:focus {
   color: #0C0C0F;
@@ -504,6 +518,10 @@ a, a:link, a:visited, a:hover, a:focus {
   height: 24px;
 }
 
+.main-nav .network-name {
+  white-space: nowrap;
+}
+
 /* Menu Toggle Icon -- Toggle Style and Animation*/
 
 .toggle-container{
@@ -561,7 +579,7 @@ a, a:link, a:visited, a:hover, a:focus {
   transition: .1s;
   border-radius: 8px;
   box-shadow: 0 20px 40px black;
-  background-color: #1D2127;
+  background-color: var(--surface-primary-color);
 }
 
 /** Loading **/
@@ -618,7 +636,7 @@ a, a:link, a:visited, a:hover, a:focus {
 
 /* buttons */
 .btn-primary {
-  background: #21272d;
+  background-color: var(--surface-primary-color);
   color: #fff;
   border-radius: 5px;
   border: 0;
@@ -629,7 +647,7 @@ a, a:link, a:visited, a:hover, a:focus {
 }
 
 .btn-primary:hover {
-  background: #292e35;
+  background: var(--surface-primary-alt-color);
 }
 .btn-xl {
   padding: 1rem 2rem;
@@ -681,10 +699,6 @@ table th {
 
 /* HEADER START */
 
-.block-page .block-hash, .transaction-page .block-hash {
-  margin: 0px 0px 50px 0;
-}
-
 .code-button {
   display: inline-block;
   margin-left: 12px;
@@ -696,7 +710,8 @@ table th {
 .code-button .code-button-btn {
   height: 23px;
   width: 30px;
-  background: url(img/icons/copy.png) no-repeat;
+  background: url(img/icons/copy.svg) no-repeat;
+  background-size: contain;
 }
 
 .code-button .code-button-btn img {
@@ -937,7 +952,7 @@ table th {
   width: 140px !important;
   height: 40px;
   border-radius: 5px;
-  background-color: rgba(33, 39, 45, 1);
+  background-color: var(--surface-primary-color);
 }
 
 .prev-next-blocks-btns > div a > div {
@@ -1026,7 +1041,7 @@ table th {
 
 .stats-table > div {
   height: 52px;
-  border-top: 1px solid #2d2f39;
+  border-top: 1px solid var(--surface-secondary-color);
   /* font-size: 16px; */
 }
 
@@ -1042,7 +1057,7 @@ table th {
 }
 
 .stats-table > div:last-child {
-  border-bottom: 1px solid #2d2f39;
+  border-bottom: 1px solid var(--surface-secondary-color);
 }
 
 .stats-table > div > div:nth-child(1) {
@@ -1087,7 +1102,7 @@ table th {
 }
 
 .transaction-box {
-  background-color: #15181C;
+  background-color: var(--surface-primary-color);
   padding: 0 24px;
   border-radius: 5px;
 }
@@ -1143,7 +1158,7 @@ table th {
   max-width: 140px;
   width: 100%;
   height: 50px;
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
   color: #0C0C0F;
   display: table;
   table-layout: fixed;
@@ -1210,9 +1225,9 @@ table th {
 }
 
 .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading), .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) {
-  background-color: #21272D;
+  background-color: var(--surface-secondary-color);
   border-radius: 5px;
-  border: 1px solid #21272D;
+  border: 1px solid var(--surface-secondary-color);
   min-height: 46px;
   line-height: 20px;
   font-size: 14px;
@@ -1258,7 +1273,7 @@ table th {
 
 .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-body, .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-body, .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-body, .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-body {
   word-wrap: break-word;
-  background-color: #15191e;
+  background-color: var(--surface-primary-color);
   padding: 30px 24px;
   border-radius: 0 0 5px 5px;
 }
@@ -1313,7 +1328,7 @@ table th {
 }
 
 .vin.active, .vout.active {
-  background: #3B4147 !important;
+  background: rgba(255, 255, 255, .1) !important;
 }
 .transaction-box > .footer {
   height: 64px;
@@ -1416,7 +1431,7 @@ table th {
 
 .language-selector, .language-submit {
   color: #FFF;
-  background-color: #181818;
+  background-color: var(--background-color);
   border: 1px solid #22242c;
   border-radius: 4px;
 }
@@ -1713,7 +1728,7 @@ body::after{
 }
 
 #Bitcoin .nav-link {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--accent-color);
 }
 
 #LiquidTestnet .nav-link,
@@ -1731,7 +1746,7 @@ body::after{
   border-radius: 8px;
   display: flex;
   align-items: center;
-  background-color: #1C1C1C;
+  background-color: var(--surface-primary-color);
   font-family: "Inter";
   font-size: 16px;
   font-weight: normal;
@@ -2263,6 +2278,7 @@ dl.mempool-histogram dd {
   height: 40px;
   padding-left: 65px;
   margin-bottom: 0.25rem;
+  box-sizing: border-box;
 }
 dl.mempool-histogram .label {
   margin-left: 3px;
@@ -2515,7 +2531,7 @@ dl.mempool-histogram .bar:before {
   bottom:0;
   left:0;
   right:0;
-  background: var(--primary-color);
+  background: var(--accent-color);
   height:3px;
   border-radius: 10px;
 }
@@ -2559,7 +2575,7 @@ dl.mempool-histogram .bar:before {
   position: relative;
   min-width: 200px;
   margin-top: 8px;
-  background-color: #1C1C1C;
+  background-color: var(--surface-primary-color);
   border-radius: 8px;
   padding: 12px 16px;
 }
@@ -2580,7 +2596,7 @@ dl.mempool-histogram .bar:before {
   border-radius: 10px;
 }
 
-.network-hover-menu-option-container.bitcoin:hover::before {
+.network-hover-menu-option-container.bitcoin::before {
   background-color: #FF9417;
 }
 
@@ -2662,7 +2678,7 @@ dl.mempool-histogram .bar:before {
   align-items: center;
   width: 100%;
   border-radius: 8px;
-  background-color: #1C1C1C;
+  background-color: var(--surface-primary-color);
   border: 1px solid #525252;
   padding: 12px;
   height: 56px;
@@ -2737,7 +2753,7 @@ a.back-link img{
   padding: 30px 0;
   border-radius: 8px;
   box-shadow: 0 20px 32px 0 rgba(0, 0, 0, 0.08);
-  background: #1D2127;
+  background-color: var(--surface-primary-color);
 }
 
 .stats-table{
@@ -3447,62 +3463,11 @@ a.back-link img{
   line-height: 22px;
 }
 
-
-/******* SHARED TABLE STYLES *******/
-
-.table-header {
-  display: flex;
-  align-items: center;
-}
-
-.table-header-title {
-  margin-left: 16px;
-  color: #B5BDC2;
-  font-family: "Rigid Square", sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.new-table-entry {
-  background-color: #26221D;
-  border: 1px solid #26221D;
-}
-
-.table-copy-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  border: 0;
-  color: #FAFAFA;
-  background: transparent;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.table-copy-button:hover {
-  color: var(--primary-color);
-}
-
-.table-title-row {
-  display: flex;
-  margin-top: 12px;
-  font-size: 10px;
-  padding: 0px 12px;
-}
-
-.table-title-row a {
-  color: white !important;
-}
-
 /******* LATEST BLOCKS TABLE *******/
 
-.block-container {
+.blocks-table {
   margin-top: 40px;
-  background-color: #1c1c1c;
+  background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;
 }
@@ -3528,7 +3493,7 @@ a.back-link img{
   max-width: 200px;
   padding: 6px;
   border-radius: 4px;
-  background-color: #181818;
+  background-color: var(--background-color);
   font-size: 11px;
   color: #FAFAFA;
   top: 10px;
@@ -3543,12 +3508,12 @@ a.back-link img{
   width: 52px;
   height: 52px;
   border-radius: 4px;
-  background-color: #262626;
+  background-color: var(--surface-secondary-color)
 }
 
 .table-header-icon-container svg {
   width: 23px;
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .block-card-header {
@@ -3589,15 +3554,15 @@ a.back-link img{
   padding: 12px;
   box-sizing: border-box;
   border-radius: 4px;
-  background-color: #262626;
-  border: 1px solid #262626;
+  background-color: var(--surface-secondary-color);
+  border: 1px solid var(--surface-secondary-color);
   cursor: pointer;
   color: white;
   transition: background-color .3s;
 }
 
 .blocks-table-card:hover {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--accent-color);
 }
 
 .block-icon-container {
@@ -3606,7 +3571,7 @@ a.back-link img{
   align-items: center;
   width: 72px;
   height: 72px;
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .mobile-block-icon-container {
@@ -3682,7 +3647,7 @@ a.back-link img{
   width: 162px;
   height: 6px;
   border-radius: 13px;
-  background-color: #1C1C1C;
+  background-color: var(--surface-primary-color);
   margin-left: auto;
   margin-top: 6px;
 }
@@ -3690,10 +3655,10 @@ a.back-link img{
 .usage-bar-fill {
   height: 100%;
   border-radius: 13px;
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
 }
 
-.blocks-table {
+.blocks-table-body {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -3708,7 +3673,7 @@ a.back-link img{
 
 .transaction-table {
   margin-top: 40px;
-  background-color: #1c1c1c;
+  background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;
 }
@@ -3746,8 +3711,8 @@ a.back-link img{
 
 .transaction-table-row {
   display: flex;
-  background-color: #181818;
-  border: 1px solid #181818;
+  background-color: var(--surface-secondary-color);
+  border: 1px solid var(--surface-secondary-color);
   padding: 10px 12px;
   border-radius: 4px;
   font-size: 14px;
@@ -3755,14 +3720,8 @@ a.back-link img{
   transition: background-color .3s;
 }
 
-.blocks-table-card.new-table-entry,
-.transaction-table-row.new-table-entry {
-  background-color: #26221D;
-  border: 1px solid #26221D;
-}
-
 .transaction-table-row:hover {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--accent-color);
 }
 
 .transaction-table-row .transaction-table-transaction-id {
@@ -3813,6 +3772,56 @@ a.back-link img{
   border-radius: 18px;
 }
 
+/******* SHARED TABLE STYLES *******/
+
+.table-header {
+  display: flex;
+  align-items: center;
+}
+
+.table-header-title {
+  margin-left: 16px;
+  color: #B5BDC2;
+  font-family: "Rigid Square", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.table-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  color: #FAFAFA;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.table-copy-button:hover {
+  color: var(--accent-color);
+}
+
+.table-title-row {
+  display: flex;
+  margin-top: 12px;
+  font-size: 10px;
+  padding: 0px 12px;
+}
+
+.table-title-row a {
+  color: white !important;
+}
+
+.new-table-entry {
+  background-color: var(--surface-primary-alt-color);
+  border: 1px solid var(--surface-primary-alt-color);
+}
+
 @media only screen and (max-width: 1100px) {
 
   .block-details {
@@ -3854,7 +3863,7 @@ a.back-link img{
     justify-content: center;
     align-items: center;
     width: 32px;
-    color: var(--primary-color);
+    color: var(--accent-color);
   }
 
   .mobile-block-icon-container svg {

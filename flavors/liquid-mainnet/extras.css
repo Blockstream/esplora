@@ -5,19 +5,19 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #46beae;
+    background: var(--accent-color);
     height: 3px;
     border-radius: 10px;
 }
 
 .details-btn > div {
-    color: #46beae;
-    border: 1px solid #46beae;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
     background: none;
 }
 
 .transaction-box > .footer > div:nth-child(3) {
-    color: #46beae;
+    color: var(--accent-color);
 }
 
 .navbar {

@@ -33,10 +33,11 @@
     text-align: center;
     font-size: 14px;
     line-height: 2.4;
+    left: 0px;
 }
 
 .sub-nav-container{
-    margin-top: 25px;
+    margin-top: 40px;
 }
 
 .block-header-title, .transaction-header-title{
