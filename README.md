@@ -1,23 +1,18 @@
-# Esplora Block Explorer
+# Bitgesell Stream Block Explorer
 
-[![build status](https://api.travis-ci.org/Blockstream/esplora.svg)](https://travis-ci.org/Blockstream/esplora)
-[![docker release](https://img.shields.io/docker/pulls/blockstream/esplora.svg)](https://hub.docker.com/r/blockstream/esplora)
-[![MIT license](https://img.shields.io/github/license/blockstream/esplora.svg)](https://github.com/blockstream/esplora/blob/master/LICENSE)
-[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![IRC](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://webchat.freenode.net/?channels=bitcoin-explorers)
+<a href="https://bglstream.bitgesell.dev">
+	<img width="100%" height="50%" src="./preview.png" alt="Bitgesell Explorer" />
+</a>
 
-Block explorer web interface based on the [esplora-electrs](https://github.com/Blockstream/electrs) HTTP API.
+Block explorer web interface based on the [esplora-electrs](https://github.com/naftalimurgor/bgl-electrs) HTTP API.
 
 Written as a single-page app in a reactive and functional style using
 [rxjs](https://github.com/ReactiveX/rxjs) and [cycle.js](https://cycle.js.org/).
 
-See live at [Blockstream.info](https://blockstream.info/).
+See live at [bglstream.bitgesell.dev](https://bglstream.bitgesell.dev/).
 
 API documentation [is available here](API.md).
 
-Join the translation efforts on [Transifex](https://transifex.com/blockstream/esplora/).
-
-![Esplora](https://raw.githubusercontent.com/Blockstream/esplora/master/flavors/blockstream/www/img/social-sharing.png)
 
 ## Features
 
@@ -46,7 +41,7 @@ Join the translation efforts on [Transifex](https://transifex.com/blockstream/es
 To start a development server with live babel/browserify transpilation, run:
 
 ```bash
-$ git clone https://github.com/Blockstream/esplora && cd esplora
+$ git clone https://github.com/naftalimurgor/bgl-stream && cd bgl-stream
 $ npm install
 $ export API_URL=http://localhost:3000/ # or https://blockstream.info/api/ if you don't have a local API server
 # (see more config options below)
@@ -152,121 +147,13 @@ docker build -t esplora -f contrib/Dockerfile .
 
 Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub.
 
-## How to run the explorer for Bitcoin mainnet
+## How to run the explorer for Bitgesell mainnet
 
 ```bash
 docker run -p 50001:50001 -p 8080:80 \
            --volume $PWD/data_bitcoin_mainnet:/data \
            --rm -i -t esplora \
            bash -c "/srv/explorer/run.sh bitcoin-mainnet explorer"
-```
-
-## How to run the explorer for Liquid mainnet
-
-```bash
-docker run -p 50001:50001 -p 8082:80 \
-           --volume $PWD/data_liquid_mainnet:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh liquid-mainnet explorer"
-```
-
-## How to run the explorer for Bitcoin testnet3
-
-```bash
-docker run -p 50001:50001 -p 8084:80 \
-           --volume $PWD/data_bitcoin_testnet:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-testnet explorer"
-```
-
-## How to run the explorer for Bitcoin testnet4
-
-```
-docker run -p 50001:50001 -p 8084:80 \
-           --volume $PWD/data_bitcoin_testnet4:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-testnet4 explorer"
-```
-
-## How to run the explorer for Bitcoin signet
-
-```bash
-docker run -p 50001:50001 -p 8084:80 \
-           --volume $PWD/data_bitcoin_signet:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-signet explorer"
-```
-
-## How to run the explorer for Liquid testnet
-
-```bash
-docker run -p 50001:50001 -p 8096:80 \
-           --volume $PWD/data_liquid_testnet:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh liquid-testnet explorer"
-```
-
-## How to run the explorer for Liquid regtest
-
-```bash
-docker run -p 50001:50001 -p 8092:80 \
-           --volume $PWD/data_liquid_regtest:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh liquid-regtest explorer"
-```
-
-## How to run the explorer for Bitcoin regtest
-
-```bash
-docker run -p 50001:50001 -p 8094:80 \
-           --volume $PWD/data_bitcoin_regtest:/data \
-           --rm -i -t esplora \
-           bash -c "/srv/explorer/run.sh bitcoin-regtest explorer"
-```
-
-## Regtest options
-
-When run for Bitcoin regtest or Liquid regtest, the esplora container will
-create a default wallet and mine 100 blocks internally. You can disable this behavior
-by setting `NO_REGTEST_MINING=1`.
-
-## Docker config options
-
-Set `-e DEBUG=verbose` to enable more verbose logging.
-
-Set `-e NO_PRECACHE=1` to disable pre-caching of statistics for "popular addresses",
-which may take a long time and is not necessary for personal use.
-
-Set `-e NO_ADDRESS_SEARCH=1` to disable the [by-prefix address search](https://github.com/Blockstream/esplora/blob/master/API.md#get-address-prefixprefix) index.
-
-Set `-e ENABLE_LIGHTMODE=1` to enable [esplora-electrs's light mode](https://github.com/Blockstream/electrs/#light-mode).
-
-Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
-
-## Pull tor directly from Docker Hub - `blockstream/tor:latest`
-
-Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
-
-Example torrc:
-
-```plaintext
-DataDirectory /home/tor/tor
-PidFile /var/run/tor/tor.pid
-
-ControlSocket /var/run/tor/control GroupWritable RelaxDirModeCheck
-ControlSocketsGroupWritable 1
-SocksPort unix:/var/run/tor/socks WorldWritable
-SocksPort 9050
-
-CookieAuthentication 1
-CookieAuthFileGroupReadable 1
-CookieAuthFile /var/run/tor/control.authcookie
-
-Log [handshake]debug [*]notice stderr
-
-HiddenServiceDir /home/tor/tor/hidden_service_v3/
-HiddenServiceVersion 3
-HiddenServicePort 80 127.0.0.1:80
 ```
 
 ## License
