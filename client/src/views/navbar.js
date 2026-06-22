@@ -1,8 +1,6 @@
 import menu from './navbar-menu'
 
 const staticRoot = process.env.STATIC_ROOT || ''
-// Deployment root prefix, set when the site is served under a sub-directory (BASE_PREFIX).
-const siteRoot = process.env.BASE_PREFIX || ''
 
 export default S =>
 
@@ -15,7 +13,7 @@ export default S =>
             <a href="blocks/recent" class={{ active: S.activeTab == 'recentBlocks' }}>Blocks</a>
             <a href="tx/recent" class={{ active: S.activeTab == 'recentTxs' }}>Transactions</a>
             { process.env.IS_ELEMENTS ? <a href="assets" class={{ active: S.activeTab == 'assets' }}>Assets<sup className="highlight"></sup></a> : "" }
-            <a href={`${siteRoot}/explorer-api`} class={{ active: S.activeTab == 'apiLanding' }}>Explorer API</a>
+            <a href="explorer-api" class={{ active: S.activeTab == 'apiLanding' }}>Explorer API</a>
         </div>
       { menu(S) }
   </nav>
