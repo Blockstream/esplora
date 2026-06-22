@@ -1,6 +1,9 @@
 import { nativeAssetId } from '../const'
 
 const staticRoot = process.env.STATIC_ROOT || ''
+// Prefix for cross-network links so they stay within the current deployment root when the
+// whole site is served under a sub-directory (BASE_PREFIX). Empty for a root deployment.
+const siteRoot = process.env.BASE_PREFIX || ''
 const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
 
 export default () =>
@@ -40,10 +43,10 @@ export default () =>
         <div className="link-list">
           <h4 className="menu-title font-h5">Explorers</h4>
           <ul className="font-p3">
-            <li><a href="/" rel="external">Bitcoin</a></li>
-            <li><a href="/liquid/" rel="external">Liquid Network</a></li>
-            <li><a href="/testnet/" rel="external" target="_blank">Bitcoin Testnet</a></li>
-            <li><a href="/liquidtestnet/" rel="external" target="_blank">Liquid Testnet</a></li>
+            <li><a href={`${siteRoot}/`} rel="external">Bitcoin</a></li>
+            <li><a href={`${siteRoot}/liquid/`} rel="external">Liquid Network</a></li>
+            <li><a href={`${siteRoot}/testnet/`} rel="external" target="_blank">Bitcoin Testnet</a></li>
+            <li><a href={`${siteRoot}/liquidtestnet/`} rel="external" target="_blank">Liquid Testnet</a></li>
           </ul>
           <h4 className="menu-title font-h5">Developer Tools</h4>
           <ul className="font-p3">

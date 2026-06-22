@@ -86,6 +86,7 @@ All options are optional.
 
 - `NODE_ENV` - set to `production` to enable js minification, or to `development` to disable (defaults to `production`)
 - `BASE_HREF` - base href for user interface (defaults to `/`, change if not served from the root directory)
+- `BASE_PREFIX` - optional path prefix prepended to each flavor's `BASE_HREF`, to serve the whole multi-network site under a sub-directory (e.g. `BASE_PREFIX=preview` serves `/preview/`, `/preview/signet/`, ...). `API_URL` is left un-prefixed so a prefixed build still uses the same backend
 - `STATIC_ROOT` - root for static assets (defaults to `BASE_HREF`, change to load static assets from a different server)
 - `API_URL` - URL for HTTP REST API (defaults to `/api`, change if the API is available elsewhere)
 - `CANONICAL_URL` - absolute base url for user interface (optional, only required for opensearch and canonical link tags)

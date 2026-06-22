@@ -9,6 +9,16 @@ export NODE_ENV=${NODE_ENV:=production}
 export BASE_HREF=${BASE_HREF:-/}
 export API_URL=${API_URL:-"${BASE_HREF}api"}
 
+# Optional path prefix for serving the whole site under a sub-directory (e.g. a preview
+# deploy keyed by branch name). Applied *after* the flavor sets its per-network BASE_HREF,
+# so the network paths are preserved: / -> /$BASE_PREFIX/, /signet/ -> /$BASE_PREFIX/signet/.
+# API_URL is resolved above, before this, so it keeps pointing at the un-prefixed network
+# API and a prefixed build still talks to the same backend.
+if [ -n "$BASE_PREFIX" ]; then
+  export BASE_HREF="/${BASE_PREFIX#/}${BASE_HREF}"
+  export BASE_PREFIX="/${BASE_PREFIX#/}"
+fi
+
 mkdir -p $DEST
 rm -rf $DEST/*
 

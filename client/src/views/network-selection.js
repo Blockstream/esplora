@@ -2,6 +2,10 @@ const items = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS),
   active = process.env.MENU_ACTIVE;
 
 const staticRoot = process.env.STATIC_ROOT || "";
+// Keep cross-network links within the current deployment root when the site is served under a
+// sub-directory (BASE_PREFIX). No-op for a root deployment (empty prefix).
+const siteRoot = process.env.BASE_PREFIX || "";
+const withRoot = (url) => (siteRoot && url && url.charAt(0) === "/" ? siteRoot + url : url);
 const itemEntries = items ? Object.entries(items) : [];
 const activeName = active || (itemEntries[0] && itemEntries[0][0]);
 const activeId = activeName && activeName.replace(/ /g, "");
@@ -43,7 +47,7 @@ export default ({ t, page }) => (
                   return (
                     <a
                       id={name.replace(/ /g, "")}
-                      href={url}
+                      href={withRoot(url)}
                       className={`network-hover-menu-option-container ${name.replace(/ /g, "").toLowerCase()} ${name === activeName ? "active" : ""}`}
                       rel="external"
                     >
