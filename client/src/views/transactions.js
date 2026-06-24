@@ -62,7 +62,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
                     formatSat(txOverview.value) : "Confidential"}
                 </div>
                 <div className="transaction-table-transaction-size">{`${formatNumber(txOverview.vsize)} vB`}</div>
-                <div className={`transaction-table-transaction-fee ${feeClass}`}>{`${feerate.toFixed(1)} sat/vB`}</div>
+                <div className={`transaction-table-transaction-fee ${feeClass}`}>{`${feerate.toFixed(2)} sat/vB`}</div>
               </div>
               </a>
             );

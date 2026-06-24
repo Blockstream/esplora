@@ -29,6 +29,8 @@ html {
   --surface-primary-color: #1C1C1C;
   --surface-primary-alt-color: #26221D;
   --surface-secondary-color: #262626;
+  --foreground-muted: #B5BDC2;
+  --page-gap: 24px;
 }
 
 body {
@@ -469,10 +471,10 @@ a, a:link, a:visited, a:hover, a:focus {
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  max-width: 1200px;
+  max-width: 1280px;
   padding: 0px 24px;
   padding-top: 12px;
-  box-sizing: border-box;
+  box-sizing: initial;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2774,6 +2776,10 @@ a.back-link img{
 }
 
 @media only screen and (max-width: 1100px) {
+  .explorer-container {
+    box-sizing: border-box;
+  }
+
   .nav-container {
     flex-wrap: wrap;
   }
@@ -3466,7 +3472,6 @@ a.back-link img{
 /******* LATEST BLOCKS TABLE *******/
 
 .blocks-table {
-  margin-top: 40px;
   background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;
@@ -3493,12 +3498,13 @@ a.back-link img{
   max-width: 200px;
   padding: 6px;
   border-radius: 4px;
-  background-color: var(--background-color);
-  font-size: 11px;
+  background-color: var(--surface-secondary-color);
+  font-size: 14px;
   color: #FAFAFA;
   top: 10px;
   left: 15px;
   text-align: left;
+  z-index: 999;
 }
 
 .table-header-icon-container {
@@ -3672,7 +3678,6 @@ a.back-link img{
 /******* TX TABLE *******/
 
 .transaction-table {
-  margin-top: 40px;
   background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;
@@ -3822,6 +3827,10 @@ a.back-link img{
   border: 1px solid var(--surface-primary-alt-color);
 }
 
+.block-container, .tx-container {
+  margin-top: var(--page-gap);
+}
+
 @media only screen and (max-width: 1100px) {
 
   .block-details {
@@ -3869,4 +3878,158 @@ a.back-link img{
   .mobile-block-icon-container svg {
     width: 14px;
   }
+}
+
+.overview {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.overview-title {
+  font-weight: 700;
+  font-size: 14px;
+  font-family: "Rigid Square";
+  color: var(--foreground-muted);
+}
+
+.overview-body {
+  display: flex;
+  gap: var(--page-gap);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.overview-body::-webkit-scrollbar {
+  display: none;
+}
+
+.info-card-container {
+  border-radius: 12px;
+  background-color: var(--surface-primary-color);
+  min-width: 302px;
+  width: 302px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.info-card-header {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.info-card-title {
+  margin: 0px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Rigid Square';
+  color: var(--foreground-muted);
+}
+
+.info-card-value {
+  margin: 0px;
+  font-size: 20px;
+  font-family: 'Rigid Square';
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.info-card-footer {
+  margin: 0px;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--foreground-muted);
+  font-weight: 400;
+  font-family: "Inter";
+}
+
+.mempool-congestion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mempool-congestion-badge {
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-family: "Inter";
+  font-size: 11px;
+  width: min-content;
+}
+
+.mempool-congestion-bar {
+  background-color: var(--surface-secondary-color);
+  width: 100%;
+  height: 6px;
+  border-radius: 100px;
+  position: relative;
+}
+
+.mempool-congestion-fill {
+  background-color: #E2BA1B;
+  width: 60%;
+  height: 6px;
+  border-radius: 100px;
+  position: absolute;
+  left: 0px;
+}
+
+.mempool-congestion-badge.success {
+  background-color: rgba(23, 201, 100, .2);
+  color: #17C964;
+}
+
+.mempool-congestion-fill.success {
+  background-color: #17C964;
+}
+
+.mempool-congestion-badge.warning {
+  background-color: rgba(226, 186, 27, .2);
+  color: #E2BA1B;
+}
+
+.mempool-congestion-fill.warning {
+  background-color: #E2BA1B;
+}
+
+.mempool-congestion-badge.danger {
+  background-color: rgba(219, 59, 62, .2);
+  color: #DB3B3E;
+}
+
+.mempool-congestion-fill.danger {
+  background-color: #DB3B3E;
+}
+
+.mempool-congestion-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--foreground-muted);
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.overview-bitcoin-price-chart {
+  height: 100%;
+  width: 100%;
+}
+
+.overview-bitcoin-price-chart canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.info-card-header-value {
+  font-size: 10px;
+  font-family: 'Inter';
+  color: var(--foreground-muted);
+  margin-left: auto;
+  font-weight: 400;
 }

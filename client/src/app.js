@@ -27,6 +27,7 @@ import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
+    , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
@@ -243,6 +244,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Fee estimates
   , feeEst$ = reply('fee-est').startWith(null)
 
+  // Bitcoin price chart data
+  , bitcoinMarketChart$ = reply('bitcoin-market-chart').startWith(null)
+
   // Transaction analysis
   , txAnalysis$ = tx$.filter(Boolean)
       .combineLatest(mempool$, feeEst$, calculateFeerates)
@@ -312,7 +316,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , goBlocks$, blocks$, nextBlocks$, prevBlocks$, dashboardState$
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
-                     , mempool$, mempoolRecent$, feeEst$
+                     , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
@@ -349,7 +353,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch list of blocks for homepage
     , O.merge(goBlocks$, moreBlocks$)
-        //.merge(tickWhileViewing(5000, 'recentBlocks', view$).mapTo({}))
+        .merge(process.browser ? O.timer(60000, 60000).withLatestFrom(view$)
+          .filter(([ _, view ]) => view == 'recentBlocks' || view == 'dashBoard')
+          .mapTo({ start_height: null }) : O.empty())
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
@@ -394,11 +400,19 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
     // ... and every 5 seconds while dashBoard remains open
     , tickWhileViewing(5000, 'dashBoard', view$)
-    .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+       .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
+
+    // refresh overview panels while dashboard remains open
+    , tickWhileViewing(60000, 'dashBoard', view$)
+        .flatMap(_ =>          [{ category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: true }
+                              , { category: 'mempool',    method: 'GET', path: '/mempool', bg: true }
+                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }])
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }
-                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
+                              , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }
+                              , { category: 'mempool',    method: 'GET', path: '/mempool' }
+                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }])
     //
     // elements/liquid only
     //
