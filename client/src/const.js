@@ -1,6 +1,7 @@
 export const blockTxsPerPage = 25
 export const addrTxsPerPage = 25
 export const blocksPerPage = 10
+export const difficultyPeriod = 2016
 export const maxMempoolTxs = 50
 export const satoshisPerBitcoin = 100000000
 export const averageNativeSegwitTransactionSize = 140

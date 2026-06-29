@@ -3946,6 +3946,7 @@ a.back-link img{
   color: var(--foreground-muted);
   font-weight: 400;
   font-family: "Inter";
+  text-transform: uppercase;
 }
 
 .mempool-congestion {
@@ -4032,4 +4033,54 @@ a.back-link img{
   color: var(--foreground-muted);
   margin-left: auto;
   font-weight: 400;
+}
+
+.difficulty-adjustment-panel {
+  margin-top: 24px;
+  background-color: var(--surface-primary-color);
+  padding: 24px;
+  border-radius: 12px;
+}
+
+.difficulty-adjustment-stat-divider {
+  width: 1px;
+  height: 30px;
+  background-color: white;
+}
+
+.difficulty-adjustment-stats {
+  display: flex;
+  margin-top: 12px;
+  justify-content: space-between;
+}
+
+.difficulty-adjustment-stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.difficulty-adjustment-stat-title {
+  font-size: 10px;
+  color: #B5BDC2;
+}
+
+.difficulty-adjustment-stat-value.success {
+  color: #17C964;
+}
+
+.difficulty-adjustment-stat-value.danger {
+  color: #DB3B3E;
+}
+
+.difficulty-adjustment-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  gap: 24px;
+}
+
+.difficulty-adjustment-metric-card {
+  flex: 1;
 }

@@ -3,8 +3,9 @@ import { Observable as O } from './rxjs'
 import {setAdapt} from '@cycle/run/lib/adapt';
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
+import { isBitcoinNetwork } from './lib/network'
 import getPrivacyAnalysis from './lib/privacy-analysis'
-import { nativeAssetId, blockTxsPerPage, blocksPerPage } from './const'
+import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod } from './const'
 import {
     dbg,
     combine,
@@ -174,6 +175,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .startWith([]).scan((S, mod) => mod(S))
       .share()
 
+  , latestBlock$ = blocks$
+      .map(blocks => blocks && blocks[0])
+      .filter(Boolean)
+      .distinctUntilChanged((a, b) => a.height == b.height)
+
   , newBlockEntries$ = trackNewEntries(
       blocks$,
       block => block.id,
@@ -241,6 +247,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) =>
         ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 5)}))
 
+  , dashboardEpochStartBlock$ = reply('dashboard-epoch-start-block', true)
+      .map(r => ({ ...r.body, requestedHeight: r.request.height }))
+      .startWith(null)
+
+  , dashboardPreviousDifficultyBlock$ = reply('dashboard-previous-difficulty-block', true)
+      .map(r => ({ ...r.body, requestedHeight: r.request.height }))
+      .startWith(null)
+
   // Fee estimates
   , feeEst$ = reply('fee-est').startWith(null)
 
@@ -299,6 +313,22 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       .combineLatest(isReady$, loading$, (view, isReady, loading) =>
         !isReady ? 'loading' : view || (loading ? 'loading' : 'notFound'))
 
+  , dashboardLatestBlock$ = isBitcoinNetwork
+      ? latestBlock$
+          .combineLatest(view$, (block, view) => view == 'dashBoard' ? block : null)
+          .filter(Boolean)
+          .distinctUntilChanged((a, b) => a.height == b.height)
+      : O.empty()
+
+  , dashboardEpochStartHeight$ = dashboardLatestBlock$
+      .map(block => block.height - (block.height % difficultyPeriod))
+      .distinctUntilChanged()
+
+  , dashboardPreviousDifficultyHeight$ = dashboardEpochStartHeight$
+      .map(height => height - difficultyPeriod)
+      .filter(height => height >= 0)
+      .distinctUntilChanged()
+
   // Page title
   , title$ = O.merge(page$.mapTo(null)
                    , goAPILanding$.withLatestFrom(t$, (_, t) => t`Explorer API`)
@@ -314,6 +344,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , goBlocks$, blocks$, nextBlocks$, prevBlocks$, dashboardState$
+                     , dashboardEpochStartBlock$, dashboardPreviousDifficultyBlock$
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$
@@ -366,6 +397,19 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch block by height
     , goHeight$.map(n       => ({ category: 'height',     method: 'GET', path: `/block-height/${n}` }))
+
+    // fetch dashboard difficulty comparison blocks
+    , dashboardEpochStartHeight$
+        .map(height          => ({ category: 'dashboard-epoch-start-height', method: 'GET', path: `/block-height/${height}`, height, bg: true }))
+
+    , reply('dashboard-epoch-start-height', true)
+        .map(r              => ({ category: 'dashboard-epoch-start-block', method: 'GET', path: `/block/${r.text}`, height: r.request.height, bg: true }))
+
+    , dashboardPreviousDifficultyHeight$
+        .map(height          => ({ category: 'dashboard-previous-difficulty-height', method: 'GET', path: `/block-height/${height}`, height, bg: true }))
+
+    , reply('dashboard-previous-difficulty-height', true)
+        .map(r              => ({ category: 'dashboard-previous-difficulty-block', method: 'GET', path: `/block/${r.text}`, height: r.request.height, bg: true }))
 
     // push tx
     , pushtx$.map(rawtx     => ({ category: 'pushtx',     method: 'POST', path: `/tx`, send: rawtx, type: 'text/plain' }))
