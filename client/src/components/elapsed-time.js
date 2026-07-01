@@ -1,4 +1,7 @@
 const UPDATE_INTERVAL_MS = 60 * 1000;
+const MINUTES_PER_DAY = 24 * 60;
+const MINUTES_PER_YEAR = 365 * MINUTES_PER_DAY;
+const MINUTES_PER_MONTH = MINUTES_PER_YEAR / 12;
 
 const formatElapsedTime = (timestamp) => {
   const fromDate =
@@ -7,10 +10,18 @@ const formatElapsedTime = (timestamp) => {
     0,
     Math.floor((new Date() - fromDate) / UPDATE_INTERVAL_MS),
   );
+  const years = Math.floor(diffMinutes / MINUTES_PER_YEAR);
+  const minutesAfterYears = diffMinutes % MINUTES_PER_YEAR;
+  const months = Math.floor(minutesAfterYears / MINUTES_PER_MONTH);
+  const minutesAfterMonths = Math.floor(
+    minutesAfterYears - months * MINUTES_PER_MONTH,
+  );
   const units = [
-    ["d", Math.floor(diffMinutes / (24 * 60))],
-    ["h", Math.floor((diffMinutes % (24 * 60)) / 60)],
-    ["m", diffMinutes % 60],
+    ["y", years],
+    ["mo", months],
+    ["d", Math.floor(minutesAfterMonths / MINUTES_PER_DAY)],
+    ["h", Math.floor((minutesAfterMonths % MINUTES_PER_DAY) / 60)],
+    ["m", minutesAfterMonths % 60],
   ];
   const parts = units
     .filter(([_, value]) => value > 0)

@@ -3,6 +3,8 @@
 // the issues marked as "danger" (displayed in red) are the ones where it is relatively trivial
 // to avoid the issue by changing habits and/or changing wallet software. the ones marked as "warning"
 // (displayed in orange) are more difficult to do something about.
+import { PrivacyAnalysisArrowIcon } from '../components/icons'
+
 const messages = {
   'internal-address-reuse': [
     'danger'
@@ -56,15 +58,23 @@ const messages = {
 
 const msgOrdering = Object.values(messages)
 
+const privacyAnalysisLink = (className, label, url) =>
+  <a className={`privacy-analysis-link ${className}`} href={url}>
+    <span>{label}</span>
+    <PrivacyAnalysisArrowIcon className="privacy-analysis-arrow" />
+  </a>
+
 export default (analysis, t) =>
   analysis.length ? <ul className="list-unstyled">
     {analysis.map(msg => messages[msg])
       .sort((a, b) => msgOrdering.indexOf(a) - msgOrdering.indexOf(b))
       .map(([ type, title, desc, url ]) =>
-        <li title={t(desc)}><a className={`text-${type}`} href={url}>{t(title) + '➚'}</a></li>)
+        <li title={t(desc)}>{privacyAnalysisLink(`text-${type}`, t(title), url)}</li>)
     }
   </ul>
 
-  : <a className="text-success" href="https://en.bitcoin.it/wiki/Privacy#Blockchain_attacks_on_privacy">
-      {t`This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.`}➚
-    </a>
+  : privacyAnalysisLink(
+      'text-success privacy-analysis-no-issues',
+      t`This transaction doesn't violate any of the privacy gotchas we cover. Read on other potential ways it might leak privacy.`,
+      'https://en.bitcoin.it/wiki/Privacy#Blockchain_attacks_on_privacy'
+    )

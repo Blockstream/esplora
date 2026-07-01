@@ -1,6 +1,6 @@
 import moveDec from 'move-decimal-point'
 import { sat2btc } from 'fmtbtc'
-import { nativeAssetLabel } from '../const'
+import { maxBlockWeight, nativeAssetLabel } from '../const'
 import { isNativeOut } from '../util'
 
 const DEFAULT_ISSUED_PRECISION = 0
@@ -102,7 +102,7 @@ export const formatRelativeTime = (fromDate, toDate = new Date()) => {
 }
 
 export const getBlockPercentageUsed = blockWeight =>
-  Math.round((blockWeight / 4000000) * 10000) / 100
+  Math.round((blockWeight / maxBlockWeight) * 10000) / 100
 
 export const formatJson = obj =>
   JSON.stringify(obj, null, 1)

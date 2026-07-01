@@ -21,7 +21,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
     ) : !txs.length ? (
       <p>{t`No recent transactions`}</p>
     ) : (
-      <div className="transaction-table">
+      <div className="latest-transactions-table">
         <div className="table-header">
           <div className="table-header-icon-container">
             <TxArrowsIcon />
@@ -38,7 +38,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
           </div>
         </div>
 
-        <div className="transaction-table-body">
+        <div className="latest-transactions-table-body">
           {txs.map((txOverview) => {
             const feerate = txOverview.fee / txOverview.vsize;
             const feeClass = feeRateClass(feerate, S.feeEst);

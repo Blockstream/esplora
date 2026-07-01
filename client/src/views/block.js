@@ -2,8 +2,8 @@ import layout from './layout'
 import { txBox } from './tx'
 import { updateQuery } from '../util'
 import { formatTime, formatHex, formatNumber } from './util'
-import { blockTxsPerPage as perPage } from '../const'
 import loader from '../components/loading'
+import { MinusIcon, PlusIcon } from '../components/icons'
 
 
 const staticRoot = process.env.STATIC_ROOT || ''
@@ -122,8 +122,17 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       </div>
 
       <div className="transactions">
-        <h3 className="font-h3">{txsShownText(b.tx_count, goBlock.start_index, blockTxs && blockTxs.length, t)}</h3>
-        { blockTxs ? blockTxs.map(tx => txBox( { ...tx, status: txsStatus }, { openTx, tipHeight, t, spends }))
+        { blockTxs ? blockTxs.map((tx, index) => txBox(
+            { ...tx, status: txsStatus },
+            {
+              openTx,
+              tipHeight,
+              t,
+              spends,
+              listingIndex: +goBlock.start_index + index + 1,
+              listingTotal: b.tx_count
+            }
+          ))
                    : loader() }
       </div>
 
@@ -136,11 +145,6 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
     </div>
   ]
 , { t, page, activeTab: 'recentBlocks', ...S })
-
-const txsShownText = (total, start, shown, t) =>
-  (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${total} Transactions`
-  : t`${total} Transactions`
 
 const pagingNav = (block, { nextBlockTxs, prevBlockTxs, t }) =>
   process.browser
@@ -171,6 +175,6 @@ const btnDetails = (blockhash, isOpen, query, t) => process.browser
 
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
-    <div>{t`Details`}</div>
-    <div className={isOpen?'minus':'plus'}></div>
+    <p>{t`Details`}</p>
+    <div>{isOpen ? <MinusIcon /> : <PlusIcon />}</div>
   </div>

@@ -224,6 +224,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Single TX
   , tx$ = reply('tx').merge(goTx$.mapTo(null)).startWith(null)
+  , txBlock$ = reply('tx-block').merge(goTx$.mapTo(null)).startWith(null)
 
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
@@ -348,7 +349,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$
-                     , tx$, txAnalysis$, openTx$
+                     , tx$, txBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$
@@ -375,6 +376,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch single tx (including confirmation status)
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
+
+    // fetch the block containing a confirmed tx
+    , tx$.filter(tx         => tx && tx.status && tx.status.confirmed && tx.status.block_hash)
+        .map(tx             => ({ category: 'tx-block',   method: 'GET', path: `/block/${tx.status.block_hash}` }))
 
     // fetch address and its txs
     , goAddr$.flatMap(d     => [{ category: 'address',    method: 'GET', path: `/address/${d.addr}` }
@@ -499,7 +504,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   dbg({ goBlocks$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
       , openTx$, openBlock$, updateQuery$
-      , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$, addr$
+      , state$, view$, block$, blockTxs$, blocks$, tx$, txBlock$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , assetMap$,  goAssetList$, assetList$

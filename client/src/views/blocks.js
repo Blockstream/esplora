@@ -6,6 +6,7 @@ import {
 } from "./util";
 import loader from "../components/loading";
 import { BlockIcon, ClockIcon, CopyIcon } from "../components/icons";
+import { InfoStat } from "../components/info-stat";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -67,18 +68,11 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
                       </p>
                     </div>
                     <div className="block-card-body">
-                      <div className="block-stat">
-                        <div className="block-stat-title">TRANSACTIONS</div>
-                        <div className="block-stat-value">
-                          {formatNumber(b.tx_count).toLocaleString()}
-                        </div>
-                      </div>
-                      <div className="block-stat">
-                        <div className="block-stat-title">SIZE</div>
-                        <div className="block-stat-value">
-                          {formatVMB(b.size, "MB")}
-                        </div>
-                      </div>
+                      <InfoStat
+                        title="TRANSACTIONS"
+                        value={formatNumber(b.tx_count).toLocaleString()}
+                      />
+                      <InfoStat title="SIZE" value={formatVMB(b.size, "MB")} />
                     </div>
 
                     <div className="block-usage">
