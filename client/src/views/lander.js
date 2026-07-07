@@ -151,7 +151,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                         </div>
                         <ul className="pricing-card-features font-p2 text-gray">
                             <li>Basic support and access to help center</li>
-                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (10 credits per call)</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">QuickSync</a> access (10 credits per call)</li>
                             <li>SLA 99.9%</li>
                         </ul>
                         <div className="pricing-card-quotas">
@@ -166,7 +166,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                         </div>
                         <ul className="pricing-card-features font-p2 text-gray">
                             <li>Advanced support with 24h-48h response</li>
-                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync</a> access (5 credits per call)</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">QuickSync</a> access (5 credits per call)</li>
                             <li>Early access to new features</li>
                             <li>Propose new features</li>
                             <li>SLA 99.9%</li>
@@ -186,7 +186,7 @@ Faster, always available, and easy to integrate<br/> into wallets, exchanges, an
                         <ul className="pricing-card-features font-p2 text-gray">
                             <li>Optional custom agreements and dedicated servers</li>
                             <li>Dedicated support</li>
-                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">Quick sync </a> access (1 credit per call)</li>
+                            <li><a href="https://help.blockstream.com/hc/en-us/articles/52416257952537-Understanding-and-accessing-Waterfalls" target="_blank">QuickSync</a> access (1 credit per call)</li>
                             <li>First access to new features</li>
                             <li>SLA 99.9%</li>
                         </ul>
