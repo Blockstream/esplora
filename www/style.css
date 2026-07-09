@@ -12,7 +12,100 @@
 
 @font-face {
   font-family: "Rigid Square";
-  src: url("font/rigid-square.woff2") format("woff2");
+  src: url("font/RigidSquare/Rigid_Square_Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Thin_Italic.woff2") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_ExtraLight_Italic.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Light_Italic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_SemiBold_Italic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_Bold_Italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Rigid Square";
+  src: url("font/RigidSquare/Rigid_Square_ExtraBold_Italic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: italic;
 }
 
 .hide {
