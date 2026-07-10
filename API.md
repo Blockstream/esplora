@@ -255,6 +255,19 @@ The available confirmation targets are 1-25, 144, 504 and 1008 blocks.
 
 For example: `{ "1": 87.882, "2": 87.882, "3": 87.882, "4": 87.882, "5": 81.129, "6": 68.285, ..., "144": 1.027, "504": 1.027, "1008": 1.027 }`
 
+## Mining
+
+### `GET /block-template`
+
+Returns the daemon's [`getblocktemplate`](https://developer.bitcoin.org/reference/rpc/getblocktemplate.html)
+template-mode response for mining.
+
+This endpoint is available only when electrs is started with
+`--enable-mining-rest`.
+
+Successful responses are cached internally for up to 15 seconds and invalidated
+when electrs indexes a new chain tip. Responses include `Cache-Control: no-store`.
+
 ## Assets (Elements/Liquid only)
 
 ### `GET /asset/:asset_id`
