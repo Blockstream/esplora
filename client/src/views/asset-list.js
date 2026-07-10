@@ -187,7 +187,7 @@ const paginationDropdown = ({
 const paginationButtons = ({
   limit,
   pageLink,
-  start_index: startIndex,
+  startIndex,
   visiblePages,
   prevDisabled,
   nextDisabled,
