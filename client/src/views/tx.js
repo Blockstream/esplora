@@ -61,14 +61,12 @@ export default ({
 
   return layout(
     [
-      <div className="tx-page-container">
+      <div className="tx-page">
         {txHeader(tx, { t, tipHeight, ...S })}
-        {unblinded && unblinded.error ? (
+        {unblinded && unblinded.error && (
           <div className="transaction-warning text-danger mt-3">
             {t`Warning:`} {unblinded.error.toString()}
           </div>
-        ) : (
-          <div></div>
         )}
         {txBox(tx, {
           openTx,
@@ -91,6 +89,7 @@ export default ({
             <BlockDetailsCard
               className="transaction-block-details"
               block={block}
+              t={t}
               statusText={t`Confirmed`}
             />
           </div>
@@ -105,7 +104,7 @@ const confirmationText = (status, tipHeight, t) =>
   !status.confirmed
     ? t`Unconfirmed`
     : tipHeight
-      ? t`${tipHeight - status.block_height + 1} Confirmations`
+      ? t`${formatNumber(tipHeight - status.block_height + 1)} Confirmations`
       : t`Confirmed`;
 
 export const txBox = (
@@ -139,25 +138,24 @@ export const txBox = (
             <TxArrowsIcon />
           </div>
           <h1 className="table-header-title">
-            {t`${listingIndex} of ${listingTotal} Transactions`}
+            {t`${formatNumber(listingIndex)} of ${formatNumber(listingTotal)} Transactions`}
           </h1>
         </div>
       ) : null}
       <div className="transaction-box-header">
         {showTxId ? (
-          <div className="tx-details-txid">
-            <a className="tx-details-txid-text" href={`tx/${tx.txid}`}>
+          <div className="identifier-row">
+            <a className="identifier-text" href={`tx/${tx.txid}`}>
               {tx.txid}
             </a>
-            <div
+            <button
               className="table-copy-button code-button-btn"
-              role="button"
-              tabindex="0"
+              type="button"
               data-clipboardCopy={tx.txid}
               aria-label={`Copy transaction id ${tx.txid}`}
             >
               <CopyIcon />
-            </div>
+            </button>
           </div>
         ) : (
           ""
@@ -253,17 +251,16 @@ const txHeader = (
           <h1 className="table-header-title">Transaction Details</h1>
         </div>
         <div className="transaction-table-body">
-          <div className="tx-details-txid">
-            <p className="tx-details-txid-text">{tx.txid}</p>
-            <div
+          <div className="identifier-row">
+            <p className="identifier-text">{tx.txid}</p>
+            <button
               className="table-copy-button code-button-btn"
-              role="button"
-              tabindex="0"
+              type="button"
               data-clipboardCopy={tx.txid}
               aria-label={`Copy transaction id ${tx.txid}`}
             >
               <CopyIcon />
-            </div>
+            </button>
             <StatusBadge variant={isConfirmed ? "success" : "warning"}>
               {!isConfirmed ? (
                 <span className="confirmation-status-dot" aria-hidden="true">

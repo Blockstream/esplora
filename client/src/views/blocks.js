@@ -28,10 +28,15 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
         <div className="blocks-table-body">
           {blocks &&
             blocks.map((b, index) => (
-              <a className="blocks-table-link-row" href={`block/${b.id}`}>
+              <div className="blocks-table-link-row">
                 <div
                   className={`blocks-table-card ${S.newBlockEntries && S.newBlockEntries[b.id] ? "new-table-entry" : ""}`}
                 >
+                  <a
+                    className="blocks-table-card-link"
+                    href={`block/${b.id}`}
+                    aria-label={`View block ${b.height}`}
+                  ></a>
                   <div className="block-icon-container">
                     <BlockIcon />
                   </div>
@@ -44,15 +49,14 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
                         <p className="block-number">
                           #{b.height.toLocaleString()}
                         </p>
-                        <div
+                        <button
                           className="table-copy-button code-button-btn"
-                          role="button"
-                          tabindex="0"
+                          type="button"
                           data-clipboardCopy={"" + b.height}
                           aria-label={`Copy block number ${b.height}`}
                         >
                           <CopyIcon />
-                        </div>
+                        </button>
                         {index === 0 ? (
                           <div className="latest-block-badge">Latest</div>
                         ) : (
@@ -97,7 +101,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
         </div>
 
