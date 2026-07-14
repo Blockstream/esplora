@@ -1,6 +1,7 @@
 import { formatSat, formatNumber, truncateTxid } from "./util";
 import loader from "../components/loading";
 import { CopyIcon, TxArrowsIcon } from "../components/icons";
+import { ConfidentialBadge } from "../components/status-badge";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -45,24 +46,36 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
             return (
               <a href={`tx/${txOverview.txid}`}>
               <div className={`transaction-table-row ${S.newTxEntries && S.newTxEntries[txOverview.txid] ? "new-table-entry" : ""}`}>
-                <div className="transaction-table-transaction-id">
-                  <p>{truncateTxid(txOverview.txid)}</p>
-                  <div
-                    className="table-copy-button code-button-btn"
-                    role="button"
-                    tabindex="0"
-                    data-clipboardCopy={txOverview.txid}
-                    aria-label={`Copy transaction id ${txOverview.txid}`}
-                  >
-                    <CopyIcon />
+                <div className="transaction-table-field transaction-table-transaction-id">
+                  <div className="transaction-table-field-label">{t`TX ID`}</div>
+                  <div className="transaction-table-field-value">
+                    <p>{truncateTxid(txOverview.txid)}</p>
+                    <div
+                      className="table-copy-button code-button-btn"
+                      role="button"
+                      tabindex="0"
+                      data-clipboardCopy={txOverview.txid}
+                      aria-label={`Copy transaction id ${txOverview.txid}`}
+                    >
+                      <CopyIcon />
+                    </div>
                   </div>
                 </div>
-                <div className="transaction-table-transaction-value">
-                  {txOverview.value ?
-                    formatSat(txOverview.value) : "Confidential"}
+                <div className="transaction-table-field transaction-table-transaction-value">
+                  <div className="transaction-table-field-label">{t`VALUE`}</div>
+                  <div className="transaction-table-field-value">
+                    {txOverview.value != null ?
+                      formatSat(txOverview.value) : <ConfidentialBadge t={t} />}
+                  </div>
                 </div>
-                <div className="transaction-table-transaction-size">{`${formatNumber(txOverview.vsize)} vB`}</div>
-                <div className={`transaction-table-transaction-fee ${feeClass}`}>{`${feerate.toFixed(2)} sat/vB`}</div>
+                <div className="transaction-table-field transaction-table-transaction-size">
+                  <div className="transaction-table-field-label">{t`SIZE`}</div>
+                  <div className="transaction-table-field-value">{`${formatNumber(txOverview.vsize)} vB`}</div>
+                </div>
+                <div className={`transaction-table-field transaction-table-transaction-fee ${feeClass}`}>
+                  <div className="transaction-table-field-label">{t`FEE`}</div>
+                  <div className="transaction-table-field-value">{`${feerate.toFixed(2)} sat/vB`}</div>
+                </div>
               </div>
               </a>
             );

@@ -547,6 +547,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
 
     on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
+    on('.tooltip', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
 
     on('.toggle-container', 'click').subscribe(({ ownerTarget: burgerMenu }) => {
       burgerMenu.classList.toggle('open-menu');
@@ -569,12 +570,19 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
 
     document.addEventListener('click', e => {
+      const activeTooltip = document.activeElement
+      if (activeTooltip && activeTooltip.classList.contains('tooltip') && !e.target.closest('.tooltip')) {
+        activeTooltip.blur()
+      }
       if (e.target.closest('.main-nav-container')) return
       closeNetworkMenus()
     })
 
     document.addEventListener('keydown', e => {
-      if (e.key == 'Escape') closeNetworkMenus()
+      if (e.key == 'Escape') {
+        closeNetworkMenus()
+        document.activeElement && document.activeElement.classList.contains('tooltip') && document.activeElement.blur()
+      }
 
       const hasModifier = e.metaKey || e.ctrlKey
       , noExtraModifiers = !e.altKey && !e.shiftKey

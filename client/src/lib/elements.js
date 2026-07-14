@@ -1,4 +1,5 @@
 import {formatAssetAmount} from "../views/util";
+import { ConfidentialBadge } from "../components/status-badge";
 
 export const getSupply = (asset, t) => {
     let { chain_stats = {}, mempool_stats = {} } = asset
@@ -19,7 +20,7 @@ export const getSupply = (asset, t) => {
             chain_stats.burned_amount -
             mempool_stats.burned_amount;
 
-    let totalSupply = circulating == null ? t`Confidential`
+    let totalSupply = circulating == null ? <ConfidentialBadge t={t} />
         : formatAssetAmount(circulating, asset.precision, t)
     return totalSupply
 }

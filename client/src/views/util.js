@@ -2,6 +2,7 @@ import moveDec from 'move-decimal-point'
 import { sat2btc } from 'fmtbtc'
 import { maxBlockWeight, nativeAssetLabel } from '../const'
 import { isNativeOut } from '../util'
+import { ConfidentialBadge } from '../components/status-badge'
 
 const DEFAULT_ISSUED_PRECISION = 0
     , NATIVE_PRECISION = 8
@@ -29,7 +30,7 @@ export const formatAssetAmount = (value, precision=0, t) =>
   </span>
 
 export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
-  if (vout.value == null) return t`Confidential`
+  if (vout.value == null) return <ConfidentialBadge t={t} />
 
   if (isNativeOut(vout)) {
     return <span>

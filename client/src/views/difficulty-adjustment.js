@@ -1,5 +1,6 @@
 import { ArrowsInSimpleIcon } from "../components/icons";
 import { InfoCard } from "../components/info-card";
+import { Tooltip } from "../components/tooltip";
 import { difficultyPeriod } from "../const";
 
 const staticRoot = process.env.STATIC_ROOT || "";
@@ -198,8 +199,8 @@ const adjustmentStat = (title, value, className = "") => (
   </div>
 );
 
-const statDivider = () => (
-  <div className="difficulty-adjustment-stat-divider"></div>
+const statDivider = (className) => (
+  <div className={["difficulty-adjustment-stat-divider", className || ""].join(" ")}></div>
 );
 
 export default ({
@@ -236,10 +237,10 @@ export default ({
             <ArrowsInSimpleIcon />
           </div>
           <h1 className="table-header-title">Difficulty Adjustment</h1>
-          <div className="tooltip">
-            <img alt="" src={`${staticRoot}img/icons/tooltip.svg`} />
-            <div className="tooltip-dialogue">How hard it is to mine new blocks. Bitcoin retargets mining difficulty every 2,016 blocks to keep blocks near 10 minutes. Current is the projected next change; Previous was the last change.</div>
-          </div>
+          <Tooltip
+            iconSrc={`${staticRoot}img/icons/tooltip.svg`}
+            text="How hard it is to mine new blocks. Bitcoin retargets mining difficulty every 2,016 blocks to keep blocks near 10 minutes. Current is the projected next change; Previous was the last change."
+          />
         </div>
         <div className="difficulty-adjustment-stats">
           {adjustmentStat("AVERAGE BLOCK TIME", averageBlockTime)}
@@ -251,7 +252,7 @@ export default ({
             adjustmentClass(expected),
           )}
 
-          {statDivider()}
+          {statDivider("difficulty-adjustment-stat-divider-middle")}
           {adjustmentStat(
             "PREVIOUS ADJ",
             formatAdjustment(previous),

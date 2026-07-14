@@ -20,6 +20,7 @@ import {
   TxArrowsIcon,
 } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
+import { StatusBadge } from "../components/status-badge";
 import BlockDetailsCard from "./block-details-card";
 
 // Require behind env conditional so it gets removed by `envify` on non-elements builds
@@ -208,7 +209,7 @@ const btnDetails = (txid, isOpen, query, t) =>
 const btnDetailsContent = (isOpen, t) => (
   <div role="button" tabindex="0">
     <p>{t`Details`}</p>
-    <div>{isOpen ? <MinusIcon /> : <PlusIcon />}</div>
+    {isOpen ? <MinusIcon /> : <PlusIcon />}
   </div>
 );
 
@@ -263,18 +264,16 @@ const txHeader = (
             >
               <CopyIcon />
             </div>
-            <div
-              className={`confirmation-status-badge ${isConfirmed ? "success" : "warning"}`}
-            >
+            <StatusBadge variant={isConfirmed ? "success" : "warning"}>
               {!isConfirmed ? (
-                <div className="confirmation-status-dot" aria-hidden="true">
-                  <div className="confirmation-status-dot-back"></div>
-                  <div className="confirmation-status-dot-middle"></div>
-                  <div className="confirmation-status-dot-front"></div>
-                </div>
+                <span className="confirmation-status-dot" aria-hidden="true">
+                  <span className="confirmation-status-dot-back"></span>
+                  <span className="confirmation-status-dot-middle"></span>
+                  <span className="confirmation-status-dot-front"></span>
+                </span>
               ) : null}
-              <p>{confirmationText(tx.status, tipHeight, t)}</p>
-            </div>
+              <span>{confirmationText(tx.status, tipHeight, t)}</span>
+            </StatusBadge>
           </div>
           <div className="info-stats-row">
             <InfoStat title="SIZE" value={`${formatNumber(tx.size)} B`} />

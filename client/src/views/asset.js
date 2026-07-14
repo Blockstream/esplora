@@ -5,6 +5,7 @@ import search from './search'
 import { txBox } from './tx'
 import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetLabel, nativeAssetName } from '../const'
 import loader from '../components/loading'
+import { ConfidentialBadge } from '../components/status-badge'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
@@ -172,7 +173,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
               , <div>
                   <div>{t`Issued amount`}</div>
-                  <div>{chain_stats.has_blinded_issuances ? t`Confidential`
+                  <div>{chain_stats.has_blinded_issuances ? <ConfidentialBadge t={t} />
                        : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
                 </div>
 
@@ -193,7 +194,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
               , <div>
                   <div>{t`Reissuance tokens created`}</div>
-                  <div>{chain_stats.reissuance_tokens == null ? t`Confidential`
+                  <div>{chain_stats.reissuance_tokens == null ? <ConfidentialBadge t={t} />
                       : chain_stats.reissuance_tokens === 0 ? t`None`
                       : formatNumber(chain_stats.reissuance_tokens) }</div>
                 </div>
@@ -210,7 +211,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
 
               , <div>
                   <div>{t`Circulating amount`}</div>
-                  <div className="mono">{ circulating == null ? t`Confidential`
+                  <div className="mono">{ circulating == null ? <ConfidentialBadge t={t} />
                       : formatAssetAmount(circulating, asset.precision, t) }</div>
                 </div>
 
@@ -284,4 +285,3 @@ const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging
         <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
       </a>
   ]
-

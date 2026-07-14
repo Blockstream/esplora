@@ -1216,10 +1216,13 @@ table th {
 }
 
 .transaction-box {
+  display: flex;
+  flex-direction: column;
   background-color: var(--surface-primary-color);
   padding: 24px;
-  border-radius: var(--radius-rounded-xl);
+  border-radius: 5px;
   margin-top: 24px;
+  gap: 24px;
 }
 
 .transaction-box.loading-transaction {
@@ -1250,7 +1253,6 @@ table th {
   width: fit-content;
   display: flex;
   align-items: center;
-  height: 44px;
   margin-left: auto;
 }
 
@@ -1276,21 +1278,12 @@ table th {
   font-size: 16px;
 }
 
-.details-btn > div > * {
-  display: table-cell;
-  vertical-align: middle;
-}
-
 .details-btn > div:focus {
   outline: none;
 }
 
 .details-btn > div > div:nth-child(1) {
   text-align: center;
-}
-
-.details-btn > div > div:nth-child(2) {
-  width: 30px;
 }
 
 .block-details-btn {
@@ -1301,7 +1294,6 @@ table th {
   display: table;
   table-layout: fixed;
   width: 100%;
-  margin-top: 12px;
 }
 
 .transaction-box > .ins-and-outs > * {
@@ -1649,6 +1641,28 @@ img.footer_container_content_onion-links_icon {
   gap: 10px;
 }
 
+.load-more-loading {
+  align-items: center;
+}
+
+.load-more-loading .loading-container {
+  flex: none;
+  height: 22px;
+  margin-top: 0;
+}
+
+.load-more-loading .spinner {
+  visibility: visible;
+  animation: none;
+}
+
+.load-more-loading .spinner .small {
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  border-width: 3px;
+}
+
 
 .load-more > * {
   display: table-cell;
@@ -1878,6 +1892,13 @@ body::after{
     color: #475562;
     margin-left: -19px;
 }
+
+.amount {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
 .unblinded .vout-header, .unblinded .vin-header {
   background: #04240d;
 }
@@ -1915,13 +1936,13 @@ body::after{
   .transaction-box .header {
     display: flex;
     flex-direction: column-reverse;
-    height: 150px;
     justify-content: space-evenly;
   }
 
   .transaction-box .ins-and-outs {
     display: flex;
     flex-direction: column;
+    gap: 20px;
   }
 
   .transaction-box .ins-and-outs .direction-arrow-container {
@@ -1930,10 +1951,6 @@ body::after{
 
   .transaction-box .ins-and-outs .direction-arrow {
     transform: rotate(90deg);
-  }
-
-  .transaction-box .ins-and-outs > *  {
-    padding:  20px 0;
   }
 
   .transaction-box > .footer > * {
@@ -2097,11 +2114,6 @@ body::after{
 }
 
 @media only screen and (max-width: 500px) {
-
-  .footer {
-    height: auto !important;
-  }
-
   .footer_container_content_row_onion_container {
     margin-top: 10px;
   }
@@ -2848,137 +2860,6 @@ a.back-link img{
   width: 18px;
 }
 
-@media only screen and (max-width: 1100px) {
-  .explorer-container {
-    box-sizing: border-box;
-  }
-
-  .nav-container {
-    flex-wrap: wrap;
-  }
-
-  .main-nav-container {
-    flex-basis: 48px;
-    order: 1;
-    width: 48px;
-  }
-
-  .sub-nav {
-    order: 2;
-    margin-top: 32px;
-  }
-
-  .sub-navbar {
-    margin-top: 32px;
-  }
-
-  .toggle-container{
-    z-index: 100;
-  }
-
-  .toggle-menu .section2 .link-list{
-    margin-right: 20px;
-  }
-
-  .toggle-menu .section1, .toggle-menu .section2{
-    padding: 0 20px;
-  }
-
-/****
-  * Burger Menu for Mobile
-  * A javascript function (toggleIcon) adds a className (open-menu) to toggle the menu
-*****/
-  .toggle-container .toggle-menu{
-    width: 95vw;
-    position: absolute;
-    top: 0px;
-    z-index: 1;
-    transition: none;
-  }
-
-  .toggle-container.open-menu .toggle-menu{
-    visibility: visible;
-    height: auto;
-    padding: 20px 0;
-  }
-
-  .toggle-container.open-menu .burger-icon span{
-    opacity: 0;
-    top: 50%;
-  }
-
-  .toggle-container.open-menu .burger-icon span:first-child {
-    opacity: 1;
-    transform: rotate(45deg);
-  }
-
-  .toggle-container.open-menu .burger-icon span:last-child {
-    opacity: 1;
-    transform: rotate(-45deg);
-  }
-
-  .toggle-container .toggle-menu .toggle-menu-header {
-    justify-content: flex-start;
-  }
-
-  .toggle-menu .section1 .wallets-link{
-    flex-direction: column;
-  }
-
-  .toggle-menu .section1 .wallets-link .wallets-logo{
-    width: auto;
-  }
-
-  .toggle-menu .section1 .wallets-link .store-icons{
-    width: 100%;
-    margin-top: 30px;
-  }
-
-  .navbar-brand{
-    margin-right: 0;
-  }
-
-  .main-nav li{
-    margin-right: 15px;
-  }
-
-  .sub-nav-container{
-    height: auto;
-    flex-direction: column;
-    gap: 24px;
-    align-items: initial;
-  }
-
-  .sub-nav{
-    gap: initial;
-    width: 100%;
-    padding: 0px;
-    justify-content: space-between;
-  }
-
-  .sub-nav a{
-    margin-right: 0;
-  }
-
-  .search-bar{
-    margin: 0;
-    max-width: 100%;
-  }
-
-  .assets-table .assets-table-row{
-    padding:20px;
-  }
-
-  .stats-table{
-    padding: 20px;
-  }
-
-  .search {
-    width: 100%;
-    min-width: auto;
-  }
-}
-
 @media only screen and (max-width: 500px) {
   .toggle-container{
     padding: 30px 0 30px 10px;
@@ -2990,7 +2871,6 @@ a.back-link img{
 
   .sub-nav{
     flex-wrap: wrap;
-    padding-top: auto;
   }
 }
 
@@ -3551,8 +3431,14 @@ a.back-link img{
 }
 
 .tooltip {
+  display: flex;
   position: relative;
   margin-left: 6px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
   cursor: pointer;
 }
 
@@ -3560,8 +3446,15 @@ a.back-link img{
   width: 13px;
 }
 
-.tooltip:hover .tooltip-dialogue {
+.tooltip:hover .tooltip-dialogue,
+.tooltip:focus .tooltip-dialogue {
   display: initial;
+}
+
+.tooltip:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
 }
 
 .tooltip-dialogue {
@@ -3577,7 +3470,21 @@ a.back-link img{
   top: 10px;
   left: 15px;
   text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
   z-index: 999;
+}
+
+@keyframes tooltip-mobile-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .table-header-icon-container {
@@ -3813,6 +3720,16 @@ a.back-link img{
   transition: background-color .3s;
 }
 
+.transaction-table-field-label {
+  display: none;
+}
+
+.transaction-table-row .transaction-table-transaction-id .transaction-table-field-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .transaction-table-row:hover {
   border: 1px solid var(--accent-color);
 }
@@ -3839,7 +3756,7 @@ a.back-link img{
 }
 
 .transaction-table-row .transaction-table-transaction-fee.warning {
-  color: #00C3FF;
+  color: white;
 }
 
 .transaction-table-row .transaction-table-transaction-fee.danger {
@@ -3870,6 +3787,7 @@ a.back-link img{
 .table-header {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .table-header-title {
@@ -3919,68 +3837,6 @@ a.back-link img{
   margin-top: var(--page-gap);
 }
 
-@media only screen and (max-width: 1100px) {
-
-  .block-details {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .block-card-header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: fit-content;
-    width: 100%;
-  }
-
-  .block-usage {
-    width: 100%;
-  }
-
-  .usage-bar, .usage-number {
-    margin-left: initial;
-  }
-
-  .usage-bar {
-    width: initial;
-  }
-
-  .block-card-body {
-    margin-top: 0px;
-    width: initial;
-  }
-
-  .block-icon-container {
-    display: none;
-  }
-
-  .mobile-block-icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 32px;
-    color: var(--accent-color);
-  }
-
-  .mobile-block-icon-container svg {
-    width: 14px;
-  }
-
-  .tx-details-txid {
-    flex-wrap: wrap;
-    line-break: anywhere;
-  }
-
-  .transaction-details-row {
-    flex-direction: column;
-  }
-
-  .info-stats-row {
-    flex-wrap: wrap;
-  }
-}
-
 .overview {
   margin-top: var(--page-gap);
   display: flex;
@@ -3993,17 +3849,20 @@ a.back-link img{
   gap: 12px;
 }
 
-.confirmation-status-badge {
+.status-badge {
   display: inline-flex;
   align-items: center;
   height: fit-content;
-  border-radius: 4px;
   box-sizing: initial;
   padding: 2px 8px;
   font-size: 11px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.status-badge.warning {
   background-color: rgb(from var(--warning-color) r g b / 20%);
   color: var(--warning-color);
-  border-radius: 9999px;
 }
 
 .confirmation-status-dot {
@@ -4042,9 +3901,9 @@ a.back-link img{
   opacity: .2;
 }
 
-.confirmation-status-badge.success {
-  background-color: rgba(23, 201, 100, .2);
-  color: #17C964;
+.status-badge.success {
+  background-color: rgb(from var(--success-color) r g b / 20%);
+  color: var(--success-color);
 }
 
 .eta-label {
@@ -4252,6 +4111,10 @@ a.back-link img{
   color: #B5BDC2;
 }
 
+.difficulty-adjustment-stat-value {
+  font-size: 14px;
+}
+
 .difficulty-adjustment-stat-value.success {
   color: #17C964;
 }
@@ -4368,7 +4231,7 @@ a.back-link img{
   --block-grid-filled-color: var(--accent-color);
   flex: 0 0 auto;
   padding: 10px;
-  border: 2px solid #FA8A0033;
+  border: 2px solid rgb(from var(--accent-color) r g b / 0.2);
   border-radius: 4px;
   background-color: var(--surface-primary-color);
   width: fit-content;
@@ -4459,5 +4322,324 @@ a.back-link img{
 
   .block-details-card-progress {
     margin-top: 16px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .explorer-container {
+    box-sizing: border-box;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+  }
+
+  .main-nav-container {
+    flex-basis: 48px;
+    order: 1;
+    width: 48px;
+  }
+
+  .sub-nav {
+    order: 2;
+    margin-top: 32px;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .sub-navbar {
+    margin-top: 32px;
+  }
+
+  .toggle-container{
+    z-index: 100;
+  }
+
+  .toggle-menu .section2 .link-list{
+    margin-right: 20px;
+  }
+
+  .toggle-menu .section1, .toggle-menu .section2{
+    padding: 0 20px;
+  }
+
+/****
+  * Burger Menu for Mobile
+  * A javascript function (toggleIcon) adds a className (open-menu) to toggle the menu
+*****/
+  .toggle-container .toggle-menu{
+    width: 95vw;
+    position: absolute;
+    top: 0px;
+    z-index: 1;
+    transition: none;
+  }
+
+  .toggle-container.open-menu .toggle-menu{
+    visibility: visible;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .toggle-container.open-menu .burger-icon span{
+    opacity: 0;
+    top: 50%;
+  }
+
+  .toggle-container.open-menu .burger-icon span:first-child {
+    opacity: 1;
+    transform: rotate(45deg);
+  }
+
+  .toggle-container.open-menu .burger-icon span:last-child {
+    opacity: 1;
+    transform: rotate(-45deg);
+  }
+
+  .toggle-container .toggle-menu .toggle-menu-header {
+    justify-content: flex-start;
+  }
+
+  .toggle-menu .section1 .wallets-link{
+    flex-direction: column;
+  }
+
+  .toggle-menu .section1 .wallets-link .wallets-logo{
+    width: auto;
+  }
+
+  .toggle-menu .section1 .wallets-link .store-icons{
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .navbar-brand{
+    margin-right: 0;
+  }
+
+  .main-nav li{
+    margin-right: 15px;
+  }
+
+  .sub-nav-container{
+    height: auto;
+    flex-direction: column;
+    gap: 24px;
+    align-items: initial;
+  }
+
+  .sub-nav a{
+    margin-right: 0;
+  }
+
+  .search-bar{
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .assets-table .assets-table-row{
+    padding:20px;
+  }
+
+  .stats-table{
+    padding: 20px;
+  }
+
+  .search {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .tooltip-dialogue {
+    position: fixed;
+    top: auto;
+    right: 24px;
+    bottom: 24px;
+    left: 24px;
+    width: auto;
+    max-width: none;
+    padding: 12px;
+    border: 1px solid var(--accent-color);
+    animation: tooltip-mobile-enter .2s ease-out;
+  }
+
+  .transaction-table .table-title-row {
+    display: none;
+  }
+
+  .transaction-table-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .transaction-table-row .transaction-table-field {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    text-align: right;
+  }
+
+  .transaction-table-field-label {
+    display: block;
+    color: #B5BDC2;
+    font-size: 10px;
+    font-weight: 400;
+    text-align: left;
+  }
+
+  .transaction-table-field-value {
+    min-width: 0;
+    text-align: right;
+    font-size: 14px;
+  }
+
+  .transaction-table-transaction-id p {
+    font-size: 14px;
+  }
+
+  .transaction-table-field-value .table-copy-button {
+    display: none;
+  }
+
+  .transaction-table-field .status-badge.success {
+    font-weight: normal;
+  }
+
+  .block-number {
+    font-size: 16px;
+  }
+
+  .block-card-top-header .table-copy-button,
+  .block-card-top-header .latest-block-badge {
+    display: none;
+  }
+
+  .block-details {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .block-card-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+    width: 100%;
+  }
+
+  .block-usage {
+    width: 100%;
+  }
+
+  .usage-bar, .usage-number {
+    margin-left: initial;
+  }
+
+  .usage-bar {
+    width: initial;
+  }
+
+  .block-card-body {
+    margin-top: 0px;
+    width: initial;
+  }
+
+  .block-icon-container {
+    display: none;
+  }
+
+  .mobile-block-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    color: var(--accent-color);
+  }
+
+  .mobile-block-icon-container svg {
+    width: 14px;
+  }
+
+  .difficulty-adjustment-stats {
+    flex-wrap: wrap;
+    row-gap: 20px;
+  }
+
+  .difficulty-adjustment-stat {
+    flex: initial;
+    width: 49%;
+  }
+
+  .difficulty-adjustment-stat-divider-middle {
+    display: none;
+  }
+
+  .block-details {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .block-card-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: fit-content;
+    width: 100%;
+  }
+
+  .block-usage {
+    width: 100%;
+  }
+
+  .usage-bar, .usage-number {
+    margin-left: initial;
+  }
+
+  .usage-bar {
+    width: initial;
+  }
+
+  .block-card-body {
+    margin-top: 0px;
+    width: initial;
+  }
+
+  .block-icon-container {
+    display: none;
+  }
+
+  .mobile-block-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    color: var(--accent-color);
+  }
+
+  .mobile-block-icon-container svg {
+    width: 14px;
+  }
+
+  .tx-details-txid {
+    flex-wrap: wrap;
+    line-break: anywhere;
+  }
+
+  .transaction-details-row {
+    flex-direction: column;
+  }
+
+  .info-stats-row {
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 1100px) and (prefers-reduced-motion: reduce) {
+  .tooltip-dialogue {
+    animation: none;
   }
 }

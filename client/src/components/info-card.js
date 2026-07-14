@@ -1,3 +1,5 @@
+import { Tooltip } from "./tooltip";
+
 export const InfoCard = ({
   title,
   tooltip,
@@ -16,12 +18,7 @@ export const InfoCard = ({
     <div className="info-card-header">
       {iconSrc ? <img className="menu-logo" alt="" src={iconSrc} /> : null}
       <p className="info-card-title">{title}</p>
-      {tooltip ? (
-        <div className="tooltip">
-          <img alt="" src={tooltip.iconSrc} />
-          <div className="tooltip-dialogue">{tooltip.text}</div>
-        </div>
-      ) : null}
+      {tooltip ? <Tooltip iconSrc={tooltip.iconSrc} text={tooltip.text} /> : null}
       {headerValue !== undefined ? (
         <p className="info-card-header-value">{headerValue}</p>
       ) : null}

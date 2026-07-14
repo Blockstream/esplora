@@ -138,7 +138,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
 
       <div className="load-more-container">
         <div>
-          { loading ? <div className="load-more g-btn font-btn-2 disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
+          { loading ? <div className="load-more load-more-loading g-btn primary-btn font-btn-2 disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
                     : pagingNav(b, { ...S, t }) }
         </div>
       </div>
@@ -176,5 +176,5 @@ const btnDetails = (blockhash, isOpen, query, t) => process.browser
 const btnDetailsContent = (isOpen, t) =>
   <div role="button" tabindex="0">
     <p>{t`Details`}</p>
-    <div>{isOpen ? <MinusIcon /> : <PlusIcon />}</div>
+    {isOpen ? <MinusIcon /> : <PlusIcon />}
   </div>

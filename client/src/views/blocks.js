@@ -7,6 +7,7 @@ import {
 import loader from "../components/loading";
 import { BlockIcon, ClockIcon, CopyIcon } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
+import { Tooltip } from "../components/tooltip";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -80,12 +81,10 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
                         <p className="usage-number">
                           {getBlockPercentageUsed(b.weight)}%
                         </p>
-                        <div className="tooltip">
-                          <img src={`${staticRoot}img/icons/tooltip.svg`} />
-                          <div className="tooltip-dialogue">
-                            How full this block is.
-                          </div>
-                        </div>
+                        <Tooltip
+                          iconSrc={`${staticRoot}img/icons/tooltip.svg`}
+                          text="How full this block is."
+                        />
                       </div>
                       <div className="usage-bar">
                         <div

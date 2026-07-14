@@ -1,5 +1,6 @@
 import { BlockGrid } from "../components/block-grid";
 import { InfoStat } from "../components/info-stat";
+import { StatusBadge } from "../components/status-badge";
 import { ElapsedTime } from "../components/elapsed-time";
 import {
   formatTime,
@@ -46,9 +47,7 @@ const BlockDetailsCard = ({ className, block, confirmed }) => {
             </p>
 
             {confirmed ? (
-              <div className="confirmation-status-badge success">
-                <p>Confirmed</p>
-              </div>
+              <StatusBadge variant="success">Confirmed</StatusBadge>
             ) : null}
           </div>
 
