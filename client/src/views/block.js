@@ -36,7 +36,7 @@ export default ({
   b &&
   layout(
     [
-      <div className="block-page-container">
+      <div className="block-page">
         <div className="block-box">
           <div className="table-header">
             <div className="table-header-icon-container">
@@ -65,6 +65,7 @@ export default ({
           </div>
           <BlockDetailsCard
             block={b}
+            t={t}
             statusText={
               !status
                 ? null
@@ -82,7 +83,7 @@ export default ({
           <div className="detail-grid">
             <div className="detail-grid-row">
               <div className="detail-field">
-                <p className="detail-field-label">VERSION</p>
+                <p className="detail-field-label">{t`Version`}</p>
                 <div className="detail-field-content">
                   <p>{formatHex(b.version)}</p>
                 </div>
@@ -98,7 +99,7 @@ export default ({
 
             <div className="detail-grid-row">
               <div className="detail-field">
-                <p className="detail-field-label">MERKLE ROOT</p>
+                <p className="detail-field-label">{t`Merkle root`}</p>
                 <div className="detail-field-content">
                   <p>{b.merkle_root}</p>
                 </div>
@@ -106,13 +107,13 @@ export default ({
 
               <div className="detail-field">
                 <p className="detail-field-label">
-                  {process.env.IS_ELEMENTS ? "BLOCK SIGNATURES" : "NONCE"}
+                  {process.env.IS_ELEMENTS ? "BLOCK SIGNATURES" : t`Nonce`}
                 </p>
                 <div className="detail-field-content">
                   {process.env.IS_ELEMENTS ? (
                     <BlockSignatures block={b} />
                   ) : (
-                    <p>{b.nonce}</p>
+                    <p>{formatHex(b.nonce)}</p>
                   )}
                 </div>
               </div>

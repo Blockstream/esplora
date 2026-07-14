@@ -19,13 +19,14 @@ const BlockDetailsCard = ({
   block,
   statusText,
   statusVariant = "success",
+  t,
 }) => {
   const percentage = block
     ? Math.min(Math.max(getBlockPercentageUsed(block.weight), 0), 100)
     : 0;
 
   return (
-    <span className={className}>
+    <div className={className}>
       <div className="block-details-card-summary">
         <BlockGrid blockWeight={block && block.weight} />
 
@@ -59,15 +60,15 @@ const BlockDetailsCard = ({
 
           <div className="block-details-card-stats">
             <InfoStat
-              title="TRANSACTIONS"
+              title={t ? t`Transactions` : "TRANSACTIONS"}
               value={block ? formatInteger(block.tx_count) : "N/A"}
             />
             <InfoStat
-              title="SIZE"
+              title={t ? t`Size` : "SIZE"}
               value={block ? formatVMB(block.size, "MB") : "N/A"}
             />
             <InfoStat
-              title="VIRTUAL SIZE"
+              title={t ? t`Virtual size` : "VIRTUAL SIZE"}
               value={
                 block && Number.isFinite(block.weight)
                   ? `${Math.ceil(block.weight / 4 / 1000)} vKB`
@@ -104,7 +105,7 @@ const BlockDetailsCard = ({
           </div>
         </div>
       </div>
-    </span>
+    </div>
   );
 };
 
