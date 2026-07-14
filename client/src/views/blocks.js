@@ -12,7 +12,7 @@ import { Tooltip } from "../components/tooltip";
 const staticRoot = process.env.STATIC_ROOT || "";
 
 export const blks = (blocks, viewMore, { t, ...S }) => (
-  <div className="block-container">
+  <div className="blocks-page">
     {!blocks ? (
       loader()
     ) : !blocks.length ? (

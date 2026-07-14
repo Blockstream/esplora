@@ -16,7 +16,7 @@ const feeRateClass = (feerate, feeEst) => {
 }
 
 export const transactions = (txs, viewMore, { t, ...S }) => (
-  <div className="tx-container">
+  <div className="txs-page">
     {!txs ? (
       loader()
     ) : !txs.length ? (
@@ -30,7 +30,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
           <h1 className="table-header-title">Latest Transactions</h1>
         </div>
 
-        <div className="table-title-row">
+        <div className="table-title-row latest-transactions-table-title-row">
           <div className="transaction-table-transaction-id">TRANSACTION ID</div>
           <div className="transaction-table-transaction-value">VALUE</div>
           <div className="transaction-table-transaction-size">SIZE</div>
@@ -83,12 +83,14 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
         </div>
 
         {txs && viewMore ? (
-          <a className="view-more font-link-semibold" href="tx/recent">
-            <span>{t`See more`}</span>
-            <div>
-              <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
-            </div>
-          </a>
+          <div className="transaction-table-view-more-container">
+            <a className="view-more font-link-semibold" href="tx/recent">
+              <span>{t`See more`}</span>
+              <div>
+                <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
+              </div>
+            </a>
+          </div>
         ) : (
           ""
         )}

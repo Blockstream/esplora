@@ -91,6 +91,7 @@ All options are optional.
 - `API_URL` - URL for HTTP REST API (defaults to `/api`, change if the API is available elsewhere)
 - `CANONICAL_URL` - absolute base url for user interface (optional, only required for opensearch and canonical link tags)
 - `NATIVE_ASSET_LABEL` - the name of the network native asset (defaults to `BTC`)
+- `TARGET_BLOCK_INTERVAL_SECONDS` - expected time between blocks, used for confirmation ETAs (defaults to `60` for Elements chains and `600` otherwise)
 - `SITE_TITLE` - website title for `<title>` (defaults to `Block Explorer`)
 - `SITE_DESC` - meta description (defaults to `Esplora Block Explorer`)
 - `HOME_TITLE` - text for homepage title (defaults to `SITE_TITLE`)
@@ -107,7 +108,8 @@ Note that `API_URL` should be set to the publicly-reachable URL where the user's
 
 Elements-only configuration:
 
-- `IS_ELEMENTS` - set to `1` to indicate this is an Elements-based chain (enables asset issuance and peg features)
+- `IS_ELEMENTS` - set to `1` to indicate this is an Elements-based chain (enables asset issuance and Elements-specific features)
+- `SHOW_PEG_DATA` - set to `1` to show dashboard peg data and fetch its API resources (enabled by the Liquid mainnet and regtest flavors; custom pegged chains must opt in)
 - `NATIVE_ASSET_ID` - the ID of the native asset used to pay fees (defaults to `6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d`, the asset id for BTC)
 - `BLIND_PREFIX` - the base58 address prefix byte used for confidential addresses (defaults to `12`)
 - `PARENT_CHAIN_EXPLORER_TXOUT` - URL format for linking to transaction outputs on the parent chain, with `{txid}` and `{vout}` as placeholders. Example: `https://blockstream.info/tx/{txid}#output:{vout}`

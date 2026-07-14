@@ -78,7 +78,6 @@
 /******* ASSET TABLE *******/
 
 .asset-container {
-  margin-top: 40px;
   background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;

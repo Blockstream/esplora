@@ -23,6 +23,7 @@ import { InfoStat } from "../components/info-stat";
 import { StatusBadge } from "../components/status-badge";
 import { Tooltip } from "../components/tooltip";
 import BlockDetailsCard from "../components/block-details-card";
+import { targetBlockIntervalSeconds } from "../const";
 
 // Require behind env conditional so it gets removed by `envify` on non-elements builds
 const deduceBlinded =
@@ -241,12 +242,11 @@ const txHeader = (
 ) => {
   const isConfirmed = tx.status && tx.status.confirmed;
   const isLoadingEta = confEstimate == null || mempoolDepth == null;
-  const etaMultiplier = process.env.IS_ELEMENTS ? 1 : 10;
   const etaLabel = isLoadingEta
     ? t`Loading...`
     : confEstimate == -1
       ? t`Unknown`
-      : `~${confEstimate * etaMultiplier} min`;
+      : `~${Math.ceil(confEstimate * targetBlockIntervalSeconds / 60)} min`;
   const confirmationTime =
     isConfirmed && Number.isFinite(tx.status.block_time)
       ? formatTime(tx.status.block_time)

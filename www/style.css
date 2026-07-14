@@ -589,6 +589,7 @@ a, a:link, a:visited, a:hover, a:focus {
   flex-direction: column;
   flex: 1 0 auto;
   padding-bottom: 100px;
+  margin-top: var(--page-gap);
 }
 
 .nav-container{
@@ -1025,18 +1026,20 @@ table th {
   width: 30px;
 }
 
-.asset-page, .mempool-page{
+.mempool-page {
   margin-top: var(--page-gap);
 }
 
 .addr-page,
 .asset-page,
+.blocks-page,
 .block-page,
+.home-page,
+.txs-page,
 .tx-page {
   display: flex;
   flex-direction: column;
   gap: var(--page-gap);
-  margin-top: var(--page-gap);
 }
 
 .prev-next-blocks-btns {
@@ -1221,6 +1224,10 @@ table th {
   display: flex;
   flex-direction: column;
   gap: var(--page-gap);
+}
+
+.block-page-container > .transactions {
+  margin-top: 0;
 }
 
 .transactions > h3, .transactions > img {
@@ -2872,6 +2879,10 @@ a.back-link img{
   padding: 30px;
 }
 
+.transaction-table-view-more-container {
+  margin-top: auto;
+}
+
 .view-more {
   display: flex;
   width: 100%;
@@ -2880,7 +2891,7 @@ a.back-link img{
   font-family: "Rigid Square";
 }
 
-.view-more img{
+.view-more img {
   margin-left: 11px;
   width: 18px;
 }
@@ -2981,7 +2992,7 @@ a.back-link img{
 
 .hero-wrapper {
   display: flex;
-  margin-top: 90px;
+  margin-top: 75px;
 }
 
 @media screen and (max-width: 820px) {
@@ -3500,6 +3511,13 @@ a.back-link img{
   z-index: 999;
 }
 
+@media only screen and (min-width: 1329px) {
+  .tooltip.tooltip-flipped .tooltip-dialogue {
+    right: 15px;
+    left: auto;
+  }
+}
+
 @keyframes tooltip-mobile-enter {
   from {
     opacity: 0;
@@ -3705,6 +3723,9 @@ a.back-link img{
   background-color: var(--surface-primary-color);
   padding: 24px;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .latest-transactions-table-body {
@@ -3738,11 +3759,17 @@ a.back-link img{
 
 .transaction-table-transaction-value {
   flex: 1;
+}
+
+.transaction-table-row .transaction-table-transaction-value {
   color: white;
 }
 
 .transaction-table-transaction-size {
   flex: .5;
+}
+
+.transaction-table-row .transaction-table-transaction-size {
   color: white;
 }
 
@@ -3761,6 +3788,7 @@ a.back-link img{
   font-size: 14px;
   font-weight: 600;
   transition: background-color .3s;
+  gap: 12px;
 }
 
 .transaction-table-field-label {
@@ -3871,10 +3899,15 @@ a.back-link img{
   margin-top: 12px;
   font-size: 10px;
   padding: 0px 12px;
+  gap: 12px;
 }
 
 .table-title-row a {
   color: white !important;
+}
+
+.latest-transactions-table-title-row {
+  color: var(--foreground-muted);
 }
 
 .new-table-entry {
@@ -3882,12 +3915,7 @@ a.back-link img{
   border: 1px solid var(--surface-primary-alt-color);
 }
 
-.block-container, .tx-container {
-  margin-top: var(--page-gap);
-}
-
 .overview {
-  margin-top: var(--page-gap);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -3955,6 +3983,11 @@ a.back-link img{
   color: var(--success-color);
 }
 
+.status-badge.danger {
+  background-color: rgba(var(--danger-color-rgb), .2);
+  color: var(--danger-color);
+}
+
 .eta-label {
   height: fit-content;
   border-radius: 4px;
@@ -3981,7 +4014,7 @@ a.back-link img{
   gap: 12px;
 }
 
-.overview-title {
+.section-title {
   font-weight: 700;
   font-size: 14px;
   font-family: "Rigid Square";
@@ -4477,8 +4510,151 @@ a.back-link img{
   gap: 12px;
 }
 
+.dashboard-transaction-section {
+  display: flex;
+  gap: 12px;
+}
+
+.dashboard-transaction-section > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.peg-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
+  margin-top: 12px;
+}
+
+.peg-info-stale {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(var(--warning-color-rgb), .4);
+  border-radius: 4px;
+  background-color: rgba(var(--warning-color-rgb), .1);
+  color: var(--warning-color);
+  font-size: 12px;
+}
+
+.peg-info-unavailable {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.federation-btc-holdings {
+  width: 100%;
+}
+
+.assets-vs-liabilities {
+  width: 100%;
+  height: auto;
+}
+
+.assets-vs-liabilities-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 13px;
+  gap: 6px;
+}
+
+.assets-vs-liabilities-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.assets-vs-liabilities-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--surface-secondary-color);
+}
+
+.assets-vs-liabilities-fill {
+  height: 100%;
+  background-color: var(--accent-color);
+  border-radius: 9999px;
+}
+
+.assets-vs-liabilities-ratio {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Rigid Square";
+}
+
+.peg-transaction-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.peg-transaction-table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .asset-page > .transactions {
   margin-top: 0;
+}
+
+.peg-transaction-table .info-stats-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.peg-transaction-table .info-stat {
+  flex: 1;
+  align-items: center;
+}
+
+.peg-transaction-table-transaction-type {
+  flex: .75;
+  color: white;
+}
+
+.peg-transaction-table-transaction-txid,
+.peg-transaction-table-transaction-amount {
+  flex: 1;
+  color: white;
+}
+
+.peg-transaction-table-transaction-block {
+  flex: .5;
+  color: white;
+}
+
+.peg-transaction-table-transaction-eta {
+  flex: .5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 4px;
+  text-align: right;
+}
+
+.peg-transaction-table-pegin-badge {
+  font-weight: 400;
+}
+
+.peg-transaction-eta-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-primary-color);
+  font-size: 11px;
+  font-weight: 400;
+  padding: 2px 8px;
+  border-radius: var(--max-border-radius);
 }
 
 @media only screen and (max-width: 820px) {
@@ -4783,6 +4959,12 @@ a.back-link img{
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@media only screen and (max-width: 1328px) {
+  .dashboard-transaction-section {
+    flex-direction: column;
   }
 }
 
