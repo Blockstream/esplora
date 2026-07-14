@@ -107,7 +107,11 @@ export const overview = ({
             text: "Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes.",
           }}
           value={
-            latestBlock ? <ElapsedTime timestamp={latestBlock.timestamp} /> : ""
+            latestBlock ? (
+              <ElapsedTime timestamp={latestBlock.timestamp} compact />
+            ) : (
+              ""
+            )
           }
           footer={
             latestBlock ? `BLOCK #${latestBlock.height.toLocaleString()}` : ""

@@ -21,7 +21,7 @@ import {
 } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
 import { StatusBadge } from "../components/status-badge";
-import BlockDetailsCard from "./block-details-card";
+import BlockDetailsCard from "../components/block-details-card";
 
 // Require behind env conditional so it gets removed by `envify` on non-elements builds
 const deduceBlinded =
@@ -61,7 +61,7 @@ export default ({
 
   return layout(
     [
-      <div className="container">
+      <div className="tx-page-container">
         {txHeader(tx, { t, tipHeight, ...S })}
         {unblinded && unblinded.error ? (
           <div className="transaction-warning text-danger mt-3">
@@ -91,7 +91,7 @@ export default ({
             <BlockDetailsCard
               className="transaction-block-details"
               block={block}
-              confirmed={tx.status.confirmed}
+              statusText={t`Confirmed`}
             />
           </div>
         ) : null}
@@ -292,19 +292,19 @@ const txHeader = (
               <InfoStat title="REPLACE BY FEE" value={t`Opted in`} />
             ) : null}
           </div>
-          <div className="transaction-details">
-            <div className="transaction-details-row">
+          <div className="detail-grid">
+            <div className="detail-grid-row">
               {isConfirmed ? (
-                <div className="tx-overview-panel">
-                  <p className="tx-overview-panel-label">CONFIRMATION TIME</p>
-                  <div className="tx-overview-panel-details">
+                <div className="detail-field">
+                  <p className="detail-field-label">CONFIRMATION TIME</p>
+                  <div className="detail-field-content">
                     <p>{confirmationTime}</p>
                   </div>
                 </div>
               ) : (
-                <div className="tx-overview-panel">
-                  <p className="tx-overview-panel-label">ETA</p>
-                  <div className="tx-overview-panel-details">
+                <div className="detail-field">
+                  <p className="detail-field-label">ETA</p>
+                  <div className="detail-field-content">
                     <div className="eta-label">
                       <div className="dot"></div>
                       <p>{etaLabel}</p>
@@ -327,16 +327,16 @@ const txHeader = (
                 </div>
               )}
 
-              <div className="tx-overview-panel">
-                <p className="tx-overview-panel-label">TRANSACTION FEES</p>
-                <div className="tx-overview-panel-details">
+              <div className="detail-field">
+                <p className="detail-field-label">TRANSACTION FEES</p>
+                <div className="detail-field-content">
                   {feerate != null ? (
                     <div>
                       <div className="overview-fees">
-                        <p className="tx-overview-panel-fee">
+                        <p className="transaction-fee-value">
                           {formatSat(tx.fee)}
                         </p>
-                        <p className="tx-overview-panel-fee-p-vb">
+                        <p className="transaction-fee-rate">
                           {`(${feerate.toFixed(2)} sat/vB)`}
                         </p>
                       </div>
@@ -360,17 +360,17 @@ const txHeader = (
               </div>
             </div>
 
-            <div className="transaction-details-row">
-              <div className="tx-overview-panel">
-                <p className="tx-overview-panel-label">PRIVACY ANALYSIS</p>
-                <div className="tx-overview-panel-details">
+            <div className="detail-grid-row">
+              <div className="detail-field">
+                <p className="detail-field-label">PRIVACY ANALYSIS</p>
+                <div className="detail-field-content">
                   <div>{privacyAnalysisView(privacyAnalysis, t)}</div>
                 </div>
               </div>
 
-              <div className="tx-overview-panel">
-                <p className="tx-overview-panel-label">SEGWIT FEE SAVINGS</p>
-                <div className="tx-overview-panel-details">
+              <div className="detail-field">
+                <p className="detail-field-label">SEGWIT FEE SAVINGS</p>
+                <div className="detail-field-content">
                   <div>{segwitSavings || "N/A"}</div>
                 </div>
               </div>

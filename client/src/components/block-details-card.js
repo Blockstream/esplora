@@ -1,17 +1,25 @@
-import { BlockGrid } from "../components/block-grid";
-import { InfoStat } from "../components/info-stat";
-import { StatusBadge } from "../components/status-badge";
-import { ElapsedTime } from "../components/elapsed-time";
+import { BlockGrid } from "./block-grid";
+import { InfoStat } from "./info-stat";
+import { StatusBadge } from "./status-badge";
+import { ElapsedTime } from "./elapsed-time";
+import { Tooltip } from "./tooltip";
 import {
   formatTime,
   formatVMB,
   getBlockPercentageUsed,
-} from "./util";
+} from "../views/util";
+
+const staticRoot = process.env.STATIC_ROOT || "";
 
 const formatInteger = (value) =>
   Number.isFinite(value) ? value.toLocaleString() : "N/A";
 
-const BlockDetailsCard = ({ className, block, confirmed }) => {
+const BlockDetailsCard = ({
+  className,
+  block,
+  statusText,
+  statusVariant = "success",
+}) => {
   const percentage = block
     ? Math.min(Math.max(getBlockPercentageUsed(block.weight), 0), 100)
     : 0;
@@ -38,16 +46,14 @@ const BlockDetailsCard = ({ className, block, confirmed }) => {
               title={block ? formatTime(block.timestamp) : ""}
             >
               {block ? (
-                <span>
-                  <ElapsedTime timestamp={block.timestamp} /> ago
-                </span>
+                <ElapsedTime timestamp={block.timestamp} />
               ) : (
                 "Loading block..."
               )}
             </p>
 
-            {confirmed ? (
-              <StatusBadge variant="success">Confirmed</StatusBadge>
+            {statusText ? (
+              <StatusBadge variant={statusVariant}>{statusText}</StatusBadge>
             ) : null}
           </div>
 
@@ -60,11 +66,25 @@ const BlockDetailsCard = ({ className, block, confirmed }) => {
               title="SIZE"
               value={block ? formatVMB(block.size, "MB") : "N/A"}
             />
+            <InfoStat
+              title="VIRTUAL SIZE"
+              value={
+                block && Number.isFinite(block.weight)
+                  ? `${Math.ceil(block.weight / 4 / 1000)} vKB`
+                  : "N/A"
+              }
+            />
           </div>
 
           <div className="block-details-card-progress">
             <div className="block-details-card-progress-header">
-              <p>BLOCK FILLING</p>
+              <div className="block-details-card-progress-title">
+                <p>BLOCK FILLING</p>
+                <Tooltip
+                  iconSrc={`${staticRoot}img/icons/tooltip.svg`}
+                  text="How full the block is."
+                />
+              </div>
               <p className="usage-number">
                 {block ? `${percentage}%` : "N/A"}
               </p>

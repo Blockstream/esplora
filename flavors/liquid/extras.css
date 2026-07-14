@@ -1,5 +1,6 @@
 :root {
-  --accent-color: #22E1C9;
+  --accent-color-rgb: 34, 225, 201;
+  --accent-color: rgb(var(--accent-color-rgb));
   --background-color: #0E012D;
   --surface-primary-color: #0C1537;
   --surface-secondary-color: #172146;
