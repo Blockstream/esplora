@@ -5,7 +5,7 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import { isBitcoinNetwork } from './lib/network'
 import getPrivacyAnalysis from './lib/privacy-analysis'
-import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod } from './const'
+import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod, showPegData } from './const'
 import {
     dbg,
     combine,
@@ -76,6 +76,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
+  , recoverableReply = cat => O.merge(
+        reply(cat).map(value => ({ value, succeeded: true }))
+      , extractErrors(HTTP.select(cat)).mapTo({ succeeded: false }))
+      .scan((state, result) => result.succeeded
+          ? { value: result.value, error: false }
+          : { ...state, error: true }
+        , { value: null, error: false })
+      .startWith({ value: null, error: false })
   , on    = (sel, ev, opt={}) => DOM.select(sel).events(ev, opt)
   , click = sel => on(sel, 'click').map(e => e.ownerTarget.dataset)
 
@@ -245,8 +253,28 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , newTxEntries$ = trackNewEntries(mempoolRecent$, tx => tx.txid)
 
   // dashboard
-  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, (blks, txs) =>
-        ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 5)}))
+  , dashboardPegAsset$ = !showPegData
+      ? O.of({ value: null, error: false })
+      : recoverableReply('dashboard-peg-asset')
+  , dashboardPegChainTxs$ = !showPegData
+      ? O.of({ value: null, error: false })
+      : recoverableReply('dashboard-peg-chain-txs')
+  , dashboardPegMempoolTxs$ = !showPegData
+      ? O.of({ value: null, error: false })
+      : recoverableReply('dashboard-peg-mempool-txs')
+  , dashboardPegState$ = O.combineLatest(
+      dashboardPegAsset$
+    , dashboardPegChainTxs$
+    , dashboardPegMempoolTxs$
+    , (asset, chainTxs, mempoolTxs) => ({
+        asset: asset.value
+      , txs: chainTxs.value != null && mempoolTxs.value != null
+          ? [ ...mempoolTxs.value, ...chainTxs.value ]
+          : null
+      , error: asset.error || chainTxs.error || mempoolTxs.error
+      }))
+  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, dashboardPegState$, (blks, txs, peg) =>
+        ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 11), peg }))
 
   , dashboardEpochStartBlock$ = reply('dashboard-epoch-start-block', true)
       .map(r => ({ ...r.body, requestedHeight: r.request.height }))
@@ -455,13 +483,23 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , tickWhileViewing(60000, 'dashBoard', view$)
         .flatMap(_ =>          [{ category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: true }
                               , { category: 'mempool',    method: 'GET', path: '/mempool', bg: true }
-                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }])
+                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }]
+          .concat(!showPegData ? [] :
+                              [{ category: 'dashboard-peg-asset', method: 'GET', path: `/asset/${nativeAssetId}`, bg: true }
+                              , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
+                              , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }]))
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }
                               , { category: 'mempool',    method: 'GET', path: '/mempool' }
                               , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }])
+
+    // fetch peg data only when opening an Elements dashboard
+    , !showPegData ? O.empty() :
+        goHome$.flatMap(_ =>  [{ category: 'dashboard-peg-asset', method: 'GET', path: `/asset/${nativeAssetId}`, bg: true }
+                              , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
+                              , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }])
     //
     // elements/liquid only
     //
@@ -548,6 +586,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
     on('.tooltip', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
+
+    const keepTooltipInViewport = ({ ownerTarget: tooltip }) => {
+      const dialogue = tooltip.querySelector('.tooltip-dialogue')
+      if (!dialogue) return
+
+      tooltip.classList.remove('tooltip-flipped')
+      const bounds = dialogue.getBoundingClientRect()
+          , viewportWidth = document.documentElement.clientWidth
+      tooltip.classList.toggle('tooltip-flipped', bounds.left < 0 || bounds.right > viewportWidth)
+    }
+    O.merge(on('.tooltip', 'mouseenter'), on('.tooltip', 'focus')).subscribe(keepTooltipInViewport)
 
     on('.toggle-container', 'click').subscribe(({ ownerTarget: burgerMenu }) => {
       burgerMenu.classList.toggle('open-menu');

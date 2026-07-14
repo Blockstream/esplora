@@ -98,7 +98,7 @@ export const overview = ({
 
   return (
     <div className="overview">
-      <p className="overview-title">Overview</p>
+      <p className="section-title">Overview</p>
       <div className="overview-body">
         <InfoCard
           title="Time since last block"
