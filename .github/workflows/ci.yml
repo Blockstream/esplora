@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  locked-production-build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: |
+            npm-shrinkwrap.json
+            client/npm-shrinkwrap.json
+            prerender-server/npm-shrinkwrap.json
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Build Elements explorer
+        env:
+          API_URL: /api
+          IS_ELEMENTS: "1"
+          NATIVE_ASSET_ID: 11b705a6eaa8ebcb8cbdb9ae162d415afd3ed787385e541dc3224b88c2089057
+          NATIVE_ASSET_LABEL: L-BTC
+          BLIND_PREFIX: "4"
+          SITE_TITLE: LayerTwoLabs Liquid Signet Explorer
+          HOME_TITLE: LayerTwoLabs Liquid Signet
+        run: npm run dist
+      - name: Verify drivechain bundle
+        run: |
+          test -s dist/index.html
+          test -s dist/app.js
+          test -s dist/style.css
+          grep -q 'drivechain/pegs' dist/app.js
+          grep -q 'Peg activity' dist/app.js
+          grep -q 'peg-event-row' dist/style.css

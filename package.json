@@ -4,7 +4,7 @@
   "scripts": {
     "dev-server": "babel-node dev-server.js",
     "prerender-server": "cd prerender-server && npm start",
-    "postinstall": "(cd client && npm install) && (cd prerender-server && npm install)",
+    "postinstall": "(cd client && npm ci) && (cd prerender-server && npm ci)",
     "dist": "./build.sh",
     "l10n:fetch": "./lang/util/fetch-transifex.sh",
     "l10n:update-strings": "./lang/util/update-strings.sh"
@@ -14,25 +14,29 @@
   "browserslist": "> 0.5%",
   "devDependencies": {
     "browserify-middleware": "^8.1.1",
-    "express": "^4.17.1",
-    "glob": "^7.1.6",
-    "morgan": "^1.10.0"
+    "express": "^4.22.2",
+    "glob": "^7.2.3",
+    "morgan": "^1.11.0"
   },
   "dependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/node": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "browserify": "^17.0.0",
+    "@babel/cli": "^7.29.7",
+    "@babel/core": "^7.29.0",
+    "@babel/node": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "browserify": "^17.0.1",
     "bundle-collapser": "^1.4.0",
-    "cssjanus": "^2.0.1",
+    "cssjanus": "^2.3.1",
     "move-decimal-point": "0.0.4",
-    "patch-package": "^6.2.2",
-    "pofile": "^1.1.0",
-    "pug": "^3.0.0",
+    "patch-package": "^6.5.1",
+    "pofile": "^1.1.4",
+    "pug": "^3.0.4",
     "pug-cli": "^1.0.0-alpha6",
     "snabbdom-to-html": "^6.0.0",
     "typeface-inconsolata": "0.0.72",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.10"
+  },
+  "engines": {
+    "node": ">=20 <26",
+    "npm": ">=10 <12"
   }
 }

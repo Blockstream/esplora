@@ -8,7 +8,7 @@
     "dist": "../node_modules/.bin/babel -d dist src"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.11",
+    "@babel/plugin-transform-react-jsx": "^7.29.0",
     "@babel/polyfill": "^7.12.1",
     "@cycle/dom": "^22.8.0",
     "@cycle/history": "^7.4.0",
@@ -21,19 +21,23 @@
     "browserify-package-json": "^1.0.1",
     "bs58check": "^2.1.2",
     "bundle-collapser": "^1.4.0",
-    "debug": "^4.3.1",
+    "debug": "^4.4.3",
     "envify": "^4.1.0",
     "fmtbtc": "0.0.3",
     "in-browser-language": "^1.0.3",
     "instascan": "github:shesek/instascan#packaged-lib",
-    "jquery": "^3.5.1",
-    "path-to-regexp": "^6.2.0",
-    "qrcode": "^1.4.4",
-    "rxjs": "^6.6.3",
-    "rxjs-compat": "^6.6.3",
+    "jquery": "^3.7.1",
+    "path-to-regexp": "^6.3.0",
+    "qrcode": "^1.5.4",
+    "rxjs": "^6.6.7",
+    "rxjs-compat": "^6.6.7",
     "snabbdom-pragma": "^2.8.0",
     "superagent": "^6.1.0",
     "uglifyify": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=20 <26",
+    "npm": ">=10 <12"
   },
   "browserify": {
     "transform": [

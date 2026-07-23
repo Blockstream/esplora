@@ -1,5 +1,5 @@
 {
-  presets: [ "@babel/env" ]
+  presets: [[ "@babel/env", { targets: { ie: "11" } } ]]
 , plugins: [
     ["@babel/plugin-transform-react-jsx", {"pragma": "require('snabbdom-pragma').createElement"}]
   ]
