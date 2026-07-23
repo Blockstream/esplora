@@ -31,7 +31,7 @@ const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
-const reservedPaths = [ 'mempool', 'assets', 'search' ]
+const reservedPaths = [ 'mempool', 'assets', 'pegs', 'search' ]
     , NEW_TABLE_ENTRY_MS = 2000
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
@@ -110,6 +110,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
     , limit: +loc.query.limit || 50,
     }))
+  , goPegs$ = !process.env.IS_ELEMENTS ? O.empty() : route('/pegs')
   , blindingReq$ = !(process.env.IS_ELEMENTS && process.browser) ? O.empty()
       : page$.map(loc => loc.hash.startsWith('#blinded=') ? loc.hash.substr(9) : null)
   // End Elements only
@@ -118,7 +119,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // three ways to search: via the form, using the short /<query> search URL and using the QR scanner.
   // this triggers a redirect to /search?q=<query>, which then triggers the search itself.
   , searchQuery$ = O.merge(
-      on('.search', 'submit').map(e => e.target.querySelector('[name=q]').value)
+      on('.search', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=q]').value)
     , route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q).filter(q => !reservedPaths.includes(q))
     , scan$
     )
@@ -292,6 +293,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , assetList$ = !process.env.IS_ELEMENTS ? O.empty() :
       reply('assetlist', true).map(r => ({ assets: r.body, total: r.headers['x-total-results'] || 493 }))
 
+  , pegEvents$ = !process.env.IS_ELEMENTS ? O.empty() : O.merge(
+      reply('drivechain-pegs').map(events => current =>
+        current && current.l1_available ? current : ({ ...events, l1_available: false }))
+    , reply('drivechain-pegs-l1', true).map(r => _ => ({ ...r.body, l1_available: true }))
+    , goPegs$.mapTo(_ => null)
+    ).startWith(null).scan((current, mod) => mod(current))
+
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
@@ -310,6 +318,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
                   , goAssetList$.mapTo('assetList')
+                  , goPegs$.mapTo('pegs')
                   , error$.mapTo('error'))
       .combineLatest(isReady$, loading$, (view, isReady, loading) =>
         !isReady ? 'loading' : view || (loading ? 'loading' : 'notFound'))
@@ -338,6 +347,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                    , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)
                    , asset$.filter(notNully).withLatestFrom(t$, (asset, t) => t`Asset: ${asset.asset_id}`)
                    , goAssetList$.withLatestFrom(t$, (_, t) => t`Registered assets`)
+                   , goPegs$.withLatestFrom(t$, (_, t) => t`Peg activity`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
                    , goRecent$.withLatestFrom(t$, (_, t) => t`Recent transactions`))
@@ -352,6 +362,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , tx$, txBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
+                     , pegEvents$
                      , isReady$, loading$, page$, view$, title$
                      })
 
@@ -483,6 +494,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
+
+    // fetch the sidechain peg timeline, then enrich it with L1 events when the enforcer is available
+    , goPegs$.merge(tickWhileViewing(600000, 'pegs', view$))
+        .flatMap(_ =>         [{ category: 'drivechain-pegs', method: 'GET', path: '/drivechain/pegs'
+                              , query: { start_height: 0, count: 10000, include_l1: false } }
+                              , { category: 'drivechain-pegs-l1', method: 'GET', path: '/drivechain/pegs', bg: true
+                              , query: { start_height: 0, count: 10000, include_l1: true } }])
     ).map(setBase)
 
   // DOM sink
@@ -508,6 +526,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
       , assetMap$,  goAssetList$, assetList$
+      , goPegs$, pegEvents$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers

@@ -382,6 +382,26 @@ Assets are returned in the same format as in `GET /asset/:asset_id`.
 
 The total number of results will be returned as the `x-total-results` header.
 
+### `GET /drivechain/pegs`
+
+Get the versioned BIP300 deposit, withdrawal, bundle commitment, and optional L1
+acknowledgement timeline for the active Elements sidechain.
+
+Query string parameters:
+
+- `start_height`: first sidechain height to scan. defaults to 0.
+- `count`: number of sidechain blocks to scan. defaults to 10000, maximum 10000.
+- `include_l1`: include normalized L1 CUSF lifecycle events. accepts `true`,
+  `false`, `1`, or `0` and defaults to `false`.
+
+The response includes `schema_version`, `sidechain_id`, `sidechain_tip`, the
+scanned `range`, and an `events` array. Event objects have stable `event_id`,
+`source`, `kind`, and `status` fields plus identifiers, values, and chain
+locations relevant to that lifecycle step.
+
+When `include_l1=true`, an unavailable L1 lifecycle provider returns HTTP 502.
+Clients can retry with `include_l1=false` to retain the sidechain-only timeline.
+
 ## Transaction format
 
 - `txid`

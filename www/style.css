@@ -572,7 +572,7 @@ a, a:link, a:visited, a:hover, a:focus {
   max-width: 1280px;
   padding: 0px 24px;
   padding-top: 12px;
-  box-sizing: initial;
+  box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2879,6 +2879,7 @@ a.back-link img{
 
 .landing-page {
   position: relative;
+  overflow-x: hidden;
 }
 
 .hero-section {
@@ -3904,6 +3905,237 @@ a.back-link img{
 .status-badge.success {
   background-color: rgb(from var(--success-color) r g b / 20%);
   color: var(--success-color);
+}
+
+/******* PEG ACTIVITY *******/
+
+.peg-page {
+  margin-top: var(--page-gap);
+}
+
+.peg-content {
+  min-width: 0;
+}
+
+.peg-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.peg-page-header .table-header-title {
+  color: #FAFAFA;
+}
+
+.peg-page-subtitle {
+  margin: 3px 0 0 16px;
+  color: var(--foreground-muted);
+  font-size: 12px;
+}
+
+.peg-l1-state,
+.peg-status {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.peg-l1-state {
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
+.peg-l1-state.online,
+.peg-status.success {
+  color: var(--success-color);
+  background: rgb(from var(--success-color) r g b / 16%);
+}
+
+.peg-l1-state.offline {
+  color: var(--foreground-muted);
+  background: var(--surface-secondary-color);
+}
+
+.peg-loading,
+.peg-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  color: var(--foreground-muted);
+}
+
+.peg-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 24px;
+  border-top: 1px solid #353535;
+  border-bottom: 1px solid #353535;
+}
+
+.peg-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border-right: 1px solid #353535;
+}
+
+.peg-summary-item:last-child {
+  border-right: 0;
+}
+
+.peg-summary-item span {
+  color: var(--foreground-muted);
+  font-size: 10px;
+}
+
+.peg-summary-item strong {
+  font-family: "Rigid Square", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.peg-timeline-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.peg-timeline-header h2 {
+  font-family: "Rigid Square", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.peg-timeline-header span {
+  color: var(--foreground-muted);
+  font-size: 12px;
+}
+
+.peg-timeline {
+  margin-top: 12px;
+  border-top: 1px solid #353535;
+}
+
+.peg-event-row {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) minmax(130px, auto);
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #353535;
+}
+
+.peg-event-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success-color);
+  box-shadow: 0 0 0 4px rgb(from var(--success-color) r g b / 12%);
+}
+
+.peg-event-marker.warning {
+  background: var(--warning-color);
+  box-shadow: 0 0 0 4px rgb(from var(--warning-color) r g b / 12%);
+}
+
+.peg-event-marker.danger {
+  background: var(--danger-color);
+  box-shadow: 0 0 0 4px rgb(from var(--danger-color) r g b / 12%);
+}
+
+.peg-event-marker.info {
+  background: var(--foreground-link-color);
+  box-shadow: 0 0 0 4px rgb(from var(--foreground-link-color) r g b / 12%);
+}
+
+.peg-event-heading,
+.peg-event-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.peg-event-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.peg-status {
+  padding: 2px 8px;
+  font-size: 10px;
+}
+
+.peg-status.warning {
+  color: var(--warning-color);
+  background: rgb(from var(--warning-color) r g b / 16%);
+}
+
+.peg-status.danger {
+  color: var(--danger-color);
+  background: rgb(from var(--danger-color) r g b / 16%);
+}
+
+.peg-status.info {
+  color: var(--foreground-link-color);
+  background: rgb(from var(--foreground-link-color) r g b / 16%);
+}
+
+.peg-event-meta {
+  margin-top: 7px;
+  color: var(--foreground-muted);
+  font-size: 12px;
+}
+
+.peg-event-meta > *:not(:last-child)::after {
+  content: "·";
+  margin-left: 8px;
+  color: #55585A;
+}
+
+.peg-event-id {
+  font-family: "Inconsolata", monospace;
+}
+
+.peg-event-location {
+  color: var(--foreground-muted);
+  font-size: 12px;
+  text-align: right;
+}
+
+@media only screen and (max-width: 720px) {
+  .peg-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .peg-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .peg-summary-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .peg-summary-item:nth-child(-n+2) {
+    border-bottom: 1px solid #353535;
+  }
+
+  .peg-event-row {
+    grid-template-columns: 12px minmax(0, 1fr);
+  }
+
+  .peg-event-location {
+    grid-column: 2;
+    text-align: left;
+  }
 }
 
 .eta-label {
