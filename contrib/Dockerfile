@@ -21,7 +21,9 @@ WORKDIR /srv/explorer/source
 SHELL ["/bin/bash", "-c"]
 
 RUN source /root/.nvm/nvm.sh \
- && npm install && (cd prerender-server && npm run dist) \
+ && npm install \
+ && npm test \
+ && (cd prerender-server && npm run dist) \
  && DEST=/srv/explorer/static/bitcoin-mainnet \
     npm run dist -- bitcoin-mainnet \
  && DEST=/srv/explorer/static/bitcoin-testnet \
