@@ -6,6 +6,7 @@
     "prerender-server": "cd prerender-server && npm start",
     "postinstall": "(cd client && npm install) && (cd prerender-server && npm install)",
     "dist": "./build.sh",
+    "test": "node --require @babel/register --test test/*.test.js",
     "l10n:fetch": "./lang/util/fetch-transifex.sh",
     "l10n:update-strings": "./lang/util/update-strings.sh"
   },
@@ -13,6 +14,7 @@
   "license": "MIT",
   "browserslist": "> 0.5%",
   "devDependencies": {
+    "@babel/register": "^7.12.10",
     "browserify-middleware": "^8.1.1",
     "express": "^4.17.1",
     "glob": "^7.1.6",
