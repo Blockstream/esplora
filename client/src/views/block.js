@@ -1,6 +1,6 @@
 import layout from "./layout";
 import { txBox } from "./tx";
-import { formatHex, formatNumber } from "./util";
+import { formatNumber } from "./util";
 import loader from "../components/loading";
 import {
   BlockIcon,
@@ -8,11 +8,6 @@ import {
   CaretCircleRightIcon,
 } from "../components/icons";
 import BlockDetailsCard from "../components/block-details-card";
-
-// Require behind env conditional so it gets removed by `envify` on non-elements builds
-const BlockSignatures =
-  process.env.IS_ELEMENTS &&
-  require("../components/block-signatures").default;
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -66,6 +61,7 @@ export default ({
           <BlockDetailsCard
             block={b}
             t={t}
+            detailsOpen={S.openBlock === b.id}
             statusText={
               !status
                 ? null
@@ -77,48 +73,6 @@ export default ({
               status && status.in_best_chain ? "success" : "warning"
             }
           />
-        </div>
-
-        <div className="block-box">
-          <div className="detail-grid">
-            <div className="detail-grid-row">
-              <div className="detail-field">
-                <p className="detail-field-label">{t`Version`}</p>
-                <div className="detail-field-content">
-                  <p>{formatHex(b.version)}</p>
-                </div>
-              </div>
-
-              <div className="detail-field">
-                <p className="detail-field-label">BLOCK HASH</p>
-                <div className="detail-field-content">
-                  <p>{b.id}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="detail-grid-row">
-              <div className="detail-field">
-                <p className="detail-field-label">{t`Merkle root`}</p>
-                <div className="detail-field-content">
-                  <p>{b.merkle_root}</p>
-                </div>
-              </div>
-
-              <div className="detail-field">
-                <p className="detail-field-label">
-                  {process.env.IS_ELEMENTS ? "BLOCK SIGNATURES" : t`Nonce`}
-                </p>
-                <div className="detail-field-content">
-                  {process.env.IS_ELEMENTS ? (
-                    <BlockSignatures block={b} />
-                  ) : (
-                    <p>{formatHex(b.nonce)}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="transactions">

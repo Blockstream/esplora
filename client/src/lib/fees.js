@@ -1,5 +1,25 @@
 const MAX_BLOCK_VSIZE = 1000000
 
+export const getFeeTierBoundaries = feeEst => {
+  const low = feeEst && feeEst[12]
+    , high = feeEst && feeEst[3]
+
+  return Number.isFinite(low) && Number.isFinite(high) && low >= 0 && high >= 0
+    ? { low, high: Math.max(low, high) }
+    : null
+}
+
+export const feeRateClass = (feerate, feeEst) => {
+  const boundaries = getFeeTierBoundaries(feeEst)
+  if (!Number.isFinite(feerate) || !boundaries) return ""
+
+  return feerate <= boundaries.low
+    ? "success"
+    : feerate <= boundaries.high
+      ? "warning"
+      : "danger"
+}
+
 // Squash fee buckets into fixed fee-rates ranges, with steps of 50% (1, 1.5, 2.25, ..)
 const SQUASH_BUCKETS = Array.from(Array(20)).map((_,i) => 1*Math.pow(1.5, i)).reverse().concat(0)
 

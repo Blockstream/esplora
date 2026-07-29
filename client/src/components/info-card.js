@@ -1,5 +1,7 @@
 import { Tooltip } from "./tooltip";
 
+const staticRoot = process.env.STATIC_ROOT || "";
+
 export const InfoCard = ({
   title,
   tooltip,
@@ -18,7 +20,12 @@ export const InfoCard = ({
     <div className="info-card-header">
       {iconSrc ? <img className="menu-logo" alt="" src={iconSrc} /> : null}
       <p className="info-card-title">{title}</p>
-      {tooltip ? <Tooltip iconSrc={tooltip.iconSrc} text={tooltip.text} /> : null}
+      {tooltip ? (
+        <Tooltip
+          iconSrc={`${staticRoot}img/icons/tooltip.svg`}
+          text={tooltip}
+        />
+      ) : null}
       {headerValue !== undefined ? (
         <p className="info-card-header-value">{headerValue}</p>
       ) : null}

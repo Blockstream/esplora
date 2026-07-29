@@ -1,8 +1,10 @@
-import { maxBlockWeight } from "../const";
+import { blockGridLoadingDelayMs, maxBlockWeight } from "../const";
+import { clamp } from "../lib/math";
 
 const GRID_LENGTH = 15;
+const LOADING_GRID_LENGTH = 5;
 
-const drawBlockGrid = (canvas, blockWeight) => {
+const drawBlockGrid = (canvas, blockWeight, weightLimit) => {
   if (
     typeof HTMLCanvasElement === "undefined" ||
     !(canvas instanceof HTMLCanvasElement)
@@ -18,8 +20,12 @@ const drawBlockGrid = (canvas, blockWeight) => {
   const gap = 2;
   const cellWidth = (width - gap * (GRID_LENGTH - 1)) / GRID_LENGTH;
   const cellHeight = (height - gap * (GRID_LENGTH - 1)) / GRID_LENGTH;
-  const fillRatio = Number.isFinite(blockWeight)
-    ? Math.min(Math.max(blockWeight / maxBlockWeight, 0), 1)
+  const hasUtilization =
+    Number.isFinite(blockWeight) &&
+    Number.isFinite(weightLimit) &&
+    weightLimit > 0;
+  const fillRatio = hasUtilization
+    ? clamp(blockWeight / weightLimit, 0, 1)
     : 0;
   const filledCells = Math.round(fillRatio * GRID_LENGTH * GRID_LENGTH);
   const styles = window.getComputedStyle(canvas);
@@ -48,8 +54,8 @@ const drawBlockGrid = (canvas, blockWeight) => {
   }
 };
 
-const drawGrid = (vnode, blockWeight) => {
-  const draw = () => drawBlockGrid(vnode.elm, blockWeight);
+const drawGrid = (vnode, blockWeight, weightLimit) => {
+  const draw = () => drawBlockGrid(vnode.elm, blockWeight, weightLimit);
 
   if (typeof window !== "undefined" && window.requestAnimationFrame) {
     window.requestAnimationFrame(draw);
@@ -59,14 +65,47 @@ const drawGrid = (vnode, blockWeight) => {
   draw();
 };
 
-export const BlockGrid = ({ blockWeight } = {}) => {
-  const hasBlockWeight = Number.isFinite(blockWeight);
+const BlockGridLoading = ({ label, loadingDelayMs }) => (
+  <div
+    className="block-details-card-grid-loading"
+    role="status"
+    aria-label={label}
+    style={{ animationDelay: `${loadingDelayMs}ms` }}
+  >
+    <div className="pending-block-grid-loading-wave" aria-hidden="true">
+      {Array.from({
+        length: LOADING_GRID_LENGTH * LOADING_GRID_LENGTH,
+      }).map((_, index) => {
+        const row = Math.floor(index / LOADING_GRID_LENGTH);
+        const column = index % LOADING_GRID_LENGTH;
+
+        return (
+          <span
+            key={index}
+            style={{ animationDelay: `${(row + column) * 70}ms` }}
+          ></span>
+        );
+      })}
+    </div>
+  </div>
+);
+
+export const BlockGrid = ({
+  formatAriaLabel = (percentage) =>
+    `Block is ${percentage}% full`,
+  blockWeight,
+  loading = true,
+  loadingLabel = "Loading block utilization",
+  loadingDelayMs = blockGridLoadingDelayMs,
+  unavailableLabel = "Block utilization unavailable",
+  weightLimit = maxBlockWeight,
+} = {}) => {
+  const hasBlockWeightLimit = Number.isFinite(weightLimit) && weightLimit > 0;
+  const hasBlockWeight = Number.isFinite(blockWeight) && hasBlockWeightLimit;
   const percentage = hasBlockWeight
-    ? Math.min(
-        Math.max(
-          Math.round((blockWeight / maxBlockWeight) * 10_000) / 100,
-          0,
-        ),
+    ? clamp(
+        Math.round((blockWeight / weightLimit) * 10_000) / 100,
+        0,
         100,
       )
     : 0;
@@ -76,13 +115,28 @@ export const BlockGrid = ({ blockWeight } = {}) => {
       <canvas
         aria-label={
           hasBlockWeight
-            ? `Block is ${percentage}% full`
-            : "Block utilization unavailable"
+            ? formatAriaLabel(percentage)
+            : loading
+              ? loadingLabel
+              : unavailableLabel
         }
         role="img"
-        hook-insert={(vnode) => drawGrid(vnode, blockWeight)}
-        hook-postpatch={(_, vnode) => drawGrid(vnode, blockWeight)}
+        hook-insert={(vnode) => drawGrid(vnode, blockWeight, weightLimit)}
+        hook-postpatch={(_, vnode) =>
+          drawGrid(vnode, blockWeight, weightLimit)
+        }
       ></canvas>
+      {!hasBlockWeight && loading ? (
+        <BlockGridLoading
+          label={loadingLabel}
+          loadingDelayMs={loadingDelayMs}
+        />
+      ) : null}
+      {!hasBlockWeight && !loading ? (
+        <div className="block-details-card-grid-unavailable" role="status">
+          {unavailableLabel}
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import layout from './layout'
 import { txBox } from './tx'
 import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetName } from '../const'
 import loader from '../components/loading'
-import { ConfidentialBadge, StatusBadge } from '../components/status-badge'
+import { ConfidentialBadge, StatusBadge, StatusDot } from '../components/status-badge'
 import { InfoStat } from '../components/info-stat'
 import {
   AssetContractIcon,
@@ -119,11 +119,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
                 : null}
               {is_unregistered ? (
                 <StatusBadge variant="warning">
-                  <span className="confirmation-status-dot" aria-hidden="true">
-                    <span className="confirmation-status-dot-back"></span>
-                    <span className="confirmation-status-dot-middle"></span>
-                    <span className="confirmation-status-dot-front"></span>
-                  </span>
+                  <StatusDot />
                   <span>{t`Unregistered`}</span>
                 </StatusBadge>
               ) : null}

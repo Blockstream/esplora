@@ -2,18 +2,9 @@ import { formatSat, formatNumber, truncateTxid } from "./util";
 import loader from "../components/loading";
 import { CopyIcon, TxArrowsIcon } from "../components/icons";
 import { ConfidentialBadge } from "../components/status-badge";
+import { feeRateClass } from "../lib/fees";
 
 const staticRoot = process.env.STATIC_ROOT || "";
-
-const feeRateClass = (feerate, feeEst) => {
-  if (!feeEst || feeEst[3] == null || feeEst[12] == null) return "";
-
-  return feerate <= feeEst[12]
-    ? "success"
-    : feerate <= feeEst[3]
-      ? "warning"
-      : "danger";
-}
 
 export const transactions = (txs, viewMore, { t, ...S }) => (
   <div className="txs-page">

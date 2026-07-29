@@ -1,3 +1,5 @@
+import { clamp } from "../lib/math";
+
 const REQUIRED_POINT_COUNT = 24;
 
 const drawReferenceLine = (canvas, numbers) => {
@@ -20,8 +22,6 @@ const drawReferenceLine = (canvas, numbers) => {
   const width = rect.width;
   const height = rect.height;
   const shortestSide = Math.min(width, height);
-  const clamp = (value, minValue, maxValue) =>
-    Math.min(Math.max(value, minValue), maxValue);
   const lineWidth = Math.min(
     clamp(shortestSide * 0.012, 1.5, 4),
     Math.max(1, shortestSide * 0.05),

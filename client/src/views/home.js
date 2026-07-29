@@ -17,7 +17,7 @@ export const dashBoard = ({ t, blocks, dashboardState, loading, ...S }) => {
 
   return homeLayout(
     <div className="home-page" key="dashBoard">
-      {overview({ blocks: dashblocks, ...S })}
+      {overview({ blocks: dashblocks, t, ...S })}
       {blks(dashblocks, true, { t, ...S })}
       <div className="dashboard-transaction-section">
         {transactions(dashTxs, true, { t, ...S })}
