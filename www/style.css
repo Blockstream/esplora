@@ -135,6 +135,7 @@ html {
   --foreground-link-color: #00C3FF;
   --foreground-muted: #B5BDC2;
   --radius-rounded-xl: 12px;
+  --max-border-radius: 9999px;
 }
 
 body {
@@ -1028,7 +1029,10 @@ table th {
   margin-top: var(--page-gap);
 }
 
-.addr-page, .block-page, .tx-page {
+.addr-page,
+.asset-page,
+.block-page,
+.tx-page {
   display: flex;
   flex-direction: column;
   gap: var(--page-gap);
@@ -3901,7 +3905,7 @@ a.back-link img{
   box-sizing: initial;
   padding: 2px 8px;
   font-size: 11px;
-  border-radius: 9999px;
+  border-radius: var(--max-border-radius);
   white-space: nowrap;
 }
 
@@ -3958,7 +3962,7 @@ a.back-link img{
   padding: 2px 8px;
   font-size: 11px;
   background-color: var(--surface-primary-color);
-  border-radius: 9999px;
+  border-radius: var(--max-border-radius);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3968,7 +3972,7 @@ a.back-link img{
   background-color: var(--warning-color);
   width: 6px;
   height: 6px;
-  border-radius: 9999px;
+  border-radius: var(--max-border-radius);
 }
 
 .detail-grid {
@@ -4402,7 +4406,95 @@ a.back-link img{
   color: var(--blockstream-primary-brand-color);
 }
 
+.asset-table {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.asset-table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.asset-title {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Rigid Square';
+  overflow-wrap: anywhere;
+}
+
+.asset-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asset-icon-container {
+  width: 80px;
+  height: 80px;
+  background-color: var(--surface-secondary-color);
+  border-radius: var(--max-border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-color);
+}
+
+.asset-table-details {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.asset-table-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.asset-table-issuance-link {
+  margin-left: auto;
+  font-size: 16px;
+  font-family: 'Rigid Square';
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.asset-table-issuance-link p {
+  margin-top: 2px;
+  line-height: 22px;
+}
+
+.asset-contract-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.asset-page > .transactions {
+  margin-top: 0;
+}
+
 @media only screen and (max-width: 820px) {
+  .asset-table {
+    align-items: flex-start;
+  }
+
+  .asset-table-details {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .asset-table-issuance-link {
+    margin-left: 0;
+  }
+
   .block-details-card-summary {
     flex-direction: column;
   }

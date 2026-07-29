@@ -21,6 +21,7 @@ import {
 } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
 import { StatusBadge } from "../components/status-badge";
+import { Tooltip } from "../components/tooltip";
 import BlockDetailsCard from "../components/block-details-card";
 
 // Require behind env conditional so it gets removed by `envify` on non-elements builds
@@ -29,6 +30,7 @@ const deduceBlinded =
 
 // show a warning for payments paying more than 1.2x the recommended amount for 2 blocks confirmation
 const OVERPAYMENT_WARN = 1.2;
+const staticRoot = process.env.STATIC_ROOT || "";
 
 const findSpend = (spends, txid, vout) => spends[txid] && spends[txid][vout];
 
@@ -118,6 +120,9 @@ export const txBox = (
     unblinded,
     listingIndex,
     listingTotal,
+    headerTitle,
+    headerTooltip,
+    HeaderIcon = TxArrowsIcon,
     showTxId = true,
     showFooter = true,
     ...S
@@ -126,20 +131,27 @@ export const txBox = (
   const vopt = { isOpen: openTx == tx.txid, query, t, ...S };
   const hasListingHeader =
     Number.isFinite(listingIndex) && Number.isFinite(listingTotal);
+  const hasHeader = headerTitle || hasListingHeader;
 
   // Try deducing unknown blinded ins/outs (elements only)
   if (process.env.IS_ELEMENTS) deduceBlinded(tx);
 
   return (
     <div className="transaction-box" id="transaction-box">
-      {hasListingHeader ? (
+      {hasHeader ? (
         <div className="table-header">
           <div className="table-header-icon-container">
-            <TxArrowsIcon />
+            <HeaderIcon />
           </div>
           <h1 className="table-header-title">
-            {t`${formatNumber(listingIndex)} of ${formatNumber(listingTotal)} Transactions`}
+            {headerTitle || t`${formatNumber(listingIndex)} of ${formatNumber(listingTotal)} Transactions`}
           </h1>
+          {headerTooltip ? (
+            <Tooltip
+              iconSrc={`${staticRoot}img/icons/tooltip.svg`}
+              text={headerTooltip}
+            />
+          ) : null}
         </div>
       ) : null}
       <div className="transaction-box-header">
