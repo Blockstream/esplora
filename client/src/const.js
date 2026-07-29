@@ -6,6 +6,8 @@ export const maxMempoolTxs = 50
 export const satoshisPerBitcoin = 100000000
 export const averageNativeSegwitTransactionSize = 140
 export const maxBlockWeight = 4000000
+export const blockGridLoadingDelayMs = 100
+export const blockGridTransactionSelectEvent = 'block-grid-transaction-select'
 
 const configuredTargetBlockIntervalSeconds = Number(process.env.TARGET_BLOCK_INTERVAL_SECONDS)
 export const targetBlockIntervalSeconds = configuredTargetBlockIntervalSeconds > 0

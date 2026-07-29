@@ -273,10 +273,7 @@ export default ({
           title="Hashrate"
           value={hashrate.value}
           footer={hashrate.footer}
-          tooltip={{
-            iconSrc: `${staticRoot}img/icons/tooltip.svg`,
-            text: "Estimated computing power securing the network.",
-          }}
+          tooltip="Estimated computing power securing the network."
         />
 
         <InfoCard
@@ -284,10 +281,7 @@ export default ({
           title="Difficulty"
           value={formatDifficulty(latestBlock && latestBlock.difficulty)}
           footer={nextAdjustmentFooter}
-          tooltip={{
-            iconSrc: `${staticRoot}img/icons/tooltip.svg`,
-            text: "How hard it is to find a valid block. Tracks hashrate.",
-          }}
+          tooltip="How hard it is to find a valid block. Tracks hashrate."
         />
       </div>
     </div>

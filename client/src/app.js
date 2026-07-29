@@ -3,9 +3,10 @@ import { Observable as O } from './rxjs'
 import {setAdapt} from '@cycle/run/lib/adapt';
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
+import { summarizeBlockTemplate } from './lib/block-template'
 import { isBitcoinNetwork } from './lib/network'
 import getPrivacyAnalysis from './lib/privacy-analysis'
-import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod, showPegData } from './const'
+import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod, showPegData, blockGridTransactionSelectEvent } from './const'
 import {
     dbg,
     combine,
@@ -70,6 +71,50 @@ const trackNewEntries = (items$, getId, getNewIds=defaultNewIds) => {
   return O.merge(add$, remove$)
     .startWith(current => current)
     .scan((current, mod) => mod(current), {})
+}
+
+const trackPendingBlockTemplateUpdate = (previous, template) => {
+  if (!template || !Array.isArray(template.transactions)) {
+    return { template: null, key: null, transactionCount: null, delta: null }
+  }
+
+  const key = template.previousblockhash != null
+      ? template.previousblockhash
+      : template.height
+      , transactionCount = template.transactions.length + 1
+      , isSamePendingBlock = previous.key != null && key != null && previous.key == key
+      , delta = isSamePendingBlock && previous.transactionCount != null
+          ? transactionCount - previous.transactionCount
+          : null
+
+  return { template, key, transactionCount, delta: delta || null }
+}
+
+export const trackPendingBlockTemplateEvent = (previous, event) => {
+  if (event.tipId != null) {
+    return previous.template && previous.template.previousblockhash == event.tipId
+      ? { ...previous, tipId: event.tipId }
+      : {
+          template: null,
+          key: null,
+          transactionCount: null,
+          delta: null,
+          tipId: event.tipId
+        }
+  }
+
+  const template = event.template
+  if (
+    previous.tipId != null &&
+    (!template || template.previousblockhash != previous.tipId)
+  ) {
+    return previous
+  }
+
+  return {
+    ...trackPendingBlockTemplateUpdate(previous, template),
+    tipId: previous.tipId
+  }
 }
 
 export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
@@ -137,6 +182,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   , togTx$    = click('[data-toggle-tx]').map(d => d.toggleTx).merge(page$.mapTo(null), expandTx$)
   , togBlock$ = click('[data-toggle-block]').map(d => d.toggleBlock).merge(page$.mapTo(null), expandBl$)
+  , togPendingBlockDetails$ = click('[data-toggle-pending-block-details]')
+  , selectBlockGridTx$ = on('.block-grid__canvas', blockGridTransactionSelectEvent)
+      .map(e => e.detail && e.detail.txid)
+      .filter(isHash256)
 
   , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
   , pushtx$   = (process.browser
@@ -186,7 +235,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , latestBlock$ = blocks$
       .map(blocks => blocks && blocks[0])
       .filter(Boolean)
-      .distinctUntilChanged((a, b) => a.height == b.height)
+      .distinctUntilChanged((a, b) => a.id == b.id)
 
   , newBlockEntries$ = trackNewEntries(
       blocks$,
@@ -237,6 +286,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
   , openBlock$ = togBlock$.startWith(null).scan((prev, blockhash) => prev == blockhash ? null : blockhash)
+  , pendingBlockDetailsOpen$ = togPendingBlockDetails$
+      .mapTo(open => !open)
+      .merge(page$.mapTo(_ => false))
+      .startWith(false)
+      .scan((open, mod) => mod(open))
 
   // Spending txs map (reset on every page nav)
   , spends$ = O.merge(
@@ -251,6 +305,18 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , mempool$ = reply('mempool').startWith(null)
   , mempoolRecent$ = reply('recent')
   , newTxEntries$ = trackNewEntries(mempoolRecent$, tx => tx.txid)
+  , trackedBlockTemplateState$ = O.merge(
+      reply('block-template').map(template => ({ template }))
+    , latestBlock$.map(block => ({ tipId: block.id }))
+    )
+      .startWith({ template: null })
+      .scan(trackPendingBlockTemplateEvent, {
+        template: null,
+        key: null,
+        transactionCount: null,
+        delta: null,
+        tipId: null
+      })
 
   // dashboard
   , dashboardPegAsset$ = !showPegData
@@ -286,6 +352,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Fee estimates
   , feeEst$ = reply('fee-est').startWith(null)
+  , blockTemplateState$ = O.combineLatest(
+      trackedBlockTemplateState$
+    , feeEst$
+    , (state, feeEst) => ({
+        ...state
+      , metrics: summarizeBlockTemplate(state.template, feeEst)
+      }))
 
   // Bitcoin price chart data
   , bitcoinMarketChart$ = reply('bitcoin-market-chart').startWith(null)
@@ -373,6 +446,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // App state
   , state$ = combine({ t$, error$, tipHeight$, spends$
                      , goBlocks$, blocks$, nextBlocks$, prevBlocks$, dashboardState$
+                     , pendingBlockDetailsOpen$, blockTemplateState$
                      , dashboardEpochStartBlock$, dashboardPreviousDifficultyBlock$
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
@@ -489,6 +563,16 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
                               , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }]))
 
+    // refresh the pending block template while the dashboard remains open
+    , O.merge(
+        O.merge(goHome$, tickWhileViewing(30000, 'dashBoard', view$))
+          .throttleTime(1000)
+      , latestBlock$.skip(1)
+          .withLatestFrom(view$)
+          .filter(([ _, view ]) => view == 'dashBoard')
+      )
+        .mapTo({ category: 'block-template', method: 'GET', path: '/block-template', bg: true })
+
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }
@@ -536,6 +620,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
+    , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
   )
@@ -544,7 +629,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , openTx$, openBlock$, updateQuery$
       , state$, view$, block$, blockTxs$, blocks$, tx$, txBlock$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
-      , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
+      , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$, selectBlockGridTx$
       , assetMap$,  goAssetList$, assetList$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 

@@ -21,7 +21,7 @@ import {
   TxArrowsIcon,
 } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
-import { StatusBadge } from "../components/status-badge";
+import { StatusBadge, StatusDot } from "../components/status-badge";
 import { Tooltip } from "../components/tooltip";
 import BlockDetailsCard from "../components/block-details-card";
 import { targetBlockIntervalSeconds } from "../const";
@@ -94,6 +94,7 @@ export default ({
               className="transaction-block-details"
               block={block}
               t={t}
+              detailsOpen={block && S.openBlock === block.id}
               statusText={t`Confirmed`}
             />
           </div>
@@ -276,11 +277,7 @@ const txHeader = (
             </button>
             <StatusBadge variant={isConfirmed ? "success" : "warning"}>
               {!isConfirmed ? (
-                <span className="confirmation-status-dot" aria-hidden="true">
-                  <span className="confirmation-status-dot-back"></span>
-                  <span className="confirmation-status-dot-middle"></span>
-                  <span className="confirmation-status-dot-front"></span>
-                </span>
+                <StatusDot />
               ) : null}
               <span>{confirmationText(tx.status, tipHeight, t)}</span>
             </StatusBadge>

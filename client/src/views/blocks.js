@@ -8,11 +8,26 @@ import loader from "../components/loading";
 import { BlockIcon, ClockIcon, CopyIcon } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
 import { Tooltip } from "../components/tooltip";
+import PendingBlockDetailsCard from "./pending-block-details-card";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
-export const blks = (blocks, viewMore, { t, ...S }) => (
-  <div className="blocks-page">
+export const blockTemplateStateForTip = (block, state) =>
+  block &&
+  state &&
+  state.template &&
+  state.template.previousblockhash === block.id
+    ? state
+    : null;
+
+export const blks = (blocks, viewMore, { t, ...S }) => {
+  const blockTemplateState = blockTemplateStateForTip(
+    blocks && blocks[0],
+    S.blockTemplateState,
+  );
+
+  return (
+    <div className="blocks-page">
     {!blocks ? (
       loader()
     ) : !blocks.length ? (
@@ -23,8 +38,42 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
           <div className="table-header-icon-container">
             <BlockIcon />
           </div>
-          <h1 className="table-header-title">Latest Blocks</h1>
+          <h1 className="table-header-title">{t`Latest Blocks`}</h1>
         </div>
+
+        {viewMore ? (
+          <PendingBlockDetailsCard
+            bitcoinMarketChart={S.bitcoinMarketChart}
+            block={blocks[0]}
+            blockTemplate={
+              blockTemplateState && blockTemplateState.template
+            }
+            detailsOpen={S.pendingBlockDetailsOpen}
+            feeEst={S.feeEst}
+            mempool={S.mempool}
+            metrics={
+              blockTemplateState && blockTemplateState.metrics
+            }
+            t={t}
+            transactionDelta={
+              blockTemplateState && blockTemplateState.delta
+            }
+          />
+        ) : (
+          ""
+        )}
+
+        {viewMore ? (
+          <svg className="blocks-history-divider" aria-hidden="true">
+            <line x1="1" y1="2" x2="100%" y2="2" />
+          </svg>
+        ) : (
+          ""
+        )}
+        {viewMore ? (
+          <p className="blocks-section-title">{t`Blocks History`}</p>
+        ) : ""}
+
         <div className="blocks-table-body">
           {blocks &&
             blocks.map((b, index) => (
@@ -117,5 +166,6 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
         )}
       </div>
     )}
-  </div>
-);
+    </div>
+  );
+};

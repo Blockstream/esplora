@@ -190,10 +190,7 @@ export const pegInfo = (asset, txs, { t, feeEst, error }) => {
         <InfoCard
           title={t`Federation BTC Holdings`}
           className="federation-btc-holdings"
-          tooltip={{
-            iconSrc: `${staticRoot}img/icons/tooltip.svg`,
-            text: t`Confirmed peg-ins minus confirmed peg-outs.`,
-          }}
+          tooltip={t`Confirmed peg-ins minus confirmed peg-outs.`}
           value={formatFederationAssets(federationAssets, t)}
           footer={
             lastConfirmationTime
@@ -205,10 +202,7 @@ export const pegInfo = (asset, txs, { t, feeEst, error }) => {
         <InfoCard
           title={t`Assets vs Liabilities`}
           className="assets-vs-liabilities"
-          tooltip={{
-            iconSrc: `${staticRoot}img/icons/tooltip.svg`,
-            text: t`Confirmed federation BTC holdings divided by circulating L-BTC supply.`,
-          }}
+          tooltip={t`Confirmed federation BTC holdings divided by circulating L-BTC supply.`}
           body={
             <div className="assets-vs-liabilities-body">
               <div className="assets-vs-liabilities-scale">
