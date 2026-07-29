@@ -1,287 +1,360 @@
 import { last } from '../util'
-import { formatNumber, formatJson, formatAssetAmount, formatSat } from './util'
+import { formatNumber, formatAssetAmount, formatSat } from './util'
 import layout from './layout'
-import search from './search'
 import { txBox } from './tx'
-import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetLabel, nativeAssetName } from '../const'
+import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetName } from '../const'
 import loader from '../components/loading'
-import { ConfidentialBadge } from '../components/status-badge'
+import { ConfidentialBadge, StatusBadge } from '../components/status-badge'
+import { InfoStat } from '../components/info-stat'
+import {
+  AssetContractIcon,
+  BurnIcon,
+  CopyIcon,
+  DefaultAssetIcon,
+  LinkIcon,
+  TxArrowsIcon
+} from '../components/icons'
 
 const staticRoot = process.env.STATIC_ROOT || ''
 
 export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loading, ...S }) => {
-  if (!asset) return;
+  if (!asset) return
 
   const { chain_stats = {}, mempool_stats = {} } = asset
-      , total_txs = chain_stats.tx_count + mempool_stats.tx_count
+      , total_txs = value(chain_stats.tx_count) + value(mempool_stats.tx_count)
       , shown_txs = assetTxs ? assetTxs.length : 0
 
-      // paging is on a best-effort basis, might act oddly if the set of transactions change
+      // Paging is on a best-effort basis, and may shift if transactions change
       // while the user is paging.
-      , avail_mempool_txs = Math.min(maxMempoolTxs, mempool_stats.tx_count)
-      , est_prev_total_seen_count  = goAsset.last_txids.length ? goAsset.est_chain_seen_count + avail_mempool_txs : 0
-      , est_curr_chain_seen_count = goAsset.last_txids.length ? goAsset.est_chain_seen_count + shown_txs : shown_txs - avail_mempool_txs
-      , last_seen_txid = (shown_txs > 0 && est_curr_chain_seen_count < chain_stats.tx_count) ? last(assetTxs).txid : null
-      , next_paging_txids = last_seen_txid ? [ ...goAsset.last_txids, last_seen_txid ].join(',') : null
-      , prev_paging_txids = goAsset.last_txids.length ? goAsset.last_txids.slice(0, -1).join(',') : null
-      , prev_paging_est_count = goAsset.est_chain_seen_count ? Math.max(goAsset.est_chain_seen_count-perPage, 0) : 0
-
-
-      // relevant for issued assets only
-      , entity_type = asset.entity && Object.keys(asset.entity)[0]
-      , is_non_reissuable = chain_stats.reissuance_tokens != null && chain_stats.reissuance_tokens === asset.chain_stats.burned_reissuance_tokens
-      , has_blinded_issuances = chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
-      // </>
+      , avail_mempool_txs = Math.min(maxMempoolTxs, value(mempool_stats.tx_count))
+      , est_curr_chain_seen_count = goAsset.last_txids.length
+          ? goAsset.est_chain_seen_count + shown_txs
+          : shown_txs - avail_mempool_txs
+      , last_seen_txid = shown_txs > 0 && est_curr_chain_seen_count < value(chain_stats.tx_count)
+          ? last(assetTxs).txid
+          : null
+      , next_paging_txids = last_seen_txid
+          ? [ ...goAsset.last_txids, last_seen_txid ].join(',')
+          : null
+      , prev_paging_txids = goAsset.last_txids.length
+          ? goAsset.last_txids.slice(0, -1).join(',')
+          : null
+      , prev_paging_est_count = goAsset.est_chain_seen_count
+          ? Math.max(goAsset.est_chain_seen_count-perPage, 0)
+          : 0
 
       , is_native_asset = !asset.issuance_txin
-
-      , circulating =
-          is_native_asset
-          ? chain_stats.peg_in_amount + mempool_stats.peg_in_amount
-            - chain_stats.peg_out_amount - mempool_stats.peg_out_amount
-            - chain_stats.burned_amount - mempool_stats.burned_amount
-          : has_blinded_issuances ? null
-          : chain_stats.issued_amount + mempool_stats.issued_amount
-            - chain_stats.burned_amount - mempool_stats.burned_amount
+      , has_contract = !!asset.contract
+      , is_unregistered = !is_native_asset && !has_contract
+      , contract = asset.contract || {}
+      , contract_entity = contract.entity || {}
+      , precision = asset.precision != null ? asset.precision : 0
+      , has_blinded_issuances =
+          chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
+      , total_issued = value(chain_stats.issued_amount) + value(mempool_stats.issued_amount)
+      , total_burned = value(chain_stats.burned_amount) + value(mempool_stats.burned_amount)
+      , total_issuances = value(chain_stats.issuance_count) + value(mempool_stats.issuance_count)
+      , is_non_reissuable =
+          chain_stats.reissuance_tokens != null &&
+          chain_stats.reissuance_tokens === chain_stats.burned_reissuance_tokens
+      , circulating = is_native_asset
+          ? value(chain_stats.peg_in_amount) + value(mempool_stats.peg_in_amount)
+            - value(chain_stats.peg_out_amount) - value(mempool_stats.peg_out_amount)
+            - total_burned
+          : has_blinded_issuances
+            ? null
+            : total_issued - total_burned
+      , asset_title = is_native_asset
+          ? nativeAssetName
+          : has_contract
+            ? asset.name || contract.name || asset.asset_id
+            : shortenValue(asset.asset_id)
+      , stats = is_native_asset
+          ? [
+              { title: 'TOTAL SUPPLY', value: formatSat(circulating) },
+              {
+                title: 'PEGGED IN',
+                value: formatSat(value(chain_stats.peg_in_amount) + value(mempool_stats.peg_in_amount))
+              },
+              {
+                title: 'PEGGED OUT',
+                value: formatSat(value(chain_stats.peg_out_amount) + value(mempool_stats.peg_out_amount))
+              },
+              { title: 'BURNED', value: formatSat(total_burned) },
+              { title: 'TRANSACTIONS', value: formatNumber(total_txs) }
+            ]
+          : [
+              {
+                title: 'TOTAL SUPPLY',
+                value: circulating == null
+                  ? <ConfidentialBadge t={t} />
+                  : formatAssetAmount(circulating, precision, t)
+              },
+              {
+                title: 'ISSUED',
+                value: has_blinded_issuances
+                  ? <ConfidentialBadge t={t} />
+                  : formatAssetAmount(total_issued, precision, t)
+              },
+              {
+                title: 'BURNED',
+                value: formatAssetAmount(total_burned, precision, t)
+              },
+              { title: 'ISSUANCES', value: formatNumber(total_issuances) },
+              { title: 'REISSUABLE', value: is_non_reissuable ? t`No` : t`Yes` }
+            ]
 
   return layout(
     [
       <div className="asset-page">
-        <div className="container">
-          <a className="back-link" href="assets">
-            <img src="img/icons/left-arrow.png"/><span>{t`All Assets`}</span>
-          </a>
-          <h1>{t`Asset`}</h1>
-          <div className="block-hash">
-            <span>{asset.asset_id}</span>
-            { process.browser && <div className="code-button">
-              <div className="code-button-btn" role="button" data-clipboardCopy={asset.asset_id}></div>
-            </div> }
+        <div className="table asset-table">
+          <div className="asset-icon-container">
+            <DefaultAssetIcon/>
           </div>
-        </div>
-      </div>,
-      <div className="container">
-        <div className="stats-table font-p2">
-          <div>
-            <div>{t`Asset id`}</div>
-            <div className="mono">{asset.asset_id}</div>
-          </div>
+          <div className="asset-table-body">
+            <div className="asset-title-row">
+              <h1 className="asset-title">{asset_title}</h1>
+              {!is_native_asset
+                ? copyButton(asset.asset_id, t`Copy asset ID`, 'asset-title-copy-button')
+                : null}
+              {is_unregistered ? (
+                <StatusBadge variant="warning">
+                  <span className="confirmation-status-dot" aria-hidden="true">
+                    <span className="confirmation-status-dot-back"></span>
+                    <span className="confirmation-status-dot-middle"></span>
+                    <span className="confirmation-status-dot-front"></span>
+                  </span>
+                  <span>{t`Unregistered`}</span>
+                </StatusBadge>
+              ) : null}
+            </div>
 
-          { is_native_asset
-            // Native asset
-            ? [
-                <div>
-                  <div>{t`Name`}</div>
-                  <div>{nativeAssetName}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Ticker`}</div>
-                  <div>{nativeAssetLabel}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Pegged in`}</div>
-                  <div className="mono">{formatSat(chain_stats.peg_in_amount)}</div>
-                </div>
-
-              , mempool_stats.peg_in_amount > 0 && <div>
-                  <div>{t`Pegged in (unconfirmed)`}</div>
-                  <div className="mono">{formatSat(mempool_stats.peg_in_amount)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Pegged out`}</div>
-                  <div className="mono">{formatSat(chain_stats.peg_out_amount)}</div>
-                </div>
-
-              , mempool_stats.peg_out_amount > 0 && <div>
-                  <div>{t`Pegged out (unconfirmed)`}</div>
-                  <div className="mono">{formatSat(mempool_stats.peg_out_amount)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Burned`}</div>
-                  <div className="mono">{formatSat(chain_stats.burned_amount)}</div>
-                </div>
-
-              , mempool_stats.burned_amount > 0 && <div>
-                  <div>{t`Burned (unconfirmed)`}</div>
-                  <div className="mono">{formatSat(mempool_stats.burned_amount)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Circulating amount`}</div>
-                  <div className="mono">{formatSat(circulating)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Peg/burn transaction count`}</div>
-                  <div className="mono">{formatNumber(chain_stats.tx_count)}</div>
-                </div>
-
-              , mempool_stats.peg_out_amount > 0 && <div>
-                  <div>{t`Peg/burn transaction count (unconfirmed)`}</div>
-                  <div className="mono">{formatNumber(mempool_stats.tx_count)}</div>
-                </div>
-              ]
-
-            // Issued assets
-            : [
-                asset.name && <div>
-                  <div>{t`Name`}</div>
-                  <div>{asset.name}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Precision - decimal places`}</div>
-                  <div>{asset.precision || 0}</div>
-                </div>
-
-              , asset.ticker && <div>
-                  <div>{t`Ticker`}</div>
-                  <div>{asset.ticker}</div>
-                </div>
-
-              , asset.entity && <div>
-                  <div>{t(`Issuer ${entity_type}`)}</div>
-                  <div>{asset.entity[entity_type]}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Issuance transaction`}</div>
-                  <div><a href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}>{`${asset.issuance_txin.txid}:${asset.issuance_txin.vin}`}</a></div>
-                </div>
-
-              , <div>
-                  <div>{t`Included in Block`}</div>
-                  <div>{ asset.status.confirmed
-                    ? <a href={`block/${asset.status.block_hash}`} className="mono">{asset.status.block_hash}</a>
-                    : t`Unconfirmed`
-                  }</div>
-                </div>
-
-              , <div>
-                  <div>{t`Number of issuances`}</div>
-                  <div>{chain_stats.issuance_count}</div>
-                </div>
-
-              , mempool_stats.issuance_count > 0 && <div>
-                  <div>{t`Number of issuances (unconfirmed)`}</div>
-                  <div>{mempool_stats.issuance_count}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Issued amount`}</div>
-                  <div>{chain_stats.has_blinded_issuances ? <ConfidentialBadge t={t} />
-                       : formatAssetAmount(chain_stats.issued_amount, asset.precision, t) }</div>
-                </div>
-
-              , mempool_stats.issued_amount > 0 && <div>
-                  <div>{t`Issued amount (unconfirmed)`}</div>
-                  <div>{formatAssetAmount(mempool_stats.issued_amount, asset.precision, t)}</div>
-                </div>
-
-              , chain_stats.burned_amount > 0 && <div>
-                  <div>{t`Burned amount`}</div>
-                  <div>{formatAssetAmount(chain_stats.burned_amount, asset.precision, t)}</div>
-                </div>
-
-              , mempool_stats.burned_amount > 0 && <div>
-                  <div>{t`Burned amount (unconfirmed)`}</div>
-                  <div>{formatAssetAmount(mempool_stats.burned_amount, asset.precision, t)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Reissuance tokens created`}</div>
-                  <div>{chain_stats.reissuance_tokens == null ? <ConfidentialBadge t={t} />
-                      : chain_stats.reissuance_tokens === 0 ? t`None`
-                      : formatNumber(chain_stats.reissuance_tokens) }</div>
-                </div>
-
-              , chain_stats.burned_reissuance_tokens > 0 && <div>
-                  <div>{t`Reissuance tokens burned`}</div>
-                  <div>{formatNumber(chain_stats.burned_reissuance_tokens)}</div>
-                </div>
-
-              , mempool_stats.burned_reissuance_tokens > 0 && <div>
-                  <div>{t`Reissuance tokens burned (unconfirmed)`}</div>
-                  <div>{formatNumber(mempool_stats.burned_reissuance_tokens)}</div>
-                </div>
-
-              , <div>
-                  <div>{t`Circulating amount`}</div>
-                  <div className="mono">{ circulating == null ? <ConfidentialBadge t={t} />
-                      : formatAssetAmount(circulating, asset.precision, t) }</div>
-                </div>
-
-              , <div>
-                  <div>{t`Re-issuable`}</div>
-                  <div>{ is_non_reissuable ? t`No` : t`Yes` }</div>
-                </div>
-
-              , asset.contract_hash && <div>
-                  <div>{t`Contract hash`}</div>
-                  <div className="mono">{asset.contract_hash}</div>
-                </div>
-
-              , asset.contract && <div>
-                  <div>{t`Contract JSON`}</div>
-                  <div className="mono contract-json">{formatJson(asset.contract)}</div>
-                </div>
-              ]
-          }
-
-        </div>
-
-        <div>
-          <div className="transactions">
-            <h3 className="font-h3">{(is_native_asset ? txsShownTextNative : txsShownTextIssued)(total_txs, est_prev_total_seen_count, shown_txs, t)}</h3>
-            { assetTxs ? assetTxs.map(tx => txBox(tx, { openTx, tipHeight, t, spends, ...S }))
-                       : loader()}
-          </div>
-
-          <div className="load-more-container">
-            <div>
-              { loading ? <div className="load-more g-btn font-btn-2 disabled disabled"><span>{t`Loading...`}</span><div>{loader("small")}</div></div>
-                        : pagingNav(asset, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) }
+            <div className="asset-table-details">
+              <div className="asset-table-stats">
+                {stats.map(stat => <InfoStat title={stat.title} value={stat.value} />)}
+              </div>
+              {asset.issuance_txin ? (
+                <a
+                  className="asset-table-issuance-link"
+                  href={`tx/${asset.issuance_txin.txid}?input:${asset.issuance_txin.vin}&expand`}
+                >
+                  <p>{t`View Issuance Tx`}</p>
+                  <LinkIcon />
+                </a>
+              ) : null}
             </div>
           </div>
+        </div>
 
+        {!is_native_asset && has_contract ? (
+          <div className="table asset-contract-table">
+            <div className="table-header">
+              <div className="table-header-icon-container">
+                <AssetContractIcon/>
+              </div>
+              <h1 className="table-header-title">{t`Contract`}</h1>
+            </div>
+
+            <div className="detail-grid">
+              <div className="detail-grid-row">
+                {detailField('DOMAIN', contract_entity.domain, null, t)}
+                {detailField(
+                  'ISSUER PUBKEY',
+                  contract.issuer_pubkey,
+                  'mono',
+                  t,
+                  shortenValue(contract.issuer_pubkey)
+                )}
+              </div>
+              <div className="detail-grid-row">
+                {detailField('NAME', contract.name, null, t)}
+                {detailField('PRECISION', contract.precision, null, t)}
+              </div>
+              <div className="detail-grid-row">
+                {detailField('TICKER', contract.ticker, null, t)}
+                {detailField('VERSION', contract.version, null, t)}
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        <div className="transactions">
+          {assetTxs
+            ? assetTxs.reduce((boxes, tx) => [
+                ...boxes,
+                ...assetTransactionHeaders(tx, asset, t).map(({ title, tooltip, Icon }) =>
+                  txBox(tx, {
+                    openTx,
+                    tipHeight,
+                    t,
+                    spends,
+                    headerTitle: title,
+                    headerTooltip: tooltip,
+                    HeaderIcon: Icon,
+                    ...S
+                  })
+                )
+              ], [])
+            : loader()}
+        </div>
+
+        <div className="load-more-container">
+          <div>
+            {loading ? (
+              <div className="load-more g-btn primary-btn font-btn-2 disabled">
+                <span>{t`Loading...`}</span>
+                <div>{loader('small')}</div>
+              </div>
+            ) : (
+              pagingNav(
+                asset,
+                last_seen_txid,
+                est_curr_chain_seen_count,
+                prev_paging_txids,
+                next_paging_txids,
+                prev_paging_est_count,
+                t
+              )
+            )}
+          </div>
         </div>
       </div>
-    ]
-  , { t, activeTab: 'assets', ...S })
+    ],
+    { t, activeTab: 'assets', ...S }
+  )
 }
 
-const txsShownTextIssued = (total, start, shown, t) =>
-  (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Issuance and Burn Transactions`
-  : t`${total} Issuance and Burn Transactions`
+const value = n => n || 0
 
-const txsShownTextNative = (total, start, shown, t) =>
-  (total > perPage && shown > 0)
-  ? t`${ start > 0 ? `${start}-${+start+shown}` : shown} of ${formatNumber(total)} Peg In/Out and Burn Transactions`
-  : t`${total} Peg In/Out and Burn transactions`
+const shortenValue = value =>
+  value && value.length > 20
+    ? `${value.substr(0, 10)}...${value.substr(-10)}`
+    : value
 
+const display = value =>
+  value == null || value === '' ? 'N/A' : value
 
-const pagingNav = (asset, last_seen_txid, est_curr_chain_seen_count, prev_paging_txids, next_paging_txids, prev_paging_est_count, t) =>
+const copyButton = (value, label, className) =>
+  <div
+    className={[ className, 'table-copy-button', 'code-button-btn' ].filter(Boolean).join(' ')}
+    role="button"
+    tabindex="0"
+    data-clipboardCopy={String(value)}
+    aria-label={label}
+  >
+    <CopyIcon />
+  </div>
+
+const detailField = (label, value, className, t, displayed_value = value) => {
+  const displayed = display(displayed_value)
+
+  return (
+    <div className="detail-field">
+      <p className="detail-field-label">{label}</p>
+      <div className="detail-field-content">
+        <p className={className}>{displayed}</p>
+        {displayed !== 'N/A'
+          ? copyButton(value, t`Copy ${label.toLowerCase()}`)
+          : null}
+      </div>
+    </div>
+  )
+}
+
+const isBurnOutput = (vout, asset) => {
+  const is_target_asset =
+    vout.asset === asset.asset_id || vout.asset === asset.reissuance_token
+  const scriptpubkey = vout.scriptpubkey || ''
+  const scriptpubkey_asm = vout.scriptpubkey_asm || ''
+
+  return is_target_asset && (
+    vout.scriptpubkey_type === 'op_return' ||
+    vout.scriptpubkey_type === 'provably_unspendable' ||
+    scriptpubkey_asm.indexOf('OP_RETURN') === 0 ||
+    scriptpubkey.toLowerCase().indexOf('6a') === 0
+  )
+}
+
+const assetTransactionHeaders = (tx, asset, t) => {
+  const headers = []
+      , vins = tx.vin || []
+      , vouts = tx.vout || []
+      , issuances = vins
+          .map(vin => vin.issuance)
+          .filter(issuance => issuance && issuance.asset_id === asset.asset_id)
+
+  if (!asset.issuance_txin) {
+    if (vins.some(vin => vin.is_pegin)) {
+      headers.push({ title: t`Peg In Transaction`, Icon: TxArrowsIcon })
+    }
+    if (vouts.some(vout => vout.pegout)) {
+      headers.push({ title: t`Peg Out Transaction`, Icon: TxArrowsIcon })
+    }
+  } else {
+    if (issuances.some(issuance => !issuance.is_reissuance)) {
+      headers.push({
+        title: t`Issuance Transaction`,
+        tooltip: t`The transaction that created this asset and issued its initial supply.`,
+        Icon: TxArrowsIcon
+      })
+    }
+    if (issuances.some(issuance => issuance.is_reissuance)) {
+      headers.push({
+        title: t`Reissuance Transaction`,
+        tooltip: t`A transaction that issued additional units of this asset using its reissuance token.`,
+        Icon: TxArrowsIcon
+      })
+    }
+  }
+
+  if (vouts.some(vout => isBurnOutput(vout, asset))) {
+    headers.push({
+      title: t`Burn Transaction`,
+      tooltip: t`A transaction that permanently destroyed units of this asset, reducing circulating supply.`,
+      Icon: BurnIcon
+    })
+  }
+
+  if (!headers.length) {
+    headers.push({
+      title: asset.issuance_txin ? t`Asset Transaction` : t`Peg Transaction`,
+      Icon: TxArrowsIcon
+    })
+  }
+
+  return headers
+}
+
+const pagingNav = (
+  asset,
+  last_seen_txid,
+  est_curr_chain_seen_count,
+  prev_paging_txids,
+  next_paging_txids,
+  prev_paging_est_count,
+  t
+) =>
   process.browser
 
-? last_seen_txid != null &&
-    <div className="load-more g-btn primary-btn font-btn-2" role="button" data-loadmoreTxsLastTxid={last_seen_txid} data-loadmoreTxsAsset={asset.asset_id}>
-      {t`Load more`}
-    </div>
+  ? last_seen_txid != null &&
+      <div
+        className="load-more g-btn primary-btn font-btn-2"
+        role="button"
+        data-loadmoreTxsLastTxid={last_seen_txid}
+        data-loadmoreTxsAsset={asset.asset_id}
+      >
+        {t`Load more`}
+      </div>
 
-: [
-    prev_paging_txids != null &&
-      <a className="load-more" href={`asset/${asset.asset_id}?txids=${prev_paging_txids}&c=${prev_paging_est_count}`}>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_left_blu.png`} /></div>
-        <span>{t`Newer`}</span>
-      </a>
-  , next_paging_txids != null &&
-      <a className="load-more" href={`asset/${asset.asset_id}?txids=${next_paging_txids}&c=${est_curr_chain_seen_count}`}>
-        <span>{t`Older`}</span>
-        <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
-      </a>
-  ]
+  : [
+      prev_paging_txids != null &&
+        <a className="load-more" href={`asset/${asset.asset_id}?txids=${prev_paging_txids}&c=${prev_paging_est_count}`}>
+          <div><img alt="" src={`${staticRoot}img/icons/arrow_left_blu.png`} /></div>
+          <span>{t`Newer`}</span>
+        </a>
+    , next_paging_txids != null &&
+        <a className="load-more" href={`asset/${asset.asset_id}?txids=${next_paging_txids}&c=${est_curr_chain_seen_count}`}>
+          <span>{t`Older`}</span>
+          <div><img alt="" src={`${staticRoot}img/icons/arrow_right_blu.png`} /></div>
+        </a>
+    ]
