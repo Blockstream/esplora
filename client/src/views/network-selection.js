@@ -18,7 +18,7 @@ export default ({ t, page }) => (
       <ul className="main-nav">
         <li id={activeId} className={`nav-item active`}>
           <button
-            className="nav-link font-h4 network-selector-toggle"
+            className="nav-link network-selector-toggle"
             type="button"
             aria-haspopup="true"
             aria-expanded="false"
