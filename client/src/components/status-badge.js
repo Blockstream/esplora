@@ -3,7 +3,9 @@ export const StatusBadge = (
   children,
 ) => (
   <span
-    className={["status-badge", variant, className].filter(Boolean).join(" ")}
+    class={["status-badge", variant, className]
+      .filter(Boolean)
+      .reduce((classes, name) => ({ ...classes, [name]: true }), {})}
   >
     {children}
   </span>
