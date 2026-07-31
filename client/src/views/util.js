@@ -48,7 +48,13 @@ export const formatOutAmount = (vout, { t, assetMap }, shortDisplay=false) => {
   const amount_el = formatAssetAmount(vout.value, precision, t)
       , asset_link = vout.asset && <a href={asset_url}>{short_id}</a>
 
-  return domain ? <span>{amount_el} {ticker && <span title={name}>{ticker}</span>} {shortDisplay||<br />} {domain}{shortDisplay || [<br/>,<em title={vout.asset}>{asset_link}</em>]}</span>
+  return domain ? shortDisplay
+       ? <span>{amount_el} {ticker && <span title={name}>{ticker}</span>} {domain}</span>
+       : <span class={{ 'asset-amount-details': true }}>
+           <span>{amount_el} {ticker && <span title={name}>{ticker}</span>}</span>
+           <span>{domain}</span>
+           <em title={vout.asset}>{asset_link}</em>
+         </span>
        : vout.asset ? <span>{amount_el} <em title={vout.asset}>{asset_link}</em></span>
        : <span>{amount_el} {t`Unknown`}</span> // should never happen
 }

@@ -1906,6 +1906,12 @@ body::after{
   justify-content: right;
 }
 
+.asset-amount-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .unblinded .vout-header, .unblinded .vin-header {
   background: #04240d;
 }
@@ -2083,6 +2089,10 @@ body::after{
     text-align: left !important;
     margin: 0 !important;
     padding: 3px 0;
+  }
+
+  .asset-amount-details {
+    align-items: flex-start;
   }
 
   .vin-header-container {
