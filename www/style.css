@@ -552,6 +552,17 @@ a, a:link, a:visited, a:hover, a:focus {
   text-decoration: none;
 }
 
+.current-address-link {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: #00ccff;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-align: inherit;
+}
+
 .table { color: inherit }
 
 
@@ -1256,10 +1267,7 @@ table th {
 .transaction-box-header {
   display: flex;
   align-items: center;
-}
-
-.transaction-box > .table-header + .transaction-box-header {
-  margin-top: 24px;
+  gap: 12px;
 }
 
 .float-right {
@@ -1307,19 +1315,12 @@ table th {
   margin: 20px;
 }
 
-.transaction-box > .ins-and-outs {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
+.ins-and-outs {
+  display: flex;
 }
 
-.transaction-box > .ins-and-outs > * {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.transaction-box > .ins-and-outs > div {
-  vertical-align: top;
+.vins, .vouts {
+  flex: 1;
 }
 
 .transaction-box > .ins-and-outs > .vins > .vin-loading img, .transaction-box > .ins-and-outs .vouts > .vin-loading img {
@@ -1352,6 +1353,10 @@ table th {
 }
 
 .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-header, .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-header, .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-header, .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
   padding: 12px 24px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1363,6 +1368,7 @@ table th {
   flex-flow: row wrap;
   justify-content: flex-end;
   gap: 12px;
+  flex: 1;
 }
 
 .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-header > div > *:nth-child(1), .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-header > div > *:nth-child(1), .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-header > div > *:nth-child(1), .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-header > div > *:nth-child(1) {
@@ -1412,10 +1418,6 @@ table th {
 .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) > .vin-body > div > div:nth-child(2), .transaction-box > .ins-and-outs > .vins > div:not(.vin-loading) .vout-body > div > div:nth-child(2), .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) > .vin-body > div > div:nth-child(2), .transaction-box > .ins-and-outs .vouts > div:not(.vin-loading) .vout-body > div > div:nth-child(2) {
   line-height: initial;
   font-weight: 400;
-}
-
-.transaction-box > .ins-and-outs > div:nth-child(2) {
-  padding: 0 12px;
 }
 
 .transaction-box > .ins-and-outs > div:nth-child(2) > div {
@@ -1525,9 +1527,12 @@ table th {
 }
 
 .language-selector-arrow {
+  width: 16.5px;
+  height: auto;
+  color: var(--foreground-muted);
   position: absolute;
   right: 15px;
-  top: 20px;
+  top: 18px;
   pointer-events: none;
 }
 
@@ -1786,9 +1791,7 @@ body::after{
 }
 
 .direction-arrow {
-  background: url(img/icons/arrow.png);
-  background-position: center;
-  background-repeat: no-repeat;
+  color: var(--foreground-link-color);
 }
 
 /* flip arrow on RTL languages */
@@ -1797,8 +1800,8 @@ body::after{
 .transaction-box .ins-and-outs .direction-arrow {
   display: block;
   justify-self: center;
-  width: 32px;
-  height: 33px;
+  width: 12px;
+  height: 22px;
 }
 
 .ins-and-outs {
@@ -1806,6 +1809,9 @@ body::after{
 }
 
 .ins-and-outs_spacer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 55px;
 }
 
@@ -1994,31 +2000,26 @@ body::after{
     font-size: 14px;
   }
 
-  /* arrow */
-  .transaction-box > .ins-and-outs > div:nth-child(2) {
-    padding: 0 !important;
+  .transaction-box .ins-and-outs .direction-arrow {
+    display: flex;
+    justify-self: center;
   }
 
-.transaction-box .ins-and-outs .direction-arrow {
-  display: flex;
-  justify-self: center;
-}
+  .ins-and-outs {
+    position: relative !important;
+  }
 
-.ins-and-outs {
-  position: relative !important;
-}
+  .ins-and-outs_spacer {
+    height: 20px;
+    width: 100%;
+  }
 
-.ins-and-outs_spacer {
-  height: 20px;
-  width: 10px;
-}
-
-.direction-arrow-container {
-  width: 100%;
-  height: auto !important;
-  margin: 0;
-  padding: 0;
-}
+  .direction-arrow-container {
+    width: 100%;
+    height: auto !important;
+    margin: 0;
+    padding: 0;
+  }
 
 }
 
@@ -2104,6 +2105,10 @@ body::after{
     text-align: left !important;
     margin: 0 !important;
     padding: 3px 0;
+  }
+
+  .amount {
+    justify-content: initial;
   }
 
   .asset-amount-details {
@@ -2675,14 +2680,23 @@ dl.mempool-histogram .bar:before {
   cursor: pointer;
 }
 
-.nav-item.active:hover .network-hover-menu-container,
-.nav-item.active:focus-within .network-hover-menu-container,
-.nav-item.active.open-network-menu .network-hover-menu-container,
-.network-hover-menu-container:hover {
+.nav-item.active.open-network-menu .network-hover-menu-container {
   display: flex;
   position: absolute;
   top: calc(100%);
   z-index: 1;
+}
+
+/* Touch browsers can keep :hover active after a tap, so only use hover to open the menu
+ * on devices with a precise pointer. Touch interaction is controlled by open-network-menu. */
+@media (hover: hover) and (pointer: fine) {
+  .nav-item.active:hover .network-hover-menu-container,
+  .network-hover-menu-container:hover {
+    display: flex;
+    position: absolute;
+    top: calc(100%);
+    z-index: 1;
+  }
 }
 
 .network-hover-menu-container {
@@ -3620,9 +3634,14 @@ a.back-link img{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   color: var(--accent-color);
+}
+
+.block-table-entry-icon {
+  height: 35px;
+  width: auto;
 }
 
 .mobile-block-icon-container {
@@ -4438,7 +4457,7 @@ a.back-link img{
 
 .block-navigation-block-number {
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 700;
   font-family: 'Rigid Square';
   color: var(--blockstream-primary-brand-color);
 }
@@ -4939,7 +4958,7 @@ a.back-link img{
   }
 
   .mobile-block-icon-container svg {
-    width: 14px;
+    width: 16px;
   }
 
   .identifier-row {
@@ -5172,7 +5191,6 @@ a.blockstream-footer-contact:focus {
     row-gap: 42px;
   }
 
-  .blockstream-footer-brand,
   .blockstream-footer-products {
     flex-basis: 100%;
   }

@@ -25,7 +25,7 @@ const standard = (vout, { isOpen, spend, t, ...S }) => layout(
   vout
 
 , vout.pegout ? (vout.pegout.scriptpubkey_address ? <span>{t`Peg-out to`}<br/>{linkToParentAddr(vout.pegout.scriptpubkey_address)}</span> : t`Peg-out`)
- : vout.scriptpubkey_address ? linkToAddr(vout.scriptpubkey_address)
+ : vout.scriptpubkey_address ? linkToAddr(vout.scriptpubkey_address, S.view == 'addr' && S.addr && S.addr.address)
  : vout.scriptpubkey_type ? vout.scriptpubkey_type.toUpperCase()
  : null
 

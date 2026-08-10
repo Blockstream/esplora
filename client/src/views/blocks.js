@@ -38,7 +38,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => (
                     aria-label={`View block ${b.height}`}
                   ></a>
                   <div className="block-icon-container">
-                    <BlockIcon />
+                    <BlockIcon className="block-table-entry-icon" />
                   </div>
                   <div className="block-details">
                     <div className="block-card-header">
