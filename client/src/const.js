@@ -13,6 +13,11 @@ export const typicalDiscountedConfidentialTransactionVsize = 258
 export const maxBlockWeight = 4000000
 export const blockGridLoadingDelayMs = 100
 export const blockGridTransactionSelectEvent = 'block-grid-transaction-select'
+export const pollIntervalsMs = {
+  fast: 30000,
+  standard: 60000,
+  slow: 10 * 60 * 1000,
+}
 export const feeEstimateTargets = {
   low: 12,
   average: 3,

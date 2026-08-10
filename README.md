@@ -57,6 +57,35 @@ The server will be available at <http://localhost:5000/>
 
 To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
 
+### Client polling
+
+Browser polling uses three shared cadence tiers defined in `client/src/const.js`:
+
+- **Fast (30 seconds):** chain tip, pending block templates, and recent mempool
+  transactions shown on the dashboard and recent-transactions page.
+- **Standard (60 seconds):** mempool summary, fee estimates, and pending peg
+  transactions.
+- **Slow (10 minutes):** the Bitcoin market chart, the Liquid high-value-assets
+  panel, and a block-list safety poll used to detect same-height reorganizations.
+
+View-scoped polls run only while their view is active and the browser window is
+focused. Their first tick occurs after a full interval because route entry
+already requests the initial data. This avoids sending duplicate requests when
+opening a page. The chain tip is global and also refreshes immediately when the
+application starts or a block, transaction, or address page is opened.
+
+The block list refreshes when the chain tip height changes, with the slow safety
+poll covering same-height reorganizations. Confirmed peg state and peg chain
+transactions also refresh on new blocks rather than on a timer. A newly observed
+tip resets pending block template polling and delays the next request by 15
+seconds so the electrs cache can refresh.
+
+The dashboard requests both `/mempool/recent` and `/mempool` because they serve
+different UI contracts. `/mempool/recent` supplies the recent transaction list;
+`/mempool` supplies aggregate backlog fields such as transaction count, virtual
+size, total fees, and the fee histogram used by congestion and transaction fee
+analysis.
+
 ## Building
 
 To build the static assets directory for production deployment, set config options (see below)

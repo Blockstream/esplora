@@ -131,15 +131,55 @@ export const extractErrors = r$$ =>
 
 // Create a stream that ticks every `ms`, but only when the window is focused.
 // Returns an empty stream in the server-side pre-renderer environment.
-export const tickWhileFocused = ms =>
-  process.browser
-    ? O.timer(0, ms).filter(() => document.hasFocus())
+export const tickWhileFocused = (
+  ms,
+  scheduler,
+  hasFocus=() => document.hasFocus(),
+  enabled=process.browser
+) =>
+  enabled
+    ? O.timer(0, ms, scheduler).filter(hasFocus)
     : O.empty()
 
-// Create a stream that ticks every `ms` w, but only when the window is focused
-// *and* `view` is the active view
-export const tickWhileViewing = (ms, view, view$) =>
-  tickWhileFocused(ms).withLatestFrom(view$).filter(([ _, shown_view ]) => shown_view == view)
+export const schedulePollsWhileActive = (ms, activeKey$, scheduler) =>
+  activeKey$
+    .distinctUntilChanged()
+    .switchMap(activeKey => activeKey == null
+      ? O.empty()
+      : O.timer(ms, ms, scheduler))
+
+// Start polling one full interval after a key becomes active. Changing keys
+// resets the schedule, which keeps route-entry requests from being duplicated
+// by an immediate timer emission.
+export const pollWhileActive = (
+  ms,
+  activeKey$,
+  scheduler,
+  hasFocus=() => document.hasFocus(),
+  enabled=process.browser
+) =>
+  enabled
+    ? schedulePollsWhileActive(ms, activeKey$, scheduler)
+        .filter(hasFocus)
+    : O.empty()
+
+export const pollWhileViewing = (
+  ms,
+  views,
+  view$,
+  scheduler,
+  hasFocus,
+  enabled
+) => {
+  const activeViews = Array.isArray(views) ? views : [ views ]
+  return pollWhileActive(
+    ms,
+    view$.map(shownView => activeViews.includes(shownView) ? shownView : null),
+    scheduler,
+    hasFocus,
+    enabled
+  )
+}
 
 const responseError = res => ({
   status: res.status,
