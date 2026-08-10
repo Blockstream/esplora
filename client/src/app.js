@@ -13,6 +13,7 @@ import {
   blockTxsPerPage,
   blocksPerPage,
   difficultyPeriod,
+  pollIntervalsMs,
   showHighValueAssets,
   showPegData,
   blockGridTransactionSelectEvent
@@ -30,7 +31,8 @@ import {
     isHash256,
     makeAddressQR,
     tickWhileFocused,
-    tickWhileViewing,
+    pollWhileActive,
+    pollWhileViewing,
     updateBlocks,
     calculateFeerates,
     calculateOverpayment,
@@ -42,7 +44,8 @@ const highValueAssetCategory = assetId => `dashboard-high-value-asset-${assetId}
     , highValueAssetPriceCategory = assetId => `dashboard-high-value-asset-price-${assetId}`
     , apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
-    , blockTemplatePollIntervalMs = 30000
+    , blockTemplatePollIntervalMs = pollIntervalsMs.fast
+    , tipRequestThrottleMs = 5000
     // Wait one electrs cache window after a new tip before requesting the next
     // template. If a refresh is still in progress, electrs holds the request
     // until fresh data is ready, so no additional client-side jitter is needed.
@@ -137,6 +140,30 @@ export const scheduleDashboardBlockTemplatePolls = (
   .filter(({ view }) => view == 'dashBoard')
   .map(({ pollIndex }) => pollIndex)
 
+export const dashboardNewBlocks = (page$, latestBlock$) =>
+  page$
+    .switchMap(page => page && page.pathname == '/'
+      ? latestBlock$.skip(1)
+      : O.empty())
+
+export const parseTipHeight = text => {
+  const normalized = typeof text == 'string' ? text.trim() : text
+      , height = typeof normalized == 'string' && /^\d+$/.test(normalized)
+          ? Number(normalized)
+          : normalized
+
+  return Number.isSafeInteger(height) && height >= 0 ? height : null
+}
+
+export const subsequentTipHeights = tipHeight$ =>
+  tipHeight$.distinctUntilChanged().skip(1)
+
+export const tipDrivenBlockListRefreshes = (tipHeight$, view$) =>
+  tipHeight$
+    .withLatestFrom(view$, (height, view) => ({ height, view }))
+    .filter(({ view }) => view == 'recentBlocks' || view == 'dashBoard')
+    .map(({ height }) => height)
+
 const trackPendingBlockTemplateUpdate = (previous, template) => {
   if (!template || !Array.isArray(template.transactions)) {
     return { template: null, key: null, transactionCount: null, delta: null }
@@ -181,10 +208,38 @@ export const trackPendingBlockTemplateEvent = (previous, event) => {
   }
 }
 
-export default function main({ DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ }) {
+export default function main(
+  { DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ },
+  {
+    pollingEnabled=process.browser,
+    pollingScheduler,
+    hasFocus=() => document.hasFocus()
+  }={}
+) {
   const
 
     reply = (cat, raw) => dropErrors(HTTP.select(cat)).map(r => raw ? r : (r.body || r.text))
+  , focusedTicks = ms => tickWhileFocused(
+      ms,
+      pollingScheduler,
+      hasFocus,
+      pollingEnabled
+    )
+  , pollActive = (ms, activeKey$) => pollWhileActive(
+      ms,
+      activeKey$,
+      pollingScheduler,
+      hasFocus,
+      pollingEnabled
+    )
+  , pollViewing = (ms, views, view$) => pollWhileViewing(
+      ms,
+      views,
+      view$,
+      pollingScheduler,
+      hasFocus,
+      pollingEnabled
+    )
   , recoverableReply = cat => O.merge(
         reply(cat).map(value => ({ value, succeeded: true }))
       , extractErrors(HTTP.select(cat)).mapTo({ succeeded: false }))
@@ -272,7 +327,10 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , error$ = extractErrors(HTTP.select().filter(r$ => !r$.request.bg))
       .merge(searchResult$.filter(found => !found).mapTo('No results found'))
 
-  , tipHeight$ = reply('tip-height', true).map(res => +res.text)
+  , tipHeight$ = reply('tip-height', true)
+      .map(res => parseTipHeight(res.text))
+      .filter(notNully)
+  , subsequentTipHeight$ = subsequentTipHeights(tipHeight$)
 
   // the translation function for the currently selected language
   , t$ = lang$.map(lang => l10n[lang] || l10n[defaultLang])
@@ -523,17 +581,29 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
           .distinctUntilChanged((a, b) => a.height == b.height)
       : O.empty()
 
-  , dashboardNewBlock$ = latestBlock$.skip(1)
-      .withLatestFrom(view$)
-      .filter(([ _, view ]) => view == 'dashBoard')
+  // Route entry already requests all dashboard data. Treat its first block-list
+  // response as the baseline, then refresh block-dependent data on later tips.
+  , dashboardNewBlock$ = dashboardNewBlocks(page$, latestBlock$)
 
-  // In the browser, wait for the ready dashboard view. Liquid remains in the
-  // loading view until its asset map arrives, so starting from goHome$ would
-  // discard the initial template request.
-  , blockTemplatePoll$ = !process.browser
+  , mempoolPollKey$ = O.combineLatest(view$, tx$, (view, tx) =>
+      view == 'dashBoard' || view == 'mempool'
+        ? view
+        : view == 'tx' && tx && !tx.status.confirmed
+          ? tx.txid
+          : null)
+
+  , feeEstimatePollKey$ = O.combineLatest(
+      mempoolPollKey$,
+      view$,
+      (mempoolPollKey, view) => view == 'recentTxs' ? view : mempoolPollKey)
+
+  , blockTemplatePoll$ = !pollingEnabled
       ? goHome$
-      : scheduleDashboardBlockTemplatePolls(view$, dashboardNewBlock$)
-          .filter(pollIndex => pollIndex == 0 || document.hasFocus())
+      : scheduleDashboardBlockTemplatePolls(
+          view$,
+          dashboardNewBlock$,
+          pollingScheduler
+        ).filter(pollIndex => pollIndex == 0 || hasFocus())
 
   , dashboardEpochStartHeight$ = dashboardLatestBlock$
       .map(block => block.height - (block.height % difficultyPeriod))
@@ -607,11 +677,20 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               ? { category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs/chain/${last(d.last_txids)}` }
                               : { category: 'addr-txs',   method: 'GET', path: `/address/${d.addr}/txs` }])
 
-    // fetch list of blocks for homepage
-    , O.merge(goBlocks$, moreBlocks$)
-        .merge(process.browser ? O.timer(60000, 60000).withLatestFrom(view$)
-          .filter(([ _, view ]) => view == 'recentBlocks' || view == 'dashBoard')
-          .mapTo({ start_height: null }) : O.empty())
+    // Fetch the block list on route entry, when the tip height changes, and as
+    // a slow safety refresh. The timer exists specifically to catch same-height
+    // reorgs, which cannot be detected through /blocks/tip/height.
+    , O.merge(
+        goBlocks$,
+        moreBlocks$,
+        tipDrivenBlockListRefreshes(subsequentTipHeight$, view$)
+          .mapTo({ start_height: null }),
+        pollViewing(
+          pollIntervalsMs.slow,
+          [ 'recentBlocks', 'dashBoard' ],
+          view$
+        ).mapTo({ start_height: null })
+      )
         .map(d              => ({ category: 'blocks',     method: 'GET', path: `/blocks/${d.start_height == null ? '' : d.start_height}` }))
 
     // fetch more txs for block page
@@ -645,7 +724,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // in browser env, get the tip every 30s (but only when the page is active) or when we render a block/tx/addr, but not more than once every 5s
     // in server env, just get it once
-    , (process.browser ? O.merge(tickWhileFocused(30000), goBlock$, goTx$, goAddr$).throttleTime(5000)
+    , (pollingEnabled ? O.merge(focusedTicks(pollIntervalsMs.fast), goBlock$, goTx$, goAddr$).throttleTime(tipRequestThrottleMs, pollingScheduler)
                        : O.of(1)
         ).mapTo(                { category: 'tip-height', method: 'GET', path: '/blocks/tip/height', bg: !!process.browser } )
 
@@ -653,33 +732,42 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , goMempool$.flatMap(_ =>  [{ category: 'mempool',    method: 'GET', path: '/mempool' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
 
-    // fetch backlog stats and fee estimates in the background when opening a tx, or every 30 seconds while the mempool or unconfirmed tx page remains open
-    , goTx$.merge(process.browser ? tickWhileFocused(30000).withLatestFrom(view$, tx$)
-                                      .filter(([ _, view, tx ]) => view == 'mempool'
-                                                               || (view == 'tx' && tx && !tx.status.confirmed))
-                                  : O.empty())
-        .flatMap(_ =>          [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
+    // fetch backlog stats and fee estimates in the background when opening a tx
+    , goTx$.flatMap(_ =>       [{ category: 'mempool',    method: 'GET', path: '/mempool', bg: !!process.browser }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: !!process.browser }])
+
+    // poll each dynamic endpoint only on views that consume it
+    , pollActive(pollIntervalsMs.standard, mempoolPollKey$)
+        .mapTo(                 { category: 'mempool',    method: 'GET', path: '/mempool', bg: true })
+
+    , pollActive(pollIntervalsMs.standard, feeEstimatePollKey$)
+        .mapTo(                 { category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: true })
 
     // fetch recent mempool txs and fee estimates when opening the recent txs page
     , goRecent$.flatMap(_ =>   [{ category: 'recent',     method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }])
-    // ... and every 5 seconds while it remains open
-    , tickWhileViewing(5000, 'recentTxs', view$)
-       .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
-    // ... and every 5 seconds while dashBoard remains open
-    , tickWhileViewing(5000, 'dashBoard', view$)
+    // ... and on the fast cadence while either transaction list remains open
+    , pollViewing(
+        pollIntervalsMs.fast,
+        [ 'recentTxs', 'dashBoard' ],
+        view$
+      )
        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
-    // refresh overview panels while dashboard remains open
-    , tickWhileViewing(60000, 'dashBoard', view$)
-        .flatMap(_ =>          [{ category: 'fee-est',    method: 'GET', path: '/fee-estimates', bg: true }
-                              , { category: 'mempool',    method: 'GET', path: '/mempool', bg: true }
-                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }]
-          .concat(!showPegData ? [] :
+    // refresh pending peg transactions on the standard cadence
+    , !showPegData ? O.empty() :
+        pollViewing(pollIntervalsMs.standard, 'dashBoard', view$)
+          .mapTo({ category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true })
+
+    // the market chart contains hourly samples and uses the slow cadence
+    , pollViewing(pollIntervalsMs.slow, 'dashBoard', view$)
+        .mapTo({ category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true })
+
+    // confirmed peg state changes only when a new block arrives
+    , !showPegData ? O.empty() :
+        dashboardNewBlock$.flatMap(_ =>
                               [{ category: 'dashboard-peg-asset', method: 'GET', path: `/asset/${nativeAssetId}`, bg: true }
-                              , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
-                              , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }]))
+                              , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }])
 
     // Refresh the pending block template while the dashboard remains open. A new
     // tip resets the cadence and waits for electrs' block cache to refresh.
@@ -700,8 +788,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     // fetch asset stats and USD prices only while viewing the Liquid dashboard
     , !showHighValueAssets ? O.empty() :
-        O.merge(goHome$, tickWhileViewing(60000, 'dashBoard', view$))
-          .throttleTime(1000)
+        O.merge(goHome$, pollViewing(pollIntervalsMs.slow, 'dashBoard', view$))
           .flatMap(_ => highValueAssetRequests)
     //
     // elements/liquid only
