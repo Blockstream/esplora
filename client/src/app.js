@@ -4,9 +4,19 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import { summarizeBlockTemplate } from './lib/block-template'
+import { getPriceFeedApiBase } from './lib/high-value-assets'
 import { isBitcoinNetwork } from './lib/network'
 import getPrivacyAnalysis from './lib/privacy-analysis'
-import { nativeAssetId, blockTxsPerPage, blocksPerPage, difficultyPeriod, showPegData, blockGridTransactionSelectEvent } from './const'
+import {
+  highValueAssetDefinitions,
+  nativeAssetId,
+  blockTxsPerPage,
+  blocksPerPage,
+  difficultyPeriod,
+  showHighValueAssets,
+  showPegData,
+  blockGridTransactionSelectEvent
+} from './const'
 import {
     dbg,
     combine,
@@ -28,14 +38,37 @@ import {
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
-const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
+const highValueAssetCategory = assetId => `dashboard-high-value-asset-${assetId}`
+    , highValueAssetPriceCategory = assetId => `dashboard-high-value-asset-price-${assetId}`
+    , apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
     , blockTemplatePollIntervalMs = 30000
     // Wait one electrs cache window after a new tip before requesting the next
     // template. If a refresh is still in progress, electrs holds the request
     // until fresh data is ready, so no additional client-side jitter is needed.
     , blockTemplatePollAfterNewBlockMs = 15000
+    , priceFeedApiBase = getPriceFeedApiBase(
+        apiBase,
+        process.browser ? window.location.origin : process.env.CANONICAL_URL
+      )
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
+    , highValueAssetRequests = !showHighValueAssets ? [] : highValueAssetDefinitions.reduce((requests, asset) => [
+        ...requests,
+        {
+          category: highValueAssetCategory(asset.asset_id),
+          method: 'GET',
+          path: `/asset/${asset.asset_id}`,
+          assetId: asset.asset_id,
+          bg: true
+        },
+        ...(priceFeedApiBase ? [{
+          category: highValueAssetPriceCategory(asset.asset_id),
+          method: 'GET',
+          path: `${priceFeedApiBase}/api/v1/assets/${asset.asset_id}/price`,
+          assetId: asset.asset_id,
+          bg: true
+        }] : [])
+      ], [])
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
     , NEW_TABLE_ENTRY_MS = 2000
@@ -375,8 +408,40 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
           : null
       , error: asset.error || chainTxs.error || mempoolTxs.error
       }))
-  , dashboardState$ = O.combineLatest(blocks$, mempoolRecent$, dashboardPegState$, (blks, txs, peg) =>
-        ({ dashblocks: blks.slice(0, 5), dashTxs: txs.slice(0, 11), peg }))
+  , dashboardHighValueAssets$ = !showHighValueAssets
+      ? O.of({})
+      : O.merge(...highValueAssetDefinitions.reduce((replies, asset) => [
+          ...replies,
+          reply(highValueAssetCategory(asset.asset_id), true)
+              .map(r => state => ({
+                ...state,
+                [r.request.assetId]: {
+                  ...state[r.request.assetId],
+                  asset: r.body
+                }
+              })),
+          reply(highValueAssetPriceCategory(asset.asset_id), true)
+              .map(r => state => ({
+                ...state,
+                [r.request.assetId]: {
+                  ...state[r.request.assetId],
+                  price: r.body && r.body.data
+                }
+              }))
+        ], []))
+        .scan((state, update) => update(state), {})
+        .startWith({})
+  , dashboardState$ = O.combineLatest(
+      blocks$,
+      mempoolRecent$,
+      dashboardPegState$,
+      dashboardHighValueAssets$,
+      (blks, txs, peg, highValueAssets) => ({
+        dashblocks: blks.slice(0, 5),
+        dashTxs: txs.slice(0, 11),
+        peg,
+        highValueAssets
+      }))
 
   , dashboardEpochStartBlock$ = reply('dashboard-epoch-start-block', true)
       .map(r => ({ ...r.body, requestedHeight: r.request.height }))
@@ -632,6 +697,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
         goHome$.flatMap(_ =>  [{ category: 'dashboard-peg-asset', method: 'GET', path: `/asset/${nativeAssetId}`, bg: true }
                               , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
                               , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }])
+
+    // fetch asset stats and USD prices only while viewing the Liquid dashboard
+    , !showHighValueAssets ? O.empty() :
+        O.merge(goHome$, tickWhileViewing(60000, 'dashBoard', view$))
+          .throttleTime(1000)
+          .flatMap(_ => highValueAssetRequests)
     //
     // elements/liquid only
     //
