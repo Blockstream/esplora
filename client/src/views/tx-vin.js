@@ -6,7 +6,7 @@ const layout = (vin, desc, body, { t, ...S }) =>
     <div className="vin-header">
       <div className="vin-header-container">
         <span>{ desc }</span>
-        <span className="amount">{ vin.prevout && formatOutAmount(vin.prevout, { t, ...S }) }</span>
+        { vin.prevout && <span className="amount">{formatOutAmount(vin.prevout, { t, ...S })}</span> }
       </div>
     </div>
     { body }
@@ -161,7 +161,7 @@ const standard = (vin, { isOpen, t, ...S }, assetMeta=getAssetMeta(vin, S)) => l
 
     , vin.prevout.scriptpubkey_address && <div className="vin-body-row">
         <div>{t`Previous output address`}</div>
-        <div className="mono">{linkToAddr(vin.prevout.scriptpubkey_address)}</div>
+        <div className="mono">{linkToAddr(vin.prevout.scriptpubkey_address, S.view == 'addr' && S.addr && S.addr.address)}</div>
       </div>
     ] }
 

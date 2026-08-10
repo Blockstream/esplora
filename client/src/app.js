@@ -586,6 +586,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
     on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
     on('.tooltip', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
+    on('[data-scroll-top]', 'click').subscribe(_ => window.scrollTo(0, 0))
 
     const keepTooltipInViewport = ({ ownerTarget: tooltip }) => {
       const dialogue = tooltip.querySelector('.tooltip-dialogue')

@@ -121,7 +121,9 @@ export const linkToParentOut = ({ txid, vout }, label=`${txid}:${vout}`) =>
 export const linkToParentAddr = (addr, label=addr) =>
   <a href={parentChainExplorerAddr.replace('{addr}', addr)} target="_blank" rel="external">{label}</a>
 
-export const linkToAddr = addr => <a href={`address/${addr}`}>{addr}</a>
+export const linkToAddr = (addr, currentAddr) => currentAddr == addr
+  ? <button className="current-address-link" type="button" data-scrollTop aria-label={`Scroll to top of address ${addr}`}>{addr}</button>
+  : <a href={`address/${addr}`}>{addr}</a>
 
 export const formatVMB = (bytes, suffix) =>
   bytes >= 10000 || bytes == 0 ? `${(bytes / 1000000).toFixed(2)} ${suffix ?? "vMB"}`

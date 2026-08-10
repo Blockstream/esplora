@@ -1,6 +1,6 @@
 import layout from "./layout";
 import { txBox } from "./tx";
-import { formatHex } from "./util";
+import { formatHex, formatNumber } from "./util";
 import loader from "../components/loading";
 import {
   BlockIcon,
@@ -51,7 +51,7 @@ export default ({
                   <CaretCircleLeftIcon />
                 </a>
               )}
-              <p className="block-navigation-block-number">{b.height}</p>
+              <p className="block-navigation-block-number">{formatNumber(b.height)}</p>
 
               {status && status.next_best && (
                 <a

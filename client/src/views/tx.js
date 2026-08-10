@@ -14,6 +14,7 @@ import {
 } from "../util";
 import {
   BlockIcon,
+  ChevronRightIcon,
   CopyIcon,
   MinusIcon,
   PlusIcon,
@@ -182,7 +183,7 @@ export const txBox = (
 
         <div className="ins-and-outs_spacer">
           <div className="direction-arrow-container">
-            <div className="direction-arrow"></div>
+            <ChevronRightIcon className="direction-arrow" />
           </div>
         </div>
 
