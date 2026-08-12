@@ -1,4 +1,4 @@
-import { maxBlockWeight } from "../const";
+import { feeEstimateTargets, maxBlockWeight } from "../const";
 import { feeRateClass } from "./fees";
 import { clamp } from "./math";
 
@@ -47,7 +47,11 @@ const summarizeFeeBucket = (transactions) => {
 };
 
 const summarizeFeeBuckets = (transactions, feeEst) => {
-  if (!feeEst || feeEst[3] == null || feeEst[12] == null) {
+  if (
+    !feeEst ||
+    feeEst[feeEstimateTargets.average] == null ||
+    feeEst[feeEstimateTargets.low] == null
+  ) {
     return { low: null, medium: null, high: null };
   }
 

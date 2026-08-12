@@ -1,11 +1,22 @@
+import {
+  feeEstimateTargets,
+  satoshisPerBitcoin,
+  typicalDiscountedConfidentialTransactionVsize,
+  typicalNativeSegwitTransactionVsize,
+} from '../const'
+
 const MAX_BLOCK_VSIZE = 1000000
+    , typicalTransactionVsize = process.env.IS_ELEMENTS
+        ? typicalDiscountedConfidentialTransactionVsize
+        : typicalNativeSegwitTransactionVsize
 
 export const getFeeTierBoundaries = feeEst => {
-  const low = feeEst && feeEst[12]
-    , high = feeEst && feeEst[3]
+  const lowMaximum = feeEst && feeEst[feeEstimateTargets.low]
+    , mediumMaximum = feeEst && feeEst[feeEstimateTargets.average]
 
-  return Number.isFinite(low) && Number.isFinite(high) && low >= 0 && high >= 0
-    ? { low, high: Math.max(low, high) }
+  return Number.isFinite(lowMaximum) && Number.isFinite(mediumMaximum)
+      && lowMaximum >= 0 && mediumMaximum >= 0
+    ? { lowMaximum, mediumMaximum: Math.max(lowMaximum, mediumMaximum) }
     : null
 }
 
@@ -13,9 +24,9 @@ export const feeRateClass = (feerate, feeEst) => {
   const boundaries = getFeeTierBoundaries(feeEst)
   if (!Number.isFinite(feerate) || !boundaries) return ""
 
-  return feerate <= boundaries.low
+  return feerate <= boundaries.lowMaximum
     ? "success"
-    : feerate <= boundaries.high
+    : feerate <= boundaries.mediumMaximum
       ? "warning"
       : "danger"
 }
@@ -36,6 +47,17 @@ export function getConfEstimate(fee_estimates, feerate) {
     .sort((a, b) => a[0]-b[0])
     .find(([ target, target_feerate ]) => target_feerate <= feerate)
   return target_est ? target_est[0] : -1
+}
+
+// Estimate the USD cost of a typical transaction at a given fee-rate. Elements
+// uses the ELIP-200 discount virtual size rather than serialized virtual size.
+export function estimateTypicalTransactionFeeUsd(bitcoinPrice, feerate) {
+  return Number.isFinite(bitcoinPrice) && bitcoinPrice >= 0
+      && Number.isFinite(feerate) && feerate >= 0
+    ? (bitcoinPrice / satoshisPerBitcoin) *
+        feerate *
+        typicalTransactionVsize
+    : null
 }
 
 // Squash the fee histogram into fixed feerate ranges

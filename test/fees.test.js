@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 const {
   feeRateClass,
+  estimateTypicalTransactionFeeUsd,
   feerateCutoff,
   getConfEstimate,
   getFeeTierBoundaries,
@@ -10,12 +11,12 @@ const {
 
 test("validates and applies fee tier boundaries", () => {
   assert.deepEqual(getFeeTierBoundaries({ 3: 10, 12: 2 }), {
-    low: 2,
-    high: 10,
+    lowMaximum: 2,
+    mediumMaximum: 10,
   });
   assert.deepEqual(getFeeTierBoundaries({ 3: 1, 12: 2 }), {
-    low: 2,
-    high: 2,
+    lowMaximum: 2,
+    mediumMaximum: 2,
   });
   assert.equal(getFeeTierBoundaries(), null);
   assert.equal(getFeeTierBoundaries({ 3: 10, 12: -1 }), null);
@@ -54,4 +55,15 @@ test("selects a confirmation target by numeric order", () => {
 
   assert.equal(getConfEstimate(estimates, 6), "10");
   assert.equal(getConfEstimate(estimates, 0.5), -1);
+});
+
+test("estimates a typical transaction fee in dollars", () => {
+  const expectedFee = process.env.IS_ELEMENTS ? 1.548 : 0.84;
+
+  assert.equal(estimateTypicalTransactionFeeUsd(50_000, 12), expectedFee);
+  assert.equal(estimateTypicalTransactionFeeUsd(50_000, 0), 0);
+  assert.equal(estimateTypicalTransactionFeeUsd(null, 12), null);
+  assert.equal(estimateTypicalTransactionFeeUsd(50_000, undefined), null);
+  assert.equal(estimateTypicalTransactionFeeUsd(-50_000, 12), null);
+  assert.equal(estimateTypicalTransactionFeeUsd(50_000, -12), null);
 });

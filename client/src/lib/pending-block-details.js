@@ -47,9 +47,6 @@ const formatTrimmedDecimal = (value) =>
 export const formatPanelPercentage = (value, fallback = "N/A") =>
   Number.isFinite(value) ? `${formatTrimmedDecimal(value)}%` : fallback;
 
-export const formatFeeRate = (value, fallback = "N/A") =>
-  Number.isFinite(value) ? `${value.toFixed(2)} sat/vB` : fallback;
-
 export const formatFeeBoundary = (value, fallback = "N/A") =>
   Number.isFinite(value) ? value.toFixed(2) : fallback;
 
@@ -65,22 +62,6 @@ export const formatMegabytes = (value, fallback = "N/A") =>
 
 export const formatCount = (value, fallback = "N/A") =>
   Number.isFinite(value) ? value.toLocaleString() : fallback;
-
-export const getLatestBitcoinPrice = (marketChart) => {
-  const prices = ((marketChart && marketChart.prices) || [])
-    .map((price) => price && price[1])
-    .filter(Number.isFinite);
-
-  return prices.length ? prices[prices.length - 1] : null;
-};
-
-export const formatUsd = (value, fallback = "N/A") =>
-  Number.isFinite(value)
-    ? `$${value.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })} USD`
-    : fallback;
 
 export const formatTransactionDelta = (delta) =>
   delta > 0
