@@ -3,12 +3,10 @@ const MINUTES_PER_DAY = 24 * 60;
 const MINUTES_PER_YEAR = 365 * MINUTES_PER_DAY;
 const MINUTES_PER_MONTH = MINUTES_PER_YEAR / 12;
 
-const formatElapsedTime = (timestamp, compact) => {
-  const fromDate =
-    timestamp < 1e12 ? new Date(timestamp * 1000) : new Date(timestamp);
+export const formatDuration = (durationMilliseconds, compact = false) => {
   const diffMinutes = Math.max(
     0,
-    Math.floor((new Date() - fromDate) / UPDATE_INTERVAL_MS),
+    Math.floor(durationMilliseconds / UPDATE_INTERVAL_MS),
   );
   const years = Math.floor(diffMinutes / MINUTES_PER_YEAR);
   const minutesAfterYears = diffMinutes % MINUTES_PER_YEAR;
@@ -39,7 +37,17 @@ const formatElapsedTime = (timestamp, compact) => {
 
   if (compact) return parts.length ? parts.join(" ") : "< 1m";
 
-  return parts.length ? `${parts.join(" ")} AGO` : "< 1 MINUTE AGO";
+  return parts.length ? parts.join(" ") : "< 1 MINUTE";
+};
+
+const formatElapsedTime = (timestamp, compact) => {
+  const fromDate =
+    timestamp < 1e12 ? new Date(timestamp * 1000) : new Date(timestamp);
+  const duration = formatDuration(new Date() - fromDate, compact);
+
+  if (compact) return duration;
+
+  return `${duration} AGO`;
 };
 
 const updateElapsedTime = (element) => {

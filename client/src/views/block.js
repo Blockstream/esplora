@@ -25,6 +25,7 @@ export default ({
   tipHeight,
   loading,
   page,
+  previousBlock,
   txsStatus = makeStatus(b),
   ...S
 }) =>
@@ -60,6 +61,7 @@ export default ({
           </div>
           <BlockDetailsCard
             block={b}
+            previousBlock={previousBlock}
             t={t}
             detailsOpen={S.openBlock === b.id}
             statusText={

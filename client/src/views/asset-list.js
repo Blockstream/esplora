@@ -46,23 +46,31 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
             <div className={`asset-list-body ${loading ? "asset-list-body-loading" : ""}`}>
               {assets.map((asset) => (
                 <a href={`asset/${asset.asset_id}`}>
-                <div className="assets-table-link-row">
-                  <div className="assets-table-row">
-                    <div className="asset-list-name" data-label={t`Name`}>
-                      <CurrencyDollarIcon className="currency-dollar" />
-                      {asset.name}
-                    </div>
-                    <div className="asset-list-ticker" data-label={t`Ticker`}>
-                      {asset.ticker || <em>None</em>}
-                    </div>
-                    <div className="asset-list-total-supply" data-label={t`Total Supply`}>
-                      {getSupply(asset, t)}
-                    </div>
-                    <div className="asset-list-issuer-domain" data-label={t`Issuer domain`}>
-                      {asset.entity.domain}
+                  <div className="assets-table-link-row">
+                    <div className="assets-table-row">
+                      <div className="asset-list-name" data-label={t`Name`}>
+                        <span className="asset-list-field-value">
+                          <CurrencyDollarIcon className="currency-dollar" />
+                          {asset.name}
+                        </span>
+                      </div>
+                      <div className="asset-list-ticker" data-label={t`Ticker`}>
+                        <span className="asset-list-field-value">
+                          {asset.ticker || <em>None</em>}
+                        </span>
+                      </div>
+                      <div className="asset-list-total-supply" data-label={t`Total Supply`}>
+                        <span className="asset-list-field-value">
+                          {getSupply(asset, t)}
+                        </span>
+                      </div>
+                      <div className="asset-list-issuer-domain" data-label={t`Issuer domain`}>
+                        <span className="asset-list-field-value">
+                          {asset.entity.domain}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </a>
               ))}
             </div>

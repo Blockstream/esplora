@@ -33,7 +33,7 @@ const resourceLinks = [
   ['Bitcoin Education', 'https://help.blockstream.com/education/'],
   ['Glossary', 'https://help.blockstream.com/education/glossary/'],
   ['Local', 'https://blockstream.com/local/'],
-  ['Brand Assets', 'https://design.blockstream.com/styleguide/branding/overview/']
+  ['Brand Assets', 'https://design.blockstream.com/styleguide/branding/overview.html']
 ]
 
 const socialLinks = [

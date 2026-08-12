@@ -45,8 +45,8 @@ export default () =>
           <ul className="font-p3">
             <li><a href={`${siteRoot}/`} rel="external">Bitcoin</a></li>
             <li><a href={`${siteRoot}/liquid/`} rel="external">Liquid Network</a></li>
-            <li><a href={`${siteRoot}/testnet/`} rel="external" target="_blank">Bitcoin Testnet</a></li>
-            <li><a href={`${siteRoot}/liquidtestnet/`} rel="external" target="_blank">Liquid Testnet</a></li>
+            <li><a href={`${siteRoot}/testnet/`} rel="external">Bitcoin Testnet</a></li>
+            <li><a href={`${siteRoot}/liquidtestnet/`} rel="external">Liquid Testnet</a></li>
           </ul>
           <h4 className="menu-title font-h5">Developer Tools</h4>
           <ul className="font-p3">

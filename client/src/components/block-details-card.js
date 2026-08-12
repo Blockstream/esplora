@@ -4,7 +4,7 @@ import { InfoStat } from "./info-stat";
 import { MinusIcon, PlusIcon } from "./icons";
 import { MetricBar } from "./metric-bar";
 import { StatusBadge } from "./status-badge";
-import { ElapsedTime } from "./elapsed-time";
+import { ElapsedTime, formatDuration } from "./elapsed-time";
 import { Tooltip } from "./tooltip";
 import { maxBlockWeight } from "../const";
 import {
@@ -42,16 +42,34 @@ const formatVirtualSize = (weight) => {
   return formatScaledValue(virtualSize, 1_000_000, "vMB");
 };
 
-const ExpandedBlockDetails = ({ block, t }) => {
+const formatBlockInterval = (block, previousBlock) => {
+  if (
+    !block ||
+    !previousBlock ||
+    previousBlock.id !== block.previousblockhash ||
+    !Number.isFinite(block.timestamp) ||
+    !Number.isFinite(previousBlock.timestamp)
+  ) {
+    return "N/A";
+  }
+
+  return formatDuration(
+    (block.timestamp - previousBlock.timestamp) * 1000,
+    true,
+  );
+};
+
+const ExpandedBlockDetails = ({ block, previousBlock, t }) => {
   const weightPercentage = getBlockPercentageUsed(block.weight);
+  const blockInterval = formatBlockInterval(block, previousBlock);
 
   return (
     <div id="expanded-block-details" className="expanded-block-details">
       <InfoCard
         className="block-detail-time-panel"
         title={t`Time Since Last Block`}
-        tooltip={t`Time elapsed since this block was mined.`}
-        value={<ElapsedTime timestamp={block.timestamp} compact />}
+        tooltip={t`Time elapsed between this block and the previous block.`}
+        value={blockInterval}
         footer={t`Block #${block.height.toLocaleString()}`}
       />
       <InfoCard
@@ -128,6 +146,7 @@ const BlockDetailsCard = ({
   className,
   block,
   detailsOpen = false,
+  previousBlock,
   statusText,
   statusVariant = "success",
   t,
@@ -135,6 +154,7 @@ const BlockDetailsCard = ({
   const percentage = block
     ? Math.min(Math.max(getBlockPercentageUsed(block.weight), 0), 100)
     : 0;
+  const blockInterval = formatBlockInterval(block, previousBlock);
 
   return (
     <div
@@ -196,13 +216,7 @@ const BlockDetailsCard = ({
           <div className="block-details-card-stats">
             <InfoStat
               title={t`Time Since Last Block`}
-              value={
-                block ? (
-                  <ElapsedTime timestamp={block.timestamp} compact />
-                ) : (
-                  "N/A"
-                )
-              }
+              value={blockInterval}
             />
             <InfoStat
               title={t`Transactions`}
@@ -243,7 +257,13 @@ const BlockDetailsCard = ({
         </div>
       </div>
 
-      {detailsOpen && block ? <ExpandedBlockDetails block={block} t={t} /> : null}
+      {detailsOpen && block ? (
+        <ExpandedBlockDetails
+          block={block}
+          previousBlock={previousBlock}
+          t={t}
+        />
+      ) : null}
     </div>
   );
 };

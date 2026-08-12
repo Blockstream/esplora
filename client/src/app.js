@@ -30,6 +30,11 @@ import * as views from './views'
 
 const apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
+    , blockTemplatePollIntervalMs = 30000
+    // Wait one electrs cache window after a new tip before requesting the next
+    // template. If a refresh is still in progress, electrs holds the request
+    // until fresh data is ready, so no additional client-side jitter is needed.
+    , blockTemplatePollAfterNewBlockMs = 15000
     , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
@@ -72,6 +77,32 @@ const trackNewEntries = (items$, getId, getNewIds=defaultNewIds) => {
     .startWith(current => current)
     .scan((current, mod) => mod(current), {})
 }
+
+export const scheduleBlockTemplatePolls = (start$, newBlock$, scheduler) =>
+  O.merge(
+    start$.mapTo(0),
+    newBlock$.mapTo(blockTemplatePollAfterNewBlockMs)
+  )
+    .switchMap(delay => O.timer(
+      delay,
+      blockTemplatePollIntervalMs,
+      scheduler
+    ))
+
+export const scheduleDashboardBlockTemplatePolls = (
+  view$,
+  newBlock$,
+  scheduler
+) => scheduleBlockTemplatePolls(
+  view$
+    .distinctUntilChanged()
+    .filter(view => view == 'dashBoard'),
+  newBlock$,
+  scheduler
+)
+  .withLatestFrom(view$, (pollIndex, view) => ({ pollIndex, view }))
+  .filter(({ view }) => view == 'dashBoard')
+  .map(({ pollIndex }) => pollIndex)
 
 const trackPendingBlockTemplateUpdate = (previous, template) => {
   if (!template || !Array.isArray(template.transactions)) {
@@ -283,6 +314,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , tx$ = reply('tx').merge(goTx$.mapTo(null)).startWith(null)
   , txBlock$ = reply('tx-block').merge(goTx$.mapTo(null)).startWith(null)
 
+  // Predecessor metadata for confirmed block interval calculations
+  , previousBlock$ = reply('previous-block')
+      .merge(O.merge(goBlock$, goTx$).mapTo(null))
+      .startWith(null)
+
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
   , openBlock$ = togBlock$.startWith(null).scan((prev, blockhash) => prev == blockhash ? null : blockhash)
@@ -422,6 +458,18 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
           .distinctUntilChanged((a, b) => a.height == b.height)
       : O.empty()
 
+  , dashboardNewBlock$ = latestBlock$.skip(1)
+      .withLatestFrom(view$)
+      .filter(([ _, view ]) => view == 'dashBoard')
+
+  // In the browser, wait for the ready dashboard view. Liquid remains in the
+  // loading view until its asset map arrives, so starting from goHome$ would
+  // discard the initial template request.
+  , blockTemplatePoll$ = !process.browser
+      ? goHome$
+      : scheduleDashboardBlockTemplatePolls(view$, dashboardNewBlock$)
+          .filter(pollIndex => pollIndex == 0 || document.hasFocus())
+
   , dashboardEpochStartHeight$ = dashboardLatestBlock$
       .map(block => block.height - (block.height % difficultyPeriod))
       .distinctUntilChanged()
@@ -451,7 +499,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
                      , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$
-                     , tx$, txBlock$, txAnalysis$, openTx$
+                     , tx$, txBlock$, previousBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
                      , isReady$, loading$, page$, view$, title$
@@ -482,6 +530,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // fetch the block containing a confirmed tx
     , tx$.filter(tx         => tx && tx.status && tx.status.confirmed && tx.status.block_hash)
         .map(tx             => ({ category: 'tx-block',   method: 'GET', path: `/block/${tx.status.block_hash}` }))
+
+    // fetch the predecessor needed to calculate a confirmed block's interval
+    , O.merge(block$, txBlock$)
+        .filter(block       => block && block.previousblockhash)
+        .map(block          => ({ category: 'previous-block', method: 'GET', path: `/block/${block.previousblockhash}`, bg: true }))
 
     // fetch address and its txs
     , goAddr$.flatMap(d     => [{ category: 'address',    method: 'GET', path: `/address/${d.addr}` }
@@ -563,14 +616,9 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , { category: 'dashboard-peg-chain-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/chain`, bg: true }
                               , { category: 'dashboard-peg-mempool-txs', method: 'GET', path: `/asset/${nativeAssetId}/txs/mempool`, bg: true }]))
 
-    // refresh the pending block template while the dashboard remains open
-    , O.merge(
-        O.merge(goHome$, tickWhileViewing(30000, 'dashBoard', view$))
-          .throttleTime(1000)
-      , latestBlock$.skip(1)
-          .withLatestFrom(view$)
-          .filter(([ _, view ]) => view == 'dashBoard')
-      )
+    // Refresh the pending block template while the dashboard remains open. A new
+    // tip resets the cadence and waits for electrs' block cache to refresh.
+    , blockTemplatePoll$
         .mapTo({ category: 'block-template', method: 'GET', path: '/block-template', bg: true })
 
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
@@ -670,7 +718,22 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     })
 
     on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
-    on('.tooltip', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
+
+    const closeOpenTooltips = except => {
+      document.querySelectorAll('.tooltip.tooltip-open').forEach(tooltip => {
+        if (tooltip != except) tooltip.classList.remove('tooltip-open')
+      })
+    }
+    on('.tooltip', 'click', { preventDefault: true }).subscribe(e => {
+      e.stopPropagation()
+      const tooltip = e.ownerTarget
+          , shouldOpen = !tooltip.classList.contains('tooltip-open')
+      closeOpenTooltips(tooltip)
+      tooltip.classList.toggle('tooltip-open', shouldOpen)
+      if (!shouldOpen) tooltip.blur()
+    })
+    on('.tooltip', 'blur').subscribe(({ ownerTarget: tooltip }) =>
+      tooltip.classList.remove('tooltip-open'))
     on('[data-scroll-top]', 'click').subscribe(_ => window.scrollTo(0, 0))
 
     const keepTooltipInViewport = ({ ownerTarget: tooltip }) => {
@@ -709,6 +772,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       if (activeTooltip && activeTooltip.classList.contains('tooltip') && !e.target.closest('.tooltip')) {
         activeTooltip.blur()
       }
+      if (!e.target.closest('.tooltip')) closeOpenTooltips()
       if (e.target.closest('.main-nav-container')) return
       closeNetworkMenus()
     })
@@ -716,6 +780,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     document.addEventListener('keydown', e => {
       if (e.key == 'Escape') {
         closeNetworkMenus()
+        closeOpenTooltips()
         document.activeElement && document.activeElement.classList.contains('tooltip') && document.activeElement.blur()
       }
 
