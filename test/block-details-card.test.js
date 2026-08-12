@@ -23,6 +23,7 @@ const t = (parts, ...values) => parts.reduce(
 const block = {
   id: "a".repeat(64),
   height: 100,
+  previousblockhash: "c".repeat(64),
   timestamp: 1_700_000_000,
   tx_count: 2,
   size: 1_000_000,
@@ -30,6 +31,11 @@ const block = {
   version: 1,
   nonce: 2,
   merkle_root: "b".repeat(64),
+};
+
+const previousBlock = {
+  id: block.previousblockhash,
+  timestamp: block.timestamp - 10 * 60,
 };
 
 const emptyTemplateMetrics = {
@@ -85,7 +91,7 @@ test("passes block detail copy through localization", () => {
     "Number of transactions included in this block.",
     "Size",
     "Time Since Last Block",
-    "Time elapsed since this block was mined.",
+    "Time elapsed between this block and the previous block.",
     "Transactions",
     "Version",
     "Version bits recorded in the block header.",
@@ -130,6 +136,17 @@ test("disables block details until block metadata is available", () => {
     html,
     /class="block-details-card-details-button"[^>]*disabled="disabled"/,
   );
+});
+
+test("shows the interval from the displayed block to its predecessor", () => {
+  const html = render(BlockDetailsCard({
+    block,
+    detailsOpen: true,
+    previousBlock,
+    t,
+  }));
+
+  assert.equal((html.match(/>10m</g) || []).length, 2);
 });
 
 test("shows the pending transaction live badge only with template data", () => {

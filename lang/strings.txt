@@ -181,7 +181,7 @@ This transaction saved %s on fees by upgrading to native SegWit-Bech32
 This transaction saved %s on fees by upgrading to SegWit and could save %s more by fully upgrading to native SegWit-Bech32
 Ticker
 Time Since Last Block
-Time elapsed since this block was mined.
+Time elapsed between this block and the previous block.
 %s MINUTE PAST EXPECTED INTERVAL
 %s MINUTES PAST EXPECTED INTERVAL
 Timestamp

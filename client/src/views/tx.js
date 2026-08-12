@@ -45,6 +45,7 @@ export default ({
   page,
   unblinded,
   txBlock,
+  previousBlock,
   ...S
 }) => {
   if (!tx || !S.txAnalysis) return;
@@ -93,6 +94,7 @@ export default ({
             <BlockDetailsCard
               className="transaction-block-details"
               block={block}
+              previousBlock={previousBlock}
               t={t}
               detailsOpen={block && S.openBlock === block.id}
               statusText={t`Confirmed`}

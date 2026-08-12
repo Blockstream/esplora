@@ -2590,7 +2590,7 @@ dl.mempool-histogram .bar:before {
 }
 
 .toggle-menu .section1 .wallets-link .store-icons a:hover{
-  color: #00ccff;
+  color: var(--accent-color);
 }
 
 .toggle-menu .section1, .toggle-menu .section2{
@@ -2619,7 +2619,7 @@ dl.mempool-histogram .bar:before {
 }
 
 .toggle-menu .section2 a:hover{
-  color: #00ccff;
+  color: var(--accent-color);
 }
 
 .sub-navbar{
@@ -3502,7 +3502,8 @@ a.back-link img{
 }
 
 .tooltip:hover .tooltip-dialogue,
-.tooltip:focus .tooltip-dialogue {
+.tooltip:focus .tooltip-dialogue,
+.tooltip.tooltip-open .tooltip-dialogue {
   display: initial;
 }
 
@@ -4133,7 +4134,7 @@ a.back-link img{
 .mempool-congestion {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   margin-top: 10px;
 }
 
@@ -4814,12 +4815,32 @@ a.back-link img{
   border-radius: var(--max-border-radius);
 }
 
-@media only screen and (max-width: 820px) {
+@media only screen and (max-width: 1328px) {
   .asset-table {
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .asset-table-body {
+    display: contents;
+  }
+
+  .asset-icon-container {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .asset-title-row {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    flex-wrap: wrap;
   }
 
   .asset-table-details {
+    grid-column: 1 / -1;
+    grid-row: 2;
     align-items: flex-start;
     flex-direction: column;
   }
@@ -4953,7 +4974,7 @@ a.back-link img{
 
 .pending-block-container {
   width: 100%;
-  --pending-block-grid-size: 580px;
+  --pending-block-grid-size: 559px;
   height: var(--pending-block-grid-size);
   box-sizing: border-box;
   padding: 8px;

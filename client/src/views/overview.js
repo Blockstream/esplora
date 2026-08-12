@@ -4,6 +4,7 @@ import { InfoCard } from "../components/info-card";
 import { MempoolCongestion } from "../components/mempool-congestion";
 import { ReferenceLineChart } from "../components/reference-line-chart";
 import { estimateTypicalTransactionFeeUsd } from "../lib/fees";
+import { isBitcoinNetwork } from "../lib/network";
 import {
   getBitcoinPrices,
   getLatestBitcoinPrice,
@@ -37,7 +38,11 @@ export const overview = ({
       <div className="overview-body">
         <InfoCard
           title={t`Time since last block`}
-          tooltip={t`Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes.`}
+          tooltip={
+            isBitcoinNetwork
+              ? t`Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes.`
+              : t`Elapsed time since the last block confirmed. Liquid targets one every ~1 minute.`
+          }
           value={
             latestBlock ? (
               <ElapsedTime timestamp={latestBlock.timestamp} compact />

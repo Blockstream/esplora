@@ -157,7 +157,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
                 {detailField(
                   'ISSUER PUBKEY',
                   contract.issuer_pubkey,
-                  'mono',
+                  null,
                   t,
                   shortenValue(contract.issuer_pubkey)
                 )}
