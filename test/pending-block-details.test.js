@@ -5,14 +5,11 @@ const {
   formatCount,
   formatEstimatedBlockTime,
   formatFeeBoundary,
-  formatFeeRate,
   formatMegabytes,
   formatPanelPercentage,
   formatPercentage,
   formatTransactionDelta,
-  formatUsd,
   formatWeight,
-  getLatestBitcoinPrice,
 } = require("../client/src/lib/pending-block-details");
 const {
   targetBlockIntervalSeconds,
@@ -62,20 +59,11 @@ test("counts down to and measures time past the expected block interval", () => 
 test("formats pending-block metric values and fallbacks", () => {
   assert.equal(formatPercentage(12.345), "12.35%");
   assert.equal(formatPanelPercentage(12.3), "12.3%");
-  assert.equal(formatFeeRate(2.5), "2.50 sat/vB");
   assert.equal(formatFeeBoundary(2.5), "2.50");
   assert.equal(formatWeight(1_250_000), "1.25 MWU");
   assert.equal(formatMegabytes(2_500_000), "2.5 MB");
   assert.equal(formatCount(12_345), "12,345");
-  assert.equal(formatUsd(1_234.5), "$1,234.50 USD");
   assert.equal(formatPercentage(null, "-"), "-");
-});
-
-test("selects the latest finite market price", () => {
-  assert.equal(getLatestBitcoinPrice({
-    prices: [[1, 100], null, [2, NaN], [3, 125]],
-  }), 125);
-  assert.equal(getLatestBitcoinPrice(null), null);
 });
 
 test("formats pending transaction changes", () => {

@@ -3946,6 +3946,31 @@ a.back-link img{
   gap: 12px;
 }
 
+.fee-market {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fee-market-body {
+  display: flex;
+  gap: var(--page-gap);
+}
+
+.fee-market .info-card-container {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+}
+
+.fee-market-low .info-card-value {
+  color: var(--success-color);
+}
+
+.fee-market-high .info-card-value {
+  color: var(--danger-color);
+}
+
 .info-stats-row {
   display: flex;
   gap: 12px;
@@ -5664,6 +5689,14 @@ a.back-link img{
 @media only screen and (max-width: 1328px) {
   .dashboard-transaction-section {
     flex-direction: column;
+  }
+
+  .fee-market-body {
+    flex-wrap: wrap;
+  }
+
+  .fee-market .info-card-container {
+    flex-basis: 260px;
   }
 }
 

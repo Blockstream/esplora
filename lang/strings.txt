@@ -1,3 +1,6 @@
+A balanced fee rate estimated to confirm within %s blocks.
+A higher-priority fee rate estimated to confirm in the next block.
+A lower-priority fee rate estimated to confirm within %s blocks.
 Address
 Address reuse
 Address: %s
@@ -10,6 +13,7 @@ Asset ID
 Asset name
 Asset: %s
 Assets vs Liabilities
+Average
 Bits
 BLOCK
 Block Challenge
@@ -55,9 +59,11 @@ Esplora is currently unavailable, please try again later.
 ETA
 Estimated time until the peg transaction is confirmed.
 Fee
+Fee Market
 Federation BTC Holdings
 Go
 Height
+High
 How full the block is.
 In block
 In best chain
@@ -81,6 +87,7 @@ Linked domain
 Loading block...
 Loading...
 Load more
+Low
 Lock time
 ltr
 Mempool

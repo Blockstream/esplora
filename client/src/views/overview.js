@@ -1,46 +1,19 @@
-import {
-  averageNativeSegwitTransactionSize,
-  satoshisPerBitcoin,
-} from "../const";
+import { feeEstimateTargets } from "../const";
 import { ElapsedTime } from "../components/elapsed-time";
 import { InfoCard } from "../components/info-card";
 import { MempoolCongestion } from "../components/mempool-congestion";
 import { ReferenceLineChart } from "../components/reference-line-chart";
+import { estimateTypicalTransactionFeeUsd } from "../lib/fees";
+import {
+  getBitcoinPrices,
+  getLatestBitcoinPrice,
+} from "../lib/market";
+import { formatFeeRate, formatUsd } from "./util";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
-const getBitcoinPrices = (marketChart) =>
-  ((marketChart && marketChart.prices) || [])
-    .map((price) => price && price[1])
-    .filter(Number.isFinite);
-
 const getChartPrices = (marketChart) =>
   getBitcoinPrices(marketChart).slice(-24);
-
-const formatUsd = (value) =>
-  Number.isFinite(value)
-    ? `$${value.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })} USD`
-    : "";
-
-const formatRecommendedFee = (feeEst) =>
-  feeEst && Number.isFinite(feeEst[3]) ? `${feeEst[3].toFixed(1)} sat/vB` : "";
-
-const estimateNativeSegwitFeeUsd = (bitcoinPrice, feeEst) =>
-  Number.isFinite(bitcoinPrice) && feeEst && Number.isFinite(feeEst[3])
-    ? formatUsd(
-        (bitcoinPrice / satoshisPerBitcoin) *
-          feeEst[3] *
-          averageNativeSegwitTransactionSize,
-      )
-    : "";
-
-const getLatestPrice = (marketChart) => {
-  const prices = getBitcoinPrices(marketChart);
-  return prices.length ? prices[prices.length - 1] : null;
-};
 
 export const overview = ({
   blocks,
@@ -51,10 +24,12 @@ export const overview = ({
 } = {}) => {
   const latestBlock = blocks && blocks[0];
   const chartPrices = getChartPrices(bitcoinMarketChart);
-  const currentBitcoinPrice = getLatestPrice(bitcoinMarketChart);
-  const recommendedFeeUsd = estimateNativeSegwitFeeUsd(
+  const currentBitcoinPrice = getLatestBitcoinPrice(bitcoinMarketChart);
+  const recommendedFeerate =
+    feeEst && feeEst[feeEstimateTargets.average];
+  const recommendedFeeUsd = estimateTypicalTransactionFeeUsd(
     currentBitcoinPrice,
-    feeEst,
+    recommendedFeerate,
   );
   return (
     <div className="overview">
@@ -78,8 +53,8 @@ export const overview = ({
         <InfoCard
           title={t`Recommended Fee`}
           tooltip={t`Suggested rate (sat/vB) to confirm in the next block or two.`}
-          value={formatRecommendedFee(feeEst)}
-          footer={recommendedFeeUsd}
+          value={formatFeeRate(recommendedFeerate, t`N/A`)}
+          footer={formatUsd(recommendedFeeUsd, t`N/A`)}
         />
 
         <InfoCard
@@ -96,7 +71,7 @@ export const overview = ({
         <InfoCard
           title={t`Bitcoin`}
           iconSrc={`${staticRoot}img/icons/Bitcoin-menu-logo.svg`}
-          headerValue={formatUsd(currentBitcoinPrice)}
+          headerValue={formatUsd(currentBitcoinPrice, t`N/A`)}
           body={
             <ReferenceLineChart
               className="overview-bitcoin-price-chart"

@@ -19,16 +19,14 @@ import { getFeeTierBoundaries } from "../lib/fees";
 import {
   formatCount,
   formatFeeBoundary,
-  formatFeeRate,
   formatMegabytes,
   formatPanelPercentage,
   formatPercentage,
   formatTransactionDelta,
-  formatUsd,
   formatWeight,
-  getLatestBitcoinPrice,
 } from "../lib/pending-block-details";
-import { formatSat, formatVMB } from "./util";
+import { getLatestBitcoinPrice } from "../lib/market";
+import { formatFeeRate, formatSat, formatUsd, formatVMB } from "./util";
 
 // Fee estimates are inclusive upper bounds, while the grid expects inclusive
 // lower thresholds. Move just beyond a boundary so an equal rate stays in the
@@ -55,14 +53,14 @@ const getBlockGridConfig = (
           color: rgbColor("--success-color-rgb"),
         },
         medium: {
-          threshold: exclusiveFeeTierMinimum(boundaries.low),
+          threshold: exclusiveFeeTierMinimum(boundaries.lowMaximum),
           color: rgbColor("--warning-color-rgb"),
         },
         high: {
           threshold: exclusiveFeeTierMinimum(
             Math.max(
-              boundaries.high,
-              exclusiveFeeTierMinimum(boundaries.low),
+              boundaries.mediumMaximum,
+              exclusiveFeeTierMinimum(boundaries.lowMaximum),
             ),
           ),
           color: rgbColor("--danger-color-rgb"),
@@ -516,7 +514,7 @@ const PendingBlockDetailsCard = ({
                   <div className="pending-block-color-reference success"></div>
                   <p className="pending-block-legend-label">
                     {t`Low`} (
-                    {`≤${formatFeeBoundary(feeTierBoundaries.low)} sat/vB`}
+                    {`≤${formatFeeBoundary(feeTierBoundaries.lowMaximum)} sat/vB`}
                     )
                   </p>
                 </div>
@@ -524,7 +522,7 @@ const PendingBlockDetailsCard = ({
                   <div className="pending-block-color-reference warning"></div>
                   <p className="pending-block-legend-label">
                     {t`Medium`} (
-                    {`>${formatFeeBoundary(feeTierBoundaries.low)}–≤${formatFeeBoundary(feeTierBoundaries.high)} sat/vB`}
+                    {`>${formatFeeBoundary(feeTierBoundaries.lowMaximum)}–≤${formatFeeBoundary(feeTierBoundaries.mediumMaximum)} sat/vB`}
                     )
                   </p>
                 </div>
@@ -532,7 +530,7 @@ const PendingBlockDetailsCard = ({
                   <div className="pending-block-color-reference danger"></div>
                   <p className="pending-block-legend-label">
                     {t`High`} (
-                    {`>${formatFeeBoundary(feeTierBoundaries.high)} sat/vB`}
+                    {`>${formatFeeBoundary(feeTierBoundaries.mediumMaximum)} sat/vB`}
                     )
                   </p>
                 </div>

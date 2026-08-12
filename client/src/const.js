@@ -4,10 +4,20 @@ export const blocksPerPage = 10
 export const difficultyPeriod = 2016
 export const maxMempoolTxs = 50
 export const satoshisPerBitcoin = 100000000
-export const averageNativeSegwitTransactionSize = 140
+export const typicalNativeSegwitTransactionVsize = 140
+// One native-SegWit input, two confidential outputs, and an explicit fee
+// output. After ELIP-200 normalizes confidential values, nonces, and proofs,
+// its discount weight is 228 base-equivalent bytes * 4 plus 117 witness bytes
+// (using a 108-byte P2WPKH witness), rounded up from 1029 WU.
+export const typicalDiscountedConfidentialTransactionVsize = 258
 export const maxBlockWeight = 4000000
 export const blockGridLoadingDelayMs = 100
 export const blockGridTransactionSelectEvent = 'block-grid-transaction-select'
+export const feeEstimateTargets = {
+  low: 12,
+  average: 3,
+  high: 1,
+}
 
 const configuredTargetBlockIntervalSeconds = Number(process.env.TARGET_BLOCK_INTERVAL_SECONDS)
 export const targetBlockIntervalSeconds = configuredTargetBlockIntervalSeconds > 0

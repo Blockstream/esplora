@@ -24,6 +24,20 @@ export const formatTime = (unix, with_tz = true) => {
 
 export const formatSat = (sats, label=nativeAssetLabel) => `${formatNumber(sat2btc(sats), NATIVE_PRECISION)} ${label}`
 
+const formatTrimmedDecimal = value =>
+  value.toFixed(2).replace(/\.?0+$/, '')
+
+export const formatFeeRate = (feerate, fallback='N/A') =>
+  Number.isFinite(feerate) ? `${formatTrimmedDecimal(feerate)} sat/vB` : fallback
+
+export const formatUsd = (value, fallback='N/A') =>
+  Number.isFinite(value)
+    ? `$${value.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} USD`
+    : fallback
+
 export const formatAssetAmount = (value, precision=0, t) =>
   <span>
     {formatNumber(precision > 0 ? moveDec(value, -precision) : value, precision)}
