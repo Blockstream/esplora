@@ -6,11 +6,6 @@
 }
 
 @font-face {
-  font-family: "Chakra Petch";
-  src: url("font/ChakraPetch-Bold.ttf") format("opentype");
-}
-
-@font-face {
   font-family: "Rigid Square";
   src: url("font/RigidSquare/Rigid_Square_Thin.woff2") format("woff2");
   font-weight: 100;
@@ -182,7 +177,7 @@ ul {
 
 .text-dark-gray { color: #55585A; }
 
-.font-h1 { font-size: 48px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+.font-h1 { font-size: 48px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
 @media only screen and (max-width: 475px) {
   .font-h1 {
@@ -190,7 +185,7 @@ ul {
   }
 }
 
-.font-h2 { font-size: 40px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+.font-h2 { font-size: 40px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
 @media only screen and (max-width: 475px) {
   .font-h2 {
@@ -198,7 +193,7 @@ ul {
   }
 }
 
-.font-h3 { font-size: 28px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+.font-h3 { font-size: 28px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
 @media only screen and (max-width: 475px) {
   .font-h3 {
@@ -214,7 +209,7 @@ ul {
   }
 }
 
-.font-h6 { font-size: 14px; font-weight: 700; font-family: "Chakra Petch", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+.font-h6 { font-size: 14px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
 
 .font-p1 { font-size: 18px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
 
@@ -518,7 +513,7 @@ ul {
 
 .pl-7 { padding-left: 100px; }
 
-.g-btn { font-family: "Chakra Petch", sans-serif; font-style: normal; font-weight: 700; line-height: 22px; letter-spacing: normal; cursor: pointer; width: 100%; max-width: max-content; padding: 10px 30px; display: inline-block; outline: none; transition: 0.3s ease-out; text-decoration: none; text-align: center; border: none; background: none; font-size: 16px;}
+.g-btn { font-family: "Rigid Square", sans-serif; font-style: normal; font-weight: 700; line-height: 22px; letter-spacing: normal; cursor: pointer; width: 100%; max-width: max-content; padding: 10px 30px; display: inline-block; outline: none; transition: 0.3s ease-out; text-decoration: none; text-align: center; border: none; background: none; font-size: 16px;}
 
 .g-btn:hover, .g-btn:active { box-shadow: 149 157 165/20% 0px 8px 24px; transition: 0.3s ease-out; text-decoration: none; }
 
@@ -3455,7 +3450,7 @@ a.back-link img{
   font-style: normal;
   font-weight: 250;
   line-height: 36px;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: "Rigid Square", sans-serif;
 }
 
 .pricing-table-price {
@@ -3467,7 +3462,7 @@ a.back-link img{
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
-  font-family: "Chakra Petch", sans-serif;
+  font-family: "Rigid Square", sans-serif;
 }
 
 .pricing-table-description {
