@@ -91,7 +91,6 @@ Low
 Lock time
 ltr
 Mempool
-Mining...
 Merkle root
 N/A
 New asset
