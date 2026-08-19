@@ -402,16 +402,6 @@ const PendingBlockDetailsCard = ({
               ) : (
                 "-"
               )}
-              <StatusBadge variant={blockTemplate ? "success" : undefined}>
-                {blockTemplate ? <StatusDot /> : null}
-                <span>
-                  {blockTemplate
-                    ? process.env.IS_ELEMENTS
-                      ? t`Building...`
-                      : t`Mining...`
-                    : t`Updating...`}
-                </span>
-              </StatusBadge>
             </p>
             <button
               aria-expanded={detailsOpen ? "true" : "false"}

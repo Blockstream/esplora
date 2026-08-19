@@ -177,17 +177,13 @@ test("shows the pending transaction live badge only with template data", () => {
 
   assert.doesNotMatch(unavailableHtml, />Live</);
   assert.match(liveHtml, />Live</);
-  assert.match(
-    liveHtml,
-    process.env.IS_ELEMENTS ? />Building\.\.\.</ : />Mining\.\.\.</,
-  );
   assert.equal(
     (unavailableHtml.match(/class="confirmation-status-dot"/g) || []).length,
     0,
   );
   assert.equal(
     (liveHtml.match(/class="confirmation-status-dot"/g) || []).length,
-    2,
+    1,
   );
 });
 
@@ -270,7 +266,6 @@ test("passes pending block copy through localization", () => {
 
   [
     "Next Block",
-    process.env.IS_ELEMENTS ? "Building..." : "Mining...",
     "Details",
     "SIZE",
     "Block filling",

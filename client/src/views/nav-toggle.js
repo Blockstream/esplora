@@ -60,9 +60,7 @@ export default () =>
           <h4 className="menu-title font-h5">Other Products</h4>
           <ul className="font-p3">
             <li><a href="https://blockstream.com/liquid/" target="_blank">Liquid Network</a></li>
-            <li><a href="https://blockstream.com/mining/" target="_blank">Blockstream Mining</a></li>
             <li><a href="https://blockstream.com/amp/" target="_blank">Blockstream AMP</a></li>
-            <li><a href="https://blockstream.com/satellite/" target="_blank">Blockstream Satellite</a></li>
             <li><a href="https://blockstream.com/cryptofeed/" target="_blank">Crypto Data Feed</a></li>
             <li><a href="https://blockstream.com/lightning/" target="_blank">Core Lightning</a></li>
             <li><a href="https://blockstream.com/elements/" target="_blank">Elements</a></li>
