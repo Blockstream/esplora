@@ -26,7 +26,7 @@ Block #%s: %s
 Block Signatures
 Block timestamp
 Block Weight
-Block filling
+BLOCK FILLING
 Block weight divided by four.
 Broadcast raw transaction (hex)
 Broadcast transaction
@@ -156,6 +156,7 @@ scriptPubKey (hex)
 scriptSig (asm)
 scriptSig (hex)
 Search for block height, hash, transaction, or address
+See More
 SegWit fee savings
 Sending exact amounts (with no change) is an indication the bitcoins likely didn't change hands.
 Sending to a different script type
@@ -210,6 +211,7 @@ Unknown
 unknown (%s from tip)
 Unnecessary input heuristic
 Unspent
+Unique identifier for this block.
 Using round payment amounts gives an indication of which output is the payment and which is the change. Padding payment amounts to use all available precision resolves this issue.
 Value
 Value commitment

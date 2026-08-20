@@ -62,7 +62,7 @@ export const highValueAssets = (t, assetData = {}) => {
         })}
       </div>
       <a className="view-more font-link-semibold" href="assets">
-        <span>{t`See more`}</span>
+        <span>{t`See More`}</span>
         <div>
           <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
         </div>

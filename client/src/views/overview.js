@@ -37,7 +37,7 @@ export const overview = ({
       <p className="section-title">{t`Overview`}</p>
       <div className="overview-body">
         <InfoCard
-          title={t`Time since last block`}
+          title={t`Time Since Last Block`}
           tooltip={
             isBitcoinNetwork
               ? t`Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes.`

@@ -79,7 +79,7 @@ test("passes block detail copy through localization", () => {
     "Block hash",
     "Block Weight",
     "Block is %s% full",
-    "Block filling",
+    "BLOCK FILLING",
     "Block utilization unavailable",
     "Block weight divided by four.",
     "Commitment to all transactions included in the block.",
@@ -93,6 +93,7 @@ test("passes block detail copy through localization", () => {
     "Time Since Last Block",
     "Time elapsed between this block and the previous block.",
     "Transactions",
+    "Unique identifier for this block.",
     "Version",
     "Version bits recorded in the block header.",
     "Virtual size",
@@ -221,7 +222,7 @@ test("uses the template limit for pending block utilization", () => {
     html,
     /aria-label="Block is 50% full"/,
   );
-  assert.match(html, />Block filling</);
+  assert.match(html, />BLOCK FILLING</);
 });
 
 test("counts down from the last block to the configured expected interval", () => {
@@ -268,7 +269,7 @@ test("passes pending block copy through localization", () => {
     "Next Block",
     "Details",
     "SIZE",
-    "Block filling",
+    "BLOCK FILLING",
     "Transactions",
     "Block Weight",
     "Pending Transactions",

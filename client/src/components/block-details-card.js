@@ -115,6 +115,7 @@ const ExpandedBlockDetails = ({ block, previousBlock, t }) => {
       <InfoCard
         className="block-detail-panel-full"
         title={t`Block hash`}
+        tooltip={t`Unique identifier for this block.`}
         value={block.id || "N/A"}
       />
       {BlockSignatures ? (
@@ -231,7 +232,7 @@ const BlockDetailsCard = ({
           <div className="block-details-card-progress">
             <div className="block-details-card-progress-header">
               <div className="block-details-card-progress-title">
-                <p>{t`Block filling`}</p>
+                <p>{t`BLOCK FILLING`}</p>
                 <Tooltip
                   iconSrc={`${staticRoot}img/icons/tooltip.svg`}
                   text={t`How full the block is.`}

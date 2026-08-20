@@ -64,13 +64,6 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
         )}
 
         {viewMore ? (
-          <svg className="blocks-history-divider" aria-hidden="true">
-            <line x1="1" y1="2" x2="100%" y2="2" />
-          </svg>
-        ) : (
-          ""
-        )}
-        {viewMore ? (
           <p className="blocks-section-title">{t`Blocks History`}</p>
         ) : ""}
 
@@ -156,7 +149,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
 
         {blocks && viewMore ? (
           <a className="view-more font-link-semibold" href="blocks/recent">
-            <span>{t`See more`}</span>
+            <span>{t`See More`}</span>
             <div>
               <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
             </div>
