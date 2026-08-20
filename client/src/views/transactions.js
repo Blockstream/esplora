@@ -76,7 +76,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
         {txs && viewMore ? (
           <div className="transaction-table-view-more-container">
             <a className="view-more font-link-semibold" href="tx/recent">
-              <span>{t`See more`}</span>
+              <span>{t`See More`}</span>
               <div>
                 <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
               </div>

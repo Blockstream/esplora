@@ -5025,7 +5025,7 @@ a.back-link img{
 
 .expanded-pending-block-details {
   display: flex;
-  margin-top: 32px;
+  margin-top: 16px;
 }
 
 .expanded-pending-block-grid-container {
@@ -5317,23 +5317,8 @@ a.back-link img{
   background-color: var(--surface-primary-color);
 }
 
-.blocks-history-divider {
-  display: block;
-  width: 100%;
-  height: 4px;
-  margin-top: 20px;
-  overflow: visible;
-}
-
-.blocks-history-divider line {
-  stroke: var(--foreground-muted);
-  stroke-width: 2;
-  stroke-dasharray: 8 8;
-  stroke-linecap: round;
-}
-
 .blocks-section-title {
-  margin: 20px 0 0;
+  margin-top: 24px;
   color: var(--foreground-muted);
   font-family: "Rigid Square", sans-serif;
   font-size: 14px;
@@ -5467,7 +5452,6 @@ a.back-link img{
   }
 
   .expanded-pending-block-grid-container {
-    margin: 16px 0;
     width: 100%;
   }
 

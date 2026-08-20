@@ -445,7 +445,7 @@ const PendingBlockDetailsCard = ({
 
           <div className="pending-block-progress">
             <div className="pending-block-filling">
-              <p>{t`Block filling`}</p>
+              <p>{t`BLOCK FILLING`}</p>
               <p className="usage-number">
                 {formatPercentage(
                   weightPercentage,
