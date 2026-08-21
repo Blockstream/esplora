@@ -160,9 +160,9 @@ via GitHub Actions:
 - `ghcr.io/<owner>/esplora` — the explorer image, published on every published
   GitHub Release (`.github/workflows/release-docker.yml`). Tagged with the
   release version (e.g. `1.2.3`, `1.2`) and `latest`.
-- `ghcr.io/<owner>/esplora-base` — the base image, rebuilt when
-  `contrib/Dockerfile.base` changes or on manual dispatch
-  (`.github/workflows/base-image.yml`). Tagged `latest`.
+- `ghcr.io/<owner>/esplora-base` — the base image, rebuilt on manual dispatch
+  (`.github/workflows/base-image.yml`); run it after changing
+  `contrib/Dockerfile.base`. Tagged `latest`.
 
 The release image builds `FROM` the GHCR base image, so on a fresh setup run the
 **Publish base image to GHCR** workflow once (Actions → Run workflow) before

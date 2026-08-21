@@ -2,13 +2,9 @@ name: Publish base image to GHCR
 
 # Build the heavy esplora-base image (Bitcoin Core, Elements, electrs, libwally
 # wasm, etc.) and publish it to GitHub Packages (GHCR). This is expensive, so it
-# only runs when the base Dockerfile changes, or when triggered manually.
+# only runs when triggered manually — remember to dispatch it after changing
+# contrib/Dockerfile.base so release builds don't use a stale base.
 on:
-  push:
-    branches: [master]
-    paths:
-      - contrib/Dockerfile.base
-      - .github/workflows/base-image.yml
   workflow_dispatch:
 
 env:
