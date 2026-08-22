@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Extra image tag to push (e.g. test-build). Leave blank to only push :latest on manual runs."
+        description: "Extra image tag to push (e.g. test-build). Manual runs always tag the commit SHA; :latest is never moved by manual runs."
         required: false
         default: ""
 
@@ -47,12 +47,14 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # Release runs derive semver tags from the release tag; manual runs
-          # tag :latest plus an optional caller-supplied tag.
+          # Release runs derive semver tags from the release tag; :latest is
+          # added automatically (flavor latest=auto) for stable semver releases
+          # only, so prereleases and manual test builds never move it. Manual
+          # runs tag the commit SHA plus an optional caller-supplied tag.
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest
+            type=sha,format=long,enable=${{ github.event_name == 'workflow_dispatch' }}
             type=raw,value=${{ inputs.tag }},enable=${{ github.event_name == 'workflow_dispatch' && inputs.tag != '' }}
 
       - name: Build and push image

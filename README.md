@@ -159,7 +159,8 @@ via GitHub Actions:
 
 - `ghcr.io/<owner>/esplora` — the explorer image, published on every published
   GitHub Release (`.github/workflows/release-docker.yml`). Tagged with the
-  release version (e.g. `1.2.3`, `1.2`) and `latest`.
+  release version (e.g. `1.2.3`, `1.2`); stable releases also move `latest`
+  (prereleases and manual test builds don't).
 - `ghcr.io/<owner>/esplora-base` — the base image, rebuilt on manual dispatch
   (`.github/workflows/base-image.yml`); run it after changing
   `contrib/Dockerfile.base`. Tagged `latest`.
