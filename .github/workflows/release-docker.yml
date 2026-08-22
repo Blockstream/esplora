@@ -1,0 +1,76 @@
+name: Publish Docker image to GHCR
+
+# Build the esplora Docker image and publish it to GitHub Packages (GHCR)
+# whenever a new GitHub Release is published. Can also be run manually
+# (workflow_dispatch) for testing, with an optional override tag.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Extra image tag to push (e.g. test-build). Manual runs always tag the commit SHA; :latest is never moved by manual runs."
+        required: false
+        default: ""
+
+env:
+  REGISTRY: ghcr.io
+  # Publishes to ghcr.io/<owner>/<repo>. metadata-action lowercases this for us.
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Compute lowercase owner
+        id: owner
+        run: echo "lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract image metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Release runs derive semver tags from the release tag; :latest is
+          # added automatically (flavor latest=auto) for stable semver releases
+          # only, so prereleases and manual test builds never move it. Manual
+          # runs tag the commit SHA plus an optional caller-supplied tag.
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,format=long,enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=raw,value=${{ inputs.tag }},enable=${{ github.event_name == 'workflow_dispatch' && inputs.tag != '' }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: contrib/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Build on top of the GHCR base image, and stamp the built commit into
+          # the footer HTML (mirroring the GitLab build).
+          build-args: |
+            BASE_IMAGE=${{ env.REGISTRY }}/${{ steps.owner.outputs.lc }}/esplora-base:latest
+            FOOT_HTML=<!-- ${{ github.sha }} -->
+          # Speed up repeat builds via the GitHub Actions cache backend.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

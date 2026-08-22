@@ -1,0 +1,54 @@
+name: Publish base image to GHCR
+
+# Build the heavy esplora-base image (Bitcoin Core, Elements, electrs, libwally
+# wasm, etc.) and publish it to GitHub Packages (GHCR). This is expensive, so it
+# only runs when triggered manually — remember to dispatch it after changing
+# contrib/Dockerfile.base so release builds don't use a stale base.
+on:
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  # Publishes to ghcr.io/<owner>/esplora-base. metadata-action lowercases this.
+  IMAGE_NAME: ${{ github.repository_owner }}/esplora-base
+
+jobs:
+  build-and-push-base:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract image metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=long
+
+      - name: Build and push base image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: contrib/Dockerfile.base
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -185,6 +185,32 @@ docker build -t esplora -f contrib/Dockerfile .
 
 Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub.
 
+## Docker images on GitHub Packages (GHCR)
+
+In addition to Docker Hub, images are published to the GitHub Container Registry
+via GitHub Actions:
+
+- `ghcr.io/<owner>/esplora` — the explorer image, published on every published
+  GitHub Release (`.github/workflows/release-docker.yml`). Tagged with the
+  release version (e.g. `1.2.3`, `1.2`); stable releases also move `latest`
+  (prereleases and manual test builds don't).
+- `ghcr.io/<owner>/esplora-base` — the base image, rebuilt on manual dispatch
+  (`.github/workflows/base-image.yml`); run it after changing
+  `contrib/Dockerfile.base`. Tagged `latest`.
+
+The release image builds `FROM` the GHCR base image, so on a fresh setup run the
+**Publish base image to GHCR** workflow once (Actions → Run workflow) before
+cutting your first release. Both workflows authenticate with the built-in
+`GITHUB_TOKEN`; ensure Actions has package write access (Settings → Actions →
+Workflow permissions) and set the package visibility to public if you want
+anonymous pulls.
+
+Pull the latest release image with:
+
+```bash
+docker pull ghcr.io/<owner>/esplora:latest
+```
+
 ## How to run the explorer for Bitcoin mainnet
 
 ```bash

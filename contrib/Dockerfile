@@ -1,4 +1,7 @@
-FROM blockstream/esplora-base:latest AS build
+# Base image is overridable so CI can point at a registry-specific build
+# (e.g. ghcr.io/<owner>/esplora-base) while keeping the Docker Hub default.
+ARG BASE_IMAGE=blockstream/esplora-base:latest
+FROM ${BASE_IMAGE} AS build
 
 FROM debian:bookworm-slim
 
