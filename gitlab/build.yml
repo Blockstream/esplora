@@ -166,3 +166,60 @@ build_and_push_esplora_latest:
       -t ${IMAGE}:latest
       ${IMAGE}:latest-amd64
       ${IMAGE}:latest-arm64
+
+# Release builds: pushing a git tag like `esplora_v2.10` publishes versioned,
+# pinnable image tags to Docker Hub (`v2.10`, `v2.10-amd64`, `v2.10-arm64`)
+# alongside the `latest` tags that track master.
+.build_esplora_release:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^esplora_v/'
+  before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
+    - docker buildx create
+      --driver=docker-container
+      --name=buildkit-builder
+      --use
+      --platform linux/${ARCH}
+  script:
+    - VERSION="${CI_COMMIT_TAG#esplora_}"
+    - docker pull ${IMAGE}:latest-${ARCH} || true
+    - sed -i "s#esplora-base:latest#esplora-base:${BASE_TAG}#" contrib/Dockerfile
+    - docker buildx build
+      --push
+      --platform linux/${ARCH}
+      -f contrib/Dockerfile
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --build-arg FOOT_HTML='<!-- '"$CI_COMMIT_SHA"' -->'
+      --cache-from ${IMAGE}:latest-${ARCH}
+      -t ${IMAGE}:${VERSION}-${ARCH} .
+build_esplora_release_amd64:
+  extends:
+    - .build_esplora_release
+  variables:
+    ARCH: amd64
+build_esplora_release_arm64:
+  extends:
+    - .build_esplora_release
+  variables:
+    ARCH: arm64
+  tags:
+    - cloud-arm
+build_and_push_esplora_release:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^esplora_v/'
+  variables:
+    # No source checkout needed; we only tag already-built images.
+    GIT_STRATEGY: none
+  needs:
+    - build_esplora_release_amd64
+    - build_esplora_release_arm64
+  before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
+  script:
+    - VERSION="${CI_COMMIT_TAG#esplora_}"
+    - docker buildx imagetools create
+      -t ${IMAGE}:${VERSION}
+      ${IMAGE}:${VERSION}-amd64
+      ${IMAGE}:${VERSION}-arm64
