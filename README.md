@@ -183,7 +183,7 @@ then the main image:
 docker build -t esplora -f contrib/Dockerfile .
 ```
 
-Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub.
+Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub. The `latest` tag tracks the `master` branch; release tags (e.g. `esplora_v2.10`) are also published as versioned image tags (e.g. `blockstream/esplora:v2.10`) that can be pinned for reproducible deployments.
 
 ## How to run the explorer for Bitcoin mainnet
 
