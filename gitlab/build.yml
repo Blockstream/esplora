@@ -1,11 +1,11 @@
 .build_esplora_base:
   stage: build
   rules:
-    - if: $CI_COMMIT_BRANCH
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       changes:
         paths:
           - contrib/Dockerfile.base
-        compare_to: master
+          - gitlab/build.yml
   before_script:
     - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - docker buildx create
@@ -37,11 +37,11 @@ build_esplora_base_arm64:
 build_and_push_esplora_base:
   stage: build
   rules:
-    - if: $CI_COMMIT_BRANCH
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       changes:
         paths:
           - contrib/Dockerfile.base
-        compare_to: master
+          - gitlab/build.yml
   variables:
     # No source checkout needed; we only tag already-built images.
     GIT_STRATEGY: none
@@ -73,14 +73,16 @@ build_and_push_esplora_base:
       --platform linux/${ARCH}
   script:
     - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
+    # Keep the test-only base local so parallel architectures cannot replace the shared manifest.
     - |
       docker buildx build \
-        --push \
+        --load \
         --platform "linux/${ARCH}" \
         -f contrib/Dockerfile.base \
         --build-arg BUILDKIT_INLINE_CACHE=1 \
         --cache-from "${IMAGE_BASE}:latest-${ARCH}" \
         -t "${IMAGE_BASE}:latest" .
+    - docker buildx use default
     # Now, build the esplora image
     - docker pull ${IMAGE}:latest-${ARCH} || true
     - docker compose -f contrib/docker-compose.yml up --build -d
@@ -115,6 +117,10 @@ build_esplora_test_arm64:
     - master
   except:
     - triggers
+  needs:
+    # Wait for a rebuilt multi-arch base when this push changes its inputs or CI flow.
+    - job: build_and_push_esplora_base
+      optional: true
   before_script:
     - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - apk add --no-cache curl
