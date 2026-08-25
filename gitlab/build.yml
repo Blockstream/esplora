@@ -6,6 +6,9 @@
         paths:
           - contrib/Dockerfile.base
           - gitlab/build.yml
+    # Manual repair path: a web-run pipeline on the default branch rebuilds
+    # both architectures and re-creates the multi-arch manifest.
+    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   before_script:
     - echo "$DOCKERHUB_PASSWORD" | docker login -u $DOCKERHUB_USER --password-stdin
     - docker buildx create
@@ -42,6 +45,9 @@ build_and_push_esplora_base:
         paths:
           - contrib/Dockerfile.base
           - gitlab/build.yml
+    # Manual repair path: a web-run pipeline on the default branch rebuilds
+    # both architectures and re-creates the multi-arch manifest.
+    - if: '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   variables:
     # No source checkout needed; we only tag already-built images.
     GIT_STRATEGY: none
