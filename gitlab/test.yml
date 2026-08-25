@@ -37,14 +37,16 @@
     - git clone -b "$GITHUB_PR_REF" "$GITHUB_REPO_URL" .
     # Make sure we test with the latest base image
     - docker pull "${IMAGE_BASE}:latest-${ARCH}" || true
+    # Keep the test-only base local so parallel architectures cannot replace the shared manifest.
     - |
       docker buildx build \
-        --push \
+        --load \
         --platform "linux/${ARCH}" \
         -f contrib/Dockerfile.base \
         --build-arg BUILDKIT_INLINE_CACHE=1 \
         --cache-from "${IMAGE_BASE}:latest-${ARCH}" \
         -t "${IMAGE_BASE}:latest" .
+    - docker buildx use default
     # Now, build the esplora image
     - docker pull ${IMAGE}:latest-${ARCH} || true
     - docker compose -f contrib/docker-compose.yml up --build -d
