@@ -13,6 +13,38 @@ import { formatFeeRate, formatUsd } from "./util";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
+const getPercentDelta = (chartPrices, unavailable = "N/A") => {
+  if (!Array.isArray(chartPrices) || chartPrices.length < 2) {
+    return unavailable;
+  }
+
+  const startingPrice = chartPrices[0];
+  const endingPrice = chartPrices[chartPrices.length - 1];
+
+  if (
+    !Number.isFinite(startingPrice) ||
+    startingPrice === 0 ||
+    !Number.isFinite(endingPrice)
+  ) {
+    return unavailable;
+  }
+
+  const priceDeltaPercentage =
+    ((endingPrice - startingPrice) / startingPrice) * 100;
+
+  if (!Number.isFinite(priceDeltaPercentage)) {
+    return unavailable;
+  }
+
+  const formattedPercentage = priceDeltaPercentage.toFixed(2);
+
+  if (priceDeltaPercentage < 0) {
+    return <span className="text-danger">{`${formattedPercentage}%`}</span>;
+  }
+
+  return <span className="text-success">{`+${formattedPercentage}%`}</span>;
+};
+
 const getChartPrices = (marketChart) =>
   getBitcoinPrices(marketChart).slice(-24);
 
@@ -76,7 +108,12 @@ export const overview = ({
         <InfoCard
           title={t`Bitcoin`}
           iconSrc={`${staticRoot}img/icons/Bitcoin-menu-logo.svg`}
-          headerValue={formatUsd(currentBitcoinPrice, t`N/A`)}
+          headerValue={
+            <span className="overview-bitcoin-price-chart-header-value">
+              <span>{formatUsd(currentBitcoinPrice, t`N/A`)}</span>
+              {getPercentDelta(chartPrices, t`N/A`)}
+            </span>
+          }
           body={
             <ReferenceLineChart
               className="overview-bitcoin-price-chart"

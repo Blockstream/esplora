@@ -552,12 +552,13 @@ const PendingBlockDetailsCard = ({
                 tooltip={t`Transactions currently selected for the pending block, including the coinbase transaction.`}
                 headerValue={
                   metrics ? (
-                    <StatusBadge variant="success">
-                      <StatusDot />
-                      <span>{t`Live`}</span>
-                    </StatusBadge>
+                      <StatusBadge variant="success">
+                        <StatusDot />
+                        <span>{t`Live`}</span>
+                      </StatusBadge>
                   ) : undefined
                 }
+                infoCardHeaderValueClass="block-transactions-status-badge-container"
                 value={
                   <span className="pending-block-transaction-value">
                     <span>
@@ -680,6 +681,7 @@ const PendingBlockDetailsCard = ({
                         ? `${formatWeight(
                             metrics.totalWeight,
                             unavailable,
+                            true
                           )} / ${formatWeight(
                             metrics.weightLimit,
                             unavailable,

@@ -11,6 +11,7 @@ export const InfoCard = ({
   footer,
   body,
   className,
+  infoCardHeaderValueClass,
 } = {}) => (
   <div
     className={
@@ -27,7 +28,15 @@ export const InfoCard = ({
         />
       ) : null}
       {headerValue !== undefined ? (
-        <p className="info-card-header-value">{headerValue}</p>
+        <span
+          className={
+            infoCardHeaderValueClass
+              ? `info-card-header-value ${infoCardHeaderValueClass}`
+              : "info-card-header-value"
+          }
+        >
+          {headerValue}
+        </span>
       ) : null}
     </div>
     {value !== undefined ? <p className="info-card-value">{value}</p> : null}

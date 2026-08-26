@@ -50,9 +50,9 @@ export const formatPanelPercentage = (value, fallback = "N/A") =>
 export const formatFeeBoundary = (value, fallback = "N/A") =>
   Number.isFinite(value) ? value.toFixed(2) : fallback;
 
-export const formatWeight = (value, fallback = "N/A") =>
+export const formatWeight = (value, fallback = "N/A", omitSuffix = false) =>
   Number.isFinite(value)
-    ? `${formatTrimmedDecimal(value / 1_000_000)} MWU`
+    ? `${formatTrimmedDecimal(value / 1_000_000)} ${omitSuffix ? "" : "MWU"}`
     : fallback;
 
 export const formatMegabytes = (value, fallback = "N/A") =>

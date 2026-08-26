@@ -2711,6 +2711,7 @@ dl.mempool-histogram .bar:before {
   background-color: var(--surface-primary-color);
   border-radius: 8px;
   padding: 12px 16px;
+  border: 1px solid var(--field-border-color);
 }
 
 .network-hover-menu-option-container {
@@ -3483,7 +3484,6 @@ a.back-link img{
 .tooltip {
   display: flex;
   position: relative;
-  margin-left: 6px;
   padding: 0;
   border: 0;
   color: inherit;
@@ -3515,7 +3515,7 @@ a.back-link img{
   max-width: 200px;
   padding: 6px;
   border-radius: 4px;
-  background-color: var(--surface-secondary-color);
+  background-color: var(--surface-primary-color);
   font-size: 14px;
   color: #FAFAFA;
   top: 10px;
@@ -3524,7 +3524,7 @@ a.back-link img{
   white-space: normal;
   overflow-wrap: anywhere;
   z-index: 999;
-  border: .5px solid var(--field-border-color);
+  border: 1px solid var(--field-border-color);
 }
 
 @media only screen and (min-width: 1329px) {
@@ -3702,6 +3702,7 @@ a.back-link img{
 .usage-and-tooltip {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
 .usage-number {
@@ -3885,11 +3886,12 @@ a.back-link img{
 .table-header {
   display: flex;
   align-items: center;
+  gap: 6px;
   white-space: nowrap;
 }
 
 .table-header-title {
-  margin-left: 16px;
+  margin-left: 10px;
   color: #B5BDC2;
   font-family: "Rigid Square", sans-serif;
   font-size: 20px;
@@ -4193,6 +4195,11 @@ a.back-link img{
   font-size: 10px;
 }
 
+.overview-bitcoin-price-chart-header-value {
+  display: flex;
+  gap: 4px;
+}
+
 .overview-bitcoin-price-chart {
   height: 100%;
   width: 100%;
@@ -4494,6 +4501,7 @@ a.back-link img{
 .block-details-card-progress-title {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
 .block-details-card-progress-header .usage-number {
@@ -4913,6 +4921,26 @@ a.back-link img{
   .asset-table-issuance-link {
     margin-left: 0;
   }
+
+  .overview-fees {
+    flex-direction: column;
+    gap: 0px;
+    align-items: initial;
+  }
+
+  .transaction-table-footer-confirmation-text{
+    flex-wrap: wrap;
+  }
+
+  .info-card-header {
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 485px) {
+  .block-transactions-status-badge-container {
+    width: 100%;
+  }
 }
 
 .pending-block-details-card {
@@ -5248,6 +5276,7 @@ a.back-link img{
   flex: .55;
   flex-direction: column;
   gap: 12px;
+  margin-top: 12px;
 }
 
 .expanded-pending-block-row {
@@ -5412,6 +5441,7 @@ a.back-link img{
 @media only screen and (max-width: 1328px) {
   .overview-body {
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -5431,10 +5461,6 @@ a.back-link img{
 
   .pending-block-details-button {
     font-size: 14px;
-  }
-
-  .expanded-pending-block-row {
-    flex-direction: column;
   }
 
   .pending-block-container {
@@ -5759,6 +5785,10 @@ a.back-link img{
     margin-left: auto;
     margin-right: auto;
   }
+
+  .metric-bar-header-value {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (max-width: 1328px) {
@@ -5987,5 +6017,9 @@ a.blockstream-footer-contact:focus {
 
   .blockstream-footer-product-columns {
     column-gap: 24px;
+  }
+
+  .table-title-row {
+    display: none;
   }
 }
