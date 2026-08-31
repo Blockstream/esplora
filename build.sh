@@ -28,8 +28,8 @@ rm -rf $DEST/*
 # Static assets
 cp -RL www/* $CUSTOM_ASSETS $DEST/
 
-# CSS customizations
-[ -n "$CUSTOM_CSS" ] && cat $CUSTOM_CSS >> $DEST/style.css
+# Assemble base CSS modules followed by flavor customizations
+node scripts/assemble-css.js "$DEST/style.css" $CUSTOM_CSS
 
 # Index HTML
 pug client/index.pug -o $DEST
