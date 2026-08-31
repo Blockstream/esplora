@@ -1,10 +1,11 @@
-import fs, { promises as fsp } from 'fs'
+import fs from 'fs'
 import pug from 'pug'
 import pathu from 'path'
 import glob from 'glob'
 import express from 'express'
 import browserify from 'browserify-middleware'
 import cssjanus from 'cssjanus'
+import { assembleCss } from './scripts/assemble-css'
 
 const rpath = p => pathu.join(__dirname, p)
 
@@ -52,13 +53,11 @@ if (basePath !== '/') {
 router.get('/', (req, res) => res.render(rpath('client/index.pug')))
 router.get('/app.js', browserify(rpath('client/src/run-browser.js')))
 
-// Merges the main stylesheet from www/style.css with the custom css files
+// Merges the base CSS modules with the custom CSS files
 router.get('/style.css', p(async (req, res) =>
   res.type('css').send(await prepCss())))
 
-const prepCss = async _ =>
-  (await Promise.all([ rpath('www/style.css'), ...custom_css ].map(path => fsp.readFile(path))))
-    .join('\n')
+const prepCss = _ => assembleCss(custom_css)
 
 // Automatically adjust CSS for RTL using cssjanus
 router.get('/style-rtl.css', p(async (req, res) =>
