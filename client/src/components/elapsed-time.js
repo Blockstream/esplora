@@ -3,7 +3,18 @@ const MINUTES_PER_DAY = 24 * 60;
 const MINUTES_PER_YEAR = 365 * MINUTES_PER_DAY;
 const MINUTES_PER_MONTH = MINUTES_PER_YEAR / 12;
 
-export const formatDuration = (durationMilliseconds, compact = false) => {
+const passthrough = (parts, ...values) =>
+  parts.reduce(
+    (result, part, index) =>
+      result + part + (index < values.length ? values[index] : ""),
+    "",
+  );
+
+export const formatDuration = (
+  durationMilliseconds,
+  compact = false,
+  t = passthrough,
+) => {
   const diffMinutes = Math.max(
     0,
     Math.floor(durationMilliseconds / UPDATE_INTERVAL_MS),
@@ -15,16 +26,16 @@ export const formatDuration = (durationMilliseconds, compact = false) => {
     minutesAfterYears - months * MINUTES_PER_MONTH,
   );
   const units = [
-    ["YEAR", "YEARS", "y", years],
-    ["MONTH", "MONTHS", "mo", months],
-    ["DAY", "DAYS", "d", Math.floor(minutesAfterMonths / MINUTES_PER_DAY)],
+    [t`YEAR`, t`YEARS`, t`y`, years],
+    [t`MONTH`, t`MONTHS`, t`mo`, months],
+    [t`DAY`, t`DAYS`, t`d`, Math.floor(minutesAfterMonths / MINUTES_PER_DAY)],
     [
-      "HOUR",
-      "HOURS",
-      "h",
+      t`HOUR`,
+      t`HOURS`,
+      t`h`,
       Math.floor((minutesAfterMonths % MINUTES_PER_DAY) / 60),
     ],
-    ["MINUTE", "MINUTES", "m", minutesAfterMonths % 60],
+    [t`MINUTE`, t`MINUTES`, t`m`, minutesAfterMonths % 60],
   ];
   const parts = units
     .filter((unit) => unit[3] > 0)
@@ -35,31 +46,33 @@ export const formatDuration = (durationMilliseconds, compact = false) => {
         : `${value} ${value === 1 ? singular : plural}`,
     );
 
-  if (compact) return parts.length ? parts.join(" ") : "< 1m";
+  if (compact) return parts.length ? parts.join(" ") : t`< 1m`;
 
-  return parts.length ? parts.join(" ") : "< 1 MINUTE";
+  return parts.length ? parts.join(" ") : t`< 1 MINUTE`;
 };
 
-const formatElapsedTime = (timestamp, compact) => {
+const formatElapsedTime = (timestamp, compact, t) => {
   const fromDate =
     timestamp < 1e12 ? new Date(timestamp * 1000) : new Date(timestamp);
-  const duration = formatDuration(new Date() - fromDate, compact);
+  const duration = formatDuration(new Date() - fromDate, compact, t);
 
   if (compact) return duration;
 
-  return `${duration} AGO`;
+  return t`${duration} AGO`;
 };
 
 const updateElapsedTime = (element) => {
   element.textContent = formatElapsedTime(
     element.elapsedTimeTimestamp,
     element.elapsedTimeCompact,
+    element.elapsedTimeTranslator,
   );
 };
 
-const startElapsedTime = (vnode, timestamp, compact) => {
+const startElapsedTime = (vnode, timestamp, compact, t) => {
   vnode.elm.elapsedTimeTimestamp = timestamp;
   vnode.elm.elapsedTimeCompact = compact;
+  vnode.elm.elapsedTimeTranslator = t;
   updateElapsedTime(vnode.elm);
   vnode.elm.elapsedTimeInterval = window.setInterval(
     () => updateElapsedTime(vnode.elm),
@@ -67,9 +80,10 @@ const startElapsedTime = (vnode, timestamp, compact) => {
   );
 };
 
-const patchElapsedTime = (_, vnode, timestamp, compact) => {
+const patchElapsedTime = (_, vnode, timestamp, compact, t) => {
   vnode.elm.elapsedTimeTimestamp = timestamp;
   vnode.elm.elapsedTimeCompact = compact;
+  vnode.elm.elapsedTimeTranslator = t;
   updateElapsedTime(vnode.elm);
 };
 
@@ -77,14 +91,18 @@ const stopElapsedTime = (vnode) => {
   window.clearInterval(vnode.elm.elapsedTimeInterval);
 };
 
-export const ElapsedTime = ({ timestamp, compact = false } = {}) => (
+export const ElapsedTime = ({
+  timestamp,
+  compact = false,
+  t = passthrough,
+} = {}) => (
   <span
-    hook-insert={(vnode) => startElapsedTime(vnode, timestamp, compact)}
+    hook-insert={(vnode) => startElapsedTime(vnode, timestamp, compact, t)}
     hook-postpatch={(oldVnode, vnode) =>
-      patchElapsedTime(oldVnode, vnode, timestamp, compact)
+      patchElapsedTime(oldVnode, vnode, timestamp, compact, t)
     }
     hook-destroy={stopElapsedTime}
   >
-    {formatElapsedTime(timestamp, compact)}
+    {formatElapsedTime(timestamp, compact, t)}
   </span>
 );

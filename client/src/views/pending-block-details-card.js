@@ -539,7 +539,7 @@ const PendingBlockDetailsCard = ({
                 "time-since-last-block",
                 t`Time Since Last Block`,
                 block ? (
-                  <ElapsedTime timestamp={block.timestamp} compact />
+                  <ElapsedTime timestamp={block.timestamp} compact t={t} />
                 ) : (
                   "-"
                 ),

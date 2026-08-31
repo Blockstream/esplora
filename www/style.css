@@ -3868,10 +3868,12 @@ a.back-link img{
   justify-content: center;
   background-color: rgba(23, 201, 100, 0.2);
   color: rgba(23, 201, 100);
-  width: 50px;
+  width: fit-content;
   height: 18px;
+  padding: 0 8px;
   font-weight: 400;
   font-size: 11px;
+  white-space: nowrap;
   border-radius: 18px;
 }
 

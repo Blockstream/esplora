@@ -30,7 +30,7 @@ export const dashBoard = ({ t, blocks, dashboardState, loading, ...S }) => {
       </div>
       {!isBitcoinNetwork ? feeMarket({ t, ...S }) : ""}
       {isBitcoinNetwork
-        ? difficultyAdjustment({ blocks: dashblocks, ...S })
+        ? difficultyAdjustment({ blocks: dashblocks, t, ...S })
         : ""}
       {showHighValueAssets ? highValueAssets(t, highValueAssetData) : ""}
     </div>,

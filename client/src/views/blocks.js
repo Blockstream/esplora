@@ -77,7 +77,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
                   <a
                     className="blocks-table-card-link"
                     href={`block/${b.id}`}
-                    aria-label={`View block ${b.height}`}
+                    aria-label={t`View block ${b.height}`}
                   ></a>
                   <div className="block-icon-container">
                     <BlockIcon className="block-table-entry-icon" />
@@ -95,12 +95,12 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
                           className="table-copy-button code-button-btn"
                           type="button"
                           data-clipboardCopy={"" + b.height}
-                          aria-label={`Copy block number ${b.height}`}
+                          aria-label={t`Copy block number ${b.height}`}
                         >
                           <CopyIcon />
                         </button>
                         {index === 0 ? (
-                          <div className="latest-block-badge">Latest</div>
+                          <div className="latest-block-badge">{t`Latest`}</div>
                         ) : (
                           ""
                         )}
@@ -111,15 +111,15 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
                         title={new Date(b.timestamp * 1000)}
                       >
                         <ClockIcon className="block-timestamp-icon" />
-                        {formatRelativeTime(b.timestamp)?.toUpperCase()}
+                        {formatRelativeTime(b.timestamp, t)?.toUpperCase()}
                       </p>
                     </div>
                     <div className="block-card-body">
                       <InfoStat
-                        title="TRANSACTIONS"
+                        title={t`TRANSACTIONS`}
                         value={formatNumber(b.tx_count).toLocaleString()}
                       />
-                      <InfoStat title="SIZE" value={formatVMB(b.size, "MB")} />
+                      <InfoStat title={t`SIZE`} value={formatVMB(b.size, "MB")} />
                     </div>
 
                     <div className="block-usage">
@@ -129,7 +129,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
                         </p>
                         <Tooltip
                           iconSrc={`${staticRoot}img/icons/tooltip.svg`}
-                          text="How full this block is."
+                          text={t`How full this block is.`}
                         />
                       </div>
                       <div className="usage-bar">

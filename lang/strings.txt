@@ -229,3 +229,118 @@ Yes
 < 1 MINUTE PAST EXPECTED INTERVAL
 < 1 min
 ~%s min
+%s SELECTED + COINBASE
+%s added since the last update
+%s days ago
+%s hours ago
+%s minutes ago
+%s removed since the last update
+%s seconds ago
+1 day ago
+1 hour ago
+1 minute ago
+< 1m
+AVERAGE BLOCK TIME
+AVG FEE
+All selected transactions are shown individually.
+Average fee rate and transaction fee in the high-fee portion of this template.
+Average fee rate and transaction fee in the low-fee portion of this template.
+Average fee rate and transaction fee in the middle-fee portion of this template.
+BLOCK #%s
+Bitcoin
+Bitcoin price line chart
+Block is %s% full
+Block utilization unavailable
+Blocks History
+Copy block number %s
+Copy transaction id %s
+Current template weight and serialized size compared with their block limits.
+Difficulty
+Difficulty Adjustment
+EXPECTED ADJ
+EXPECTED ADJ DATE
+Elapsed time since the last block confirmed.
+Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes.
+Elapsed time since the last block confirmed. Liquid targets one every ~1 minute.
+Estimated computing power securing the network.
+Exahashes per second
+FEE
+Fee rate
+Fee-rate estimates are unavailable; transactions use a neutral color.
+Gigahashes per second
+HIGH
+Hashes per second
+Hashrate
+High-Value Assets
+How busy mempool activity is. More congestion means higher fees for quick confirmation.
+How full this block is.
+How hard it is to find a valid block. Tracks hashrate.
+How hard it is to mine new blocks. Bitcoin retargets mining difficulty every 2,016 blocks to keep blocks near 10 minutes. Current is the projected next change; Previous was the last change.
+IN MEMPOOL
+Individually rendered transactions
+Kilohashes per second
+LOW
+Latest
+Latest Blocks
+Latest Transactions
+Legacy
+Live
+Loading block utilization
+Loading pending block transactions
+Lower-fee transactions are summarized in the metrics because they do not fit at this resolution.
+Medium
+Megahashes per second
+Mempool Congestion
+Moderate
+Next Block
+Next adj. in %s
+Next adjustment unavailable
+No recent blocks
+Overview
+PREVIOUS ADJ
+Pending Transactions
+Pending block transaction grid
+Petahashes per second
+Recommended Fee
+SIZE
+SegWit
+Share of selected transactions using SegWit or legacy serialization.
+Suggested rate (sat/vB) to confirm in the next block or two.
+TOTAL FEE COLLECTED
+TRANSACTION ID
+TRANSACTIONS
+TX ID
+Terahashes per second
+This panel shows the circulating value of high-value assets on Liquid.
+Total Fees Collected
+Total transaction fees a miner would collect from the current template, shown in bitcoin and US dollars.
+Transaction Types
+Transactions currently selected for the pending block, including the coinbase transaction.
+Transactions currently waiting in the node's mempool.
+Use the arrow keys to inspect transactions and Enter to open one.
+VALUE
+View block %s
+Yottahashes per second
+Zettahashes per second
+am
+d
+h
+just now
+m
+mo
+pm
+s
+w
+y
+%s AGO
+< 1 MINUTE
+DAY
+DAYS
+HOUR
+HOURS
+MINUTE
+MINUTES
+MONTH
+MONTHS
+YEAR
+YEARS

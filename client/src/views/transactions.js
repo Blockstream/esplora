@@ -18,15 +18,15 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
           <div className="table-header-icon-container">
             <TxArrowsIcon />
           </div>
-          <h1 className="table-header-title">Latest Transactions</h1>
+          <h1 className="table-header-title">{t`Latest Transactions`}</h1>
         </div>
 
         <div className="table-title-row latest-transactions-table-title-row">
-          <div className="transaction-table-transaction-id">TRANSACTION ID</div>
-          <div className="transaction-table-transaction-value">VALUE</div>
-          <div className="transaction-table-transaction-size">SIZE</div>
+          <div className="transaction-table-transaction-id">{t`TRANSACTION ID`}</div>
+          <div className="transaction-table-transaction-value">{t`VALUE`}</div>
+          <div className="transaction-table-transaction-size">{t`SIZE`}</div>
           <div className="transaction-table-transaction-fee">
-            FEE
+            {t`FEE`}
           </div>
         </div>
 
@@ -46,7 +46,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
                       role="button"
                       tabindex="0"
                       data-clipboardCopy={txOverview.txid}
-                      aria-label={`Copy transaction id ${txOverview.txid}`}
+                      aria-label={t`Copy transaction id ${txOverview.txid}`}
                     >
                       <CopyIcon />
                     </div>
