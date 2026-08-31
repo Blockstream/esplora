@@ -77,13 +77,15 @@ export const overview = ({
           }
           value={
             latestBlock ? (
-              <ElapsedTime timestamp={latestBlock.timestamp} compact />
+              <ElapsedTime timestamp={latestBlock.timestamp} compact t={t} />
             ) : (
               ""
             )
           }
           footer={
-            latestBlock ? `BLOCK #${latestBlock.height.toLocaleString()}` : ""
+            latestBlock
+              ? t`BLOCK #${latestBlock.height.toLocaleString()}`
+              : ""
           }
         />
 
@@ -118,7 +120,7 @@ export const overview = ({
             <ReferenceLineChart
               className="overview-bitcoin-price-chart"
               id="lineChart"
-              ariaLabel="Bitcoin price line chart"
+              ariaLabel={t`Bitcoin price line chart`}
               values={chartPrices}
             />
           }

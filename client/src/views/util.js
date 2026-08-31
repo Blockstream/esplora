@@ -92,7 +92,18 @@ export const formatNumber = (s, precision=null) => {
   return whole + (dec != null ? '.'+dec : '')
 }
 
-export const formatRelativeTime = (fromDate, toDate = new Date()) => {
+export const formatRelativeTime = (fromDate, toDate = new Date(), t) => {
+  if (typeof toDate === 'function') {
+    t = toDate
+    toDate = new Date()
+  }
+
+  t = t || ((parts, ...values) => parts.reduce(
+    (result, part, index) =>
+      result + part + (index < values.length ? values[index] : ''),
+    '',
+  ))
+
   if (typeof fromDate === 'number') {
     fromDate = fromDate < 1e12
       ? new Date(fromDate * 1000)
@@ -101,21 +112,27 @@ export const formatRelativeTime = (fromDate, toDate = new Date()) => {
 
   const diffSeconds = Math.floor((toDate - fromDate) / 1000)
 
-  if (diffSeconds < 5) return 'just now'
-  if (diffSeconds < 60) return `${diffSeconds} seconds ago`
+  if (diffSeconds < 5) return t`just now`
+  if (diffSeconds < 60) return t`${diffSeconds} seconds ago`
 
   const diffMinutes = Math.floor(diffSeconds / 60)
   if (diffMinutes < 60) {
-    return diffMinutes === 1 ? '1 minute ago' : `${diffMinutes} minutes ago`
+    return diffMinutes === 1
+      ? t`1 minute ago`
+      : t`${diffMinutes} minutes ago`
   }
 
   const diffHours = Math.floor(diffMinutes / 60)
   if (diffHours < 24) {
-    return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`
+    return diffHours === 1
+      ? t`1 hour ago`
+      : t`${diffHours} hours ago`
   }
 
   const diffDays = Math.floor(diffHours / 24)
-  return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`
+  return diffDays === 1
+    ? t`1 day ago`
+    : t`${diffDays} days ago`
 }
 
 export const getBlockPercentageUsed = blockWeight =>

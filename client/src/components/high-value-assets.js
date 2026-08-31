@@ -55,7 +55,7 @@ export const highValueAssets = (t, assetData = {}) => {
               </div>
               <p className="high-value-assets-listing-name">{asset.name}</p>
               <p className="high-value-assets-circulating-dollar-amount">
-                {formatDollarAmount(dollarAmount)}
+                {formatDollarAmount(dollarAmount, t)}
               </p>
             </a>
           );

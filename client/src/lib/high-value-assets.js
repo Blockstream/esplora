@@ -1,4 +1,5 @@
 const value = n => n == null ? 0 : Number(n)
+    , passthrough = strings => strings[0]
 
 export const getPriceFeedApiBase = (apiBase, fallbackOrigin) => {
   let url
@@ -34,8 +35,8 @@ export const calculateCirculatingDollarAmount = (asset, price) => {
   return Number.isFinite(dollarAmount) ? dollarAmount : null
 }
 
-export const formatDollarAmount = amount => {
-  if (!Number.isFinite(amount)) return 'N/A'
+export const formatDollarAmount = (amount, t=passthrough) => {
+  if (!Number.isFinite(amount)) return t`N/A`
 
   const units = [
     [ 1e12, 'T' ],

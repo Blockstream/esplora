@@ -82,7 +82,7 @@ msgid "Confidential"
 msgstr "Confidencial"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmada"
 
 msgid "Confirmed received"
 msgstr ""
@@ -106,10 +106,10 @@ msgid "Esplora is currently unavailable, please try again later."
 msgstr ""
 
 msgid "ETA"
-msgstr ""
+msgstr "ETA"
 
 msgid "Fee"
-msgstr ""
+msgstr "Taxa"
 
 msgid "Go"
 msgstr ""
@@ -195,7 +195,7 @@ msgid "No outputs"
 msgstr ""
 
 msgid "No recent transactions"
-msgstr ""
+msgstr "Sem transações recentes"
 
 msgid "No reissuance"
 msgstr ""
@@ -231,7 +231,7 @@ msgid "Page Not Found"
 msgstr "Página Não Encontrada"
 
 msgid "Peg-out"
-msgstr ""
+msgstr "Peg-out"
 
 msgid "Peg-out address"
 msgstr ""
@@ -329,7 +329,7 @@ msgid "%s from tip"
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Tamanho"
 
 msgid "Size (KB)"
 msgstr "Tamanho (KB)"
@@ -432,7 +432,7 @@ msgid "Transaction: %s"
 msgstr "Transação: %0"
 
 msgid "TXID"
-msgstr ""
+msgstr "TXID"
 
 msgid "txid:vout"
 msgstr ""
@@ -474,7 +474,7 @@ msgid "Version"
 msgstr "Versão"
 
 msgid "Virtual size"
-msgstr ""
+msgstr "Tamanho virtual"
 
 msgid "We encountered an error. Please try again later."
 msgstr ""
@@ -487,3 +487,480 @@ msgstr ""
 
 msgid "Witness"
 msgstr ""
+
+msgid "%s MINUTE PAST EXPECTED INTERVAL"
+msgstr "%0 MINUTO APÓS O INTERVALO PREVISTO"
+
+msgid "%s MINUTES PAST EXPECTED INTERVAL"
+msgstr "%0 MINUTOS APÓS O INTERVALO PREVISTO"
+
+msgid "%s SELECTED + COINBASE"
+msgstr "%0 SELECIONADAS + COINBASE"
+
+msgid "%s added since the last update"
+msgstr "%0 adicionadas desde a última atualização"
+
+msgid "%s days ago"
+msgstr "há %0 dias"
+
+msgid "%s hours ago"
+msgstr "há %0 horas"
+
+msgid "%s minutes ago"
+msgstr "há %0 minutos"
+
+msgid "%s removed since the last update"
+msgstr "%0 removidas desde a última atualização"
+
+msgid "%s seconds ago"
+msgstr "há %0 segundos"
+
+msgid "1 day ago"
+msgstr "há 1 dia"
+
+msgid "1 hour ago"
+msgstr "há 1 hora"
+
+msgid "1 minute ago"
+msgstr "há 1 minuto"
+
+msgid "< 1 MINUTE PAST EXPECTED INTERVAL"
+msgstr "< 1 MINUTO APÓS O INTERVALO PREVISTO"
+
+msgid "< 1 min"
+msgstr "< 1 min"
+
+msgid "< 1m"
+msgstr "< 1min"
+
+msgid "A balanced fee rate estimated to confirm within %s blocks."
+msgstr "Uma taxa de comissão equilibrada estimada para confirmação no prazo de %0 blocos."
+
+msgid "A higher-priority fee rate estimated to confirm in the next block."
+msgstr "Uma taxa de comissão de prioridade mais alta estimada para confirmação no próximo bloco."
+
+msgid "A lower-priority fee rate estimated to confirm within %s blocks."
+msgstr "Uma taxa de comissão de prioridade mais baixa estimada para confirmação no prazo de %0 blocos."
+
+msgid "AMOUNT"
+msgstr "MONTANTE"
+
+msgid "AVERAGE BLOCK TIME"
+msgstr "TEMPO MÉDIO DO BLOCO"
+
+msgid "AVG FEE"
+msgstr "TAXA MÉDIA"
+
+msgid "All selected transactions are shown individually."
+msgstr "Todas as transações selecionadas são apresentadas individualmente."
+
+msgid "Assets vs Liabilities"
+msgstr "Ativos vs Passivos"
+
+msgid "Average"
+msgstr "Média"
+
+msgid "Average fee rate and transaction fee in the high-fee portion of this template."
+msgstr "Taxa de comissão média e taxa de transação na parte de taxas altas deste modelo."
+
+msgid "Average fee rate and transaction fee in the low-fee portion of this template."
+msgstr "Taxa de comissão média e taxa de transação na parte de taxas baixas deste modelo."
+
+msgid "Average fee rate and transaction fee in the middle-fee portion of this template."
+msgstr "Taxa de comissão média e taxa de transação na parte de taxas médias deste modelo."
+
+msgid "BLOCK"
+msgstr "BLOCO"
+
+msgid "BLOCK #%s"
+msgstr "BLOCO #%0"
+
+msgid "BLOCK FILLING"
+msgstr "PREENCHIMENTO DO BLOCO"
+
+msgid "Bitcoin"
+msgstr "Bitcoin"
+
+msgid "Bitcoin price line chart"
+msgstr "Gráfico de linhas do preço do Bitcoin"
+
+msgid "Block #%s"
+msgstr "Bloco #%0"
+
+msgid "Block Weight"
+msgstr "Peso do Bloco"
+
+msgid "Block is %s% full"
+msgstr "O bloco está %0% preenchido"
+
+msgid "Block utilization unavailable"
+msgstr "Utilização do bloco indisponível"
+
+msgid "Blocks History"
+msgstr "Histórico de Blocos"
+
+msgid "Confirmed federation BTC holdings divided by circulating L-BTC supply."
+msgstr "Reservas confirmadas de BTC da federação divididas pela oferta de L-BTC em circulação."
+
+msgid "Confirmed peg-ins minus confirmed peg-outs."
+msgstr "Peg-ins confirmados menos peg-outs confirmados."
+
+msgid "Copy block number %s"
+msgstr "Copiar número do bloco %0"
+
+msgid "Copy transaction id %s"
+msgstr "Copiar ID da transação %0"
+
+msgid "Current template weight and serialized size compared with their block limits."
+msgstr "Peso atual do modelo e tamanho serializado comparados com os respetivos limites do bloco."
+
+msgid "Difficulty"
+msgstr "Dificuldade"
+
+msgid "Difficulty Adjustment"
+msgstr "Ajuste de Dificuldade"
+
+msgid "EXPECTED ADJ"
+msgstr "AJUSTE ESPERADO"
+
+msgid "EXPECTED ADJ DATE"
+msgstr "DATA DO AJUSTE ESPERADO"
+
+msgid "EXPECTED IN < 1 MINUTE"
+msgstr "PREVISTO EM < 1 MINUTO"
+
+msgid "EXPECTED IN ~%s MINUTE"
+msgstr "PREVISTO EM ~%0 MINUTO"
+
+msgid "EXPECTED IN ~%s MINUTES"
+msgstr "PREVISTO EM ~%0 MINUTOS"
+
+msgid "EXPECTED INTERVAL REACHED"
+msgstr "INTERVALO PREVISTO ATINGIDO"
+
+msgid "Elapsed time since the last block confirmed."
+msgstr "Tempo decorrido desde a confirmação do último bloco."
+
+msgid "Elapsed time since the last block confirmed. Bitcoin targets one every ~10 minutes."
+msgstr "Tempo decorrido desde a confirmação do último bloco. A rede Bitcoin procura confirmar um bloco a cada ~10 minutos."
+
+msgid "Elapsed time since the last block confirmed. Liquid targets one every ~1 minute."
+msgstr "Tempo decorrido desde a confirmação do último bloco. A rede Liquid procura confirmar um bloco a cada ~1 minuto."
+
+msgid "Estimated computing power securing the network."
+msgstr "Poder computacional estimado que protege a rede."
+
+msgid "Estimated time until the peg transaction is confirmed."
+msgstr "Tempo estimado até à confirmação da transação de peg."
+
+msgid "Exahashes per second"
+msgstr "Exahashes por segundo"
+
+msgid "FEE"
+msgstr "TAXA"
+
+msgid "Federation BTC Holdings"
+msgstr "Reservas de BTC da Federação"
+
+msgid "Fee Market"
+msgstr "Mercado de Taxas"
+
+msgid "Fee rate"
+msgstr "Taxa de comissão"
+
+msgid "Fee-rate estimates are unavailable; transactions use a neutral color."
+msgstr "As estimativas das taxas de comissão estão indisponíveis; as transações utilizam uma cor neutra."
+
+msgid "Gigahashes per second"
+msgstr "Gigahashes por segundo"
+
+msgid "HIGH"
+msgstr "ALTA"
+
+msgid "Hashes per second"
+msgstr "Hashes por segundo"
+
+msgid "Hashrate"
+msgstr "Taxa de Hash"
+
+msgid "High"
+msgstr "Alta"
+
+msgid "High-Value Assets"
+msgstr "Ativos de Alto Valor"
+
+msgid "How busy mempool activity is. More congestion means higher fees for quick confirmation."
+msgstr "Nível de atividade da mempool. Mais congestionamento significa taxas mais altas para uma confirmação rápida."
+
+msgid "How full this block is."
+msgstr "Nível de preenchimento deste bloco."
+
+msgid "How hard it is to find a valid block. Tracks hashrate."
+msgstr "Dificuldade de encontrar um bloco válido. Acompanha a taxa de hash."
+
+msgid "How hard it is to mine new blocks. Bitcoin retargets mining difficulty every 2,016 blocks to keep blocks near 10 minutes. Current is the projected next change; Previous was the last change."
+msgstr "Dificuldade de minerar novos blocos. A rede Bitcoin reajusta a dificuldade de mineração a cada 2.016 blocos para manter o intervalo entre blocos próximo de 10 minutos. Atual é a próxima alteração projetada; Anterior foi a última alteração."
+
+msgid "IN MEMPOOL"
+msgstr "NA MEMPOOL"
+
+msgid "Individually rendered transactions"
+msgstr "Transações apresentadas individualmente"
+
+msgid "Kilohashes per second"
+msgstr "Kilohashes por segundo"
+
+msgid "LOW"
+msgstr "BAIXA"
+
+msgid "Last change N/A"
+msgstr "Última alteração N/D"
+
+msgid "Last change on %s"
+msgstr "Última alteração em %0"
+
+msgid "Latest"
+msgstr "Mais Recente"
+
+msgid "Latest Blocks"
+msgstr "Blocos Mais Recentes"
+
+msgid "Latest Transactions"
+msgstr "Transações Mais Recentes"
+
+msgid "Legacy"
+msgstr "Legado"
+
+msgid "Live"
+msgstr "Em Direto"
+
+msgid "Loading block utilization"
+msgstr "A carregar utilização do bloco"
+
+msgid "Loading pending block transactions"
+msgstr "A carregar transações do bloco pendente"
+
+msgid "Low"
+msgstr "Baixa"
+
+msgid "Lower-fee transactions are summarized in the metrics because they do not fit at this resolution."
+msgstr "As transações com taxas mais baixas são resumidas nas métricas porque não cabem nesta resolução."
+
+msgid "Medium"
+msgstr "Média"
+
+msgid "Megahashes per second"
+msgstr "Megahashes por segundo"
+
+msgid "Mempool Congestion"
+msgstr "Congestionamento da Mempool"
+
+msgid "Moderate"
+msgstr "Moderada"
+
+msgid "N/A"
+msgstr "N/D"
+
+msgid "Next Block"
+msgstr "Próximo Bloco"
+
+msgid "Next adj. in %s"
+msgstr "Próx. ajuste em %0"
+
+msgid "Next adjustment unavailable"
+msgstr "Próximo ajuste indisponível"
+
+msgid "No recent blocks"
+msgstr "Sem blocos recentes"
+
+msgid "Overview"
+msgstr "Visão Geral"
+
+msgid "PEG-IN"
+msgstr "PEG-IN"
+
+msgid "PEG-OUT"
+msgstr "PEG-OUT"
+
+msgid "PREVIOUS ADJ"
+msgstr "AJUSTE ANTERIOR"
+
+msgid "Peg Information"
+msgstr "Informação de Peg"
+
+msgid "Peg data is currently unavailable."
+msgstr "Os dados de peg estão atualmente indisponíveis."
+
+msgid "Peg-in"
+msgstr "Peg-in"
+
+msgid "Pending Transactions"
+msgstr "Transações Pendentes"
+
+msgid "Pending block transaction grid"
+msgstr "Grelha de transações do bloco pendente"
+
+msgid "Petahashes per second"
+msgstr "Petahashes por segundo"
+
+msgid "Proof of Reserves"
+msgstr "Prova de Reservas"
+
+msgid "Recent Peg-Ins/Outs"
+msgstr "Peg-Ins/Outs Recentes"
+
+msgid "Recommended Fee"
+msgstr "Taxa Recomendada"
+
+msgid "SIZE"
+msgstr "TAMANHO"
+
+msgid "See More"
+msgstr "Ver Mais"
+
+msgid "SegWit"
+msgstr "SegWit"
+
+msgid "Share of selected transactions using SegWit or legacy serialization."
+msgstr "Percentagem das transações selecionadas que utilizam serialização SegWit ou legada."
+
+msgid "Suggested rate (sat/vB) to confirm in the next block or two."
+msgstr "Taxa sugerida (sat/vB) para confirmação no próximo bloco ou nos próximos dois blocos."
+
+msgid "TOTAL FEE COLLECTED"
+msgstr "TOTAL DE TAXAS COBRADAS"
+
+msgid "TRANSACTION ID"
+msgstr "ID DA TRANSAÇÃO"
+
+msgid "TRANSACTIONS"
+msgstr "TRANSAÇÕES"
+
+msgid "TX ID"
+msgstr "ID DA TX"
+
+msgid "TYPE"
+msgstr "TIPO"
+
+msgid "Terahashes per second"
+msgstr "Terahashes por segundo"
+
+msgid "This panel shows the circulating value of high-value assets on Liquid."
+msgstr "Este painel apresenta o valor em circulação dos ativos de alto valor na Liquid."
+
+msgid "Time Since Last Block"
+msgstr "Tempo Desde o Último Bloco"
+
+msgid "Total Fees Collected"
+msgstr "Total de Taxas Cobradas"
+
+msgid "Total transaction fees a miner would collect from the current template, shown in bitcoin and US dollars."
+msgstr "Total de taxas de transação que um mineiro receberia do modelo atual, apresentado em bitcoin e dólares dos EUA."
+
+msgid "Transaction Types"
+msgstr "Tipos de Transação"
+
+msgid "Transactions currently selected for the pending block, including the coinbase transaction."
+msgstr "Transações atualmente selecionadas para o bloco pendente, incluindo a transação coinbase."
+
+msgid "Transactions currently waiting in the node's mempool."
+msgstr "Transações atualmente à espera na mempool do nó."
+
+msgid "Unable to refresh — showing previous data."
+msgstr "Não foi possível atualizar — a apresentar os dados anteriores."
+
+msgid "Unknown"
+msgstr "Desconhecido"
+
+msgid "Use the arrow keys to inspect transactions and Enter to open one."
+msgstr "Utilize as teclas de seta para inspecionar transações e Enter para abrir uma."
+
+msgid "VALUE"
+msgstr "VALOR"
+
+msgid "VOLUME IN"
+msgstr "VOLUME DE ENTRADA"
+
+msgid "VOLUME OUT"
+msgstr "VOLUME DE SAÍDA"
+
+msgid "View block %s"
+msgstr "Ver bloco %0"
+
+msgid "Weight"
+msgstr "Peso"
+
+msgid "Yottahashes per second"
+msgstr "Yottahashes por segundo"
+
+msgid "Zettahashes per second"
+msgstr "Zettahashes por segundo"
+
+msgid "am"
+msgstr "a.m."
+
+msgid "d"
+msgstr "d"
+
+msgid "h"
+msgstr "h"
+
+msgid "just now"
+msgstr "agora mesmo"
+
+msgid "m"
+msgstr "min"
+
+msgid "mo"
+msgstr "mês"
+
+msgid "pm"
+msgstr "p.m."
+
+msgid "s"
+msgstr "s"
+
+msgid "w"
+msgstr "sem"
+
+msgid "y"
+msgstr "a"
+
+msgid "~%s min"
+msgstr "~%0 min"
+
+msgid "%s AGO"
+msgstr "HÁ %0"
+
+msgid "< 1 MINUTE"
+msgstr "< 1 MINUTO"
+
+msgid "DAY"
+msgstr "DIA"
+
+msgid "DAYS"
+msgstr "DIAS"
+
+msgid "HOUR"
+msgstr "HORA"
+
+msgid "HOURS"
+msgstr "HORAS"
+
+msgid "MINUTE"
+msgstr "MINUTO"
+
+msgid "MINUTES"
+msgstr "MINUTOS"
+
+msgid "MONTH"
+msgstr "MÊS"
+
+msgid "MONTHS"
+msgstr "MESES"
+
+msgid "YEAR"
+msgstr "ANO"
+
+msgid "YEARS"
+msgstr "ANOS"
