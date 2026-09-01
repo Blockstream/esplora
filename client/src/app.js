@@ -146,6 +146,9 @@ export const dashboardNewBlocks = (page$, latestBlock$) =>
       ? latestBlock$.skip(1)
       : O.empty())
 
+export const dropBlindingFragment = query =>
+  query.includes('#blinded=') ? query.split('#')[0] : query
+
 export const parseTipHeight = text => {
   const normalized = typeof text == 'string' ? text.trim() : text
       , height = typeof normalized == 'string' && /^\d+$/.test(normalized)
@@ -828,7 +831,7 @@ export default function main(
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
-    , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(q)}` }))
+    , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(dropBlindingFragment(q))}` }))
   )
 
   dbg({ goBlocks$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
