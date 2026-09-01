@@ -1,0 +1,67 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  height: fit-content;
+  box-sizing: initial;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: var(--max-border-radius);
+  white-space: nowrap;
+}
+
+.status-badge.warning {
+  background-color: rgba(var(--warning-color-rgb), .2);
+  color: var(--warning-color);
+}
+
+.confirmation-status-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  flex: 0 0 auto;
+}
+
+.confirmation-status-dot-front,
+.confirmation-status-dot-middle,
+.confirmation-status-dot-back {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  background-color: #E2BA1B;
+  transform: translate(-50%, -50%);
+}
+
+.confirmation-status-dot-front {
+  width: 6px;
+  height: 6px;
+}
+
+.confirmation-status-dot-middle {
+  width: 8px;
+  height: 8px;
+  opacity: .4;
+}
+
+.confirmation-status-dot-back {
+  width: 10px;
+  height: 10px;
+  opacity: .2;
+}
+
+.status-badge.success {
+  background-color: rgba(var(--success-color-rgb), .2);
+  color: var(--success-color);
+}
+
+.status-badge.danger {
+  background-color: rgba(var(--danger-color-rgb), .2);
+  color: var(--danger-color);
+}
+
+.status-badge.success .confirmation-status-dot-front,
+.status-badge.success .confirmation-status-dot-middle,
+.status-badge.success .confirmation-status-dot-back {
+  background-color: rgba(var(--success-color-rgb), 1);
+}
