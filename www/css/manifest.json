@@ -1,5 +1,7 @@
 [
   "foundation/fonts.css",
+  "legacy/pre-tokens.css",
+  "foundation/tokens.css",
   "../style.css",
   "components/status-badge.css",
   "layout/footer.css"

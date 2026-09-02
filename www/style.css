@@ -1,34 +1,3 @@
-.hide {
-  display: none !important;
-}
-
-html {
-  overflow: auto;
-}
-
-:root {
-  --blockstream-primary-brand-color-rgb: 0, 195, 255;
-  --blockstream-primary-brand-color: rgb(var(--blockstream-primary-brand-color-rgb));
-  --accent-color-rgb: 250, 138, 0;
-  --accent-color: rgb(var(--accent-color-rgb));
-  --background-color: #181818;
-  --surface-primary-color: #1C1C1C;
-  --surface-primary-alt-color: #26221D;
-  --surface-secondary-color: #262626;
-  --field-border-color: #525252;
-  --page-gap: 24px;
-  --success-color-rgb: 23, 201, 100;
-  --success-color: rgb(var(--success-color-rgb));
-  --warning-color-rgb: 226, 186, 27;
-  --warning-color: rgb(var(--warning-color-rgb));
-  --danger-color-rgb: 219, 59, 62;
-  --danger-color: rgb(var(--danger-color-rgb));
-  --foreground-link-color: #00C3FF;
-  --foreground-muted: #B5BDC2;
-  --radius-rounded-xl: 12px;
-  --max-border-radius: 9999px;
-}
-
 body {
   direction: ltr;
   text-align: left;
