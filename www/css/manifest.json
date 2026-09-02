@@ -1,4 +1,5 @@
 [
+  "foundation/fonts.css",
   "../style.css",
   "components/status-badge.css",
   "layout/footer.css"
