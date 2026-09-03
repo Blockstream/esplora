@@ -7,7 +7,14 @@ import browserify from 'browserify-middleware'
 import cssjanus from 'cssjanus'
 import { assembleCss } from './scripts/assemble-css'
 
-const rpath = p => pathu.join(__dirname, p)
+const rpath = p => {
+    const safe = pathu.normalize(p).replace(/^(\.\.(\/|\\|$))+/, '')
+    const resolved = pathu.join(__dirname, safe)
+    if (!resolved.startsWith(__dirname + pathu.sep) && resolved !== __dirname) {
+        throw new Error('Invalid path')
+    }
+    return resolved
+}
 
 const app = express()
 const router = express.Router()
@@ -85,6 +92,6 @@ router.use((req, res) => res.render(rpath('client/index.pug')))
 
 app.use(basePath, router)
 
-app.listen(process.env.PORT || 5000, function(){
+app.listen(process.env.PORT || 5000, process.env.HOST || '127.0.0.1', function(){
   console.log(`HTTP server running on ${this.address().address}:${this.address().port}`)
 })
