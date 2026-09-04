@@ -40,10 +40,10 @@ msgid "Block height"
 msgstr ""
 
 msgid "Block not found"
-msgstr ""
+msgstr "Блок не найден"
 
 msgid "Block %s"
-msgstr "Процент (%0) Блока"
+msgstr "Процент (%0) блока"
 
 msgid "Block Solution"
 msgstr ""
@@ -58,13 +58,13 @@ msgid "Broadcast raw transaction (hex)"
 msgstr ""
 
 msgid "Broadcast transaction"
-msgstr ""
+msgstr "Трансляция транзакции"
 
 msgid "Broadcast tx"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 msgid "Coinbase"
 msgstr ""
@@ -83,13 +83,13 @@ msgid "Confidential"
 msgstr ""
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Подтверждено"
 
 msgid "Confirmed received"
-msgstr ""
+msgstr "Подтверждение получено"
 
 msgid "Confirmed spent"
-msgstr ""
+msgstr "Подтверждение отправлено"
 
 msgid "Confirmed tx count"
 msgstr ""
@@ -98,10 +98,10 @@ msgid "Confirmed unspent"
 msgstr ""
 
 msgid "Currently unavailable"
-msgstr ""
+msgstr "Сейчас недоступно"
 
 msgid "Details"
-msgstr "Подробные детали"
+msgstr "Детали"
 
 msgid "Esplora is currently unavailable, please try again later."
 msgstr ""
@@ -134,7 +134,7 @@ msgid "in %s blocks (%s from tip)"
 msgstr ""
 
 msgid "Issuance"
-msgstr ""
+msgstr "Выдача"
 
 msgid "Issuance amount"
 msgstr ""
@@ -160,7 +160,7 @@ msgid "Likely self-transfer"
 msgstr ""
 
 msgid "Loading..."
-msgstr "Идёт Загрузка..."
+msgstr "Загрузка..."
 
 msgid "Load more"
 msgstr "Смотреть больше"
@@ -178,7 +178,7 @@ msgid "Merkle root"
 msgstr ""
 
 msgid "New asset"
-msgstr ""
+msgstr "Новый актив"
 
 msgid "Newer"
 msgstr ""
@@ -187,7 +187,7 @@ msgid "Next"
 msgstr "Следующий"
 
 msgid "Nonce"
-msgstr ""
+msgstr "Случайный"
 
 msgid "Nonstandard"
 msgstr "Нестандартный"
@@ -202,7 +202,7 @@ msgid "No reissuance"
 msgstr ""
 
 msgid "No results found"
-msgstr "Результаты Не Найдены"
+msgstr "Результаты не найдены"
 
 msgid "nSequence"
 msgstr ""
@@ -330,7 +330,7 @@ msgid "%s from tip"
 msgstr ""
 
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 msgid "Size (KB)"
 msgstr "Объем (Кбайт)"
@@ -406,10 +406,10 @@ msgid "Total fees"
 msgstr ""
 
 msgid "Total size"
-msgstr ""
+msgstr "Общий размер"
 
 msgid "Total transactions"
-msgstr ""
+msgstr "Всего транзакций"
 
 msgid "Total tx count"
 msgstr ""
@@ -466,7 +466,7 @@ msgid ""
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "Объем"
 
 msgid "Value commitment"
 msgstr ""
@@ -475,7 +475,7 @@ msgid "Version"
 msgstr "Версия"
 
 msgid "Virtual size"
-msgstr ""
+msgstr "Виртуальный размер"
 
 msgid "We encountered an error. Please try again later."
 msgstr "Мы столкнулись с ошибкой. Пожалуйста, попробуйте позже."
