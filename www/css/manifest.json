@@ -2,6 +2,9 @@
   "foundation/fonts.css",
   "legacy/pre-tokens.css",
   "foundation/tokens.css",
+  "foundation/base.css",
+  "foundation/typography.css",
+  "foundation/utilities.css",
   "../style.css",
   "components/status-badge.css",
   "layout/footer.css"

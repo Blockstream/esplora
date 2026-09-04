@@ -1,0 +1,89 @@
+.text-white { color: #FFF; }
+
+.text-gray { color: #B5BDC2; }
+
+.text-dark-gray { color: #55585A; }
+
+.font-h1 { font-size: 48px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-h1 {
+    font-size: 36px;
+  }
+}
+
+.font-h2 { font-size: 40px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-h2 {
+    font-size: 24px;
+  }
+}
+
+.font-h3 { font-size: 28px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-h3 {
+    font-size: 20px;
+  }
+}
+
+.font-h5 { font-size: 16px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-h5 {
+    font-size: 14px;
+  }
+}
+
+.font-h6 { font-size: 14px; font-weight: 700; font-family: "Rigid Square", sans-serif; line-height: normal; letter-spacing: normal; font-style: normal; }
+
+.font-p1 { font-size: 18px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-p1 {
+    font-size: 16px;
+  }
+}
+
+.font-p2 { font-size: 16px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-p2 {
+    font-size: 14px;
+  }
+}
+
+.font-p3 { font-size: 14px; font-weight: 400; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-p3 {
+    font-size: 12px;
+  }
+}
+
+.font-p4 { font-size: 14px; font-weight: 600; font-family: "Inter", sans-serif; line-height: 25px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-p4 {
+    font-size: 12px;
+  }
+}
+
+.font-p5 { font-size: 12x; font-weight: 400; font-family: "Inter", sans-serif; line-height: 20px; letter-spacing: normal; font-style: normal; }
+
+@media only screen and (max-width: 475px) {
+  .font-p5 {
+    font-size: 11px;
+  }
+}
+
+.font-btn-1 { font-size: 18px; }
+
+.font-btn-2 { font-size: 16px; }
+
+.font-link-semibold { font-family: "Inter", sans-serif; font-size: 16px; font-style: normal; font-weight: 600; line-height: 28.8px; letter-spacing: normal; }
+
+.font-link-regular { font-family: "Inter", sans-serif; font-size: 16px; font-style: normal; font-weight: 400; line-height: 28.8px; letter-spacing: normal; }
+
+.font-disclaimer-text { color: #B5BDC2; font-family: "Inter", sans-serif; font-size: 14px; font-style: italic; font-weight: 400; line-height: normal; letter-spacing: normal; }

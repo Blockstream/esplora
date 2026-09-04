@@ -1,0 +1,36 @@
+body {
+  direction: ltr;
+  text-align: left;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  background-color: var(--background-color);
+  margin: 0px;
+  padding: 0px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+body[lang=he] {
+  font-family: "Open Sans Hebrew","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+input {
+  font-family: Inter;
+  outline: none;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, p {
+  margin: 0px;
+}
+
+img {
+  vertical-align: middle;
+}
+
+ul {
+  margin: 0px;
+}
