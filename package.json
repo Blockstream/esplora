@@ -1,6 +1,6 @@
 {
   "name": "esplora",
-  "version": "0.1.0",
+  "version": "0.1.12",
   "scripts": {
     "dev-server": "babel-node dev-server.js",
     "prerender-server": "cd prerender-server && npm start",
@@ -36,5 +36,6 @@
     "snabbdom-to-html": "^6.0.0",
     "typeface-inconsolata": "0.0.72",
     "uglify-es": "^3.3.9"
-  }
+  },
+  "description": "esplora build 1788776375"
 }
