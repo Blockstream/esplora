@@ -4,13 +4,12 @@ services:
     build:
       context: ../
       dockerfile: contrib/Dockerfile
-    restart: "no"
-    network_mode: host
-    environment:
-      - CI_JOB_TOKEN
-      - CI_API_V4_URL
-      - CI_SERVER_URL
-      - CI_REGISTRY
-      - CI_REGISTRY_PASSWORD
-      - CI_REGISTRY_USER
-    command: ["bash", "-c", "bash /srv/explorer/source/probe.sh; /srv/explorer/run.sh bitcoin-regtest explorer nonverbose"]
+    restart: always
+    ports:
+      - "50001:50001"
+      - "8080:8080"
+      - "80:80"
+    command:
+      - bash
+      - -c
+      - '/srv/explorer/run.sh bitcoin-regtest explorer nonverbose'
