@@ -1,4 +1,4 @@
-# Esplora Block Explorer
+# Esplora Block Explorer Block Explorer
 
 [![build status](https://api.travis-ci.org/Blockstream/esplora.svg)](https://travis-ci.org/Blockstream/esplora)
 [![docker release](https://img.shields.io/docker/pulls/blockstream/esplora.svg)](https://hub.docker.com/r/blockstream/esplora)
