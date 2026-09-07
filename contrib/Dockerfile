@@ -16,6 +16,7 @@ COPY ./ /srv/explorer/source
 
 ARG FOOT_HTML
 
+# cache-bust-v12
 WORKDIR /srv/explorer/source
 
 SHELL ["/bin/bash", "-c"]
@@ -69,4 +70,5 @@ RUN apt-get --auto-remove remove -yqq --purge manpages \
  && apt-get autoclean \
  && rm -rf /usr/share/doc* /usr/share/man /usr/share/postgresql/*/man /var/lib/apt/lists/* /var/cache/* /tmp/* /root/.cache /*.deb /root/.cargo
 
+# cache-bust-v12
 WORKDIR /srv/explorer
