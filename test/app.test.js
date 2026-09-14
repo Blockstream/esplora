@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const render = require("snabbdom-to-html");
 const { Subject } = require("../client/node_modules/rxjs/Subject");
 const {
   TestScheduler,
@@ -22,6 +23,8 @@ const {
   schedulePollsWhileActive,
   tickWhileFocused,
 } = require("../client/src/util");
+const { formatTime } = require("../client/src/views/util");
+const makeRouteDriver = require("../client/src/driver/route");
 const {
   default: main,
   dashboardNewBlocks,
@@ -61,6 +64,24 @@ const makeBlockRoute = (hash) => {
   const location$ = O.of(location);
   const route = (pattern) =>
     pattern === undefined || pattern === "/block/:hash"
+      ? location$
+      : empty$;
+
+  route.all$ = location$;
+  return route;
+};
+
+const makeTxRoute = (txid) => {
+  const location = {
+    hash: "",
+    key: "tx",
+    params: { txid },
+    pathname: `/tx/${txid}`,
+    query: {},
+  };
+  const location$ = O.of(location);
+  const route = (pattern) =>
+    pattern === undefined || pattern === "/tx/:txid"
       ? location$
       : empty$;
 
@@ -127,6 +148,41 @@ const pollingOptions = (scheduler, hasFocus = () => true) => ({
 const requestFrames = (requests, category) => requests
   .filter((request) => request.category === category)
   .map((request) => request.frame);
+
+const findVNode = (vnode, predicate) => {
+  if (!vnode) return null;
+  if (predicate(vnode)) return vnode;
+
+  for (const child of vnode.children || []) {
+    const match = findVNode(child, predicate);
+    if (match) return match;
+  }
+
+  return null;
+};
+
+const transactionStatusBadge = (vnode) => findVNode(
+  vnode,
+  (child) => child.data && child.data.class && child.data.class["status-badge"],
+);
+
+const makeTx = (txid, status = { confirmed: false }) => ({
+  txid,
+  version: 2,
+  locktime: 0,
+  size: 100,
+  weight: 400,
+  fee: 100,
+  vin: [{ is_coinbase: true, sequence: 0xffffffff }],
+  vout: [{
+    asset: "asset-id",
+    scriptpubkey: "",
+    scriptpubkey_asm: "",
+    scriptpubkey_type: "fee",
+    value: 100,
+  }],
+  status,
+});
 
 const highValueAssetRequestCount = (requests, frame) => requests.filter(
   (request) =>
@@ -435,6 +491,229 @@ test("refreshes the dashboard block list when the tip height changes", () => {
     requests.filter((request) => request.category === "blocks").length,
     2,
   );
+});
+
+test("refreshes an unconfirmed transaction on new tips and loads its confirming block", () => {
+  const scheduler = new TestScheduler((actual, expected) =>
+    assert.deepEqual(actual, expected));
+  const txid = "a".repeat(64);
+  const blockHash = "b".repeat(64);
+  const previousBlockHash = "c".repeat(64);
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const txBlockResponses = new Subject();
+  const tipHeightResponses = new Subject();
+  const requests = [];
+  const vnodes = [];
+  let focused = false;
+  const sources = makeSources({
+    responseStreams: {
+      tx: txResponses,
+      "tx-status": txStatusResponses,
+      "tx-block": txBlockResponses,
+      "tip-height": tipHeightResponses,
+    },
+    route: makeTxRoute(txid),
+  });
+  const sinks = main(sources, {
+    ...pollingOptions(scheduler),
+    hasFocus: () => focused,
+  });
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.DOM.subscribe((vnode) => vnodes.push(vnode));
+  txResponses.next(O.of({ body: makeTx(txid) }));
+
+  const unconfirmedVNode = vnodes[vnodes.length - 1];
+  assert.match(render(unconfirmedVNode), /Unconfirmed/);
+  assert.doesNotMatch(render(unconfirmedVNode), /Transaction Block/);
+  assert.deepEqual(
+    transactionStatusBadge(unconfirmedVNode).children
+      .filter(Boolean)
+      .map((child) => child.key),
+    ["transaction-confirmation-dot", "transaction-confirmation-label"],
+  );
+
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "101" }));
+  assert.equal(requestFrames(requests, "tx-status").length, 0);
+
+  focused = true;
+  tipHeightResponses.next(O.of({ text: "102" }));
+  const statusRequest = requests.find((request) => request.category === "tx-status");
+  assert.deepEqual(statusRequest, {
+    bg: true,
+    category: "tx-status",
+    method: "GET",
+    txid,
+    url: `/api/tx/${txid}/status`,
+  });
+
+  scheduler.maxFrames = pollIntervalsMs.standard;
+  scheduler.flush();
+  assert.equal(requestFrames(requests, "mempool").length, 2);
+  assert.equal(requestFrames(requests, "fee-est").length, 2);
+
+  txStatusResponses.next(O.of({
+    body: {
+      confirmed: true,
+      block_hash: blockHash,
+      block_height: 101,
+    },
+    request: statusRequest,
+  }));
+
+  assert.ok(requests.some((request) =>
+    request.category === "tx-block" &&
+    request.url === `/api/block/${blockHash}`
+  ));
+  assert.match(render(vnodes[vnodes.length - 1]), /Transaction Block/);
+  assert.match(render(vnodes[vnodes.length - 1]), /Loading block/);
+  assert.deepEqual(
+    transactionStatusBadge(vnodes[vnodes.length - 1]).children
+      .filter(Boolean)
+      .map((child) => child.key),
+    ["transaction-confirmation-label"],
+  );
+
+  txBlockResponses.next(O.of({
+    body: {
+      id: blockHash,
+      height: 101,
+      previousblockhash: previousBlockHash,
+      timestamp: 1_700_000_000,
+      tx_count: 1,
+      size: 1_000,
+      weight: 4_000,
+      version: 1,
+      nonce: 2,
+      merkle_root: "d".repeat(64),
+    },
+  }));
+
+  const confirmedHtml = render(vnodes[vnodes.length - 1]);
+  assert.match(confirmedHtml, /Confirmed/);
+  assert.match(confirmedHtml, /Transaction Block/);
+  assert.match(confirmedHtml, /#101/);
+  assert.ok(confirmedHtml.split(formatTime(1_700_000_000)).length > 2);
+  assert.ok(
+    confirmedHtml.indexOf("Transaction Block") >
+      confirmedHtml.indexOf('id="transaction-box"'),
+  );
+
+  tipHeightResponses.next(O.of({ text: "103" }));
+  scheduler.maxFrames = 3 * pollIntervalsMs.standard;
+  scheduler.flush();
+  assert.equal(requestFrames(requests, "tx-status").length, 1);
+  assert.equal(requestFrames(requests, "mempool").length, 2);
+  assert.equal(requestFrames(requests, "fee-est").length, 2);
+  assert.equal(requestFrames(requests, "tx-block").length, 1);
+  assert.deepEqual(
+    requests.filter((request) => request.category === "previous-block")
+      .map((request) => request.url),
+    [`/api/block/${previousBlockHash}`],
+  );
+});
+
+test("ignores an in-flight transaction status response after leaving its page", () => {
+  const txid = "a".repeat(64);
+  const page$ = new Subject();
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const pendingStatus = new Subject();
+  const tipHeightResponses = new Subject();
+  const requests = [];
+  let state;
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+    responseStreams: {
+      tx: txResponses,
+      "tx-status": txStatusResponses,
+      "tip-height": tipHeightResponses,
+    },
+  }), pollingOptions(new TestScheduler(() => {})));
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.state.subscribe((next) => { state = next; });
+  page$.next({ pathname: `/tx/${txid}`, hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "101" }));
+  const request = requests.find((request) => request.category === "tx-status");
+  assert.ok(request);
+  txStatusResponses.next(pendingStatus);
+
+  page$.next({ pathname: "/explorer-api", hash: "" });
+  assert.equal(state.view, "apiLanding");
+  const requestCount = requests.length;
+  pendingStatus.next({
+    request,
+    body: { confirmed: true, block_height: 101, block_hash: "b".repeat(64) },
+  });
+
+  assert.equal(state.view, "apiLanding");
+  assert.equal(requests.length, requestCount);
+  tipHeightResponses.next(O.of({ text: "102" }));
+  assert.equal(requests.length, requestCount);
+});
+
+test("ignores a previous transaction's status without reloading the current block", () => {
+  const txid = "a".repeat(64);
+  const nextTxid = "b".repeat(64);
+  const page$ = new Subject();
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const pendingStatus = new Subject();
+  const requests = [];
+  let state;
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+    responseStreams: { tx: txResponses, "tx-status": txStatusResponses },
+  }));
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.state.subscribe((next) => { state = next; });
+  page$.next({ pathname: `/tx/${txid}`, hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  txStatusResponses.next(pendingStatus);
+
+  page$.next({ pathname: `/tx/${nextTxid}`, hash: "" });
+  const nextTx = makeTx(nextTxid, {
+    confirmed: true, block_height: 101, block_hash: "c".repeat(64),
+  });
+  txResponses.next(O.of({ body: nextTx }));
+  const requestCount = requests.length;
+  const previousState = state;
+  pendingStatus.next({
+    request: { txid },
+    body: { confirmed: true, block_height: 101, block_hash: "c".repeat(64) },
+  });
+
+  assert.equal(requests.length, requestCount);
+  assert.equal(state, previousState);
+  assert.equal(state.tx, nextTx);
+});
+
+test("does not update transaction state for unchanged unconfirmed status", () => {
+  const txid = "a".repeat(64);
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  let state;
+  const sinks = main(makeSources({
+    route: makeTxRoute(txid),
+    responseStreams: { tx: txResponses, "tx-status": txStatusResponses },
+  }));
+
+  sinks.state.subscribe((next) => { state = next; });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  const previousState = state;
+  txStatusResponses.next(O.of({
+    request: { txid },
+    body: { confirmed: false },
+  }));
+
+  assert.equal(state, previousState);
 });
 
 test("treats the first block response of each dashboard visit as a baseline", () => {

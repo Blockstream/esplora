@@ -80,6 +80,14 @@ transactions also refresh on new blocks rather than on a timer. A newly observed
 tip resets pending block template polling and delays the next request by 15
 seconds so the electrs cache can refresh.
 
+While an unconfirmed transaction page is focused, mempool summary and fee
+estimates refresh on the standard cadence to keep its ETA, mempool depth, and
+fee analysis current. The transaction confirmation status does not use another
+fixed-rate poll: each newly observed tip requests `/tx/:txid/status`. Once the
+transaction is confirmed, those unconfirmed-transaction refreshes stop and the
+containing block metadata is loaded for the block details shown below the
+transaction.
+
 The dashboard requests both `/mempool/recent` and `/mempool` because they serve
 different UI contracts. `/mempool/recent` supplies the recent transaction list;
 `/mempool` supplies aggregate backlog fields such as transaction count, virtual
