@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const render = require("snabbdom-to-html");
 const { Subject } = require("../client/node_modules/rxjs/Subject");
 const {
   TestScheduler,
@@ -22,6 +23,8 @@ const {
   schedulePollsWhileActive,
   tickWhileFocused,
 } = require("../client/src/util");
+const { formatTime } = require("../client/src/views/util");
+const makeRouteDriver = require("../client/src/driver/route");
 const {
   default: main,
   dashboardNewBlocks,
@@ -61,6 +64,24 @@ const makeBlockRoute = (hash) => {
   const location$ = O.of(location);
   const route = (pattern) =>
     pattern === undefined || pattern === "/block/:hash"
+      ? location$
+      : empty$;
+
+  route.all$ = location$;
+  return route;
+};
+
+const makeTxRoute = (txid) => {
+  const location = {
+    hash: "",
+    key: "tx",
+    params: { txid },
+    pathname: `/tx/${txid}`,
+    query: {},
+  };
+  const location$ = O.of(location);
+  const route = (pattern) =>
+    pattern === undefined || pattern === "/tx/:txid"
       ? location$
       : empty$;
 
@@ -127,6 +148,41 @@ const pollingOptions = (scheduler, hasFocus = () => true) => ({
 const requestFrames = (requests, category) => requests
   .filter((request) => request.category === category)
   .map((request) => request.frame);
+
+const findVNode = (vnode, predicate) => {
+  if (!vnode) return null;
+  if (predicate(vnode)) return vnode;
+
+  for (const child of vnode.children || []) {
+    const match = findVNode(child, predicate);
+    if (match) return match;
+  }
+
+  return null;
+};
+
+const transactionStatusBadge = (vnode) => findVNode(
+  vnode,
+  (child) => child.data && child.data.class && child.data.class["status-badge"],
+);
+
+const makeTx = (txid, status = { confirmed: false }) => ({
+  txid,
+  version: 2,
+  locktime: 0,
+  size: 100,
+  weight: 400,
+  fee: 100,
+  vin: [{ is_coinbase: true, sequence: 0xffffffff }],
+  vout: [{
+    asset: "asset-id",
+    scriptpubkey: "",
+    scriptpubkey_asm: "",
+    scriptpubkey_type: "fee",
+    value: 100,
+  }],
+  status,
+});
 
 const highValueAssetRequestCount = (requests, frame) => requests.filter(
   (request) =>
@@ -435,6 +491,289 @@ test("refreshes the dashboard block list when the tip height changes", () => {
     requests.filter((request) => request.category === "blocks").length,
     2,
   );
+});
+
+const txPageTxid = "a".repeat(64);
+const txPageBlockHash = "b".repeat(64);
+const txPagePreviousBlockHash = "c".repeat(64);
+const txPageBlockTimestamp = 1_700_000_000;
+
+const setupTxPage = () => {
+  const scheduler = new TestScheduler((actual, expected) =>
+    assert.deepEqual(actual, expected));
+  const responses = {
+    tx: new Subject(),
+    "tx-status": new Subject(),
+    "tx-block": new Subject(),
+    "tip-height": new Subject(),
+  };
+  const requests = [];
+  const vnodes = [];
+  let focused = true;
+  const sinks = main(makeSources({
+    responseStreams: responses,
+    route: makeTxRoute(txPageTxid),
+  }), {
+    ...pollingOptions(scheduler),
+    hasFocus: () => focused,
+  });
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.DOM.subscribe((vnode) => vnodes.push(vnode));
+  responses.tx.next(O.of({ body: makeTx(txPageTxid) }));
+
+  const page = {
+    scheduler,
+    requests,
+    latestVNode: () => vnodes[vnodes.length - 1],
+    setFocused: (value) => { focused = value; },
+    observeTip: (height) =>
+      responses["tip-height"].next(O.of({ text: String(height) })),
+    statusRequests: () =>
+      requests.filter((request) => request.category === "tx-status"),
+    confirm: () => {
+      page.observeTip(100);
+      page.observeTip(101);
+      responses["tx-status"].next(O.of({
+        body: {
+          confirmed: true,
+          block_hash: txPageBlockHash,
+          block_height: 101,
+        },
+        request: page.statusRequests()[0],
+      }));
+    },
+    loadBlock: () => responses["tx-block"].next(O.of({
+      body: {
+        id: txPageBlockHash,
+        height: 101,
+        previousblockhash: txPagePreviousBlockHash,
+        timestamp: txPageBlockTimestamp,
+        tx_count: 1,
+        size: 1_000,
+        weight: 4_000,
+        version: 1,
+        nonce: 2,
+        merkle_root: "d".repeat(64),
+      },
+    })),
+  };
+  return page;
+};
+
+const statusBadgeKeys = (vnode) => transactionStatusBadge(vnode).children
+  .filter(Boolean)
+  .map((child) => child.key);
+
+const countOccurrences = (text, search) => text.split(search).length - 1;
+
+test("requests transaction status once per new tip, even after losing focus", () => {
+  const page = setupTxPage();
+
+  page.observeTip(100);
+  page.observeTip(100);
+  assert.equal(page.statusRequests().length, 0);
+
+  page.setFocused(false);
+  page.observeTip(101);
+  page.setFocused(true);
+  page.observeTip(101);
+  assert.deepEqual(page.statusRequests(), [{
+    bg: true,
+    category: "tx-status",
+    method: "GET",
+    txid: txPageTxid,
+    url: `/api/tx/${txPageTxid}/status`,
+  }]);
+
+  page.scheduler.maxFrames = pollIntervalsMs.standard;
+  page.scheduler.flush();
+  assert.equal(requestFrames(page.requests, "mempool").length, 2);
+  assert.equal(requestFrames(page.requests, "fee-est").length, 2);
+});
+
+test("shows a confirmed transaction and its block after a confirming status", () => {
+  const page = setupTxPage();
+
+  const unconfirmedHtml = render(page.latestVNode());
+  assert.match(unconfirmedHtml, /Unconfirmed/);
+  assert.doesNotMatch(unconfirmedHtml, /Transaction Block/);
+  assert.deepEqual(
+    statusBadgeKeys(page.latestVNode()),
+    ["transaction-confirmation-dot", "transaction-confirmation-label"],
+  );
+
+  page.confirm();
+  assert.ok(page.requests.some((request) =>
+    request.category === "tx-block" &&
+    request.url === `/api/block/${txPageBlockHash}`
+  ));
+  const loadingHtml = render(page.latestVNode());
+  assert.match(loadingHtml, /Transaction Block/);
+  assert.match(loadingHtml, /Loading block/);
+  assert.deepEqual(
+    statusBadgeKeys(page.latestVNode()),
+    ["transaction-confirmation-label"],
+  );
+
+  page.loadBlock();
+  const confirmedHtml = render(page.latestVNode());
+  assert.match(confirmedHtml, /Confirmed/);
+  assert.match(confirmedHtml, /#101/);
+  const headerAndBlockTimestamps = 2;
+  assert.equal(
+    countOccurrences(confirmedHtml, formatTime(txPageBlockTimestamp)),
+    headerAndBlockTimestamps,
+  );
+  assert.ok(
+    confirmedHtml.indexOf("Transaction Block") >
+      confirmedHtml.indexOf('id="transaction-box"'),
+  );
+});
+
+test("stops unconfirmed-transaction refreshes after confirmation", () => {
+  const page = setupTxPage();
+
+  page.confirm();
+  page.loadBlock();
+  page.observeTip(102);
+  page.scheduler.maxFrames = 3 * pollIntervalsMs.standard;
+  page.scheduler.flush();
+
+  assert.equal(page.statusRequests().length, 1);
+  assert.equal(requestFrames(page.requests, "mempool").length, 1);
+  assert.equal(requestFrames(page.requests, "fee-est").length, 1);
+  assert.equal(requestFrames(page.requests, "tx-block").length, 1);
+  assert.deepEqual(
+    page.requests.filter((request) => request.category === "previous-block")
+      .map((request) => request.url),
+    [`/api/block/${txPagePreviousBlockHash}`],
+  );
+});
+
+test("ignores an in-flight transaction status response after leaving its page", () => {
+  const txid = "a".repeat(64);
+  const page$ = new Subject();
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const pendingStatus = new Subject();
+  const tipHeightResponses = new Subject();
+  const requests = [];
+  let state;
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+    responseStreams: {
+      tx: txResponses,
+      "tx-status": txStatusResponses,
+      "tip-height": tipHeightResponses,
+    },
+  }), pollingOptions(new TestScheduler(() => {})));
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.state.subscribe((next) => { state = next; });
+  page$.next({ pathname: `/tx/${txid}`, hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "101" }));
+  const request = requests.find((request) => request.category === "tx-status");
+  assert.ok(request);
+  txStatusResponses.next(pendingStatus);
+
+  page$.next({ pathname: "/explorer-api", hash: "" });
+  assert.equal(state.view, "apiLanding");
+  const requestCount = requests.length;
+  pendingStatus.next({
+    request,
+    body: { confirmed: true, block_height: 101, block_hash: "b".repeat(64) },
+  });
+
+  assert.equal(state.view, "apiLanding");
+  assert.equal(requests.length, requestCount);
+  tipHeightResponses.next(O.of({ text: "102" }));
+  assert.equal(requests.length, requestCount);
+});
+
+test("ignores a previous transaction's status without reloading the current block", () => {
+  const txid = "a".repeat(64);
+  const nextTxid = "b".repeat(64);
+  const page$ = new Subject();
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const pendingStatus = new Subject();
+  const requests = [];
+  let state;
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+    responseStreams: { tx: txResponses, "tx-status": txStatusResponses },
+  }));
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.state.subscribe((next) => { state = next; });
+  page$.next({ pathname: `/tx/${txid}`, hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  txStatusResponses.next(pendingStatus);
+
+  page$.next({ pathname: `/tx/${nextTxid}`, hash: "" });
+  const nextTx = makeTx(nextTxid, {
+    confirmed: true, block_height: 101, block_hash: "c".repeat(64),
+  });
+  txResponses.next(O.of({ body: nextTx }));
+  const requestCount = requests.length;
+  const previousState = state;
+  pendingStatus.next({
+    request: { txid },
+    body: { confirmed: true, block_height: 101, block_hash: "c".repeat(64) },
+  });
+
+  assert.equal(requests.length, requestCount);
+  assert.equal(state, previousState);
+  assert.equal(state.tx, nextTx);
+});
+
+test("does not update transaction state for unchanged unconfirmed status", () => {
+  const txid = "a".repeat(64);
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  let state;
+  const sinks = main(makeSources({
+    route: makeTxRoute(txid),
+    responseStreams: { tx: txResponses, "tx-status": txStatusResponses },
+  }));
+
+  sinks.state.subscribe((next) => { state = next; });
+  txResponses.next(O.of({ body: makeTx(txid) }));
+  const previousState = state;
+  txStatusResponses.next(O.of({
+    request: { txid },
+    body: { confirmed: false },
+  }));
+
+  assert.equal(state, previousState);
+});
+
+test("keeps a confirmed transaction confirmed after an unconfirmed status", () => {
+  const txid = "a".repeat(64);
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  let state;
+  const sinks = main(makeSources({
+    route: makeTxRoute(txid),
+    responseStreams: { tx: txResponses, "tx-status": txStatusResponses },
+  }));
+
+  sinks.state.subscribe((next) => { state = next; });
+  const confirmedTx = makeTx(txid, {
+    confirmed: true, block_height: 101, block_hash: "b".repeat(64),
+  });
+  txResponses.next(O.of({ body: confirmedTx }));
+  const previousState = state;
+  txStatusResponses.next(O.of({
+    request: { txid },
+    body: { confirmed: false },
+  }));
+
+  assert.equal(state, previousState);
+  assert.equal(state.tx, confirmedTx);
 });
 
 test("treats the first block response of each dashboard visit as a baseline", () => {

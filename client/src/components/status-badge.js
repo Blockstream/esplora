@@ -11,8 +11,8 @@ export const StatusBadge = (
   </span>
 );
 
-export const StatusDot = () => (
-  <span className="confirmation-status-dot" aria-hidden="true">
+export const StatusDot = ({ key } = {}) => (
+  <span key={key} className="confirmation-status-dot" aria-hidden="true">
     <span className="confirmation-status-dot-back"></span>
     <span className="confirmation-status-dot-middle"></span>
     <span className="confirmation-status-dot-front"></span>

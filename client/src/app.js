@@ -156,6 +156,8 @@ export const parseTipHeight = text => {
   return Number.isSafeInteger(height) && height >= 0 ? height : null
 }
 
+const isUnconfirmedTx = tx => !!tx && !tx.status.confirmed
+
 export const subsequentTipHeights = tipHeight$ =>
   tipHeight$.distinctUntilChanged().skip(1)
 
@@ -395,8 +397,17 @@ export default function main(
     ).startWith(null).scan((S, mod) => mod(S))
 
   // Single TX
-  , tx$ = reply('tx').merge(goTx$.mapTo(null)).startWith(null)
-  , txBlock$ = reply('tx-block').merge(goTx$.mapTo(null)).startWith(null)
+  , tx$ = O.merge(
+      reply('tx').map(tx => _ => tx),
+      reply('tx-status', true).map(r => tx =>
+        isUnconfirmedTx(tx) && tx.txid == r.request.txid && r.body.confirmed
+          ? { ...tx, status: r.body } : tx),
+      page$.mapTo(_ => null)
+    ).scan((tx, update) => update(tx), null)
+      .startWith(null)
+      // unchanged status replies must not re-emit view$ and poll keys
+      .distinctUntilChanged()
+  , txBlock$ = reply('tx-block').merge(page$.mapTo(null)).startWith(null)
 
   // Predecessor metadata for confirmed block interval calculations
   , previousBlock$ = reply('previous-block')
@@ -559,7 +570,7 @@ export default function main(
   , mempoolPollKey$ = O.combineLatest(view$, tx$, (view, tx) =>
       view == 'dashBoard' || view == 'mempool'
         ? view
-        : view == 'tx' && tx && !tx.status.confirmed
+        : view == 'tx' && isUnconfirmedTx(tx)
           ? tx.txid
           : null)
 
@@ -632,6 +643,13 @@ export default function main(
 
     // fetch single tx (including confirmation status)
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
+
+    // Refresh unconfirmed transactions on observed tip-height changes,
+    // reusing the existing tip poll.
+    , !pollingEnabled ? O.empty() : subsequentTipHeight$
+        .withLatestFrom(view$, tx$, (_, view, tx) => ({ view, tx }))
+        .filter(({ view, tx }) => view == 'tx' && isUnconfirmedTx(tx))
+        .map(({ tx })         => ({ category: 'tx-status', method: 'GET', path: `/tx/${tx.txid}/status`, txid: tx.txid, bg: true }))
 
     // fetch the block containing a confirmed tx
     , tx$.filter(tx         => tx && tx.status && tx.status.confirmed && tx.status.block_hash)
