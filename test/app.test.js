@@ -1,5 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const render = require("snabbdom-to-html");
 const { Subject } = require("../client/node_modules/rxjs/Subject");
 const {
   TestScheduler,
@@ -22,6 +23,7 @@ const {
   schedulePollsWhileActive,
   tickWhileFocused,
 } = require("../client/src/util");
+const { formatTime } = require("../client/src/views/util");
 const {
   default: main,
   dashboardNewBlocks,
@@ -61,6 +63,24 @@ const makeBlockRoute = (hash) => {
   const location$ = O.of(location);
   const route = (pattern) =>
     pattern === undefined || pattern === "/block/:hash"
+      ? location$
+      : empty$;
+
+  route.all$ = location$;
+  return route;
+};
+
+const makeTxRoute = (txid) => {
+  const location = {
+    hash: "",
+    key: "tx",
+    params: { txid },
+    pathname: `/tx/${txid}`,
+    query: {},
+  };
+  const location$ = O.of(location);
+  const route = (pattern) =>
+    pattern === undefined || pattern === "/tx/:txid"
       ? location$
       : empty$;
 
@@ -127,6 +147,23 @@ const pollingOptions = (scheduler, hasFocus = () => true) => ({
 const requestFrames = (requests, category) => requests
   .filter((request) => request.category === category)
   .map((request) => request.frame);
+
+const findVNode = (vnode, predicate) => {
+  if (!vnode) return null;
+  if (predicate(vnode)) return vnode;
+
+  for (const child of vnode.children || []) {
+    const match = findVNode(child, predicate);
+    if (match) return match;
+  }
+
+  return null;
+};
+
+const transactionStatusBadge = (vnode) => findVNode(
+  vnode,
+  (child) => child.data && child.data.class && child.data.class["status-badge"],
+);
 
 const highValueAssetRequestCount = (requests, frame) => requests.filter(
   (request) =>
@@ -435,6 +472,132 @@ test("refreshes the dashboard block list when the tip height changes", () => {
     requests.filter((request) => request.category === "blocks").length,
     2,
   );
+});
+
+test("refreshes an unconfirmed transaction on new tips and loads its confirming block", () => {
+  const scheduler = new TestScheduler((actual, expected) =>
+    assert.deepEqual(actual, expected));
+  const txid = "a".repeat(64);
+  const blockHash = "b".repeat(64);
+  const previousBlockHash = "c".repeat(64);
+  const txResponses = new Subject();
+  const txStatusResponses = new Subject();
+  const txBlockResponses = new Subject();
+  const tipHeightResponses = new Subject();
+  const requests = [];
+  const vnodes = [];
+  let focused = false;
+  const sources = makeSources({
+    responseStreams: {
+      tx: txResponses,
+      "tx-status": txStatusResponses,
+      "tx-block": txBlockResponses,
+      "tip-height": tipHeightResponses,
+    },
+    route: makeTxRoute(txid),
+  });
+  const sinks = main(sources, {
+    ...pollingOptions(scheduler),
+    hasFocus: () => focused,
+  });
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.DOM.subscribe((vnode) => vnodes.push(vnode));
+  txResponses.next(O.of({
+    body: {
+      txid,
+      version: 2,
+      locktime: 0,
+      size: 100,
+      weight: 400,
+      fee: 100,
+      vin: [{ is_coinbase: true, sequence: 0xffffffff }],
+      vout: [{
+        asset: "asset-id",
+        scriptpubkey: "",
+        scriptpubkey_asm: "",
+        scriptpubkey_type: "fee",
+        value: 100,
+      }],
+      status: { confirmed: false },
+    },
+  }));
+
+  const unconfirmedVNode = vnodes[vnodes.length - 1];
+  assert.match(render(unconfirmedVNode), /Unconfirmed/);
+  assert.doesNotMatch(render(unconfirmedVNode), /Transaction Block/);
+  assert.deepEqual(
+    transactionStatusBadge(unconfirmedVNode).children
+      .filter(Boolean)
+      .map((child) => child.key),
+    ["transaction-confirmation-dot", "transaction-confirmation-label"],
+  );
+
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "100" }));
+  tipHeightResponses.next(O.of({ text: "101" }));
+  assert.equal(requestFrames(requests, "tx-status").length, 0);
+
+  focused = true;
+  tipHeightResponses.next(O.of({ text: "102" }));
+  const statusRequest = requests.find((request) => request.category === "tx-status");
+  assert.deepEqual(statusRequest, {
+    bg: true,
+    category: "tx-status",
+    method: "GET",
+    txid,
+    url: `/api/tx/${txid}/status`,
+  });
+
+  txStatusResponses.next(O.of({
+    body: {
+      confirmed: true,
+      block_hash: blockHash,
+      block_height: 101,
+    },
+    request: statusRequest,
+  }));
+
+  assert.ok(requests.some((request) =>
+    request.category === "tx-block" &&
+    request.url === `/api/block/${blockHash}`
+  ));
+  assert.match(render(vnodes[vnodes.length - 1]), /Transaction Block/);
+  assert.match(render(vnodes[vnodes.length - 1]), /Loading block/);
+  assert.deepEqual(
+    transactionStatusBadge(vnodes[vnodes.length - 1]).children
+      .filter(Boolean)
+      .map((child) => child.key),
+    ["transaction-confirmation-label"],
+  );
+
+  txBlockResponses.next(O.of({
+    body: {
+      id: blockHash,
+      height: 101,
+      previousblockhash: previousBlockHash,
+      timestamp: 1_700_000_000,
+      tx_count: 1,
+      size: 1_000,
+      weight: 4_000,
+      version: 1,
+      nonce: 2,
+      merkle_root: "d".repeat(64),
+    },
+  }));
+
+  const confirmedHtml = render(vnodes[vnodes.length - 1]);
+  assert.match(confirmedHtml, /Confirmed/);
+  assert.match(confirmedHtml, /Transaction Block/);
+  assert.match(confirmedHtml, /#101/);
+  assert.ok(confirmedHtml.split(formatTime(1_700_000_000)).length > 2);
+  assert.ok(
+    confirmedHtml.indexOf("Transaction Block") >
+      confirmedHtml.indexOf('id="transaction-box"'),
+  );
+
+  tipHeightResponses.next(O.of({ text: "103" }));
+  assert.equal(requestFrames(requests, "tx-status").length, 1);
 });
 
 test("treats the first block response of each dashboard visit as a baseline", () => {
