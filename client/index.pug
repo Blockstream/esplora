@@ -17,8 +17,13 @@ head
   if canon_url
     link(rel="canonical", href=canon_url)
 
-  if !noscript && process.env.NOSCRIPT_REDIR
-    noscript: meta(http-equiv='refresh', content="0; url='?nojs'")
+  if !noscript
+    noscript
+      if process.env.NOSCRIPT_REDIR
+        meta(http-equiv='refresh', content="0; url='?nojs'")
+      else
+        style.
+          .nojs-shim { padding: 15vh 24px; text-align: center }
 
   base(href=process.env.BASE_HREF || '/')
 
@@ -43,5 +48,10 @@ body(lang=lang, dir=dir)
       }
 
   if !noscript
+    if !process.env.NOSCRIPT_REDIR
+      noscript
+        .nojs-shim
+          p This block explorer needs JavaScript to run. Please enable it and reload the page.
+
     script(src=staticRoot+'app.js', async)
   != process.env.FOOT_HTML
