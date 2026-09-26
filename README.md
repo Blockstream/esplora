@@ -277,7 +277,7 @@ Set `-e ONION_URL=http://xyz.onion` to enable the `Onion-Location` header.
 
 ## Pull tor directly from Docker Hub - `blockstream/tor:latest`
 
-Run: `docker -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
+Run: `docker run -d --name hidden_service blockstream/tor:latest tor -f /home/tor/torrc` (could add a `-v /extra/torrc:/home/tor/torrc`, if you have a custom torrc)
 
 Example torrc:
 
