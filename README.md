@@ -101,7 +101,6 @@ scripts and fonts referenced directly by the stylesheets by default. Original
 filenames are retained for rollback and cached HTML. `asset-manifest.json` in the
 output directory (`dist/`, or `DEST`) maps original relative paths to hashed paths.
 Set `HASH_ASSETS=0` to disable hashing and use plain filenames without a manifest.
-The adjacent path fixes and stylesheet language-switching changes still apply.
 
 Both server-side renderers accept `ASSET_MANIFEST` pointing to this file (default:
 `DEST/asset-manifest.json`, or the project's `dist/asset-manifest.json`). Missing
@@ -109,9 +108,10 @@ manifests fall back to plain filenames; `STATIC_ROOT` is applied to either form.
 
 Deployment must upload new hashed files with
 `Cache-Control: public, max-age=31536000, immutable` **before** updating HTML, and
-must not delete old hashed files immediately after deployment. These upload and
-retention rules belong to the separate **oracle** repo. Hashed-asset misses must
-return a real 404 rather than the SPA HTML fallback mentioned above.
+must not delete old hashed files immediately after deployment (cached HTML and
+open tabs still reference them). If the server falls back to `index.html` for
+unknown paths, hashed-asset misses must return a real 404 instead, so a missing
+file is never cached as HTML.
 
 ## Pre-rendering server (noscript)
 
