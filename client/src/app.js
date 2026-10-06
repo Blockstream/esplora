@@ -799,9 +799,14 @@ export default function main(
     // Click-to-copy
     if (navigator.clipboard) copy$.subscribe(text => navigator.clipboard.writeText(text))
 
-    // Switch stylesheet based on current language
-    const stylesheet = document.querySelector('link[href="style.css"]')
-    t$.map(t => t`style.css`).distinctUntilChanged().subscribe(styleSrc =>
+    // Keep the existing translation's RTL marker, but resolve URLs from the rendered link.
+    const stylesheet = document.querySelector('link[rel="stylesheet"][data-ltr]')
+      || document.querySelector('link[rel="stylesheet"]') // HTML cached before hashing was introduced
+    t$.map(t => {
+      const rtl = t`style.css` === 'style-rtl.css'
+      return stylesheet.getAttribute(rtl ? 'data-rtl' : 'data-ltr')
+        || (process.env.STATIC_ROOT || '') + (rtl ? 'style-rtl.css' : 'style.css')
+    }).distinctUntilChanged().subscribe(styleSrc =>
       stylesheet.getAttribute('href') != styleSrc && (stylesheet.href = styleSrc))
 
     // Apply language and text direction to root element
