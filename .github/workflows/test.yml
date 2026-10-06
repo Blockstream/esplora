@@ -1,0 +1,95 @@
+name: Test
+
+# Runs on pull requests (including forks) and on pushes to master.
+# Uses `pull_request`, not `pull_request_target`: fork code runs with a
+# read-only token and no access to repository secrets. No secrets are used.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unit tests and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 18.20.4 # same as contrib/Dockerfile.base
+
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Test
+        run: npm test
+
+      - name: Build (bitcoin-mainnet, liquid-mainnet)
+        run: |
+          DEST=dist/bitcoin-mainnet npm run dist -- bitcoin-mainnet
+          DEST=dist/liquid-mainnet npm run dist -- liquid-mainnet
+
+  regtest:
+    # Same check the old GitLab job ran: build the images and run the regtest
+    # explorer from contrib/docker-compose.yml until its API reports block 100.
+    name: Docker regtest (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build base image
+        # The published base image is only a cache source (public pull, no login).
+        run: |
+          docker pull "blockstream/esplora-base:latest-${{ matrix.arch }}" || true
+          docker build \
+            -f contrib/Dockerfile.base \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from "blockstream/esplora-base:latest-${{ matrix.arch }}" \
+            -t blockstream/esplora-base:latest .
+
+      - name: Build and start the regtest explorer
+        run: docker compose -f contrib/docker-compose.yml up --build -d
+
+      - name: Wait for block height 100
+        run: |
+          for i in $(seq 1 60); do
+            height=$(curl --fail --silent --max-time 10 http://localhost/regtest/api/blocks/tip/height || true)
+            if [ "$height" = "100" ]; then
+              echo "Success: block height is 100."
+              exit 0
+            fi
+            echo "Attempt $i: height '${height}', waiting..."
+            sleep 5
+          done
+          echo "Failure: block height did not reach 100."
+          exit 1
+
+      - name: Show container logs
+        if: failure()
+        run: docker compose -f contrib/docker-compose.yml logs --tail 200
+
+      - name: Stop
+        if: always()
+        run: docker compose -f contrib/docker-compose.yml down
