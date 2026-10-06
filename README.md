@@ -94,6 +94,25 @@ and run `$ npm run dist`. The files will be created under `dist/`.
 Because Esplora is a single-page app, the HTTP server needs to be configured to serve the `index.html` file in reply to missing pages.
 See [`contrib/nginx.conf.in`](contrib/nginx.conf.in) for example nginx configuration (TL;DR: `try_files $uri /index.html`).
 
+### Content-hashed frontend assets
+
+Production builds create content-hashed copies of the app, stylesheets, lazy-loaded
+scripts and fonts referenced directly by the stylesheets by default. Original
+filenames are retained for rollback and cached HTML. `asset-manifest.json` in the
+output directory (`dist/`, or `DEST`) maps original relative paths to hashed paths.
+Set `HASH_ASSETS=0` to disable hashing and use plain filenames without a manifest.
+The adjacent path fixes and stylesheet language-switching changes still apply.
+
+Both server-side renderers accept `ASSET_MANIFEST` pointing to this file (default:
+`DEST/asset-manifest.json`, or the project's `dist/asset-manifest.json`). Missing
+manifests fall back to plain filenames; `STATIC_ROOT` is applied to either form.
+
+Deployment must upload new hashed files with
+`Cache-Control: public, max-age=31536000, immutable` **before** updating HTML, and
+must not delete old hashed files immediately after deployment. These upload and
+retention rules belong to the separate **oracle** repo. Hashed-asset misses must
+return a real 404 rather than the SPA HTML fallback mentioned above.
+
 ## Pre-rendering server (noscript)
 
 To start a pre-rendering server that generates static HTML replies suitable for noscript users, run:

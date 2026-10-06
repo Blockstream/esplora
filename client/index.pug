@@ -4,7 +4,10 @@ doctype html
 - staticRoot = process.env.STATIC_ROOT || ''
 - pageTitle = prerender_title ? `${prerender_title} · ${baseTitle}` : baseTitle
 
-- cssPath = t ? t`style.css` : 'style.css'
+- assets = typeof assetManifest === 'object' && assetManifest || {}
+- ltrPath = staticRoot + (assets['style.css'] || 'style.css')
+- rtlPath = staticRoot + (assets['style-rtl.css'] || 'style-rtl.css')
+- cssPath = t && t`style.css` === 'style-rtl.css' ? rtlPath : ltrPath
 - lang = t ? t.lang_id : 'en'
 - dir = t ? t`ltr` : 'ltr'
 
@@ -29,7 +32,7 @@ head
 
   meta(name='viewport', content='width=device-width, initial-scale=1')
   link(rel='shortcut icon', type='image/png', href=staticRoot+'img/favicon.png')
-  link(rel='stylesheet', href=staticRoot+cssPath)
+  link(rel='stylesheet', href=cssPath, data-ltr=ltrPath, data-rtl=rtlPath)
 
   if process.env.CANONICAL_URL
     //- open search requires the absolute URL of the explorer
@@ -53,5 +56,5 @@ body(lang=lang, dir=dir)
         .nojs-shim
           p This block explorer needs JavaScript to run. Please enable it and reload the page.
 
-    script(src=staticRoot+'app.js', async)
+    script(src=staticRoot+(assets['app.js'] || 'app.js'), async)
   != process.env.FOOT_HTML

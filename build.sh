@@ -31,9 +31,6 @@ cp -RL www/* $CUSTOM_ASSETS $DEST/
 # Assemble base CSS modules followed by flavor customizations
 node scripts/assemble-css.js "$DEST/style.css" $CUSTOM_CSS
 
-# Index HTML
-pug client/index.pug -o $DEST
-
 # Open search (requires absolute CANONICAL_URL)
 if [ -n "$CANONICAL_URL" ]; then
   pug client/opensearch.pug -E xml -o $DEST
@@ -42,11 +39,26 @@ fi
 # RTLify CSS
 cat $DEST/style.css | node -p "require('cssjanus').transform(fs.readFileSync('/dev/stdin').toString(), false, true)" > $DEST/style-rtl.css
 
+# Resolve lazy-loaded scripts before envify bakes their filenames into app.js.
+export ASSET_MANIFEST="$DEST/asset-manifest.json"
+unset INSTASCAN_ASSET INFINITE_SCROLL_ASSET
+if [[ "$HASH_ASSETS" != "0" ]]; then
+  node scripts/hash-assets.js "$DEST" --scripts-only
+  export INSTASCAN_ASSET=$(node -p "require('./scripts/asset-manifest').loadAssetManifest()['instascan.min.js']")
+  export INFINITE_SCROLL_ASSET=$(node -p "require('./scripts/asset-manifest').loadAssetManifest()['js/infinite-scroll.js']")
+fi
+
 # Browserify bundle
 # --no-dedupe needed due to https://github.com/substack/bundle-collapser/issues/20 https://github.com/browserify/browserify/issues/1450
 (cd client && browserify --no-dedupe -p bundle-collapser/plugin src/run-browser.js \
   | ( [[ "$NODE_ENV" != "development" ]] && uglifyjs -cm || cat ) ) \
   > $DEST/app.js
+
+# Fonts are rewritten before CSS hashing; HTML is rendered only after app.js is hashed.
+if [[ "$HASH_ASSETS" != "0" ]]; then
+  node scripts/hash-assets.js "$DEST"
+fi
+pug client/index.pug -o $DEST -O "$(node scripts/asset-manifest.js)"
 
 # Pre-render notfound.html
 babel-node render-view.js '{"view":"error","error":"Page Not Found"}' > $DEST/notfound.html

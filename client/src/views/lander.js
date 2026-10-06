@@ -1,6 +1,7 @@
 import layout from './layout'
 
 const staticRoot = process.env.STATIC_ROOT || ''
+    , infiniteScrollAsset = process.env.INFINITE_SCROLL_ASSET || 'js/infinite-scroll.js'
 
 const logoSources = {
     sideswap: `${staticRoot}img/logos/sideswap.svg`,
@@ -16,7 +17,7 @@ const LandingPage = ({ t, ...S }) => {
     const logos = logoSources
     return  layout(
     <div className="landing-page">
-        <script src={`${staticRoot}/js/infinite-scroll.js`} async></script>
+        <script src={`${staticRoot}${infiniteScrollAsset}`} async></script>
         <div className="blur-orange"></div>
         <div className="blur-green"></div>
         <div className="laser-lines"></div>
