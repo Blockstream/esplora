@@ -14,7 +14,21 @@ function loadAssetManifest() {
   }
 }
 
-module.exports = { loadAssetManifest }
+// Lazy-loaded scripts are referenced from views through env vars. The browser bundle gets
+// them from envify at build time; server-side renderers set them from the manifest.
+const lazyAssetEnv = {
+  INSTASCAN_ASSET: 'instascan.min.js',
+  INFINITE_SCROLL_ASSET: 'js/infinite-scroll.js',
+}
+
+function exportAssetEnv(manifest, env=process.env) {
+  for (const [ name, original ] of Object.entries(lazyAssetEnv)) {
+    if (!env[name] && manifest[original]) env[name] = manifest[original]
+  }
+  return env
+}
+
+module.exports = { loadAssetManifest, exportAssetEnv }
 
 if (require.main === module) {
   console.log(JSON.stringify({ assetManifest: loadAssetManifest() }))

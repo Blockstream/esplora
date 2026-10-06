@@ -7,7 +7,11 @@ import promClient from 'prom-client'
 
 import l10n from '../client/l10n'
 import render from '../client/run-server'
-import { loadAssetManifest } from '../../scripts/asset-manifest'
+import { loadAssetManifest, exportAssetEnv } from '../../scripts/asset-manifest'
+
+// Load the flavor's manifest once; views read the lazy-script names from env at render time.
+const assetManifest = loadAssetManifest()
+exportAssetEnv(assetManifest)
 
 if (!process.env.API_URL) {
   throw new Error('API_URL environment variable is required but not defined.');
@@ -137,7 +141,7 @@ function doRender(req, res, next) {
 
     res.status(resp.status || 200)
     res.render(indexView, {
-      assetManifest: loadAssetManifest()
+      assetManifest
       , prerender_title: resp.title
       , prerender_html: resp.html
       , canon_url: canonBase ? canonBase + req.url : null
