@@ -9,7 +9,8 @@ state.t = l10n[state.lang || 'en']
 state.page = { pathname: '', query: {} }
 
 require('pug').renderFile('client/index.pug', {
-  prerender_html: require('snabbdom-to-html')(view(state))
+  assetManifest: require('./scripts/asset-manifest').loadAssetManifest()
+  , prerender_html: require('snabbdom-to-html')(view(state))
 }, (err, html) => {
   if (err) throw err
   console.log(html)

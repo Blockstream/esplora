@@ -1,6 +1,7 @@
 import { Observable as O } from '../rxjs'
 
 const staticRoot = process.env.STATIC_ROOT || ''
+    , instascanAsset = process.env.INSTASCAN_ASSET || 'instascan.min.js'
 
 // check for WebRTC camera support
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -11,11 +12,11 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     if (loaded) return;
     loaded = true;
     const script = document.createElement('script')
-    script.src = `${staticRoot}instascan.min.js`
+    script.src = `${staticRoot}${instascanAsset}`
     document.body.appendChild(script)
   }
 
-  const Instascan$ = O.fromEvent(document.body, 'load', true).filter(e => e.target?.src?.endsWith('/instascan.min.js')).map(_ => window.Instascan).share()
+  const Instascan$ = O.fromEvent(document.body, 'load', true).filter(e => e.target?.src?.endsWith(`/${instascanAsset}`)).map(_ => window.Instascan).share()
       , Scanner$   = Instascan$.map(Instascan => Instascan.Scanner)
       , Camera$    = Instascan$.map(Instascan => Instascan.Camera)
 
