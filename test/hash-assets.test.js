@@ -119,3 +119,35 @@ test('template resolves both directions and STATIC_ROOT consistently for every l
     }
   }
 })
+
+test('exportAssetEnv sets lazy-script names from the manifest without overriding', () => {
+  const { exportAssetEnv } = require('../scripts/asset-manifest')
+  const manifest = {
+    'instascan.min.js': 'instascan.min.0123456789ab.js',
+    'js/infinite-scroll.js': 'js/infinite-scroll.ba9876543210.js',
+  }
+  assert.deepEqual(exportAssetEnv(manifest, {}), {
+    INSTASCAN_ASSET: 'instascan.min.0123456789ab.js',
+    INFINITE_SCROLL_ASSET: 'js/infinite-scroll.ba9876543210.js',
+  })
+  assert.equal(exportAssetEnv(manifest, { INSTASCAN_ASSET: 'given.js' }).INSTASCAN_ASSET, 'given.js')
+  assert.deepEqual(exportAssetEnv({}, {}), {})
+})
+
+test('server-rendered landing page reads the hashed infinite-scroll name at render time', t => {
+  const render = require('snabbdom-to-html')
+  const LandingPage = require('../client/src/views/lander').default
+  const previous = process.env.INFINITE_SCROLL_ASSET
+  t.after(() => {
+    if (previous === undefined) delete process.env.INFINITE_SCROLL_ASSET
+    else process.env.INFINITE_SCROLL_ASSET = previous
+  })
+  const state = { t: l10n.en, page: { pathname: '/', query: {} } }
+  const scriptSrc = () => (render(LandingPage(state)).match(/<script src="([^"]*infinite-scroll[^"]*)"/) || [])[1]
+
+  delete process.env.INFINITE_SCROLL_ASSET
+  assert.match(scriptSrc(), /(^|\/)js\/infinite-scroll\.js$/)
+  // Set after the view module was loaded, as the prerender server does at startup.
+  process.env.INFINITE_SCROLL_ASSET = 'js/infinite-scroll.0123456789ab.js'
+  assert.match(scriptSrc(), /(^|\/)js\/infinite-scroll\.0123456789ab\.js$/)
+})
