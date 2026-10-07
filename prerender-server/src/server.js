@@ -1,6 +1,7 @@
 import fs from 'fs'
 import pug from 'pug'
 import path from 'path'
+import crypto from 'crypto'
 import express from 'express'
 import request from 'superagent'
 import promClient from 'prom-client'
@@ -54,6 +55,15 @@ app.set('trust proxy', true)
 app.engine('pug', pug.__express)
 
 app.get('/metrics', async (req, res) => {
+  // Require a shared secret to access operational metrics, to prevent
+  // unauthenticated reconnaissance of render activity.
+  const expected = process.env.METRICS_TOKEN
+  const provided = req.get('authorization')?.replace(/^Bearer\s+/i, '') || ''
+  const tokenMatches = expected
+    && Buffer.byteLength(provided) === Buffer.byteLength(expected)
+    && crypto.timingSafeEqual(Buffer.from(provided), Buffer.from(expected))
+  if (!tokenMatches) return res.sendStatus(expected ? 403 : 404)
+
   res.set('Content-Type', register.contentType)
   res.end(await register.metrics())
 })
