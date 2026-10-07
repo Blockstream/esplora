@@ -171,7 +171,7 @@ msgid "Lock time"
 msgstr "נעילת זמן"
 
 msgid "ltr"
-msgstr ""
+msgstr "rtl"
 
 msgid "Mempool"
 msgstr ""
