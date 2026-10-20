@@ -868,12 +868,6 @@ export default function main(
       burgerMenu.classList.toggle('open-menu');
     })
 
-    on('.announcement-banner-close', 'click').subscribe(_ => {
-      document.cookie = 'liquid_banner_dismissed=1; path=/; max-age=31536000; SameSite=Lax'
-      const banner = document.querySelector('.announcement-banner')
-      if (banner) banner.style.display = 'none'
-    })
-
     const closeNetworkMenus = () => {
       document.querySelectorAll('.nav-item.open-network-menu').forEach(menu => {
         menu.classList.remove('open-network-menu')

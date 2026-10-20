@@ -43,13 +43,6 @@ head
 body(lang=lang, dir=dir)
   #explorer!= prerender_html || ''
 
-  if process.env.MENU_ACTIVE === 'Liquid'
-    script.
-      if (document.cookie.indexOf('liquid_banner_dismissed=1') !== -1) {
-        var el = document.querySelector('.announcement-banner');
-        if (el) el.style.display = 'none';
-      }
-
   if !noscript
     if !process.env.NOSCRIPT_REDIR
       noscript
