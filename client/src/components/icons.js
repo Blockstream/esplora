@@ -110,8 +110,3 @@ export const ChevronUpIcon = ({ className } = {}) =>
   <svg className={className} width="11" height="6" viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M0.21967 5.78033C0.512563 6.07322 0.987437 6.07322 1.28033 5.78033L5.25 1.81066L9.21967 5.78033C9.51256 6.07322 9.98744 6.07322 10.2803 5.78033C10.5732 5.48744 10.5732 5.01256 10.2803 4.71967L5.78033 0.21967C5.48744 -0.0732233 5.01256 -0.0732233 4.71967 0.21967L0.21967 4.71967C-0.0732233 5.01256 -0.0732233 5.48744 0.21967 5.78033Z" fill="currentColor" />
   </svg>
-
-export const CloseIcon = ({ className } = {}) =>
-  <svg className={className} width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M14.53 4.53L13.47 3.47L9 7.94L4.53 3.47L3.47 4.53L7.94 9L3.47 13.47L4.53 14.53L9 10.06L13.47 14.53L14.53 13.47L10.06 9L14.53 4.53Z" fill="currentColor" />
-  </svg>
