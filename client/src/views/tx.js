@@ -67,7 +67,7 @@ export default ({
   return layout(
     [
       <div className="tx-page">
-        {txHeader(tx, { t, tipHeight, ...S })}
+        {txHeader(tx, { ...S, block, t, tipHeight })}
         {unblinded && unblinded.error && (
           <div className="transaction-warning text-danger mt-3">
             {t`Warning:`} {unblinded.error.toString()}
@@ -231,6 +231,7 @@ const btnDetailsContent = (isOpen, t) => (
 const txHeader = (
   tx,
   {
+    block,
     tipHeight,
     feeEst,
     t,
@@ -251,10 +252,12 @@ const txHeader = (
     : confEstimate == -1
       ? t`Unknown`
       : `~${Math.ceil(confEstimate * targetBlockIntervalSeconds / 60)} min`;
-  const confirmationTime =
-    isConfirmed && Number.isFinite(tx.status.block_time)
-      ? formatTime(tx.status.block_time)
-      : "N/A";
+  const blockTime = isConfirmed && Number.isFinite(tx.status.block_time)
+    ? tx.status.block_time
+    : block && block.timestamp;
+  const confirmationTime = Number.isFinite(blockTime)
+    ? formatTime(blockTime)
+    : "N/A";
   const segwitSavings = segwitGainsView(segwitGains, t);
 
   return (
@@ -279,9 +282,11 @@ const txHeader = (
             </button>
             <StatusBadge variant={isConfirmed ? "success" : "warning"}>
               {!isConfirmed ? (
-                <StatusDot />
+                <StatusDot key="transaction-confirmation-dot" />
               ) : null}
-              <span>{confirmationText(tx.status, tipHeight, t)}</span>
+              <span key="transaction-confirmation-label">
+                {confirmationText(tx.status, tipHeight, t)}
+              </span>
             </StatusBadge>
           </div>
           <div className="info-stats-row">

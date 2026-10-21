@@ -395,7 +395,16 @@ export default function main(
     ).startWith(null).scan((S, mod) => mod(S))
 
   // Single TX
-  , tx$ = reply('tx').merge(goTx$.mapTo(null)).startWith(null)
+  , tx$ = O.merge(
+      reply('tx').map(tx => _ => tx),
+      reply('tx-status', true).map(r => tx =>
+        tx && tx.txid == r.request.txid && !tx.status.confirmed && r.body.confirmed
+          ? { ...tx, status: r.body }
+          : tx),
+      page$.mapTo(_ => null)
+    ).startWith(_ => null)
+      .scan((tx, update) => update(tx), null)
+      .distinctUntilChanged()
   , txBlock$ = reply('tx-block').merge(goTx$.mapTo(null)).startWith(null)
 
   // Predecessor metadata for confirmed block interval calculations
@@ -632,6 +641,13 @@ export default function main(
 
     // fetch single tx (including confirmation status)
     , goTx$.map(txid        => ({ category: 'tx',         method: 'GET', path: `/tx/${txid}` }))
+
+    // Refresh unconfirmed transactions on observed tip-height changes,
+    // reusing the existing tip poll.
+    , !pollingEnabled ? O.empty() : subsequentTipHeight$
+        .withLatestFrom(view$, tx$, (_, view, tx) => ({ view, tx }))
+        .filter(({ view, tx }) => view == 'tx' && tx && tx.status && !tx.status.confirmed && hasFocus())
+        .map(({ tx })         => ({ category: 'tx-status', method: 'GET', path: `/tx/${tx.txid}/status`, txid: tx.txid, bg: true }))
 
     // fetch the block containing a confirmed tx
     , tx$.filter(tx         => tx && tx.status && tx.status.confirmed && tx.status.block_hash)
