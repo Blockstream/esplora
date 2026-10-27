@@ -47,6 +47,8 @@ To start a development server with live babel/browserify transpilation, run:
 
 ```bash
 $ git clone https://github.com/Blockstream/esplora && cd esplora
+$ nvm install
+$ nvm use
 $ npm install
 $ export API_URL=http://localhost:3000/ # or https://blockstream.info/api/ if you don't have a local API server
 # (see more config options below)
@@ -54,6 +56,10 @@ $ npm run dev-server
 ```
 
 The server will be available at <http://localhost:5000/>
+
+The Node version is pinned in `.nvmrc` and shared by local development, CI, and
+Docker builds. Run `nvm use` from the project directory before starting either
+server locally. Docker's prerender service selects this version at startup.
 
 To display debugging information for the Rx streams in the web developer console, set `localStorage.debug = '*'` and refresh.
 

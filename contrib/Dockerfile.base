@@ -20,13 +20,15 @@ ENV ESPLORA_BUILD_DEPS="clang cmake curl git"
 RUN mkdir -p /srv/explorer \
  && apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install ${ESPLORA_BUILD_DEPS} tor ${CORE_BUILD_DEPS}
+ && apt-get -yqq install ${ESPLORA_BUILD_DEPS} tor libatomic1 ${CORE_BUILD_DEPS}
 
+
+COPY .nvmrc /tmp/esplora.nvmrc
 
 RUN git clone --quiet --depth 1 --single-branch --branch v0.40.1 https://github.com/nvm-sh/nvm.git /root/.nvm \
  && rm -rf /root/.nvm/.git \
  && source /root/.nvm/nvm.sh \
- && nvm install v18.20.4
+ && nvm install "$(cat /tmp/esplora.nvmrc)"
 
 ARG TARGETARCH
 ENV SHA256SUM_ELEMENTS_X86_64="90d6659a4f5d6d94bbf2321f6114e1286fbec8031cfc614b2f2319ddfcd9b3e1"

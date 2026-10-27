@@ -8,7 +8,7 @@ COPY --from=build /root/.nvm /root/.nvm
 
 RUN apt-get -yqq update \
  && apt-get -yqq upgrade \
- && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl runit procps socat gpg
+ && apt-get -yqq install nginx libnginx-mod-http-lua tor git curl runit procps socat gpg libatomic1
 
 RUN mkdir -p /srv/explorer/static
 
@@ -20,7 +20,9 @@ WORKDIR /srv/explorer/source
 
 SHELL ["/bin/bash", "-c"]
 
+# No-op when the base image already has the .nvmrc version; installs it when the base is stale.
 RUN source /root/.nvm/nvm.sh \
+ && nvm install \
  && npm install \
  && npm test \
  && (cd prerender-server && npm run dist) \
