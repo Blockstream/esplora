@@ -10,4 +10,4 @@ export SOCKET_PATH=/var/prerender-http.sock
 export ASSET_MANIFEST={STATIC_DIR}/asset-manifest.json
 
 exec 2>&1
-exec /bin/bash -c 'source /root/.nvm/nvm.sh && cd /srv/explorer/source && npm run prerender-server -- --cluster {FLAVOR}'
+exec /bin/bash -c 'source /root/.nvm/nvm.sh && cd /srv/explorer/source && nvm use --silent && npm run prerender-server -- --cluster {FLAVOR}'

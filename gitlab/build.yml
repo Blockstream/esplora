@@ -5,6 +5,7 @@
       changes:
         paths:
           - contrib/Dockerfile.base
+          - .nvmrc
           - gitlab/build.yml
     # Manual repair path: a web-run pipeline on the default branch rebuilds
     # both architectures and re-creates the multi-arch manifest.
@@ -44,6 +45,7 @@ build_and_push_esplora_base:
       changes:
         paths:
           - contrib/Dockerfile.base
+          - .nvmrc
           - gitlab/build.yml
     # Manual repair path: a web-run pipeline on the default branch rebuilds
     # both architectures and re-creates the multi-arch manifest.

@@ -1,5 +1,6 @@
 {
-  presets: [ "@babel/env" ]
+  // The minifiers (uglifyify/terser 4, uglify-es) can't parse newer syntax even when browser targets advance.
+  presets: [ ["@babel/env", { forceAllTransforms: true }] ]
 , plugins: [
     ["@babel/plugin-transform-react-jsx", {"pragma": "require('snabbdom-pragma').createElement"}]
   ]

@@ -35,6 +35,11 @@
     "superagent": "^6.1.0",
     "uglifyify": "^5.0.2"
   },
+  "overrides": {
+    "uglifyify": {
+      "terser": "^4.8.1"
+    }
+  },
   "browserify": {
     "transform": [
       "babelify",
