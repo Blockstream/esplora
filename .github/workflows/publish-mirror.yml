@@ -1,0 +1,67 @@
+# Additional registry destinations are configured through repository secrets and environments.
+name: Publish image mirror
+
+on:
+  push:
+    branches: [master]
+    tags:
+      - 'esplora_v*'
+
+permissions: {}
+
+concurrency:
+  group: publish-mirror-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  metadata:
+    name: Resolve image tag
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - name: Validate ref and resolve tag
+        id: meta
+        shell: bash
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          if [[ "$REF_TYPE" == branch && "$REF_NAME" == master ]]; then
+            tag="${COMMIT_SHA:0:12}"
+          elif [[ "$REF_TYPE" == tag && "$REF_NAME" =~ ^esplora_v[A-Za-z0-9_.-]+$ ]]; then
+            tag="$REF_NAME"
+          else
+            echo 'Unsupported publishing ref' >&2
+            exit 1
+          fi
+          [[ "$tag" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$ ]] || exit 1
+          printf 'tag=%s\n' "$tag" >> "$GITHUB_OUTPUT"
+
+  publish:
+    needs: metadata
+    permissions:
+      contents: read
+      id-token: write
+    uses: Blockstream/ci-components/.github/workflows/publish.yml@v1
+    with:
+      environment: production
+      context: .
+      dockerfile: contrib/Dockerfile
+      build-args: |
+        FOOT_HTML=<!-- ${{ github.sha }} -->
+      platforms: |
+        linux/amd64
+        linux/arm64
+      tags: |
+        ${{ needs.metadata.outputs.tag }}
+    secrets:
+      workload-identity-provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      service-account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      image: ${{ secrets.GAR_IMAGE }}

@@ -209,6 +209,15 @@ docker build -t esplora -f contrib/Dockerfile .
 
 Alternatively, you may use the pre-built [`blockstream/esplora` image](https://hub.docker.com/r/blockstream/esplora) from Docker Hub. The `latest` tag tracks the `master` branch; release tags (e.g. `esplora_v2.10`) are also published as versioned image tags (e.g. `blockstream/esplora:v2.10`) that can be pinned for reproducible deployments.
 
+The GitHub Actions workflow `.github/workflows/publish-mirror.yml` publishes signed
+images for `linux/amd64` and `linux/arm64` to an additional registry using the shared
+`Blockstream/ci-components` publish workflow. Pushes to `master` use the first 12
+characters of the commit SHA as the image tag; `esplora_v*` releases retain the full
+release tag. These image tags are immutable. Configure repository secrets
+`GCP_WORKLOAD_IDENTITY_PROVIDER`, `GCP_SERVICE_ACCOUNT`, and `GAR_IMAGE` (the image
+path without a tag), and the `production` and `production-build` environments.
+Deployment policies are configured in repository environment settings.
+
 ## How to run the explorer for Bitcoin mainnet
 
 ```bash
