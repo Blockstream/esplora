@@ -1,5 +1,7 @@
 const staticRoot = process.env.STATIC_ROOT || ''
 const hasCam = process.browser && navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+const isMac = process.browser && /Mac|iP(hone|od|ad)/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '')
+const hotkeyLabel = isMac ? '⌘K' : 'Ctrl K'
 
 export default ({ t, klass, autofocus }) =>
   <form className="search" action={process.browser?undefined:"search"}>
@@ -17,7 +19,7 @@ export default ({ t, klass, autofocus }) =>
         required
         autocomplete="off"
       />
-      <p className="search-focus-hotkey">⌘K</p>
+      <p className="search-focus-hotkey">{hotkeyLabel}</p>
       { hasCam ? <a className="qrcode-link" href="scan-qr"><img src={`${staticRoot}img/icons/qrcode.svg`}/></a>: "" }
     </div>
   </form>
