@@ -1,0 +1,59 @@
+.asset-icon-container {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  background-color: var(--surface-secondary-color);
+  border-radius: var(--max-border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-color);
+}
+
+.asset-icon-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+
+.asset-icon-loaded .asset-icon-image {
+  opacity: 1;
+}
+
+.asset-icon-loading > svg,
+.asset-icon-loaded > svg {
+  visibility: hidden;
+}
+
+.asset-icon-loading-indicator {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.asset-icon-loading .asset-icon-loading-indicator {
+  display: flex;
+}
+
+.asset-icon-loading-indicator .loading-container {
+  width: 100%;
+  margin: 0;
+}
+
+.asset-icon-loading-indicator .ring {
+  border-top-color: var(--accent-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asset-icon-loading-indicator .ring {
+    animation: none;
+  }
+}
+

@@ -100,7 +100,7 @@ export default ({
             {loading ? (
               <div className="load-more load-more-loading g-btn primary-btn font-btn-2 disabled">
                 <span>{t`Loading...`}</span>
-                <div>{loader("small")}</div>
+                <div>{loader("small", { immediate: true })}</div>
               </div>
             ) : (
               pagingNav(b, { ...S, t })

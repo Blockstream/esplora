@@ -4,13 +4,13 @@ import layout from './layout'
 import { txBox } from './tx'
 import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetName } from '../const'
 import loader from '../components/loading'
+import AssetIcon from '../components/asset-icon'
 import { ConfidentialBadge, StatusBadge, StatusDot } from '../components/status-badge'
 import { InfoStat } from '../components/info-stat'
 import {
   AssetContractIcon,
   BurnIcon,
   CopyIcon,
-  DefaultAssetIcon,
   LinkIcon,
   TxArrowsIcon
 } from '../components/icons'
@@ -47,7 +47,9 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
       , has_contract = !!asset.contract
       , is_unregistered = !is_native_asset && !has_contract
       , contract = asset.contract || {}
+      , contract_issuer_pubkey = contract.version === 2 ? contract.initial_issuer_pubkey : contract.issuer_pubkey
       , contract_entity = contract.entity || {}
+      , registry = asset.registry || {}
       , precision = asset.precision != null ? asset.precision : 0
       , has_blinded_issuances =
           chain_stats.has_blinded_issuances || mempool_stats.has_blinded_issuances
@@ -108,9 +110,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
     [
       <div className="asset-page">
         <div className="table asset-table">
-          <div className="asset-icon-container">
-            <DefaultAssetIcon/>
-          </div>
+          <AssetIcon href={registry.icon && registry.icon.href} />
           <div className="asset-table-body">
             <div className="asset-title-row">
               <h1 className="asset-title">{asset_title}</h1>
@@ -155,11 +155,11 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
               <div className="detail-grid-row">
                 {detailField('DOMAIN', contract_entity.domain, null, t)}
                 {detailField(
-                  'ISSUER PUBKEY',
-                  contract.issuer_pubkey,
+                  contract.version === 2 ? 'INITIAL ISSUER PUBKEY' : 'ISSUER PUBKEY',
+                  contract_issuer_pubkey,
                   null,
                   t,
-                  shortenValue(contract.issuer_pubkey)
+                  shortenValue(contract_issuer_pubkey)
                 )}
               </div>
               <div className="detail-grid-row">
