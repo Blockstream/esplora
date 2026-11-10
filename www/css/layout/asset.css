@@ -1,0 +1,99 @@
+.asset-table {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.asset-table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.asset-title {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Rigid Square';
+  overflow-wrap: anywhere;
+}
+
+.asset-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asset-table-details {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.asset-table-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.asset-table-issuance-link {
+  margin-left: auto;
+  font-size: 16px;
+  font-family: 'Rigid Square';
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.asset-table-issuance-link p {
+  margin-top: 2px;
+  line-height: 22px;
+}
+
+.asset-contract-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.asset-page > .transactions {
+  margin-top: 0;
+}
+
+@media only screen and (max-width: 1328px) {
+  .asset-table {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .asset-table-body {
+    display: contents;
+  }
+
+  .asset-icon-container {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .asset-title-row {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .asset-table-details {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .asset-table-issuance-link {
+    margin-left: 0;
+  }
+}

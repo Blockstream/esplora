@@ -7,5 +7,7 @@
   "foundation/utilities.css",
   "../style.css",
   "components/status-badge.css",
-  "layout/footer.css"
+  "components/asset-icon.css",
+  "layout/footer.css",
+  "layout/asset.css"
 ]
