@@ -4,6 +4,7 @@ import { makeDOMDriver } from '@cycle/dom'
 import { makeHistoryDriver, captureClicks } from '@cycle/history'
 import makeRouteDriver from './driver/route'
 import makeSearchDriver from './driver/search'
+import makeAutocompleteDriver from './driver/autocomplete'
 import makeScanDriver from './driver/instascan'
 
 import { Observable as O } from './rxjs'
@@ -36,6 +37,7 @@ run(main, {
 , route: makeRouteDriver(captureClicks(makeHistoryDriver({ basename: webBase })))
 , storage: storageDriver
 , search: makeSearchDriver(apiBase)
+, autocomplete: makeAutocompleteDriver(apiBase)
 , title: titleDriver
 , scanner: makeScanDriver()
 , blinding: blindingDriver

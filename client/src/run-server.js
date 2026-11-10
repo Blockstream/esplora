@@ -72,6 +72,7 @@ export default function render(pathname, args='', body, locals={}, cb) {
   , storage: _ => ({ local: { getItem: key => O.of(locals[key]) } })
   , scanner: _ => O.empty()
   , search: makeSearchDriver(apiBase)
+  , autocomplete: _ => O.empty()
   , state: state$ => O.from(state$).subscribe(stateUpdate)
   // unblinding is disabled with server-side rendering
   , blinding: _ => O.empty(),

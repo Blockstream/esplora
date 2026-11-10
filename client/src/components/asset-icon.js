@@ -21,8 +21,10 @@ const stopWatchingImage = vnode => {
   if (image) image.onload = image.onerror = null
 }
 
+export const assetIconSrc = href => typeof href === 'string' && /^https?:\/\//i.test(href) ? href : null
+
 export default ({ href }) => {
-  const src = typeof href === 'string' && /^https?:\/\//i.test(href) ? href : null
+  const src = assetIconSrc(href)
       , loading = !!src && process.browser
 
   return (

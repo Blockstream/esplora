@@ -7,7 +7,7 @@ export default (body, opt) => {
 
   return <div className="explorer-container">
     { navbar(opt) }
-    { subnav(opt.t, opt.isTouch, opt.activeTab, opt.page) }
+    { subnav(opt.t, opt.isTouch, opt.activeTab, opt.page, opt.autocomplete) }
     <main className="explorer-main" key={mainKey}>
       { body }
     </main>
