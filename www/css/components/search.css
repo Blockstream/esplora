@@ -1,0 +1,212 @@
+.search {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--surface-primary-color);
+  border: 1px solid #525252;
+  padding: 12px;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.search-focus-hotkey {
+  font-weight: 400;
+  color: #B5BDC2;
+  font-size: 16px;
+  padding-top: 3px;
+}
+
+.search-bar-input {
+  width: 100%;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  background-color: inherit;
+  padding: 0px;
+}
+
+.search-bar-input::placeholder {
+  color: #B5BDC2;
+}
+
+.qrcode-link img {
+  vertical-align: middle;
+}
+
+.search-bar-submit {
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  padding: 0;
+}
+
+.search-bar-loading.spinner {
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+}
+
+.search-bar-loading.spinner .ring.small {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border-width: 3px;
+  border-top-color: var(--accent-color);
+}
+
+.search-autocomplete-results {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 14px);
+  left: 0;
+  width: 100%;
+  max-height: 420px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--surface-secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .45);
+  background-color: var(--surface-primary-color);
+}
+
+.search-autocomplete-group + .search-autocomplete-group {
+  border-top: 1px solid var(--surface-secondary-color);
+}
+
+.search-autocomplete-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px 10px;
+  color: #FAFAFA;
+  font-family: "Rigid Square", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.search-autocomplete-heading-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: var(--accent-color);
+}
+
+.search-autocomplete-heading-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.search-autocomplete-option {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 12px 18px 12px 50px;
+  color: #FAFAFA;
+  text-decoration: none;
+}
+
+.search-autocomplete-option:hover,
+.search-autocomplete-option:focus,
+.search-autocomplete-option.active {
+  outline: none;
+  color: #FAFAFA;
+  background-color: var(--surface-secondary-color);
+}
+
+.search-autocomplete-asset-option {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding-left: 18px;
+}
+
+.search-autocomplete-asset-option .asset-icon-container {
+  width: 22px;
+  height: 22px;
+}
+
+.search-autocomplete-asset-option .asset-icon-container svg {
+  width: auto;
+  height: 14px;
+}
+
+/* Keep the default icon visible until the image loads; a spinner per row is too busy */
+.search-autocomplete-asset-option .asset-icon-loading > svg {
+  visibility: visible;
+}
+
+.search-autocomplete-asset-option .asset-icon-loading .asset-icon-loading-indicator {
+  display: none;
+}
+
+.search-autocomplete-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.search-autocomplete-primary,
+.search-autocomplete-secondary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-autocomplete-primary {
+  font-size: 16px;
+}
+
+.search-autocomplete-secondary {
+  color: var(--foreground-muted);
+  font-size: 13px;
+}
+
+.search-bar-input::-webkit-search-cancel-button {
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+.search-bar-input:focus{
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  color: #fff;
+}
+
+@media only screen and (max-width: 1328px) {
+  .search-bar{
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .search-autocomplete-results {
+    top: calc(100% + 8px);
+    max-height: min(420px, 60vh);
+  }
+
+  .search-autocomplete-option {
+    padding-right: 14px;
+    padding-left: 46px;
+  }
+
+  .search-autocomplete-asset-option {
+    padding-left: 14px;
+  }
+}

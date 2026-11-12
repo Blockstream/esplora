@@ -6,6 +6,7 @@
   "foundation/typography.css",
   "foundation/utilities.css",
   "../style.css",
+  "components/search.css",
   "components/status-badge.css",
   "components/asset-icon.css",
   "layout/footer.css",

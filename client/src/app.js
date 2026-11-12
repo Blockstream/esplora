@@ -6,6 +6,8 @@ import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees
 import { summarizeBlockTemplate } from './lib/block-template'
 import { getPriceFeedApiBase } from './lib/high-value-assets'
 import { isBitcoinNetwork } from './lib/network'
+import { normalizeSearchQuery } from './lib/search-query'
+import { debounceAutocompleteQueries, getAutocompletePlan } from './lib/search-autocomplete'
 import getPrivacyAnalysis from './lib/privacy-analysis'
 import {
   highValueAssetDefinitions,
@@ -73,6 +75,19 @@ const highValueAssetCategory = assetId => `dashboard-high-value-asset-${assetId}
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
     , NEW_TABLE_ENTRY_MS = 2000
+    , initialAutocompleteState = {
+        query: '',
+        results: [],
+        loading: false,
+        focused: false,
+        dismissed: false,
+        activeIndex: -1,
+        resolvedQuery: null
+      }
+    , sameAutocompleteView = (a, b) =>
+        a.loading == b.loading && a.focused == b.focused && a.dismissed == b.dismissed
+        && a.activeIndex == b.activeIndex
+        && (a.results == b.results || !a.results.length && !b.results.length)
 
 // Make driver source observables rxjs5-compatible via rxjs-compat
 setAdapt(stream => O.from(stream))
@@ -212,7 +227,7 @@ export const trackPendingBlockTemplateEvent = (previous, event) => {
 }
 
 export default function main(
-  { DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, blinding: unblinded$ },
+  { DOM, HTTP, route, storage, scanner: scan$, search: searchResult$, autocomplete: autocompleteResult$, blinding: unblinded$ },
   {
     pollingEnabled=process.browser,
     pollingScheduler,
@@ -284,11 +299,29 @@ export default function main(
 
   // three ways to search: via the form, using the short /<query> search URL and using the QR scanner.
   // this triggers a redirect to /search?q=<query>, which then triggers the search itself.
+  , searchSubmit$ = on('.search', 'submit')
+      .map(e => e.target.querySelector('[name=q]').value)
+      .share()
   , searchQuery$ = O.merge(
-      on('.search', 'submit').map(e => e.target.querySelector('[name=q]').value)
+      searchSubmit$
     , route('/:q([a-zA-Z0-9]+)').map(loc => loc.params.q).filter(q => !reservedPaths.includes(q))
     , scan$
     )
+
+  , autocompleteInput$ = on('.search-bar-input', 'input')
+      .map(e => normalizeSearchQuery(e.ownerTarget.value))
+  , autocompleteFocus$ = on('.search-bar-input', 'focus')
+  , autocompleteText$ = O.merge(
+      autocompleteInput$
+    , autocompleteFocus$.map(e => normalizeSearchQuery(e.ownerTarget.value))
+    )
+  , autocompleteBlur$ = on('.search', 'focusout')
+      .filter(e => !e.relatedTarget || !e.ownerTarget.contains(e.relatedTarget))
+  , autocompleteKeydown$ = on('.search-bar-input', 'keydown')
+      .filter(e => !e.isComposing && [ 'ArrowDown', 'ArrowUp', 'Enter', 'Escape' ].includes(e.key))
+      .share()
+  , autocompleteOptionFocus$ = on('[data-autocomplete-index]', 'focus')
+      .map(e => +e.ownerTarget.dataset.autocompleteIndex)
 
   // auto-expand when opening with "#expand"
   , expandTx$ = route('/tx/:txid').filter(loc => loc.query.expand).map(loc => loc.params.txid)
@@ -329,6 +362,89 @@ export default function main(
 
   // the translation function for the currently selected language
   , t$ = lang$.map(lang => l10n[lang] || l10n[defaultLang])
+
+  , autocomplete$ = O.merge(
+      autocompleteText$.map(query => state => query == state.query
+        ? {
+            ...state,
+            loading: state.loading
+              || (state.dismissed && query != state.resolvedQuery && getAutocompletePlan(query).kind != 'none'),
+            focused: true,
+            dismissed: false
+          }
+        : ({
+        ...state,
+        query,
+        results: [],
+        loading: getAutocompletePlan(query).kind != 'none',
+        focused: true,
+        dismissed: false,
+        activeIndex: -1
+      }))
+    , autocompleteBlur$.mapTo(state => ({
+        ...state,
+        loading: false,
+        focused: false,
+        dismissed: true,
+        activeIndex: -1
+      }))
+    , autocompleteOptionFocus$.map(activeIndex => state => ({
+        ...state,
+        focused: true,
+        dismissed: false,
+        activeIndex
+      }))
+    , autocompleteResult$.map(result => state => result.query != state.query ? state : ({
+        ...state,
+        results: result.results,
+        loading: state.focused && !state.dismissed && result.loading,
+        activeIndex: -1,
+        resolvedQuery: result.loading || result.failed ? state.resolvedQuery : result.query
+      }))
+    , autocompleteKeydown$
+        .filter(e => e.key != 'Enter')
+        .map(e => state => {
+          if (e.key == 'Escape') {
+            if (state.dismissed) return state
+            if (state.loading || state.results.length) e.preventDefault()
+            return { ...state, loading: false, dismissed: true, activeIndex: -1 }
+          }
+
+          if (!state.results.length) return state
+
+          e.preventDefault()
+          const offset = e.key == 'ArrowDown' ? 1 : -1
+              , activeIndex = state.activeIndex < 0
+                ? (offset > 0 ? 0 : state.results.length-1)
+                : (state.activeIndex + offset + state.results.length) % state.results.length
+
+          return { ...state, dismissed: false, activeIndex }
+        })
+    , O.merge(page$, searchSubmit$).mapTo(state => ({
+        ...state,
+        loading: false,
+        focused: false,
+        dismissed: true,
+        activeIndex: -1
+      }))
+    )
+      .startWith(state => state)
+      .scan((state, mod) => mod(state), initialAutocompleteState)
+      .shareReplay(1)
+
+  // Cancels pending lookups once dismissed, but keeps settled queries so refocusing reuses their results
+  , autocompleteQuery$ = debounceAutocompleteQueries(autocomplete$.map(state =>
+      state.loading || state.query == state.resolvedQuery ? state.query : ''))
+
+  , selectAutocomplete$ = autocompleteKeydown$
+      .filter(e => e.key == 'Enter')
+      .withLatestFrom(autocomplete$, (event, state) => {
+        const result = state.focused && !state.dismissed && state.results[state.activeIndex]
+        if (result) event.preventDefault()
+        return result
+      })
+      .filter(Boolean)
+      .share()
 
   // Scanner state (on/off)
   , scanning$ = O.merge(
@@ -619,6 +735,7 @@ export default function main(
                      , tx$, txBlock$, previousBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
+                     , autocomplete$: autocomplete$.distinctUntilChanged(sameAutocompleteView)
                      , isReady$, loading$, page$, view$, title$
                      })
 
@@ -796,6 +913,7 @@ export default function main(
   // Route navigation sink
   , navto$ = O.merge(
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
+    , selectAutocomplete$.map(result => ({ type: 'push', pathname: result.pathname }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
@@ -808,6 +926,7 @@ export default function main(
       , state$, view$, block$, blockTxs$, blocks$, tx$, txBlock$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$, selectBlockGridTx$
+      , autocomplete$, autocompleteQuery$, autocompleteResult$, selectAutocomplete$
       , assetMap$,  goAssetList$, assetList$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
@@ -853,6 +972,9 @@ export default function main(
     })
 
     on('.table-copy-button', 'click', { preventDefault: true }).subscribe(e => e.stopPropagation())
+
+    // Keep focus in the search input so clicking the dropdown doesn't dismiss it before the click lands
+    on('.search-autocomplete-results', 'mousedown', { preventDefault: true }).subscribe()
 
     const closeOpenTooltips = except => {
       document.querySelectorAll('.tooltip.tooltip-open').forEach(tooltip => {
@@ -938,6 +1060,7 @@ export default function main(
   , route: navto$
   , storage: store$
   , search: goSearch$
+  , autocomplete: autocompleteQuery$
   , scanner: scanning$
   , title: title$
   , state: state$

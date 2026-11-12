@@ -61,5 +61,7 @@ export const showHighValueAssets = !!process.env.IS_ELEMENTS
   && process.env.SHOW_HIGH_VALUE_ASSETS == '1'
   && nativeAssetId == liquidNativeAssetId
 
+export const autocompleteCategoryOrder = [ 'assets', 'blocks', 'transactions', 'addresses' ]
+
 // Elements only
 export const assetTxsPerPage = 25

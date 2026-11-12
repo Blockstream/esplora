@@ -107,6 +107,11 @@ const makeApiRoute = () => {
 };
 
 const makeSources = ({
+  autocomplete$ = empty$,
+  searchInput$ = empty$,
+  searchFocus$ = empty$,
+  searchKeydown$ = empty$,
+  searchBlur$ = empty$,
   blockGridEvent$ = empty$,
   responseStreams = {},
   route = makeRoute(),
@@ -119,6 +124,14 @@ const makeSources = ({
         selector === ".block-grid__canvas" &&
         eventName === blockGridTransactionSelectEvent
           ? blockGridEvent$
+          : selector === ".search-bar-input" && eventName === "input"
+          ? searchInput$
+          : selector === ".search-bar-input" && eventName === "focus"
+          ? searchFocus$
+          : selector === ".search-bar-input" && eventName === "keydown"
+          ? searchKeydown$
+          : selector === ".search" && eventName === "focusout"
+          ? searchBlur$
           : empty$,
     }),
   },
@@ -128,6 +141,7 @@ const makeSources = ({
       return responseStreams[category] || empty$;
     },
   },
+  autocomplete: autocomplete$,
   blinding: empty$,
   route,
   scanner: empty$,
@@ -897,4 +911,276 @@ test("ignores block template responses for an older tip", () => {
   assert.equal(atSecondTip.template, null);
   assert.equal(secondTemplate.template.previousblockhash, secondTip);
   assert.equal(afterLateFirstResponse, secondTemplate);
+});
+
+test("navigates the active autocomplete result with Enter", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchKeydown$ = new Subject();
+  const routeUpdates = [];
+  let prevented = false;
+  const result = {
+    category: "assets",
+    id: `asset:${"a".repeat(64)}`,
+    pathname: `/asset/${"a".repeat(64)}`,
+    asset: { asset_id: "a".repeat(64), name: "Example" },
+  };
+  const sources = makeSources({
+    autocomplete$,
+    searchInput$,
+    searchKeydown$,
+  });
+
+  main(sources).route.subscribe((update) => routeUpdates.push(update));
+  searchInput$.next({ ownerTarget: { value: "Example" } });
+  autocomplete$.next({
+    query: "Example",
+    loading: false,
+    results: [result],
+  });
+  searchKeydown$.next({
+    key: "Enter",
+    preventDefault: () => { prevented = true; },
+  });
+
+  assert.equal(prevented, false);
+  assert.deepEqual(routeUpdates, []);
+
+  searchKeydown$.next({
+    key: "ArrowDown",
+    preventDefault: () => {},
+  });
+  searchKeydown$.next({
+    key: "Enter",
+    preventDefault: () => { prevented = true; },
+  });
+
+  assert.equal(prevented, true);
+  assert.deepEqual(routeUpdates, [{
+    type: "push",
+    pathname: result.pathname,
+  }]);
+});
+
+test("leaves autocomplete keys to text composition", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchKeydown$ = new Subject();
+  const routeUpdates = [];
+  let prevented = false;
+  const preventDefault = () => { prevented = true; };
+  const result = {
+    category: "assets",
+    id: `asset:${"a".repeat(64)}`,
+    pathname: `/asset/${"a".repeat(64)}`,
+    asset: { asset_id: "a".repeat(64), name: "Example" },
+  };
+
+  main(makeSources({ autocomplete$, searchInput$, searchKeydown$ }))
+    .route.subscribe((update) => routeUpdates.push(update));
+  searchInput$.next({ ownerTarget: { value: "Example" } });
+  autocomplete$.next({ query: "Example", loading: false, results: [result] });
+  searchKeydown$.next({ key: "ArrowDown", isComposing: true, preventDefault });
+  searchKeydown$.next({ key: "Enter", isComposing: true, preventDefault });
+
+  assert.equal(prevented, false);
+  assert.deepEqual(routeUpdates, []);
+});
+
+test("emits asset autocomplete queries on every Liquid page", async () => {
+  const hash = "a".repeat(64);
+  const paths = [
+    "/", "/assets", `/asset/${hash}`, `/tx/${hash}`, `/block/${hash}`,
+    "/address/ex", "/blocks/recent", "/tx/recent", "/mempool",
+    "/explorer-api", "/tx/push", "/search", "/missing/page",
+  ];
+  await Promise.all(paths.map(async pathname => {
+    const searchInput$ = new Subject();
+    const route = makeRouteDriver(() => O.of({ pathname, search: "", hash: "" }))(empty$);
+    const sinks = main(makeSources({ route, searchInput$ }));
+    const query = sinks.autocomplete.filter(Boolean).first().toPromise();
+    searchInput$.next({ ownerTarget: { value: " USD " } });
+    assert.equal(await query, "USD", pathname);
+  }));
+});
+
+test("refocusing retained search text shows asset results after navigation", () => {
+  const pages = new Subject();
+  const autocomplete$ = new Subject();
+  const searchFocus$ = new Subject();
+  const route = makeRouteDriver(() => pages)(empty$);
+  const html = [];
+  const sinks = main(makeSources({ route, autocomplete$, searchFocus$ }));
+  const subscription = sinks.DOM.subscribe(vnode => html.push(render(vnode)));
+  const result = {
+    category: "assets",
+    id: "asset:example",
+    pathname: `/asset/${"a".repeat(64)}`,
+    asset: { asset_id: "a".repeat(64), name: "Example Dollar", ticker: "USD" },
+  };
+
+  for (const pathname of ["/explorer-api", "/tx/push", "/blocks/recent", "/tx/recent", "/"]) {
+    pages.next({ pathname, search: "", hash: "" });
+    // Retained/autofilled text can be focused without emitting another input event.
+    searchFocus$.next({ ownerTarget: { value: " USD " } });
+    autocomplete$.next({ query: "USD", loading: false, results: [result] });
+    assert.match(html[html.length - 1], /USD — Example Dollar/, pathname);
+    assert.match(html[html.length - 1], /aria-expanded="true"/, pathname);
+  }
+  subscription.unsubscribe();
+});
+
+test("refocusing or adding whitespace to the same query preserves autocomplete results", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchFocus$ = new Subject();
+  const states = [];
+  const subscription = main(makeSources({ autocomplete$, searchInput$, searchFocus$ }))
+    .state.subscribe(state => states.push(state));
+  const result = { category: "assets", pathname: "/asset/example", asset: { name: "USD" } };
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  autocomplete$.next({ query: "USD", loading: false, results: [result] });
+  for (const input of [searchFocus$, searchInput$]) {
+    input.next({ ownerTarget: { value: " USD " } });
+    assert.deepEqual(states[states.length - 1].autocomplete.results, [result]);
+    assert.equal(states[states.length - 1].autocomplete.dismissed, false);
+  }
+  subscription.unsubscribe();
+});
+
+test("shows search loading during debounce and clears it when results settle", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const sinks = main(makeSources({ route: makeApiRoute(), autocomplete$, searchInput$ }));
+  const html = [], queries = [];
+  const domSubscription = sinks.DOM.subscribe(vnode => html.push(render(vnode)));
+  const querySubscription = sinks.autocomplete.subscribe(query => queries.push(query));
+  const latest = () => html[html.length - 1];
+  const result = {
+    category: "assets", id: "asset:example", pathname: "/asset/example",
+    asset: { asset_id: "example", name: "Example Dollar", ticker: "USD" },
+  };
+  const initialQueries = queries.length;
+
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  assert.equal(queries.length, initialQueries, "request remains debounced");
+  assert.match(latest(), /search-bar-loading spinner/);
+  assert.match(latest(), /aria-busy="true"/);
+  assert.doesNotMatch(latest(), /magnifying-glass.svg/);
+
+  autocomplete$.next({ query: "USD", loading: true, results: [] });
+  assert.match(latest(), /search-bar-loading spinner/);
+  autocomplete$.next({ query: "USD", loading: false, results: [result] });
+  assert.match(latest(), /USD — Example Dollar/);
+  assert.match(latest(), /magnifying-glass.svg/);
+  assert.match(latest(), /aria-busy="false"/);
+
+  searchInput$.next({ ownerTarget: { value: "Missing" } });
+  assert.match(latest(), /search-bar-loading spinner/);
+  // Both no matches and a failed lookup settle with an empty result list.
+  autocomplete$.next({ query: "Missing", loading: false, results: [] });
+  assert.match(latest(), /magnifying-glass.svg/);
+  assert.doesNotMatch(latest(), /search-bar-loading spinner/);
+  domSubscription.unsubscribe();
+  querySubscription.unsubscribe();
+});
+
+test("cancels pending search loading and skips queries that cannot autocomplete", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchFocus$ = new Subject();
+  const searchKeydown$ = new Subject();
+  const states = [];
+  const subscription = main(makeSources({ autocomplete$, searchInput$, searchFocus$, searchKeydown$ }))
+    .state.subscribe(state => states.push(state.autocomplete));
+  const latest = () => states[states.length - 1];
+
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  assert.equal(latest().loading, true);
+  searchKeydown$.next({ key: "Escape", preventDefault() {} });
+  assert.equal(latest().loading, false);
+  autocomplete$.next({ query: "USD", loading: true, results: [] });
+  assert.equal(latest().loading, false, "late responses must not restart a dismissed spinner");
+  searchFocus$.next({ ownerTarget: { value: "USD" } });
+  assert.equal(latest().loading, true, "refocusing a cancelled query queues a search again");
+
+  for (const value of ["", "U", "840000", "a".repeat(63)]) {
+    searchInput$.next({ ownerTarget: { value } });
+    assert.equal(latest().loading, false, value);
+  }
+  subscription.unsubscribe();
+});
+
+test("refocusing a settled query reuses its results without another lookup", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchFocus$ = new Subject();
+  const searchBlur$ = new Subject();
+  const sinks = main(makeSources({ autocomplete$, searchInput$, searchFocus$, searchBlur$ }));
+  const states = [], queries = [];
+  const stateSubscription = sinks.state.subscribe(state => states.push(state.autocomplete));
+  const querySubscription = sinks.autocomplete.subscribe(query => queries.push(query));
+  const result = { category: "assets", id: "asset:example", pathname: "/asset/example", asset: { name: "USD" } };
+
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  autocomplete$.next({ query: "USD", loading: false, results: [result] });
+  const settledQueries = queries.length;
+  searchBlur$.next({ relatedTarget: null, ownerTarget: { contains: () => false } });
+  const statesBeforeFocus = states.length;
+  searchFocus$.next({ ownerTarget: { value: "USD" } });
+
+  assert.equal(queries.length, settledQueries, "blur and refocus keep the settled query");
+  assert.equal(states[states.length - 1].loading, false);
+  assert.deepEqual(states[states.length - 1].results, [result]);
+  assert.equal(states.length, statesBeforeFocus + 1);
+  stateSubscription.unsubscribe();
+  querySubscription.unsubscribe();
+});
+
+test("blurring cancels a pending lookup", () => {
+  const searchInput$ = new Subject();
+  const searchBlur$ = new Subject();
+  const queries = [];
+  const subscription = main(makeSources({ searchInput$, searchBlur$ }))
+    .autocomplete.subscribe(query => queries.push(query));
+
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  searchBlur$.next({ relatedTarget: null, ownerTarget: { contains: () => false } });
+
+  assert.equal(queries[queries.length - 1], "");
+  subscription.unsubscribe();
+});
+
+test("does not re-render for search events that leave the dropdown unchanged", () => {
+  const searchInput$ = new Subject();
+  const searchFocus$ = new Subject();
+  const states = [];
+  const subscription = main(makeSources({ searchInput$, searchFocus$ }))
+    .state.subscribe(state => states.push(state));
+
+  searchInput$.next({ ownerTarget: { value: "U" } });
+  const count = states.length;
+  searchInput$.next({ ownerTarget: { value: "8400" } });
+  searchFocus$.next({ ownerTarget: { value: "8400" } });
+
+  assert.equal(states.length, count);
+  subscription.unsubscribe();
+});
+
+test("refocusing after a failed lookup retries it", () => {
+  const autocomplete$ = new Subject();
+  const searchInput$ = new Subject();
+  const searchFocus$ = new Subject();
+  const searchBlur$ = new Subject();
+  const sinks = main(makeSources({ autocomplete$, searchInput$, searchFocus$, searchBlur$ }));
+  const states = [];
+  const subscription = sinks.state.subscribe(state => states.push(state.autocomplete));
+
+  searchInput$.next({ ownerTarget: { value: "USD" } });
+  autocomplete$.next({ query: "USD", loading: false, results: [], failed: true });
+  searchBlur$.next({ relatedTarget: null, ownerTarget: { contains: () => false } });
+  searchFocus$.next({ ownerTarget: { value: "USD" } });
+
+  assert.equal(states[states.length - 1].loading, true);
+  subscription.unsubscribe();
 });
