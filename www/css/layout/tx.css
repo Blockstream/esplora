@@ -1,0 +1,44 @@
+.transaction-fee-primary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 4px 8px;
+}
+
+.transaction-fee-primary > span {
+  white-space: nowrap;
+}
+
+.bitcoin-usd-values .transaction-fees-content {
+  flex: 1 1 auto;
+  min-width: min-content;
+  max-width: 100%;
+  justify-content: flex-end;
+}
+
+.bitcoin-usd-values .transaction-fees-content > div,
+.bitcoin-usd-values .transaction-fee-value {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.bitcoin-usd-values .transaction-fee-value .amount-with-usd {
+  display: flex;
+}
+
+.bitcoin-usd-values .tx-page .transaction-fees-field {
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.bitcoin-usd-values .tx-page .info-stats-row {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1328px) {
+  .bitcoin-usd-values .transaction-table-footer .amount {
+    font-size: 14px;
+  }
+}

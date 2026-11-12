@@ -1,12 +1,13 @@
 import { last } from "../util";
 import layout from "./layout";
 import { txBox } from "./tx";
-import { formatSat, formatNumber } from "./util";
+import { formatSat, formatSatWithUsd, formatNumber } from "./util";
 import { addrTxsPerPage as perPage, maxMempoolTxs } from "../const";
 import loader from "../components/loading";
 import { AddressHamburgerIcon, CopyIcon } from "../components/icons";
 import { InfoStat } from "../components/info-stat";
 import { Tooltip } from "../components/tooltip";
+import { isBitcoinOrLiquidMainnet } from "../lib/network";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -113,6 +114,7 @@ export default ({
                     chain_stats.funded_txo_count,
                     chain_stats.funded_txo_sum,
                     t,
+                    S,
                   )}
                 />
                 <InfoStat
@@ -121,11 +123,12 @@ export default ({
                     chain_stats.spent_txo_count,
                     chain_stats.spent_txo_sum,
                     t,
+                    S,
                   )}
                 />
                 <InfoStat
                   title={t`Confirmed unspent`}
-                  value={fmtTxos(chain_utxo_count, chain_utxo_sum, t)}
+                  value={fmtTxos(chain_utxo_count, chain_utxo_sum, t, S)}
                 />
               </div>
             </div>
@@ -155,6 +158,8 @@ export default ({
                     mempool_stats.funded_txo_count,
                     mempool_stats.funded_txo_sum,
                     t,
+                    S,
+                    true,
                   )}
                 </div>
               </div>
@@ -168,6 +173,8 @@ export default ({
                     mempool_stats.spent_txo_count,
                     mempool_stats.spent_txo_sum,
                     t,
+                    S,
+                    true,
                   )}
                 </div>
               </div>
@@ -175,7 +182,7 @@ export default ({
               <div className="detail-field">
                 <p className="detail-field-label">{t`Total unspent`}</p>
                 <div className="detail-field-content">
-                  {fmtTxos(total_utxo_count, total_utxo_sum, t)}
+                  {fmtTxos(total_utxo_count, total_utxo_sum, t, S, true)}
                 </div>
               </div>
             </div>
@@ -225,13 +232,32 @@ export default ({
   );
 };
 
-const fmtTxos = (count, sum, t) => {
+const fmtTxos = (count, sum, t, S, usdBelowOutputs = false) => {
   const outputs =
     count > 0 ? t`${formatNumber(count)} outputs` : t`No outputs`;
 
   if (!Number.isFinite(sum)) return outputs;
+  if (count <= 0) return outputs;
 
-  return count > 0 ? `${formatSat(sum)} (${outputs})` : outputs;
+  if (!isBitcoinOrLiquidMainnet) return `${formatSat(sum)} (${outputs})`;
+
+  if (usdBelowOutputs) return (
+    <span className="address-output-summary address-output-summary-stacked">
+      {formatSatWithUsd(sum, { t, ...S }, (
+        <span className="address-output-primary">
+          <span>{formatSat(sum)}</span>
+          <span className="address-output-count">({outputs})</span>
+        </span>
+      ))}
+    </span>
+  );
+
+  return (
+    <span className="address-output-summary">
+      {formatSatWithUsd(sum, { t, ...S })}
+      <span className="address-output-count">({outputs})</span>
+    </span>
+  );
 };
 
 const pagingNav = (

@@ -20,6 +20,7 @@ test("renders low, average, and high fee estimates with dollar footers", () => {
     bitcoinMarketChart: {
       prices: [[1, 40_000], [2, 50_000], [3, null]],
     },
+    bitcoinPrice: 50_000,
     t,
   }));
 

@@ -16,6 +16,7 @@ test("formats the recommended fee rate and dollar estimate", () => {
     feeEst: { 3: 6 },
     mempool: { vsize: 0 },
     bitcoinMarketChart: { prices: [[1, 40_000], [2, 50_000]] },
+    bitcoinPrice: 50_000,
     t,
   }));
 
@@ -34,6 +35,7 @@ test("formats negative Bitcoin price changes", () => {
   const html = render(overview({
     blocks: [],
     bitcoinMarketChart: { prices: [[1, 50_000], [2, 40_000]] },
+    bitcoinPrice: 40_000,
     t,
   }));
 
@@ -44,11 +46,13 @@ test("shows an unavailable Bitcoin price change without a valid baseline", () =>
   const singlePriceHtml = render(overview({
     blocks: [],
     bitcoinMarketChart: { prices: [[1, 50_000]] },
+    bitcoinPrice: 50_000,
     t,
   }));
   const zeroBaselineHtml = render(overview({
     blocks: [],
     bitcoinMarketChart: { prices: [[1, 0], [2, 50_000]] },
+    bitcoinPrice: 50_000,
     t,
   }));
 

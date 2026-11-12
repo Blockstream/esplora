@@ -44,6 +44,7 @@ export const blks = (blocks, viewMore, { t, ...S }) => {
         {viewMore ? (
           <PendingBlockDetailsCard
             bitcoinMarketChart={S.bitcoinMarketChart}
+            bitcoinPrice={S.bitcoinPrice}
             block={blocks[0]}
             blockTemplate={
               blockTemplateState && blockTemplateState.template
