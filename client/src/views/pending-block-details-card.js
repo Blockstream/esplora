@@ -25,8 +25,7 @@ import {
   formatTransactionDelta,
   formatWeight,
 } from "../lib/pending-block-details";
-import { getLatestBitcoinPrice } from "../lib/market";
-import { formatFeeRate, formatSat, formatUsd, formatVMB } from "./util";
+import { formatFeeRate, formatSat, formatSatWithUsd, formatUsd, formatVMB } from "./util";
 
 // Fee estimates are inclusive upper bounds, while the grid expects inclusive
 // lower thresholds. Move just beyond a boundary so an equal rate stays in the
@@ -353,6 +352,7 @@ const feeBucketPanel = (
 
 const PendingBlockDetailsCard = ({
   bitcoinMarketChart,
+  bitcoinPrice,
   block,
   blockTemplate,
   detailsOpen,
@@ -377,7 +377,6 @@ const PendingBlockDetailsCard = ({
       ? blockTemplate.transactions
       : null;
   const feeTierBoundaries = getFeeTierBoundaries(feeEst);
-  const bitcoinPrice = getLatestBitcoinPrice(bitcoinMarketChart);
   const weightPercentage = metrics && metrics.weightPercentage;
   const weightLimit = metrics && metrics.weightLimit;
   return (
@@ -438,7 +437,7 @@ const PendingBlockDetailsCard = ({
             {blockStat(
               t`TOTAL FEE COLLECTED`,
               metrics && Number.isFinite(metrics.totalFees)
-                ? formatSat(metrics.totalFees)
+                ? formatSatWithUsd(metrics.totalFees, { bitcoinPrice, t })
                 : templateFallback,
             )}
           </div>

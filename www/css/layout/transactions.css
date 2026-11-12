@@ -1,0 +1,23 @@
+.transactions-with-usd-values .transaction-table-row {
+  align-items: center;
+}
+
+.transactions-with-usd-values .transaction-table-transaction-fee {
+  justify-content: flex-end;
+}
+
+@media (max-width: 1328px) {
+  .transactions-with-usd-values .transaction-table-row {
+    gap: 12px;
+  }
+
+  .transactions-with-usd-values .transaction-table-row .transaction-table-field {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 12px;
+  }
+
+  .transactions-with-usd-values .transaction-table-field-value {
+    margin-inline-start: auto;
+  }
+}

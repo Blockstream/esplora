@@ -1,0 +1,40 @@
+.bitcoin-usd-values .addr-page .detail-field {
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.bitcoin-usd-values .addr-page .info-stats-row {
+  flex-wrap: wrap;
+}
+
+.address-output-summary {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+}
+
+.address-output-count {
+  white-space: nowrap;
+}
+
+.address-output-summary-stacked > .amount-with-usd {
+  width: 100%;
+  text-align: right;
+}
+
+.address-output-primary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 6px;
+}
+
+.address-output-primary > span {
+  white-space: nowrap;
+}
+
+.bitcoin-usd-values .addr-page .detail-field-content .address-output-summary {
+  justify-content: flex-end;
+}

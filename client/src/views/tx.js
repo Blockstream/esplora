@@ -4,7 +4,7 @@ import vinView from "./tx-vin";
 import voutView from "./tx-vout";
 import privacyAnalysisView from "./tx-privacy-analysis";
 import segwitGainsView from "./tx-segwit-gains";
-import { formatSat, formatTime, formatVMB, formatNumber } from "./util";
+import { formatSat, formatSatWithUsd, formatTime, formatVMB, formatNumber } from "./util";
 import {
   isAllUnconfidential,
   isAllNative,
@@ -25,6 +25,7 @@ import { StatusBadge, StatusDot } from "../components/status-badge";
 import { Tooltip } from "../components/tooltip";
 import BlockDetailsCard from "../components/block-details-card";
 import { targetBlockIntervalSeconds } from "../const";
+import { isBitcoinOrLiquidMainnet } from "../lib/network";
 
 // Require behind env conditional so it gets removed by `envify` on non-elements builds
 const deduceBlinded =
@@ -234,6 +235,7 @@ const txHeader = (
     block,
     tipHeight,
     feeEst,
+    bitcoinPrice,
     t,
     txAnalysis: {
       feerate,
@@ -341,18 +343,31 @@ const txHeader = (
                 </div>
               )}
 
-              <div className="detail-field">
+              <div className="detail-field transaction-fees-field">
                 <p className="detail-field-label">TRANSACTION FEES</p>
-                <div className="detail-field-content">
+                <div className="detail-field-content transaction-fees-content">
                   {feerate != null ? (
                     <div>
                       <div className="overview-fees">
-                        <p className="transaction-fee-value">
-                          {formatSat(tx.fee)}
-                        </p>
-                        <p className="transaction-fee-rate">
-                          {`(${feerate.toFixed(2)} sat/vB)`}
-                        </p>
+                        {isBitcoinOrLiquidMainnet ? (
+                          <p className="transaction-fee-value">
+                            {formatSatWithUsd(tx.fee, { bitcoinPrice, t }, (
+                              <span className="transaction-fee-primary">
+                                <span>{formatSat(tx.fee)}</span>
+                                <span className="transaction-fee-rate">
+                                  {`(${feerate.toFixed(2)} sat/vB)`}
+                                </span>
+                              </span>
+                            ))}
+                          </p>
+                        ) : [
+                          <p className="transaction-fee-value">
+                            {formatSat(tx.fee)}
+                          </p>,
+                          <p className="transaction-fee-rate">
+                            {`(${feerate.toFixed(2)} sat/vB)`}
+                          </p>,
+                        ]}
                       </div>
                       {overpaying > OVERPAYMENT_WARN ? (
                         <p

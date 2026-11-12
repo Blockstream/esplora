@@ -87,6 +87,7 @@ export default ({
                     tipHeight,
                     t,
                     spends,
+                    ...S,
                     listingIndex: +goBlock.start_index + index + 1,
                     listingTotal: b.tx_count,
                   },

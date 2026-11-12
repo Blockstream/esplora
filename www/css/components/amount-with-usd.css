@@ -1,0 +1,17 @@
+.amount-with-usd {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+  vertical-align: middle;
+}
+
+.amount-with-usd-primary,
+.amount-with-usd-secondary {
+  white-space: nowrap;
+}
+
+.amount-with-usd-secondary {
+  color: var(--foreground-muted);
+  font-size: .8em;
+  font-weight: 400;
+}
