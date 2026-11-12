@@ -321,6 +321,7 @@ test("keeps fee cost loading separate from fee-rate availability", () => {
 test("formats average fees with the shared native-asset formatter", () => {
   const html = render(PendingBlockDetailsCard({
     bitcoinMarketChart: { prices: [[0, 50_000]] },
+    bitcoinPrice: 50_000,
     block,
     blockTemplate: { transactions: [] },
     detailsOpen: true,

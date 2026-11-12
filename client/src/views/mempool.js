@@ -1,5 +1,5 @@
 import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
-import { formatSat, formatVMB } from './util'
+import { formatSatWithUsd, formatVMB } from './util'
 import layout from './layout'
 import search from './search'
 
@@ -19,7 +19,7 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
           </div>
           <div>
             <div>{t`Total fees`}</div>
-            <div>{formatSat(mempool.total_fee)}</div>
+            <div>{formatSatWithUsd(mempool.total_fee, { t, ...S })}</div>
           </div>
           <div>
             <div>{t`Total size`}</div>

@@ -1,7 +1,6 @@
 import { InfoCard } from "../components/info-card";
 import { feeEstimateTargets } from "../const";
 import { estimateTypicalTransactionFeeUsd } from "../lib/fees";
-import { getLatestBitcoinPrice } from "../lib/market";
 import { formatFeeRate, formatUsd } from "./util";
 
 const getFeeMarketLevels = (t) => [
@@ -22,8 +21,7 @@ const getFeeMarketLevels = (t) => [
   },
 ];
 
-export const feeMarket = ({ feeEst, bitcoinMarketChart, t } = {}) => {
-  const bitcoinPrice = getLatestBitcoinPrice(bitcoinMarketChart);
+export const feeMarket = ({ feeEst, bitcoinPrice, t } = {}) => {
   const unavailable = t`N/A`;
 
   return (

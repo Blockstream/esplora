@@ -5,7 +5,8 @@ import {setAdapt} from '@cycle/run/lib/adapt';
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
 import { summarizeBlockTemplate } from './lib/block-template'
 import { getPriceFeedApiBase } from './lib/high-value-assets'
-import { isBitcoinNetwork } from './lib/network'
+import { getLatestBitcoinPrice } from './lib/market'
+import { isBitcoinNetwork, isBitcoinOrLiquidMainnet } from './lib/network'
 import { normalizeSearchQuery } from './lib/search-query'
 import { debounceAutocompleteQueries, getAutocompletePlan } from './lib/search-autocomplete'
 import getPrivacyAnalysis from './lib/privacy-analysis'
@@ -173,6 +174,21 @@ export const parseTipHeight = text => {
 
 const isUnconfirmedTx = tx => !!tx && !tx.status.confirmed
 
+const isBitcoinUsdValuePage = pathname =>
+  pathname == '/' || pathname == '/tx/recent' || pathname == '/mempool'
+  || /^\/(tx|block)\/[a-f0-9]{64}\/?$/i.test(pathname)
+  || /^\/address\/[^/]+\/?$/.test(pathname)
+  || (!!process.env.IS_ELEMENTS && /^\/asset\/[a-f0-9]{64}\/?$/i.test(pathname))
+
+// Keep a trigger only when `ms` has passed since the last kept trigger.
+const skipWhileFresh = (ms, now, trigger$) =>
+  trigger$
+    .scan(({ sentAt }) => {
+      const at = now()
+      return at - sentAt >= ms ? { sentAt: at, send: true } : { sentAt, send: false }
+    }, { sentAt: -Infinity })
+    .filter(({ send }) => send)
+
 export const subsequentTipHeights = tipHeight$ =>
   tipHeight$.distinctUntilChanged().skip(1)
 
@@ -263,6 +279,10 @@ export default function main(
 
   /// User actions
   , page$     = route()
+  , bitcoinUsdValuePage$ = page$
+      .map(({ pathname }) => pathname.replace(/\/$/, '') || '/')
+      .map(pathname => isBitcoinOrLiquidMainnet && isBitcoinUsdValuePage(pathname) ? pathname : null)
+      .distinctUntilChanged()
   , goHome$ = route('/')
   , goAPILanding$= route('/explorer-api')
   , goBlocks$   = route('/blocks/recent').map(loc => ({ start_height: loc.query.start != null ? +loc.query.start : null }))
@@ -619,6 +639,7 @@ export default function main(
 
   // Bitcoin price chart data
   , bitcoinMarketChart$ = reply('bitcoin-market-chart').startWith(null)
+  , bitcoinPrice$ = bitcoinMarketChart$.map(getLatestBitcoinPrice).distinctUntilChanged().shareReplay(1)
 
   // Transaction analysis
   , txAnalysis$ = tx$.filter(Boolean)
@@ -731,7 +752,7 @@ export default function main(
                      , dashboardEpochStartBlock$, dashboardPreviousDifficultyBlock$
                      , newBlockEntries$, newTxEntries$
                      , goBlock$, block$, blockStatus$, blockTxs$, nextBlockTxs$, prevBlockTxs$, openBlock$
-                     , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$
+                     , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$, bitcoinPrice$
                      , tx$, txBlock$, previousBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
@@ -860,8 +881,20 @@ export default function main(
       )
        .mapTo(                 { category: 'recent',     method: 'GET', path: '/mempool/recent', bg: true })
 
-    // the market chart contains hourly samples and uses the slow cadence
-    , pollViewing(pollIntervalsMs.slow, 'dashBoard', view$)
+    // One shared feed supplies the chart and all mainnet BTC/LBTC amounts. Its
+    // timer spans all price pages, and page entry reuses a price requested
+    // within the slow interval. Other networks keep dashboard-only fetching.
+    , (isBitcoinOrLiquidMainnet
+        ? skipWhileFresh(
+            pollIntervalsMs.slow,
+            () => pollingScheduler ? pollingScheduler.now() : Date.now(),
+            O.merge(
+              bitcoinUsdValuePage$.filter(Boolean),
+              pollActive(pollIntervalsMs.slow, bitcoinUsdValuePage$.map(page => page ? true : null))
+            )
+          )
+        : O.merge(goHome$, pollViewing(pollIntervalsMs.slow, 'dashBoard', view$))
+      )
         .mapTo({ category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true })
 
     // Refresh the pending block template while the dashboard remains open. A new
@@ -872,8 +905,7 @@ export default function main(
     , goHome$.flatMap(_ =>  [{ category: 'blocks',    method: 'GET', path: '/blocks' }
                               , { category: 'recent',    method: 'GET', path: '/mempool/recent' }
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }
-                              , { category: 'mempool',    method: 'GET', path: '/mempool' }
-                              , { category: 'bitcoin-market-chart', method: 'GET', path: bitcoinMarketChartUrl, bg: true }])
+                              , { category: 'mempool',    method: 'GET', path: '/mempool' }])
 
     // fetch asset stats and USD prices only while viewing the Liquid dashboard
     , !showHighValueAssets ? O.empty() :
