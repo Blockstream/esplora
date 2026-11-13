@@ -74,6 +74,10 @@ Browser polling uses three shared cadence tiers defined in `client/src/const.js`
 - **Slow (10 minutes):** the Bitcoin market chart, the Liquid high-value-assets
   panel, and a block-list safety poll used to detect same-height reorganizations.
 
+On Bitcoin and Liquid mainnet, the market chart also supplies the USD values
+shown beside BTC amounts, so it polls on every page that shows them. Other
+networks poll it only on the dashboard.
+
 View-scoped polls run only while their view is active and the browser window is
 focused. Their first tick occurs after a full interval because route entry
 already requests the initial data. This avoids sending duplicate requests when

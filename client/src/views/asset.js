@@ -1,5 +1,5 @@
 import { last } from '../util'
-import { formatNumber, formatAssetAmount, formatSat } from './util'
+import { formatNumber, formatAssetAmount, formatSatWithUsd } from './util'
 import layout from './layout'
 import { txBox } from './tx'
 import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetName } from '../const'
@@ -73,16 +73,16 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
             : shortenValue(asset.asset_id)
       , stats = is_native_asset
           ? [
-              { title: 'TOTAL SUPPLY', value: formatSat(circulating) },
+              { title: 'TOTAL SUPPLY', value: formatSatWithUsd(circulating, { t, ...S }) },
               {
                 title: 'PEGGED IN',
-                value: formatSat(value(chain_stats.peg_in_amount) + value(mempool_stats.peg_in_amount))
+                value: formatSatWithUsd(value(chain_stats.peg_in_amount) + value(mempool_stats.peg_in_amount), { t, ...S })
               },
               {
                 title: 'PEGGED OUT',
-                value: formatSat(value(chain_stats.peg_out_amount) + value(mempool_stats.peg_out_amount))
+                value: formatSatWithUsd(value(chain_stats.peg_out_amount) + value(mempool_stats.peg_out_amount), { t, ...S })
               },
-              { title: 'BURNED', value: formatSat(total_burned) },
+              { title: 'BURNED', value: formatSatWithUsd(total_burned, { t, ...S }) },
               { title: 'TRANSACTIONS', value: formatNumber(total_txs) }
             ]
           : [

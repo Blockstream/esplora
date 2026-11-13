@@ -1,8 +1,9 @@
-import { formatSat, formatNumber, truncateTxid } from "./util";
+import { formatSatWithUsd, formatNumber, truncateTxid } from "./util";
 import loader from "../components/loading";
 import { CopyIcon, TxArrowsIcon } from "../components/icons";
 import { ConfidentialBadge } from "../components/status-badge";
 import { feeRateClass } from "../lib/fees";
+import { isBitcoinOrLiquidMainnet } from "../lib/network";
 
 const staticRoot = process.env.STATIC_ROOT || "";
 
@@ -13,7 +14,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
     ) : !txs.length ? (
       <p>{t`No recent transactions`}</p>
     ) : (
-      <div className="latest-transactions-table">
+      <div className={`latest-transactions-table${isBitcoinOrLiquidMainnet ? " transactions-with-usd-values" : ""}`}>
         <div className="table-header">
           <div className="table-header-icon-container">
             <TxArrowsIcon />
@@ -55,8 +56,7 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
                 <div className="transaction-table-field transaction-table-transaction-value">
                   <div className="transaction-table-field-label">{t`VALUE`}</div>
                   <div className="transaction-table-field-value">
-                    {txOverview.value != null ?
-                      formatSat(txOverview.value) : <ConfidentialBadge t={t} />}
+                    {txOverview.value == null ? <ConfidentialBadge t={t} /> : formatSatWithUsd(txOverview.value, { t, ...S })}
                   </div>
                 </div>
                 <div className="transaction-table-field transaction-table-transaction-size">
@@ -65,7 +65,9 @@ export const transactions = (txs, viewMore, { t, ...S }) => (
                 </div>
                 <div className={`transaction-table-field transaction-table-transaction-fee ${feeClass}`}>
                   <div className="transaction-table-field-label">{t`FEE`}</div>
-                  <div className="transaction-table-field-value">{`${feerate.toFixed(2)} sat/vB`}</div>
+                  <div className="transaction-table-field-value">
+                    {formatSatWithUsd(txOverview.fee, { t, ...S }, `${feerate.toFixed(2)} sat/vB`)}
+                  </div>
                 </div>
               </div>
               </a>

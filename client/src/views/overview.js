@@ -5,10 +5,7 @@ import { MempoolCongestion } from "../components/mempool-congestion";
 import { ReferenceLineChart } from "../components/reference-line-chart";
 import { estimateTypicalTransactionFeeUsd } from "../lib/fees";
 import { isBitcoinNetwork } from "../lib/network";
-import {
-  getBitcoinPrices,
-  getLatestBitcoinPrice,
-} from "../lib/market";
+import { getBitcoinPrices } from "../lib/market";
 import { formatFeeRate, formatUsd } from "./util";
 
 const staticRoot = process.env.STATIC_ROOT || "";
@@ -53,15 +50,15 @@ export const overview = ({
   feeEst,
   mempool,
   bitcoinMarketChart,
+  bitcoinPrice,
   t,
 } = {}) => {
   const latestBlock = blocks && blocks[0];
   const chartPrices = getChartPrices(bitcoinMarketChart);
-  const currentBitcoinPrice = getLatestBitcoinPrice(bitcoinMarketChart);
   const recommendedFeerate =
     feeEst && feeEst[feeEstimateTargets.average];
   const recommendedFeeUsd = estimateTypicalTransactionFeeUsd(
-    currentBitcoinPrice,
+    bitcoinPrice,
     recommendedFeerate,
   );
   return (
@@ -112,7 +109,7 @@ export const overview = ({
           iconSrc={`${staticRoot}img/icons/Bitcoin-menu-logo.svg`}
           headerValue={
             <span className="overview-bitcoin-price-chart-header-value">
-              <span>{formatUsd(currentBitcoinPrice, t`N/A`)}</span>
+              <span>{formatUsd(bitcoinPrice, t`N/A`)}</span>
               {getPercentDelta(chartPrices, t`N/A`)}
             </span>
           }

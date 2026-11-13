@@ -8,6 +8,11 @@
   "../style.css",
   "components/status-badge.css",
   "components/asset-icon.css",
+  "components/amount-with-usd.css",
+  "layout/transactions.css",
+  "layout/tx.css",
+  "layout/addr.css",
+  "layout/mempool.css",
   "layout/footer.css",
   "layout/asset.css"
 ]

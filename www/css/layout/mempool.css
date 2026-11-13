@@ -1,0 +1,16 @@
+@media (max-width: 1328px) {
+  .bitcoin-usd-values .mempool-page .stats-table > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 12px;
+    height: auto;
+    min-height: 52px;
+    padding: 8px 0;
+  }
+
+  .bitcoin-usd-values .mempool-page .stats-table > div > div:last-child {
+    margin-inline-start: auto;
+  }
+}
