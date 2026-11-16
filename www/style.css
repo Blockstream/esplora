@@ -61,8 +61,8 @@ a, a:link, a:visited, a:hover, a:focus {
   width: 100%;
   min-height: 100vh;
   max-width: 1328px;
-  padding: 0px var(--page-gap);
-  padding-top: 12px;
+  padding: var(--page-gap);
+  padding-bottom: 0px;
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
@@ -80,7 +80,7 @@ a, a:link, a:visited, a:hover, a:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
+  height: 70px;
 }
 
 .main-nav-container{
@@ -226,10 +226,6 @@ a, a:link, a:visited, a:hover, a:focus {
 }
 
 /** New Design Ends **/
-
-.navbar-brand {
-  height: 50px;
-}
 
 /* buttons */
 .btn-primary {
@@ -4621,6 +4617,7 @@ a.back-link img{
 
   .nav-container {
     flex-wrap: wrap;
+    height: auto;
   }
 
   .main-nav-container {
