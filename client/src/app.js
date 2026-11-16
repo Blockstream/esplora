@@ -41,8 +41,8 @@ import {
 import l10n, { defaultLang } from './l10n'
 import * as views from './views'
 
-const highValueAssetCategory = assetId => `dashboard-high-value-asset-${assetId}`
-    , highValueAssetPriceCategory = assetId => `dashboard-high-value-asset-price-${assetId}`
+const highValueAssetCategory = assetId => `high-value-asset-${assetId}`
+    , highValueAssetPriceCategory = assetId => `high-value-asset-price-${assetId}`
     , apiBase = (process.env.API_URL || '/api').replace(/\/+$/, '')
     , bitcoinMarketChartUrl = process.env.BITCOIN_MARKET_CHART_URL || 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly'
     , blockTemplatePollIntervalMs = pollIntervalsMs.fast
@@ -75,6 +75,9 @@ const highValueAssetCategory = assetId => `dashboard-high-value-asset-${assetId}
       ], [])
 
 const reservedPaths = [ 'mempool', 'assets', 'search' ]
+    , recentAssetsCount = 10
+    , assetListQueryKeys = [ 'start_index', 'sort_field', 'sort_dir', 'limit' ]
+    , isAssetListQuery = query => assetListQueryKeys.some(key => query[key] != null)
     , NEW_TABLE_ENTRY_MS = 2000
     , initialAutocompleteState = {
         query: '',
@@ -306,7 +309,10 @@ export default function main(
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets').map(loc => ({
+  , assetsRoute$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets')
+  , goAssets$ = assetsRoute$.filter(loc => !isAssetListQuery(loc.query))
+  , goLegacyAssetList$ = assetsRoute$.filter(loc => isAssetListQuery(loc.query))
+  , goAssetList$ = !process.env.IS_ELEMENTS ? O.empty() : route('/assets/all').map(loc => ({
       start_index: +loc.query.start_index || 0
     , sort_field: loc.query.sort_field != null ? loc.query.sort_field : 'name'
     , sort_dir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc'
@@ -585,8 +591,7 @@ export default function main(
         tipId: null
       })
 
-  // dashboard
-  , dashboardHighValueAssets$ = !showHighValueAssets
+  , highValueAssets$ = !showHighValueAssets
       ? O.of({})
       : O.merge(...highValueAssetDefinitions.reduce((replies, asset) => [
           ...replies,
@@ -612,7 +617,7 @@ export default function main(
   , dashboardState$ = O.combineLatest(
       blocks$,
       mempoolRecent$,
-      dashboardHighValueAssets$,
+      highValueAssets$,
       (blks, txs, highValueAssets) => ({
         dashblocks: blks.slice(0, 5),
         dashTxs: txs.slice(0, 11),
@@ -670,6 +675,7 @@ export default function main(
   // Assets List State
   , assetList$ = !process.env.IS_ELEMENTS ? O.empty() :
       reply('assetlist', true).map(r => ({ assets: r.body, total: r.headers['x-total-results'] || 493 }))
+  , recentAssets$ = !process.env.IS_ELEMENTS ? O.empty() : reply('recent-assets')
 
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
@@ -688,6 +694,7 @@ export default function main(
                   , goPush$.mapTo('pushtx')
                   , goScan$.mapTo('scan')
                   , goMempool$.mapTo('mempool')
+                  , goAssets$.mapTo('assets')
                   , goAssetList$.mapTo('assetList')
                   , error$.mapTo('error'))
       .combineLatest(isReady$, loading$, (view, isReady, loading) =>
@@ -724,6 +731,21 @@ export default function main(
           pollingScheduler
         ).filter(pollIndex => pollIndex == 0 || hasFocus())
 
+  , highValueAssetFetch$ = !showHighValueAssets ? O.empty() : O.merge(
+      O.merge(goHome$, pollViewing(pollIntervalsMs.slow, 'dashBoard', view$)).mapTo(true)
+    , O.merge(
+        view$.map(view => view == 'assets').distinctUntilChanged().filter(Boolean)
+      , pollViewing(pollIntervalsMs.standard, 'assets', view$)
+      ).mapTo(false)
+    )
+    .scan(({ sentAt }, ignoreFreshness) => {
+      const now = pollingScheduler ? pollingScheduler.now() : Date.now()
+      return ignoreFreshness || now - sentAt >= pollIntervalsMs.slow
+        ? { sentAt: now, send: true }
+        : { sentAt, send: false }
+    }, { sentAt: -Infinity, send: false })
+    .filter(({ send }) => send)
+
   , dashboardEpochStartHeight$ = dashboardLatestBlock$
       .map(block => block.height - (block.height % difficultyPeriod))
       .distinctUntilChanged()
@@ -740,6 +762,7 @@ export default function main(
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)
                    , asset$.filter(notNully).withLatestFrom(t$, (asset, t) => t`Asset: ${asset.asset_id}`)
+                   , goAssets$.withLatestFrom(t$, (_, t) => t`Registered assets`)
                    , goAssetList$.withLatestFrom(t$, (_, t) => t`Registered assets`)
                    , goPush$.withLatestFrom(t$, (_, t) => t`Broadcast transaction`)
                    , goMempool$.withLatestFrom(t$, (_, t) => t`Mempool`)
@@ -755,7 +778,7 @@ export default function main(
                      , mempool$, mempoolRecent$, feeEst$, bitcoinMarketChart$, bitcoinPrice$
                      , tx$, txBlock$, previousBlock$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, assetList$, goAssetList$, goAsset$, asset$, assetTxs$, unblinded$
+                     , assetMap$, assetList$, goAssetList$, recentAssets$, highValueAssets$, goAsset$, asset$, assetTxs$, unblinded$
                      , autocomplete$: autocomplete$.distinctUntilChanged(sameAutocompleteView)
                      , isReady$, loading$, page$, view$, title$
                      })
@@ -907,10 +930,7 @@ export default function main(
                               , { category: 'fee-est',    method: 'GET', path: '/fee-estimates' }
                               , { category: 'mempool',    method: 'GET', path: '/mempool' }])
 
-    // fetch asset stats and USD prices only while viewing the Liquid dashboard
-    , !showHighValueAssets ? O.empty() :
-        O.merge(goHome$, pollViewing(pollIntervalsMs.slow, 'dashBoard', view$))
-          .flatMap(_ => highValueAssetRequests)
+    , highValueAssetFetch$.flatMap(_ => highValueAssetRequests)
     //
     // elements/liquid only
     //
@@ -922,6 +942,9 @@ export default function main(
     // fetch asset list
     , goAssetList$.map(d => ({ category: 'assetlist',  method: 'GET', path: '/assets/registry'
           , query: { sort_field: d.sort_field, sort_dir: d.sort_dir, limit: d.limit, start_index: d.start_index } }))
+
+    , goAssets$.mapTo({ category: 'recent-assets', method: 'GET', path: '/assets/registry'
+          , query: { sort: 'created_at_desc', limit: recentAssetsCount } })
 
     // fetch asset and its txs
     , !process.env.IS_ELEMENTS ? O.empty() :
@@ -947,6 +970,7 @@ export default function main(
       searchResult$.filter(Boolean).map(result => ({ type: 'replace', ...result }))
     , selectAutocomplete$.map(result => ({ type: 'push', pathname: result.pathname }))
     , byHeight$.map(hash => ({ type: 'replace', pathname: `/block/${hash}` }))
+    , goLegacyAssetList$.map(loc => ({ type: 'replace', pathname: '/assets/all', search: (loc.search || '').replace(/^\?/, '') }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))

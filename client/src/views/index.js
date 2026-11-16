@@ -16,6 +16,7 @@ if (process.env.IS_ELEMENTS) {
   exports.asset = require('./asset').default
 
   if (process.env.ASSET_MAP_URL) {
+    exports.assets = require('./assets').default
     exports.assetList = require('./asset-list').default
   }
 }

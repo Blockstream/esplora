@@ -6,7 +6,7 @@ import {
   formatDollarAmount,
 } from "../lib/high-value-assets";
 
-export const highValueAssets = (t, assetData = {}) => {
+export const highValueAssets = (t, assetData = {}, { showViewMore = true } = {}) => {
   const rows = assets
     .map((asset, index) => {
       const data = assetData[asset.asset_id] || {};
@@ -61,12 +61,14 @@ export const highValueAssets = (t, assetData = {}) => {
           );
         })}
       </div>
-      <a className="view-more font-link-semibold" href="assets">
-        <span>{t`See More`}</span>
-        <div>
-          <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
-        </div>
-      </a>
+      {showViewMore ? (
+        <a className="view-more font-link-semibold" href="assets">
+          <span>{t`See More`}</span>
+          <div>
+            <img alt="" src={`${staticRoot}img/icons/arrow-right-blue.svg`} />
+          </div>
+        </a>
+      ) : ""}
     </div>
   );
 };

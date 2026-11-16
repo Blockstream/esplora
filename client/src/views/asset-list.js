@@ -13,14 +13,18 @@ const staticRoot = process.env.STATIC_ROOT || "";
 export default ({ assetList, goAssetList, loading, t, ...S }) => {
   const { assets, total } = assetList || {};
   const { start_index, sort_dir, sort_field, limit } = goAssetList;
-  const pageLink = `assets?sort_field=${encodeURIComponent(sort_field)}&sort_dir=${encodeURIComponent(sort_dir)}`;
+  const pageLink = `assets/all?sort_field=${encodeURIComponent(sort_field)}&sort_dir=${encodeURIComponent(sort_dir)}`;
   const reverseSortDir = encodeURIComponent(
     sort_dir === "asc" ? "desc" : "asc",
   );
 
   return layout(
-    <div key="assets">
-      <div className="container">
+    <div key="assetList">
+      <div className="container asset-list-page">
+        <a className="asset-list-back-link font-link-semibold" href="assets">
+          <ChevronLeftIcon />
+          <span>{t`Back to Assets Page`}</span>
+        </a>
         {!assets ? (
           <div className="load-more-container">{loader()}</div>
         ) : !assets.length ? (
@@ -44,35 +48,7 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
             </div>
 
             <div className={`asset-list-body ${loading ? "asset-list-body-loading" : ""}`}>
-              {assets.map((asset) => (
-                <a href={`asset/${asset.asset_id}`}>
-                  <div className="assets-table-link-row">
-                    <div className="assets-table-row">
-                      <div className="asset-list-name" data-label={t`Name`}>
-                        <span className="asset-list-field-value">
-                          <CurrencyDollarIcon className="currency-dollar" />
-                          {asset.name}
-                        </span>
-                      </div>
-                      <div className="asset-list-ticker" data-label={t`Ticker`}>
-                        <span className="asset-list-field-value">
-                          {asset.ticker || <em>None</em>}
-                        </span>
-                      </div>
-                      <div className="asset-list-total-supply" data-label={t`Total Supply`}>
-                        <span className="asset-list-field-value">
-                          {getSupply(asset, t)}
-                        </span>
-                      </div>
-                      <div className="asset-list-issuer-domain" data-label={t`Issuer domain`}>
-                        <span className="asset-list-field-value">
-                          {asset.entity.domain}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              ))}
+              {assets.map(asset => assetRow(asset, t))}
             </div>
             <div className="asset-list-footer">
               {paginationControls(total, start_index, limit, pageLink)}
@@ -85,6 +61,36 @@ export default ({ assetList, goAssetList, loading, t, ...S }) => {
   );
 };
 
+export const assetRow = (asset, t) => (
+  <a href={`asset/${asset.asset_id}`} key={asset.asset_id}>
+    <div className="assets-table-link-row">
+      <div className="assets-table-row">
+        <div className="asset-list-name" data-label={t`Name`}>
+          <span className="asset-list-field-value">
+            <CurrencyDollarIcon className="currency-dollar" />
+            {asset.name}
+          </span>
+        </div>
+        <div className="asset-list-ticker" data-label={t`Ticker`}>
+          <span className="asset-list-field-value">
+            {asset.ticker || <em>None</em>}
+          </span>
+        </div>
+        <div className="asset-list-total-supply" data-label={t`Total Supply`}>
+          <span className="asset-list-field-value">
+            {getSupply(asset, t)}
+          </span>
+        </div>
+        <div className="asset-list-issuer-domain" data-label={t`Issuer domain`}>
+          <span className="asset-list-field-value">
+            {(asset.entity && asset.entity.domain) || <em>None</em>}
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+);
+
 const sortHeader = (label, field, className, { sort_field, sort_dir, reverseSortDir }) => {
   if (!field) {
     return <p className={className}>{label}</p>;
@@ -96,7 +102,7 @@ const sortHeader = (label, field, className, { sort_field, sort_dir, reverseSort
     <ChevronDownIcon className={sort_field === field && sort_dir === "asc" ? "asset-sort-chevron-muted" : ""} />
   </span>;
 
-  return <a className={className} href={`assets?sort_field=${field}&sort_dir=${reverseSortDir}`}>{label} {sortIcon}</a>;
+  return <a className={className} href={`assets/all?sort_field=${field}&sort_dir=${reverseSortDir}`}>{label} {sortIcon}</a>;
 };
 
 const paginationControls = (total, startIndex, limit, pageLink) => {
