@@ -308,13 +308,28 @@ For user-issued assets, returns an object with:
   - `reissuance_tokens`: the number of reissuance tokens
   - `burned_reissuance_tokens`: the number of reissuance tokens burned
 
-If the asset is available on the registry, the following fields are returned as well:
+If the asset is available on the configured asset registry, the following fields are returned as well:
 
-- `contract`: the full json contract json committed in the issuance
-- `entity`: the entity linked to this asset. the only available type is currently `domain`, which is encoded as `{ "domain": "foobar.com>" }` (required)
-- `ticker`: a 3-5 characters ticker associated with the asset (optional)
-- `precision`: the number of decimal places for units of this asset (defaults to 0)
-- `name`: a description for the asset (up to 255 characters)
+- `contract`: the full JSON contract committed in the issuance, including custom fields
+- `entity`: the entity linked to this asset, e.g. `{ "domain": "foobar.com" }` (omitted if null)
+- `ticker`: the ticker associated with the asset (optional)
+- `precision`: the number of decimal places for units of this asset
+- `name`: the asset name
+- `registry`: the registry v2 record, containing `asset_id`, `contract`, `initial_issuer_pubkey`, `initial_issuer_pubkey_source`, `current_issuer_pubkey`, `issuer_pubkey_history`, `mutable`, `admin`, `icon`, `status`, `created_at` and `updated_at`, plus any additional registry fields. `icon.href` is an absolute HTTP(S) URL; an invalid icon is returned as null.
+
+The `registry_status` field and `X-Asset-Registry-Status` header report the metadata lookup result:
+
+- `available`: fresh registry metadata is included.
+- `not_found`: the registry has no entry for the asset; only local asset data is returned.
+- `stale`: expired cached registry metadata is included.
+- `unavailable`: the lookup failed with no cached metadata; only local asset data is returned.
+
+Both are omitted when no registry is configured or the asset is the native asset.
+An unknown local asset returns HTTP 404.
+
+Successful registry lookups, including missing entries, are cached internally for 15 seconds.
+Expired missing entries wait for a refresh. Responses with `stale` or `unavailable` use
+`Cache-Control: no-store`; other successful responses use `Cache-Control: public, max-age=10`.
 
 Example native asset:
 
@@ -367,9 +382,18 @@ Not available for assets with blinded issuances.
 If `/decimal` is specified, returns the supply as a decimal according to the asset's divisibility.
 Otherwise, returned in base units.
 
+Both return plain text. Decimal amounts are exact, with trailing fractional zeros omitted.
+The native asset uses precision 8; issued assets use the registry contract's precision,
+or 0 when no registry is configured or the registry has no entry.
+
+`/decimal` includes the `X-Asset-Registry-Status` header described above. Stale metadata
+uses `Cache-Control: no-store`. If the registry lookup fails with no cached metadata,
+returns a registry error (see below). The base-unit endpoint does not consult the registry.
+Other supply formats return HTTP 404.
+
 ### `GET /assets/registry`
 
-Get the list of issued assets in the asset registry.
+Get the list of issued assets from the configured registry v2 service.
 
 Query string parameters:
 
@@ -377,11 +401,38 @@ Query string parameters:
 - `limit`: maximum number of assets to return. defaults to 25, maximum 100.
 - `sort_field`: field to sort assets by. one of `name`, `ticker` or `domain`. defaults to `ticker`.
 - `sort_dir`: sorting direction. one of `asc` or `desc`. defaults to `asc`.
+- `sort`: one of `asset_id_asc`, `asset_id_desc`, `name_asc`, `name_desc`, `ticker_asc`, `ticker_desc`, `domain_asc`, `domain_desc`, `created_at_asc`, `created_at_desc`, `updated_at_asc` or `updated_at_desc`. Cannot be combined with `sort_field` or `sort_dir`.
+- `asset_id`: asset ID filter, 1-64 hexadecimal characters.
+- `domain`: valid ASCII domain name, 3-255 characters.
+- `ticker`: ticker filter, up to 24 characters.
+- `name`: name filter, up to 255 characters.
+- `asset_type`: asset type filter.
+- `category_tag`: category tag filter. May be repeated, e.g. `category_tag=stablecoin&category_tag=bond`.
+- `trading_venue`: trading venue filter.
+- `created_after`, `updated_after`: RFC 3339 date-time filters, e.g. `2026-01-01T00:00:00Z`.
 
-Assets are returned in the same format as in `GET /asset/:asset_id`.
+Filters are optional and forwarded to the registry, which defines their matching rules and accepted values.
+`asset_type`, `category_tag` and `trading_venue` must contain 1-64 ASCII letters, digits, `-`, `_` or `.`.
+`ticker` and `name` cannot contain NUL. URL-encode query values, including `+` in time offsets.
 
+Returns a JSON array of assets in the same format as `GET /asset/:asset_id`, including
+`registry` metadata, but without `registry_status`. The `X-Total-Results` header contains
+the registry's total matching count. `start_index` and `limit` page over the registry's
+ordering; `limit=0` returns an empty array with the total count.
 
-The total number of results will be returned as the `x-total-results` header.
+Responses use `Cache-Control: no-store`. With no registry configured, returns an empty
+array with a total of 0. If a listed asset is not yet indexed locally, returns HTTP 503
+with `Retry-After: 10` and `Cache-Control: no-store`, without `X-Total-Results`.
+
+Registry errors from `/assets/registry` and `/asset/:asset_id/supply/decimal` return plain text:
+
+- HTTP 400: invalid parameters or registry HTTP 400/422.
+- HTTP 503: registry HTTP 429/503, overload, or local index failure.
+- HTTP 504: registry timeout.
+- HTTP 502: other registry errors, including connection failures or invalid responses.
+
+`X-Asset-Registry-Status` and `X-Total-Results` are exposed to browser clients through
+`Access-Control-Expose-Headers` on Elements/Liquid builds.
 
 ## Transaction format
 
