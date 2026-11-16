@@ -1,0 +1,18 @@
+.assets-page,
+.asset-list-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
+}
+
+.asset-list-back-link {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-family: "Rigid Square", sans-serif;
+}
+
+.recent-assets-table .table-header {
+  white-space: normal;
+}

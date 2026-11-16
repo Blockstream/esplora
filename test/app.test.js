@@ -201,7 +201,7 @@ const makeTx = (txid, status = { confirmed: false }) => ({
 const highValueAssetRequestCount = (requests, frame) => requests.filter(
   (request) =>
     request.frame === frame &&
-    request.category.startsWith("dashboard-high-value-asset-"),
+    request.category.startsWith("high-value-asset-"),
 ).length;
 
 test("requests and consumes block templates on an Elements dashboard", () => {
@@ -404,7 +404,7 @@ test("uses the configured dashboard request cadences without immediate duplicate
   );
 
   const highValueAssetRequests = requests.filter((request) =>
-    request.category.startsWith("dashboard-high-value-asset-"));
+    request.category.startsWith("high-value-asset-"));
   assert.deepEqual(
     [...new Set(highValueAssetRequests.map((request) => request.frame))],
     slowFrames,
@@ -1183,4 +1183,124 @@ test("refocusing after a failed lookup retries it", () => {
 
   assert.equal(states[states.length - 1].loading, true);
   subscription.unsubscribe();
+});
+
+const highValueAssetBatchFrames = (requests) => [...new Set(requests
+  .filter((request) => request.category.startsWith("high-value-asset-"))
+  .map((request) => request.frame))];
+
+const runPages = (pages, maxFrames) => {
+  const scheduler = new TestScheduler(() => {});
+  const page$ = new Subject();
+  const requests = [];
+
+  scheduler.maxFrames = maxFrames;
+  main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+  }), pollingOptions(scheduler)).HTTP
+    .subscribe((request) => requests.push({ ...request, frame: scheduler.frame }));
+  for (const [frame, pathname] of pages) {
+    scheduler.schedule(() => page$.next({ pathname, search: "", hash: "" }), frame);
+  }
+  scheduler.flush();
+  return requests;
+};
+
+const hour = 60 * 60 * 1000;
+const minute = 60 * 1000;
+
+test("requests the most recently registered assets on the assets page", () => {
+  const requests = runPages([[0, "/assets"]], 0);
+
+  assert.deepEqual(
+    requests.filter((request) => request.category === "recent-assets")
+      .map(({ url, query }) => ({ url, query })),
+    [{ url: "/api/assets/registry", query: { sort: "created_at_desc", limit: 10 } }],
+  );
+  assert.equal(requests.filter((request) => request.category === "assetlist").length, 0);
+});
+
+test("requests the full registry list on the all-assets page", () => {
+  const requests = runPages([[0, "/assets/all"]], hour - 1);
+
+  assert.deepEqual(
+    requests.filter((request) => request.category === "assetlist")
+      .map(({ query }) => query),
+    [{ sort_field: "name", sort_dir: "asc", limit: 50, start_index: 0 }],
+  );
+  assert.equal(requests.filter((request) => request.category === "recent-assets").length, 0);
+  assert.deepEqual(highValueAssetBatchFrames(requests), []);
+});
+
+test("refreshes high-value assets once per slow interval on a focused assets page", () => {
+  const requests = runPages([[0, "/assets"]], hour - 1);
+  const frames = highValueAssetBatchFrames(requests);
+
+  assert.deepEqual(frames, [0, 1, 2, 3, 4, 5].map((n) => n * pollIntervalsMs.slow));
+  for (const frame of frames) {
+    assert.equal(
+      highValueAssetRequestCount(requests, frame),
+      highValueAssetDefinitions.length * 2,
+    );
+  }
+});
+
+test("reuses fresh high-value assets while browsing between asset pages", () => {
+  const pages = [];
+  for (let n = 0; n < 60; n++) {
+    pages.push([n * minute, n % 2 ? "/assets/all" : "/assets"]);
+  }
+  const frames = highValueAssetBatchFrames(runPages(pages, hour - 1));
+
+  assert.deepEqual(frames, [0, 10, 20, 30, 40, 50].map((n) => n * minute));
+});
+
+test("reuses dashboard high-value assets on the assets page until they expire", () => {
+  const frames = highValueAssetBatchFrames(runPages([
+    [0, "/"],
+    [2 * minute, "/assets"],
+  ], 15 * minute));
+
+  assert.deepEqual(frames, [0, pollIntervalsMs.slow]);
+});
+
+test("redirects old assets list links to the all-assets page with their parameters", () => {
+  const page$ = new Subject();
+  const requests = [];
+  const navigations = [];
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+  }));
+
+  sinks.HTTP.subscribe((request) => requests.push(request));
+  sinks.route.subscribe((navigation) => navigations.push(navigation));
+  page$.next({ pathname: "/assets", search: "?sort_field=ticker&start_index=50", hash: "" });
+
+  assert.deepEqual(navigations, [{
+    type: "replace",
+    pathname: "/assets/all",
+    search: "sort_field=ticker&start_index=50",
+  }]);
+  assert.equal(requests.filter((request) =>
+    request.category === "recent-assets" ||
+    request.category.startsWith("high-value-asset-")).length, 0);
+
+  page$.next({ pathname: "/assets/all", search: "?sort_field=ticker&start_index=50", hash: "" });
+  assert.deepEqual(
+    requests.filter((request) => request.category === "assetlist").map(({ query }) => query),
+    [{ sort_field: "ticker", sort_dir: "asc", limit: 50, start_index: 50 }],
+  );
+});
+
+test("keeps the assets overview for links without list parameters", () => {
+  const page$ = new Subject();
+  const navigations = [];
+  const sinks = main(makeSources({
+    route: makeRouteDriver(() => page$)(empty$),
+  }));
+
+  sinks.route.subscribe((navigation) => navigations.push(navigation));
+  page$.next({ pathname: "/assets", search: "?lang=en", hash: "" });
+
+  assert.deepEqual(navigations, []);
 });

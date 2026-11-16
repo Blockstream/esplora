@@ -15,5 +15,6 @@
   "layout/addr.css",
   "layout/mempool.css",
   "layout/footer.css",
-  "layout/asset.css"
+  "layout/asset.css",
+  "layout/assets.css"
 ]
