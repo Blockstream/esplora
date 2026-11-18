@@ -24,7 +24,7 @@ module.exports = history => goto$ => {
     .map(loc =>({...loc, pathname: stripBase(loc.pathname), query: parseQuery(loc) }))
 
   const page$ = history$
-    .filter((loc, i) => i == 0 || !loc.state || !loc.state.noRouting)
+    .filter((loc, i) => i == 0 || !loc.noRouting)
 
   function route(path) {
     if (!path) return page$

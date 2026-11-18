@@ -113,6 +113,7 @@ const makeSources = ({
   searchKeydown$ = empty$,
   searchBlur$ = empty$,
   blockGridEvent$ = empty$,
+  toggleTxClick$ = empty$,
   responseStreams = {},
   route = makeRoute(),
   selectedCategories = [],
@@ -121,7 +122,9 @@ const makeSources = ({
     select: (selector) => ({
       elements: () => empty$,
       events: (eventName) =>
-        selector === ".block-grid__canvas" &&
+        selector === "[data-toggle-tx]" && eventName === "click"
+          ? toggleTxClick$
+          : selector === ".block-grid__canvas" &&
         eventName === blockGridTransactionSelectEvent
           ? blockGridEvent$
           : selector === ".search-bar-input" && eventName === "input"
@@ -855,6 +858,92 @@ test("navigates a selected pending-block transaction in app history", () => {
       pathname: `/tx/${txid}`,
     },
   ]);
+});
+
+test("route driver suppresses noRouting updates and permits subsequent back navigation", () => {
+  const historyEntries = new Subject();
+  const route = makeRouteDriver(() => historyEntries)(empty$);
+  const emissions = [];
+
+  route().subscribe((loc) => emissions.push(loc));
+
+  historyEntries.next({ pathname: "/tx/a", search: "", hash: "" });
+  assert.equal(emissions.length, 1);
+  assert.equal(emissions[0].pathname, "/tx/a");
+
+  historyEntries.next({ pathname: "/tx/a", search: "?expand", hash: "", noRouting: true });
+  assert.equal(emissions.length, 1);
+
+  historyEntries.next({ pathname: "/tx/b", search: "?input:0", hash: "" });
+  assert.equal(emissions.length, 2);
+  assert.equal(emissions[1].pathname, "/tx/b");
+
+  historyEntries.next({ pathname: "/tx/a", search: "?expand", hash: "" });
+  assert.equal(emissions.length, 3);
+  assert.equal(emissions[2].pathname, "/tx/a");
+  assert.equal(emissions[2].query.expand, true);
+});
+
+test("updates query options with noRouting when expanding details and routes on back navigation", () => {
+  const txid1 = "1".repeat(64);
+  const txid2 = "2".repeat(64);
+  const toggleTxClick$ = new Subject();
+  const txResponses = new Subject();
+  const routeUpdates = [];
+  const httpRequests = [];
+  let currentState;
+
+  const history$ = new Subject();
+  const route = makeRouteDriver(() => history$)(empty$);
+
+  const sources = makeSources({
+    route,
+    toggleTxClick$,
+    responseStreams: { tx: txResponses },
+  });
+
+  const sinks = main(sources);
+  sinks.route.subscribe((update) => routeUpdates.push(update));
+  sinks.HTTP.subscribe((req) => httpRequests.push(req));
+  sinks.state.subscribe((s) => { currentState = s; });
+
+  // 1. Initial page load on tx1
+  history$.next({ pathname: `/tx/${txid1}`, search: "", hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid1, { confirmed: true }) }));
+  assert.equal(currentState.tx.txid, txid1);
+
+  // 2. User opens details on tx1
+  toggleTxClick$.next({ ownerTarget: { dataset: { toggleTx: txid1 } } });
+  assert.equal(routeUpdates.length, 1);
+  assert.deepEqual(routeUpdates[0], {
+    type: "replace",
+    pathname: `/tx/${txid1}`,
+    hash: "",
+    search: "?expand",
+    noRouting: true,
+  });
+
+  // Programmatic replace occurs with noRouting: true
+  history$.next({ pathname: `/tx/${txid1}`, search: "?expand", hash: "", noRouting: true });
+
+  // 3. User navigates to tx2 (e.g. clicking spent-by link)
+  history$.next({ pathname: `/tx/${txid2}`, search: "?input:0", hash: "" });
+  txResponses.next(O.of({ body: makeTx(txid2, { confirmed: true }) }));
+  assert.equal(currentState.tx.txid, txid2);
+  // Details collapse on navigation, but tx2 has no ?expand to remove
+  assert.equal(routeUpdates.length, 1);
+
+  // 4. User hits browser back button to return to tx1
+  const reqCountBeforeBack = httpRequests.length;
+  history$.next({ pathname: `/tx/${txid1}`, search: "?expand", hash: "" });
+
+  const newTxReqs = httpRequests.slice(reqCountBeforeBack).filter((r) => r.category === "tx");
+  assert.equal(newTxReqs.length, 1);
+  assert.equal(newTxReqs[0].url, `/api/tx/${txid1}`);
+
+  txResponses.next(O.of({ body: makeTx(txid1, { confirmed: true }) }));
+  assert.equal(currentState.tx.txid, txid1);
+  assert.equal(currentState.view, "tx");
 });
 
 test("requests predecessor metadata for confirmed block intervals", () => {
