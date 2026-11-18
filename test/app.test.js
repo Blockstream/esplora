@@ -114,6 +114,7 @@ const makeSources = ({
   searchBlur$ = empty$,
   blockGridEvent$ = empty$,
   toggleTxClick$ = empty$,
+  pendingDetailsClick$ = empty$,
   responseStreams = {},
   route = makeRoute(),
   selectedCategories = [],
@@ -127,6 +128,8 @@ const makeSources = ({
           : selector === ".block-grid__canvas" &&
         eventName === blockGridTransactionSelectEvent
           ? blockGridEvent$
+          : selector === "[data-toggle-pending-block-details]" && eventName === "click"
+          ? pendingDetailsClick$
           : selector === ".search-bar-input" && eventName === "input"
           ? searchInput$
           : selector === ".search-bar-input" && eventName === "focus"
@@ -884,66 +887,149 @@ test("route driver suppresses noRouting updates and permits subsequent back navi
   assert.equal(emissions[2].query.expand, true);
 });
 
-test("updates query options with noRouting when expanding details and routes on back navigation", () => {
+// Like a browser, persists only the serialized history state, not the full location.
+const makeBrowserWindow = (url) => {
+  const listeners = [];
+  const location = {};
+  const entries = [];
+  let index = -1;
+  const visit = (entry) => {
+    const { pathname, search, hash } = new URL(entry.url, "https://example.com");
+    Object.assign(location, { pathname, search, hash });
+  };
+  const write = (state, url) => {
+    entries[index] = { state: structuredClone(state), url };
+    visit(entries[index]);
+  };
+  const history = {
+    get length() { return entries.length; },
+    get state() { return entries[index].state; },
+    pushState(state, _, url) { entries.length = ++index; write(state, url); },
+    replaceState(state, _, url) { write(state, url); },
+    back() {
+      visit(entries[--index]);
+      listeners.forEach((listener) => listener({ state: entries[index].state }));
+    },
+  };
+  history.pushState(null, null, url);
+  return {
+    location,
+    history,
+    navigator: { userAgent: "node" },
+    document: {
+      createElement: () => ({}),
+      querySelector: () => ({ getAttribute: () => "/" }),
+    },
+    addEventListener: (type, listener) => type == "popstate" && listeners.push(listener),
+    removeEventListener: () => {},
+  };
+};
+
+test("toggling details updates ?expand without routing and Back routes through the browser history adapter", (t) => {
   const txid1 = "1".repeat(64);
   const txid2 = "2".repeat(64);
+  const browserWindow = makeBrowserWindow(`/tx/${txid1}`);
+  global.window = browserWindow;
+  global.document = browserWindow.document;
+  t.after(() => { delete global.window; delete global.document; });
+  const { makeHistoryDriver } = require("../client/node_modules/@cycle/history");
+
   const toggleTxClick$ = new Subject();
   const txResponses = new Subject();
-  const routeUpdates = [];
-  const httpRequests = [];
-  let currentState;
-
-  const history$ = new Subject();
-  const route = makeRouteDriver(() => history$)(empty$);
-
-  const sources = makeSources({
+  const routeUpdates$ = new Subject();
+  const route = makeRouteDriver(makeHistoryDriver({ basename: "/" }))(routeUpdates$);
+  const sinks = main(makeSources({
     route,
     toggleTxClick$,
     responseStreams: { tx: txResponses },
-  });
+  }));
+  const txRequests = [];
+  const pages = [];
+  let html;
+  route().subscribe((page) => pages.push(page));
+  sinks.HTTP.filter((req) => req.category === "tx").subscribe((req) => txRequests.push(req.url));
+  sinks.DOM.subscribe((vnode) => { html = render(vnode); });
+  sinks.route.subscribe(routeUpdates$);
 
-  const sinks = main(sources);
-  sinks.route.subscribe((update) => routeUpdates.push(update));
-  sinks.HTTP.subscribe((req) => httpRequests.push(req));
-  sinks.state.subscribe((s) => { currentState = s; });
-
-  // 1. Initial page load on tx1
-  history$.next({ pathname: `/tx/${txid1}`, search: "", hash: "" });
   txResponses.next(O.of({ body: makeTx(txid1, { confirmed: true }) }));
-  assert.equal(currentState.tx.txid, txid1);
+  assert.deepEqual(txRequests, [`/api/tx/${txid1}`]);
+  assert.match(html, new RegExp(txid1));
 
-  // 2. User opens details on tx1
   toggleTxClick$.next({ ownerTarget: { dataset: { toggleTx: txid1 } } });
-  assert.equal(routeUpdates.length, 1);
-  assert.deepEqual(routeUpdates[0], {
-    type: "replace",
-    pathname: `/tx/${txid1}`,
-    hash: "",
-    search: "?expand",
-    noRouting: true,
-  });
+  assert.equal(browserWindow.location.search, "?expand");
+  assert.equal(txRequests.length, 1);
 
-  // Programmatic replace occurs with noRouting: true
-  history$.next({ pathname: `/tx/${txid1}`, search: "?expand", hash: "", noRouting: true });
-
-  // 3. User navigates to tx2 (e.g. clicking spent-by link)
-  history$.next({ pathname: `/tx/${txid2}`, search: "?input:0", hash: "" });
+  routeUpdates$.next({ type: "push", pathname: `/tx/${txid2}` });
   txResponses.next(O.of({ body: makeTx(txid2, { confirmed: true }) }));
-  assert.equal(currentState.tx.txid, txid2);
-  // Details collapse on navigation, but tx2 has no ?expand to remove
-  assert.equal(routeUpdates.length, 1);
+  assert.deepEqual(txRequests.slice(1), [`/api/tx/${txid2}`]);
+  assert.match(html, new RegExp(txid2));
 
-  // 4. User hits browser back button to return to tx1
-  const reqCountBeforeBack = httpRequests.length;
-  history$.next({ pathname: `/tx/${txid1}`, search: "?expand", hash: "" });
-
-  const newTxReqs = httpRequests.slice(reqCountBeforeBack).filter((r) => r.category === "tx");
-  assert.equal(newTxReqs.length, 1);
-  assert.equal(newTxReqs[0].url, `/api/tx/${txid1}`);
-
+  browserWindow.history.back();
+  assert.equal(browserWindow.location.search, "?expand");
+  assert.deepEqual(txRequests.slice(2), [`/api/tx/${txid1}`]);
   txResponses.next(O.of({ body: makeTx(txid1, { confirmed: true }) }));
-  assert.equal(currentState.tx.txid, txid1);
-  assert.equal(currentState.view, "tx");
+  assert.match(html, new RegExp(txid1));
+  assert.doesNotMatch(html, new RegExp(txid2));
+  assert.equal(pages.at(-1).state.scrollKey, pages[0].key ?? null);
+});
+
+test("restores pending block details from dashboard history entries", () => {
+  const pages$ = new Subject();
+  const routeUpdates$ = new Subject();
+  const pendingDetailsClick$ = new Subject();
+  const blocksResponses = new Subject();
+  const recentResponses = new Subject();
+  const route = makeRouteDriver(updates$ => {
+    updates$.subscribe(update => pages$.next({ ...update, key: "replaced" }));
+    return pages$;
+  })(routeUpdates$);
+  const sinks = main(makeSources({
+    route,
+    pendingDetailsClick$,
+    responseStreams: { blocks: blocksResponses, recent: recentResponses },
+  }));
+  const requests = [];
+  let update, html;
+  sinks.route.subscribe(next => { update = next; routeUpdates$.next(next); });
+  sinks.HTTP.subscribe(request => requests.push(request));
+  sinks.DOM.subscribe(vnode => { html = render(vnode); });
+
+  const dashboard = { pathname: "/", search: "?example=1", hash: "#next", key: "home" };
+  pages$.next(dashboard);
+  blocksResponses.next(O.of({ body: [{
+    id: "a".repeat(64), height: 100, timestamp: 1_700_000_000,
+    tx_count: 1, size: 500, weight: 1_000,
+  }] }));
+  recentResponses.next(O.of({ body: [] }));
+  assert.match(html, /class="pending-block-details-button" aria-expanded="true"/);
+  assert.match(html, /expanded-pending-block-details/);
+
+  const requestCount = requests.length;
+  const toggle = () => pendingDetailsClick$.next({ ownerTarget: { dataset: {} } });
+  toggle();
+  assert.equal(update.type, "replace");
+  assert.equal(update.search, "?example=1&pending-block=collapsed");
+  assert.equal(update.hash, dashboard.hash);
+  assert.doesNotMatch(html, /expanded-pending-block-details/);
+  assert.equal(requests.length, requestCount);
+
+  const away = { pathname: "/explorer-api", search: "", hash: "", key: "away" };
+  pages$.next(away);
+  // A browser history traversal restores the URL, history state and key.
+  pages$.next({ ...dashboard, search: update.search, state: update.state, key: "replaced" });
+  assert.match(html, /class="pending-block-details-button" aria-expanded="false"/);
+  assert.doesNotMatch(html, /expanded-pending-block-details/);
+
+  const requestsAfterBack = requests.length;
+  toggle();
+  assert.equal(update.search, dashboard.search);
+  assert.equal(update.state.scrollKey, dashboard.key);
+  assert.match(html, /expanded-pending-block-details/);
+  assert.equal(requests.length, requestsAfterBack);
+
+  pages$.next(away);
+  pages$.next({ ...dashboard, state: update.state, key: "replaced" });
+  assert.match(html, /expanded-pending-block-details/);
 });
 
 test("requests predecessor metadata for confirmed block intervals", () => {
