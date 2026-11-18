@@ -177,6 +177,21 @@ export const parseTipHeight = text => {
 
 const isUnconfirmedTx = tx => !!tx && !tx.status.confirmed
 
+const pendingBlockDetailsAreOpen = ({ query }) => query['pending-block'] !== 'collapsed'
+
+const pageScrollKey = ({ key, state }) =>
+  state && state.scrollKey !== undefined ? state.scrollKey : key
+
+const replaceQueryWithoutRouting = (page, search) => ({
+  type: 'replace',
+  pathname: page.pathname,
+  hash: page.hash,
+  search,
+  // Updating URL details (like ?expand) shouldn't trigger routing. Keep this one-off flag outside state so it isn't persisted.
+  noRouting: true,
+  state: { ...page.state, scrollKey: pageScrollKey(page) ?? null }
+})
+
 const isBitcoinUsdValuePage = pathname =>
   pathname == '/' || pathname == '/tx/recent' || pathname == '/mempool'
   || /^\/(tx|block)\/[a-f0-9]{64}\/?$/i.test(pathname)
@@ -559,11 +574,9 @@ export default function main(
   // Currently collapsed tx/block ("details")
   , openTx$ = togTx$.startWith(null).scan((prev, txid) => prev == txid ? null : txid)
   , openBlock$ = togBlock$.startWith(null).scan((prev, blockhash) => prev == blockhash ? null : blockhash)
-  , pendingBlockDetailsOpen$ = togPendingBlockDetails$
-      .mapTo(open => !open)
-      .merge(page$.mapTo(_ => false))
-      .startWith(false)
-      .scan((open, mod) => mod(open))
+  , pendingBlockDetailsOpen$ = route.all$
+      .map(pendingBlockDetailsAreOpen)
+      .distinctUntilChanged()
 
   // Spending txs map (reset on every page nav)
   , spends$ = O.merge(
@@ -791,7 +804,7 @@ export default function main(
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
     .filter(([ expand, page ]) => !!page.query.expand != expand)
-    .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
+    .map(([ expand, page ]) => replaceQueryWithoutRouting(page, updateQuery(page.query, { expand })))
 
   /// Sinks
 
@@ -973,7 +986,12 @@ export default function main(
     , goLegacyAssetList$.map(loc => ({ type: 'replace', pathname: '/assets/all', search: (loc.search || '').replace(/^\?/, '') }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, noRouting: true }))
+    , updateQuery$
+    , togPendingBlockDetails$
+        .withLatestFrom(route.all$, (_, page) => page)
+        .filter(page => page.pathname == '/')
+        .map(page => replaceQueryWithoutRouting(page,
+          updateQuery(page.query, { 'pending-block': pendingBlockDetailsAreOpen(page) ? 'collapsed' : false })))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(dropBlindingFragment(q))}` }))
   )
 
@@ -1009,7 +1027,7 @@ export default function main(
     })
 
     // Reset scrolling when navigating to a new page (but not when hitting 'back')
-    page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), loc.key ])
+    page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), pageScrollKey(loc) ?? null ])
       .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
       .subscribe(_ => window.scrollTo(0, 0))
 
