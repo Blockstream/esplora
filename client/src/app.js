@@ -790,7 +790,7 @@ export default function main(
     )
     .map(Boolean).distinctUntilChanged()
     .withLatestFrom(route.all$)
-    .filter(([ expand, page ]) => page.query.expand != expand)
+    .filter(([ expand, page ]) => !!page.query.expand != expand)
     .map(([ expand, page ]) => [ page.pathname, page.hash, updateQuery(page.query, { expand }) ])
 
   /// Sinks
@@ -973,7 +973,7 @@ export default function main(
     , goLegacyAssetList$.map(loc => ({ type: 'replace', pathname: '/assets/all', search: (loc.search || '').replace(/^\?/, '') }))
     , pushedtx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
     , selectBlockGridTx$.map(txid => ({ type: 'push', pathname: `/tx/${txid}` }))
-    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, state: { noRouting: true } }))
+    , updateQuery$.map(([ pathname, hash, qs ]) => ({ type: 'replace', pathname, hash, search: qs, noRouting: true }))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(dropBlindingFragment(q))}` }))
   )
 
