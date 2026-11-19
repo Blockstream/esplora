@@ -17,6 +17,8 @@
         "browserify": "^17.0.0",
         "bundle-collapser": "^1.4.0",
         "cssjanus": "^2.0.1",
+        "highlight.js": "^11.12.0",
+        "marked": "^4.3.0",
         "move-decimal-point": "0.0.4",
         "patch-package": "^8.0.1",
         "pofile": "^1.1.0",
@@ -3454,6 +3456,15 @@
         "node": ">= 0.4"
       }
     },
+    "node_modules/highlight.js": {
+      "version": "11.12.0",
+      "resolved": "https://registry.npmjs.org/highlight.js/-/highlight.js-11.12.0.tgz",
+      "integrity": "sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==",
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=12.0.0"
+      }
+    },
     "node_modules/hmac-drbg": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz",
@@ -3999,6 +4010,18 @@
       },
       "engines": {
         "node": ">=6"
+      }
+    },
+    "node_modules/marked": {
+      "version": "4.3.0",
+      "resolved": "https://registry.npmjs.org/marked/-/marked-4.3.0.tgz",
+      "integrity": "sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==",
+      "license": "MIT",
+      "bin": {
+        "marked": "bin/marked.js"
+      },
+      "engines": {
+        "node": ">= 12"
       }
     },
     "node_modules/math-intrinsics": {

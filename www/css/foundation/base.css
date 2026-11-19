@@ -8,6 +8,8 @@ body {
   padding: 0px;
   line-height: 1.5;
   overflow-x: hidden;
+  /* Clips like hidden without making body a scroll container, which would disable position: sticky. */
+  overflow-x: clip;
 }
 
 body[lang=he] {

@@ -10,6 +10,8 @@ import { isBitcoinNetwork, isBitcoinOrLiquidMainnet } from './lib/network'
 import { normalizeSearchQuery } from './lib/search-query'
 import { debounceAutocompleteQueries, getAutocompletePlan } from './lib/search-autocomplete'
 import getPrivacyAnalysis from './lib/privacy-analysis'
+import { buildDocsSearchIndex, searchDocs } from './lib/api-docs-search'
+import { resolveRequestUrl } from './lib/request-url'
 import {
   highValueAssetDefinitions,
   blockTxsPerPage,
@@ -55,7 +57,11 @@ const highValueAssetCategory = assetId => `high-value-asset-${assetId}`
         apiBase,
         process.browser ? window.location.origin : process.env.CANONICAL_URL
       )
-    , setBase = ({ path, ...r }) => ({ ...r, url: path.includes('://') || path.startsWith('./') ? path : apiBase + path })
+    , staticRoot = process.env.STATIC_ROOT || ''
+    // The pre-renderer fetches from Node, which needs an absolute URL; its API_URL points at the same nginx
+    , docsAssetUrl = file => new URL(staticRoot + file, process.browser ? document.baseURI : apiBase).href
+    , docsTryBodyLimit = 20000
+    , setBase = ({ path, ...r }) => ({ ...r, url: resolveRequestUrl(path, apiBase) })
     , highValueAssetRequests = !showHighValueAssets ? [] : highValueAssetDefinitions.reduce((requests, asset) => [
         ...requests,
         {
@@ -74,7 +80,7 @@ const highValueAssetCategory = assetId => `high-value-asset-${assetId}`
         }] : [])
       ], [])
 
-const reservedPaths = [ 'mempool', 'assets', 'search' ]
+const reservedPaths = [ 'mempool', 'assets', 'search', 'docs' ]
     , recentAssetsCount = 10
     , assetListQueryKeys = [ 'start_index', 'sort_field', 'sort_dir', 'limit' ]
     , isAssetListQuery = query => assetListQueryKeys.some(key => query[key] != null)
@@ -191,6 +197,29 @@ const replaceQueryWithoutRouting = (page, search) => ({
   noRouting: true,
   state: { ...page.state, scrollKey: pageScrollKey(page) ?? null }
 })
+
+const formatDocsTryBody = res => {
+  const text = res.body && typeof res.body == 'object' && !(res.body instanceof ArrayBuffer)
+    ? JSON.stringify(res.body, null, 2)
+    : res.text || ''
+  return text.length > docsTryBodyLimit ? `${text.slice(0, docsTryBodyLimit)}\n…` : text
+}
+
+const isDocsPath = pathname => /^\/docs(\/[^/]+\/[^/]+)?\/?$/.test(pathname)
+
+const docsPageInViewId = () => {
+  let id = null
+  for (const page of document.querySelectorAll('.docs-page')) {
+    if (page.getBoundingClientRect().top > 120) break
+    id = page.id
+  }
+  return id
+}
+
+const docsAnchorNav = (id, docs) => {
+  const [ path, hash ] = docs.anchors[id].split('#')
+  return { pathname: `/docs/${path}`, hash: hash ? `#${hash}` : '' }
+}
 
 const isBitcoinUsdValuePage = pathname =>
   pathname == '/' || pathname == '/tx/recent' || pathname == '/mempool'
@@ -317,6 +346,8 @@ export default function main(
   , goScan$   = route('/scan-qr').mapTo(true)
   , goMempool$= route('/mempool')
   , goSearch$ = route('/search').map(loc => loc.query.q).filter(Boolean)
+  , goDocs$   = O.merge(route('/docs'), route('/docs/:group/:section'))
+      .map(loc => ({ ...loc, sectionPath: loc.params.group ? `${loc.params.group}/${loc.params.section}` : null }))
 
   // Elements only
   , goAsset$ = !process.env.IS_ELEMENTS ? O.empty() : route('/asset/:asset_id').map(loc => ({
@@ -375,7 +406,8 @@ export default function main(
       .map(e => e.detail && e.detail.txid)
       .filter(isHash256)
 
-  , copy$     = click('[data-clipboard-copy]').map(d => d.clipboardCopy)
+  , copy$     = O.merge(click('[data-clipboard-copy]').map(d => d.clipboardCopy)
+                      , on('[data-clipboard-copy-input]', 'click').map(({ ownerTarget: btn }) => btn.form.elements[btn.dataset.clipboardCopyInput].value))
   , pushtx$   = (process.browser
       ? on('form[data-do=pushtx]', 'submit', { preventDefault: true }).map(e => e.ownerTarget.querySelector('[name=tx]').value)
       : goPush$.filter(loc => loc.body && loc.body.tx).map(loc => loc.body.tx)
@@ -386,6 +418,32 @@ export default function main(
   , moreATxs$   = click('[data-loadmore-txs-addr]').map(d => ({ addr: d.loadmoreTxsAddr, last_txid: d.loadmoreTxsLastTxid }))
 
   , moreSTxs$   = click('[data-loadmore-txs-asset]').map(d => ({ asset_id: d.loadmoreTxsAsset, last_txid: d.loadmoreTxsLastTxid }))
+
+  , docsTier$ = storage.local.getItem('docsTier').first().map(tier => tier == 'enterprise' ? tier : 'free')
+      .concat(click('[data-docs-tier]').map(d => d.docsTier))
+      .distinctUntilChanged()
+  , docsCodeLang$ = click('[data-code-tab]').map(d => d.codeTab)
+  // The toggle carries the action matching what is shown: an active filter also keeps the panel open.
+  , docsNavToggle$ = click('[data-docs-nav-toggle]').map(d => d.docsNavToggle).share()
+  , docsNavOpen$ = O.merge(
+      docsNavToggle$.map(action => action == 'open')
+    , page$.mapTo(false)
+    )
+  , docsFilterInput$ = on('.docs-filter-input', 'input').map(e => e.ownerTarget.value)
+  , docsFilterKeydown$ = on('.docs-filter-input', 'keydown')
+      .filter(e => [ 'ArrowDown', 'ArrowUp', 'Enter', 'Escape' ].includes(e.key))
+      .share()
+  , docsTryRequest$ = on('form[data-docs-try]', 'submit', { preventDefault: true })
+      .map(e => {
+        const form = e.ownerTarget
+            , path = form.dataset.docsTryPath.replace(/:([a-z_]+)/g, (_, name) => encodeURIComponent(form.elements[name].value.trim()))
+        return {
+          pageId: form.dataset.docsTry,
+          path,
+          displayUrl: process.browser ? new URL(apiBase + path, document.baseURI).href : apiBase + path
+        }
+      })
+      .share()
 
   , lang$ = storage.local.getItem('lang').first().map(lang => lang || defaultLang)
       .concat(on('select[name=lang]', 'input').map(e => e.target.value))
@@ -694,9 +752,55 @@ export default function main(
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
 
+  // API docs: locale-independent structure plus a message catalog for the current language
+  , docs$ = reply('api-docs').shareReplay(1)
+  , docsError$ = extractErrors(O.merge(HTTP.select('api-docs'), HTTP.select('api-docs-messages')))
+  , docsLocale$ = docs$.combineLatest(lang$, (docs, lang) => docs.locales.includes(lang) ? lang : 'en')
+      .distinctUntilChanged()
+  , docsMessages$ = reply('api-docs-messages')
+  , docsFilter$ = O.merge(
+      docsFilterInput$
+    , docsFilterKeydown$.filter(e => e.key == 'Escape').mapTo('')
+    , docsNavToggle$.filter(action => action == 'close').mapTo('')
+    ).startWith('')
+  , docsSearchIndex$ = O.combineLatest(docs$, docsMessages$, buildDocsSearchIndex).shareReplay(1)
+  , docsHits$ = docsSearchIndex$
+      .combineLatest(docsTier$, (index, tier) => tier == 'enterprise' ? index : index.filter(entry => !entry.enterpriseOnly))
+      .combineLatest(docsFilter$, searchDocs)
+  // Starts on the best match; arrow keys then move through hits in sidebar order.
+  , docsActiveHit$ = docsHits$.withLatestFrom(docsSearchIndex$).switchMap(([ hits, index ]) => {
+      if (!hits || !hits.length) return O.of(null)
+      const ordered = index.map(entry => entry.id).filter(id => hits.includes(id))
+      return docsFilterKeydown$
+        .filter(e => e.key == 'ArrowDown' || e.key == 'ArrowUp')
+        .scan((id, e) => {
+          e.preventDefault()
+          return ordered[(ordered.indexOf(id) + (e.key == 'ArrowDown' ? 1 : -1) + ordered.length) % ordered.length]
+        }, hits[0])
+        .startWith(hits[0])
+    })
+  , docsSelectHit$ = docsFilterKeydown$.filter(e => e.key == 'Enter')
+      .withLatestFrom(docsActiveHit$, docs$, (_, id, docs) => id && docsAnchorNav(id, docs))
+      .filter(Boolean)
+  , docsActiveId$ = goDocs$.map(loc => (loc.hash || '').replace(/^#/, '') || null)
+  , docsSectionPath$ = goDocs$.map(loc => loc.sectionPath)
+  // Links from before docs were split into sections (/docs#id) open the section holding the anchor
+  , docsLegacyAnchor$ = goDocs$.filter(loc => !loc.sectionPath && loc.hash)
+      .switchMap(loc => docs$.first().map(docs => Object.prototype.hasOwnProperty.call(docs.anchors, loc.hash.slice(1)) && docsAnchorNav(loc.hash.slice(1), docs)))
+      .filter(Boolean)
+  , docsTry$ = O.merge(
+      docsTryRequest$.map(req => S => ({ ...S, [req.pageId]: { loading: true, url: req.displayUrl } }))
+    , HTTP.select('docs-try').flatMap(r$ => r$
+        .map(res => ({ status: res.status, body: formatDocsTryBody(res) }))
+        .catch(err => O.of({ status: err.status, body: err.response ? formatDocsTryBody(err.response) : err.message }))
+        .map(result => S => ({ ...S, [r$.request.pageId]: { ...result, url: r$.request.displayUrl } })))
+    ).startWith({}).scan((S, mod) => mod(S))
+
   // Currently visible view
-  , view$ = O.merge(page$.mapTo(null)
+  // Docs navigations keep the docs view mounted so moving between anchors doesn't rebuild the page
+  , view$ = O.merge(page$.filter(loc => !isDocsPath(loc.pathname)).mapTo(null)
                   , goHome$.mapTo('dashBoard')
+                  , goDocs$.mapTo('docs')
                   , goAPILanding$.mapTo('apiLanding')
                   , goBlocks$.mapTo('recentBlocks')
                   , goRecent$.mapTo('recentTxs')
@@ -712,6 +816,13 @@ export default function main(
                   , error$.mapTo('error'))
       .combineLatest(isReady$, loading$, (view, isReady, loading) =>
         !isReady ? 'loading' : view || (loading ? 'loading' : 'notFound'))
+
+  // The docs page currently scrolled to, for the section bar and sidebar highlight
+  , docsScrollId$ = !process.browser ? O.empty() : O.merge(
+      goDocs$.mapTo(null)
+    , O.fromEvent(window, 'scroll').throttleTime(100, undefined, { leading: true, trailing: true })
+        .withLatestFrom(view$).filter(([ _, view ]) => view == 'docs').map(docsPageInViewId)
+    ).distinctUntilChanged()
 
   , dashboardLatestBlock$ = isBitcoinNetwork
       ? latestBlock$
@@ -771,6 +882,7 @@ export default function main(
   // Page title
   , title$ = O.merge(page$.mapTo(null)
                    , goAPILanding$.withLatestFrom(t$, (_, t) => t`Explorer API`)
+                   , goDocs$.withLatestFrom(t$, (_, t) => t`API Documentation`)
                    , block$.filter(notNully).withLatestFrom(t$, (block, t) => t`Block #${block.height}: ${block.id}`)
                    , tx$.filter(notNully).withLatestFrom(t$, (tx, t) => t`Transaction: ${tx.txid}`)
                    , addr$.filter(notNully).withLatestFrom(goAddr$, t$, (_, goAddr, t) => t`Address: ${goAddr.display_addr}`)
@@ -793,6 +905,7 @@ export default function main(
                      , goAddr$, addr$, addrTxs$, addrQR$
                      , assetMap$, assetList$, goAssetList$, recentAssets$, highValueAssets$, goAsset$, asset$, assetTxs$, unblinded$
                      , autocomplete$: autocomplete$.distinctUntilChanged(sameAutocompleteView)
+                     , docs$, docsError$, docsMessages$, docsTier$, docsCodeLang$, docsFilter$, docsHits$, docsActiveHit$, docsActiveId$, docsSectionPath$, docsScrollId$, docsNavOpen$, docsTry$
                      , isReady$, loading$, page$, view$, title$
                      })
 
@@ -968,6 +1081,17 @@ export default function main(
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
+
+    // API docs are static assets, fetched on first entry and kept for the session
+    , goDocs$.withLatestFrom(docs$.startWith(null)).filter(([ _, docs ]) => !docs)
+        .map(_ => ({ category: 'api-docs', method: 'GET', path: docsAssetUrl('api-docs.json'), bg: !!process.browser }))
+    // The pre-renderer fetches the English catalog alongside the structure, so its loading count
+    // can't reach zero between the two requests and finish the render early
+    , (process.browser ? docsLocale$ : goDocs$.mapTo('en'))
+        .map(locale => ({ category: 'api-docs-messages', method: 'GET', path: docsAssetUrl(`api-docs.${locale}.json`), bg: !!process.browser }))
+
+    // Try Code: one user-initiated request per click, never retried or polled
+    , docsTryRequest$.map(req => ({ category: 'docs-try', method: 'GET', path: req.path, pageId: req.pageId, displayUrl: req.displayUrl, bg: true }))
     ).map(setBase)
 
   // DOM sink
@@ -976,6 +1100,7 @@ export default function main(
   // localStorage sink
   , store$ = O.merge(
       lang$.skip(1).map(lang => ({ key: 'lang', value: lang }))
+    , docsTier$.skip(1).map(tier => ({ key: 'docsTier', value: tier }))
   )
 
   // Route navigation sink
@@ -993,6 +1118,8 @@ export default function main(
         .map(page => replaceQueryWithoutRouting(page,
           updateQuery(page.query, { 'pending-block': pendingBlockDetailsAreOpen(page) ? 'collapsed' : false })))
     , searchQuery$.map(q => ({ type: 'push', pathname: '/search', search: `q=${encodeURIComponent(dropBlindingFragment(q))}` }))
+    , docsSelectHit$.map(loc => ({ type: 'push', ...loc }))
+    , docsLegacyAnchor$.map(loc => ({ type: 'replace', ...loc }))
   )
 
   dbg({ goBlocks$, goBlock$, goTx$, goAddr$, togTx$, page$, lang$, vdom$, moreBlocks$
@@ -1027,8 +1154,8 @@ export default function main(
     })
 
     // Reset scrolling when navigating to a new page (but not when hitting 'back')
-    page$.startWith([ ]).scan((prevKeys, loc) => [ ...prevKeys.slice(0, 15), pageScrollKey(loc) ?? null ])
-      .filter(keys => keys.length && !keys.slice(0, -1).includes(last(keys)))
+    page$.scan(({ keys }, loc) => ({ loc, keys: [ ...keys.slice(0, 15), pageScrollKey(loc) ?? null ] }), { keys: [] })
+      .filter(({ loc, keys }) => !keys.slice(0, -1).includes(last(keys)) && !(isDocsPath(loc.pathname) && loc.hash))
       .subscribe(_ => window.scrollTo(0, 0))
 
     // Scroll ins/outs selected via URL hash into view (single tx page only)
@@ -1039,8 +1166,33 @@ export default function main(
       .distinctUntilChanged().delay(300)
       .subscribe(el => el.scrollIntoView({ behavior: 'smooth' }))
 
+    const revealActiveDocsNavItem = () => {
+      const nav = document.querySelector('.docs-nav')
+          , item = nav && (nav.querySelector('.docs-nav-link.active') || nav.querySelector('summary.active'))
+      if (!item) return
+      const navBox = nav.getBoundingClientRect()
+          , itemBox = item.getBoundingClientRect()
+      if (itemBox.top < navBox.top || itemBox.bottom > navBox.bottom)
+        nav.scrollTop += itemBox.top - navBox.top - (nav.clientHeight - itemBox.height) / 2
+    }
+
+    click('[data-docs-nav-toggle]')
+      .switchMap(_ => DOM.select('.docs-sidebar.nav-open').elements().filter(els => els.length).first())
+      .subscribe(revealActiveDocsNavItem)
+
+    // Scrolls in the same render that shows the section, so no frame paints at the old position
+    goDocs$.filter(loc => loc.sectionPath)
+      .switchMap(loc => DOM.select(`.docs-content[data-docs-section="${loc.sectionPath}"]`).elements()
+        .filter(els => els.length && (!loc.hash || document.getElementById(loc.hash.slice(1))))
+        .first().mapTo(loc))
+      .subscribe(loc => {
+        const target = loc.hash && document.getElementById(loc.hash.slice(1))
+        target && target.scrollIntoView()
+        revealActiveDocsNavItem()
+      })
+
     // Display "Copied!" tooltip
-    on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
+    on('[data-clipboard-copy], [data-clipboard-copy-input]', 'click').subscribe(({ ownerTarget: btn }) => {
       btn.classList.add('show-tooltip')
       setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
     })
@@ -1119,7 +1271,7 @@ export default function main(
       , noExtraModifiers = !e.altKey && !e.shiftKey
 
       if (hasModifier && noExtraModifiers && e.key.toLowerCase() == 'k') {
-        const searchInput = document.querySelector('.search-bar-input')
+        const searchInput = document.querySelector('.docs-filter-input') || document.querySelector('.search-bar-input')
         if (searchInput) {
           e.preventDefault()
           searchInput.focus()

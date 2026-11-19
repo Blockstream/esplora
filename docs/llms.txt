@@ -1,0 +1,55 @@
+# Blockstream Explorer API
+
+> Indexed Bitcoin and Liquid blockchain data through three interfaces: REST (the Esplora HTTP API), Electrum RPC (JSON-RPC over TLS) and QuickSync (descriptor-based wallet scans). The Free tier needs no key and serves REST and Electrum. The Enterprise tier uses OAuth 2.0 client-credentials tokens and adds QuickSync.
+
+Key facts:
+
+- REST base URLs: Free `https://blockstream.info/{api, testnet/api, testnet4/api, signet/api, liquid/api, liquidtestnet/api}`; Enterprise `https://enterprise.blockstream.info/{api, testnet/api, testnet4/api, liquid/api, liquidtestnet/api}` (no Signet). `testnet` means Testnet3.
+- Electrum hosts (TLS, port 50002): `{bitcoin-mainnet, bitcoin-testnet, bitcoin-testnet4, bitcoin-signet, elements-mainnet, elements-testnet}.blockstream.info`; Enterprise adds `.enterprise` before `.blockstream.info` (no Signet).
+- QuickSync (Enterprise only, not available on the Free tier): `{Enterprise REST base}/waterfalls/v2/waterfalls?descriptor=<url-encoded descriptor>`.
+- Enterprise auth: POST `client_id`, `client_secret`, `grant_type=client_credentials` to `https://login.blockstream.com/realms/blockstream-public/protocol/openid-connect/token`. Send `Authorization: Bearer <token>` on REST and QuickSync. On Electrum, add `"authorization": "Bearer <token>"` to the first request of each connection. Tokens last 300 s by default and have no refresh token.
+- Amounts are in satoshis. Single values (heights, hashes, hex) come back as `text/plain`. REST script hashes are `sha256(scriptPubKey)` hex; Electrum uses the same bytes reversed.
+
+## Docs
+
+- [Full documentation as Markdown](https://blockstream.info/docs/llms-full.md): every page, endpoint and method, with cURL/Shell, Python and JavaScript examples for both tiers
+- [Introduction](https://blockstream.info/docs/overview/getting-started#introduction): the interfaces and the Free and Enterprise tiers
+- [Networks & base URLs](https://blockstream.info/docs/overview/getting-started#networks): every REST base URL and Electrum host, plus deprecated Electrum hosts
+- [Quickstart](https://blockstream.info/docs/overview/getting-started#quickstart): first requests on each tier
+- [Authentication](https://blockstream.info/docs/overview/getting-started#authentication): tokens, credits, failures and end-to-end examples
+
+## REST API
+
+- [Transactions](https://blockstream.info/docs/rest-api/transactions): fetch, status, raw data, proofs, spends and broadcast (single transactions and packages)
+- [Addresses](https://blockstream.info/docs/rest-api/addresses): stats, paged history, mempool transactions and UTXOs, by address or script hash
+- [Blocks](https://blockstream.info/docs/rest-api/blocks): headers, block transactions, raw blocks and the chain tip
+- [Mempool](https://blockstream.info/docs/rest-api/mempool): backlog stats, txids and recent transactions
+- [Fee estimates](https://blockstream.info/docs/rest-api/fee-estimates): sat/vB per confirmation target
+- [Mining](https://blockstream.info/docs/rest-api/mining): the block template
+- [Assets (Liquid)](https://blockstream.info/docs/rest-api/assets): asset details, transactions, supply and the asset registry
+- [Transaction format](https://blockstream.info/docs/rest-api/data-formats#fmt-tx) and [Block format](https://blockstream.info/docs/rest-api/data-formats#fmt-block): response fields
+
+## Electrum RPC
+
+- [Connecting](https://blockstream.info/docs/electrum-rpc/getting-started#electrum): TLS, framing, batching, keepalive and connection lifetime
+- [Differences from ElectrumX](https://blockstream.info/docs/electrum-rpc/getting-started#electrum-diff): unsupported and extended methods
+- [Server](https://blockstream.info/docs/electrum-rpc/server), [Headers](https://blockstream.info/docs/electrum-rpc/headers), [Script hashes](https://blockstream.info/docs/electrum-rpc/script-hashes), [Transactions](https://blockstream.info/docs/electrum-rpc/transactions), [Mempool & fees](https://blockstream.info/docs/electrum-rpc/mempool-fees): method reference
+
+## QuickSync (Enterprise only)
+
+- [Overview](https://blockstream.info/docs/quicksync-waterfalls/getting-started#quicksync): what a wallet scan returns and how to page it
+- [Wallet scan](https://blockstream.info/docs/quicksync-waterfalls/wallet-scan): v2/v4 scans, CBOR, last used index and the subscription stream
+- [Utility](https://blockstream.info/docs/quicksync-waterfalls/utility): server keys, build info, freshness, tip hash and fee estimates
+
+## Reference
+
+- [LWK (Liquid)](https://blockstream.info/docs/libraries-references/libraries#lwk) and [BDK (Bitcoin)](https://blockstream.info/docs/libraries-references/libraries#bdk): client libraries with built-in Enterprise auth
+- [Conventions](https://blockstream.info/docs/libraries-references/general-reference#conventions): units, byte order and response types
+- [Errors](https://blockstream.info/docs/libraries-references/general-reference#errors): HTTP statuses, Electrum codes and broadcast rejections
+- [Caching](https://blockstream.info/docs/libraries-references/general-reference#caching): Cache-Control rules
+- [Common pitfalls](https://blockstream.info/docs/libraries-references/general-reference#gotchas): script-hash byte order, paging, busy-address limits and Liquid differences
+
+## Optional
+
+- [Pricing and API keys](https://blockstream.info/explorer-api)
+- [Dashboard](https://dashboard.blockstream.info/): API keys, token lifetime, billing and usage
