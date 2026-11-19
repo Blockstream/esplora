@@ -1,0 +1,138 @@
+.code-block-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.code-block-title {
+  margin: 0;
+  font-family: "Rigid Square", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.code-block-meta {
+  color: var(--foreground-muted);
+  font-size: 12px;
+}
+
+.code-block-body {
+  position: relative;
+  border-radius: 4px;
+  background-color: var(--surface-secondary-color);
+}
+
+.code-block-body pre {
+  max-height: 420px;
+  margin: 0;
+  padding: 16px 48px 16px 16px;
+  overflow: auto;
+  color: #ffffff;
+  font-family: Inconsolata, ui-monospace, monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.code-block-body .hljs-string {
+  color: var(--success-color);
+}
+
+.code-block-body .hljs-keyword,
+.code-block-body .hljs-built_in,
+.code-block-body .hljs-literal,
+.code-block-body .hljs-section,
+.code-block-body .hljs-meta {
+  color: var(--accent-color);
+}
+
+.code-block-body .hljs-number {
+  color: var(--warning-color);
+}
+
+.code-block-body .hljs-title,
+.code-block-body .hljs-type,
+.code-block-body .hljs-variable,
+.code-block-body .hljs-template-variable,
+.code-block-body .hljs-subst {
+  color: var(--foreground-link-color);
+}
+
+.code-block-body .hljs-comment {
+  color: var(--foreground-muted);
+  font-style: italic;
+}
+
+.code-block-copy {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.code-tabs {
+  border-radius: 4px;
+  background-color: var(--surface-primary-color);
+  overflow: hidden;
+}
+
+.code-tabs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 12px;
+}
+
+
+.code-tabs-header .code-tabs-meta {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.code-tabs-list {
+  display: flex;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.code-tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.code-tabs-tab {
+  flex: 0 0 auto;
+  padding: 10px 12px;
+  white-space: nowrap;
+  border: 0;
+  background-color: var(--surface-secondary-color);
+  color: var(--foreground-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.code-tabs-tab:hover,
+.code-tabs-tab:focus-visible {
+  color: #ffffff;
+}
+
+.code-tabs-tab.active {
+  color: #ffffff;
+  background-color: var(--surface-primary-color);
+}
+
+.code-tabs-meta {
+  color: var(--foreground-muted);
+  font-size: 11px;
+}
+
+.code-tabs-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 12px;
+}

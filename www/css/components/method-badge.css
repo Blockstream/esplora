@@ -1,0 +1,23 @@
+.method-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 12px;
+  border-radius: var(--max-border-radius);
+  font-family: "Rigid Square", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--success-color);
+  background-color: rgba(var(--success-color-rgb), 0.15);
+}
+
+.method-badge-post {
+  color: var(--warning-color);
+  background-color: rgba(var(--warning-color-rgb), 0.15);
+}
+
+.method-badge-sse,
+.method-badge-rpc {
+  color: var(--accent-color);
+  background-color: rgba(var(--accent-color-rgb), 0.15);
+}

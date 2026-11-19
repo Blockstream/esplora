@@ -1,0 +1,21 @@
+# Blockstream Explorer
+
+> Block explorer for Bitcoin and Liquid at https://blockstream.info, and the Blockstream Explorer API that powers it. For data, call the API: explorer pages are a JavaScript app, so plain HTTP fetches of them return an empty page shell. Use explorer page URLs to link people to human-readable views.
+
+Key facts:
+
+- Networks and their site paths: Bitcoin `https://blockstream.info/`, Testnet3 `https://blockstream.info/testnet/`, Testnet4 `https://blockstream.info/testnet4/`, Signet `https://blockstream.info/signet/`, Liquid `https://blockstream.info/liquid/`, Liquid Testnet `https://blockstream.info/liquidtestnet/`.
+- Explorer pages, relative to a network's site path: `tx/<txid>`, `block/<hash>`, `block-height/<height>`, `address/<address>`, `mempool`, `blocks/recent`, `tx/recent` and `search?q=<txid, hash, height or address>`. Liquid also has `asset/<asset id>` and `assets`.
+- The Free REST API for each network lives at `<site path>api`, e.g. `https://blockstream.info/api/tx/<txid>` or `https://blockstream.info/liquid/api/blocks/tip/height`. It needs no key; Bitcoin and Liquid mainnet are rate-limited.
+- The Enterprise tier (OAuth 2.0 client-credentials tokens, `https://enterprise.blockstream.info`) has rate limits set by your plan and adds QuickSync wallet scans, which the Free tier doesn't offer. Electrum RPC is available on both tiers.
+
+## API documentation
+
+- [API llms.txt](https://blockstream.info/docs/llms.txt): API summary with links to each topic
+- [Full API documentation as Markdown](https://blockstream.info/docs/llms-full.md): every endpoint and method, with examples for both tiers
+- [API documentation](https://blockstream.info/docs/overview/getting-started): the same reference as web pages
+
+## Optional
+
+- [Explorer API plans and API keys](https://blockstream.info/explorer-api)
+- [Dashboard](https://dashboard.blockstream.info/): API keys, billing and usage
