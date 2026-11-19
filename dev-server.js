@@ -6,6 +6,7 @@ import express from 'express'
 import browserify from 'browserify-middleware'
 import cssjanus from 'cssjanus'
 import { assembleCss } from './scripts/assemble-css'
+import { buildApiDocs, buildLlmsFiles } from './scripts/build-api-docs'
 
 const rpath = p => pathu.join(__dirname, p)
 
@@ -62,6 +63,19 @@ const prepCss = _ => assembleCss(custom_css)
 // Automatically adjust CSS for RTL using cssjanus
 router.get('/style-rtl.css', p(async (req, res) =>
   res.type('css').send(cssjanus.transform(await prepCss()))))
+
+// Compile the API docs on every request so edits to docs/ show up on reload
+router.get(/^\/api-docs(?:\.([a-z-]+))?\.json$/, (req, res) => {
+  const docs = buildApiDocs(rpath('docs/api.md'), rpath('docs/i18n'))
+      , body = req.params[0] ? docs.messages[req.params[0]] : docs.structure
+  body ? res.json(body) : res.sendStatus(404)
+})
+
+router.get(/^\/docs\/(llms\.txt|llms-full\.md)$/, (req, res) => {
+  const files = buildLlmsFiles(rpath('docs/api.md'), buildApiDocs(rpath('docs/api.md')).structure)
+  res.type(req.params[0] == 'llms.txt' ? 'text/plain' : 'text/markdown')
+    .send(req.params[0] == 'llms.txt' ? files.llms : files.full)
+})
 
 // Add handlers for custom asset overrides
 custom_assets.forEach(pattern => {

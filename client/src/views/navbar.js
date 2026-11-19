@@ -14,6 +14,7 @@ export default S =>
             <a href="tx/recent" class={{ active: S.activeTab == 'recentTxs' }}>Transactions</a>
             { process.env.IS_ELEMENTS ? <a href="assets" class={{ active: S.activeTab == 'assets' }}>Assets<sup className="highlight"></sup></a> : "" }
             <a href="explorer-api" class={{ active: S.activeTab == 'apiLanding' }}>Explorer API</a>
+            <a href="docs" class={{ active: S.activeTab == 'docs' }}>API Documentation</a>
         </div>
       { menu(S) }
   </nav>
