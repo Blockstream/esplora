@@ -4,8 +4,53 @@
   gap: 8px 24px;
 }
 
-.bitcoin-usd-values .addr-page .info-stats-row {
-  flex-wrap: wrap;
+.address-table {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.address-summary {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.addr-header-qr.desktop {
+  flex: none;
+}
+
+.address-summary .info-stats-row {
+  display: grid;
+  grid-template-columns: max-content max-content repeat(3, auto);
+}
+
+.address-summary .info-stat {
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.address-summary .info-stat-value {
+  overflow-wrap: anywhere;
+}
+
+.address-summary .amount-with-usd-primary,
+.address-summary .amount-with-usd-secondary {
+  white-space: normal;
+}
+
+@media only screen and (max-width: 1328px) {
+  .address-summary .identifier-row {
+    flex-wrap: nowrap;
+  }
+
+  .address-summary .identifier-text {
+    min-width: 0;
+  }
+
+  .address-summary .info-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .address-output-summary {
@@ -17,6 +62,13 @@
 
 .address-output-count {
   white-space: nowrap;
+}
+
+.address-output-amount,
+.address-summary .address-output-count {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .address-output-summary-stacked > .amount-with-usd {

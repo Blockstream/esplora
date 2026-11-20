@@ -40,6 +40,11 @@ export const formatUsd = (value, fallback='N/A') =>
       })} USD`
     : fallback
 
+export const satsToUsd = (satoshis, bitcoinPrice) =>
+  Number.isFinite(satoshis) && Number.isFinite(bitcoinPrice) && bitcoinPrice >= 0
+    ? (satoshis / satoshisPerBitcoin) * bitcoinPrice
+    : null
+
 // Without a price, leave the USD line blank instead of an N/A line per amount.
 export const formatSatWithUsd = (sats, { bitcoinPrice, t } = {}, primary = formatSat(sats)) => {
   if (!isBitcoinOrLiquidMainnet) return primary
@@ -50,9 +55,7 @@ export const formatSatWithUsd = (sats, { bitcoinPrice, t } = {}, primary = forma
     return <AmountWithUsd primary={primary} secondary={t ? t`N/A` : 'N/A'} />
   }
 
-  const usd = Number.isFinite(satoshis) && Number.isFinite(bitcoinPrice) && bitcoinPrice >= 0
-    ? (satoshis / satoshisPerBitcoin) * bitcoinPrice
-    : null
+  const usd = satsToUsd(satoshis, bitcoinPrice)
 
   return <AmountWithUsd primary={primary} secondary={usd == null ? null : formatUsd(usd)} />
 }

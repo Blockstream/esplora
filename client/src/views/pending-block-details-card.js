@@ -393,15 +393,17 @@ const PendingBlockDetailsCard = ({
 
         <div className="pending-block-details">
           <div className="pending-block-details-card-header">
-            <p className="block-number">{t`Next Block`}</p>
+            <div className="pending-block-details-card-heading">
+              <p className="block-number">{t`Next Block`}</p>
 
-            <p className="pending-block-timestamp">
-              {block ? (
-                <ExpectedBlockTime timestamp={block.timestamp} t={t} />
-              ) : (
-                "-"
-              )}
-            </p>
+              <p className="pending-block-timestamp">
+                {block ? (
+                  <ExpectedBlockTime timestamp={block.timestamp} t={t} />
+                ) : (
+                  "-"
+                )}
+              </p>
+            </div>
             <button
               aria-expanded={detailsOpen ? "true" : "false"}
               className="pending-block-details-button"

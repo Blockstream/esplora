@@ -1,0 +1,37 @@
+.navbar-brand img {
+  display: block;
+  width: 186px;
+  height: auto;
+}
+
+.sub-nav a.active,
+.sub-nav a:active {
+  color: #ffffff;
+  position: relative;
+}
+
+.sub-nav a.active::after,
+.sub-nav a:active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--accent-color);
+  height: 3px;
+  border-radius: 10px;
+}
+
+.sub-nav:has(a:active) a.active:not(:active)::after {
+  display: none;
+}
+
+@media only screen and (max-width: 1328px) {
+  .navbar-brand {
+    margin-right: 0;
+  }
+
+  .navbar-brand img {
+    width: 156px;
+  }
+}
