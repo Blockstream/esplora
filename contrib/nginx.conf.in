@@ -44,7 +44,7 @@ server {
     listen 80;
     keepalive_requests 100000;
     gzip on;
-    gzip_types application/json text/plain application/xml application/javascript;
+    gzip_types application/json text/plain text/markdown application/xml application/javascript;
     gzip_proxied any;
     gzip_vary on;
     root {STATIC_DIR};
@@ -100,7 +100,7 @@ server {
         limit_req zone=lightlimitzone burst=10 nodelay;
         return 301 " /{NGINX_PATH}nojs/";
     }
-    location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|[a-zA-Z0-9]+$) {
+    location ~ ^/{NGINX_PATH}((tx|block|block-height|address|assets?)/|docs(/[^.]*)?$|[a-zA-Z0-9]+$) {
         limit_req zone=heavylimitzone burst=10 nodelay;
         limit_conn conn_limit_per_ip 10;
 
@@ -109,6 +109,15 @@ server {
             {NGINX_REWRITE_NOJS};
         }
         try_files $uri /index.html;
+    }
+    # nginx has no MIME type for .md; serve the docs Markdown for LLMs as text
+    location = /{NGINX_PATH}docs/llms-full.md {
+        limit_req zone=lightlimitzone burst=10 nodelay;
+        default_type text/markdown;
+        charset utf-8;
+        charset_types text/markdown;
+        expires 60m;
+        {NGINX_REWRITE}
     }
     location /{NGINX_PATH} {
         limit_req zone=lightlimitzone burst=10 nodelay;

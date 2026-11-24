@@ -31,6 +31,9 @@ cp -RL www/* $CUSTOM_ASSETS $DEST/
 # Assemble base CSS modules followed by flavor customizations
 node scripts/assemble-css.js "$DEST/style.css" $CUSTOM_CSS
 
+# Compile the API docs into structure and per-locale message catalogs
+node scripts/build-api-docs.js docs/api.md docs/i18n $DEST
+
 # Open search (requires absolute CANONICAL_URL)
 if [ -n "$CANONICAL_URL" ]; then
   pug client/opensearch.pug -E xml -o $DEST
