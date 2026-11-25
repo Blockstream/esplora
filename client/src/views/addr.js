@@ -1,7 +1,7 @@
 import { last } from "../util";
 import layout from "./layout";
 import { txBox } from "./tx";
-import { formatSat, formatSatWithUsd, formatNumber } from "./util";
+import { formatSat, formatSatWithUsd, formatNumber, formatUsd, satsToUsd } from "./util";
 import { addrTxsPerPage as perPage, maxMempoolTxs } from "../const";
 import loader from "../components/loading";
 import { AddressHamburgerIcon, CopyIcon } from "../components/icons";
@@ -71,7 +71,7 @@ export default ({
     [
       <div className="addr-page">
         <div className="table address-table">
-          <div>
+          <div className="address-summary">
             <div className="table-header">
               <div className="table-header-icon-container">
                 <AddressHamburgerIcon />
@@ -103,14 +103,22 @@ export default ({
                 <InfoStat
                   title={t`Total tx count`}
                   value={formatNumber(total_txs)}
+                  valueTitle={formatNumber(total_txs)}
                 />
                 <InfoStat
                   title={t`Confirmed tx count`}
                   value={formatNumber(chain_stats.tx_count)}
+                  valueTitle={formatNumber(chain_stats.tx_count)}
                 />
                 <InfoStat
                   title={t`Confirmed received`}
                   value={fmtTxos(
+                    chain_stats.funded_txo_count,
+                    chain_stats.funded_txo_sum,
+                    t,
+                    S,
+                  )}
+                  valueTitle={txosText(
                     chain_stats.funded_txo_count,
                     chain_stats.funded_txo_sum,
                     t,
@@ -125,10 +133,17 @@ export default ({
                     t,
                     S,
                   )}
+                  valueTitle={txosText(
+                    chain_stats.spent_txo_count,
+                    chain_stats.spent_txo_sum,
+                    t,
+                    S,
+                  )}
                 />
                 <InfoStat
                   title={t`Confirmed unspent`}
                   value={fmtTxos(chain_utxo_count, chain_utxo_sum, t, S)}
+                  valueTitle={txosText(chain_utxo_count, chain_utxo_sum, t, S)}
                 />
               </div>
             </div>
@@ -232,9 +247,23 @@ export default ({
   );
 };
 
+const outputsLabel = (count, t) =>
+  count > 0 ? t`${formatNumber(count)} outputs` : t`No outputs`;
+
+const txosText = (count, sum, t, S) => {
+  const outputs = outputsLabel(count, t);
+
+  if (!Number.isFinite(sum)) return outputs;
+  if (count <= 0) return outputs;
+
+  const usd = isBitcoinOrLiquidMainnet ? satsToUsd(sum, S.bitcoinPrice) : null;
+  const amount = `${formatSat(sum)} (${outputs})`;
+
+  return usd == null ? amount : `${amount}\n${formatUsd(usd)}`;
+};
+
 const fmtTxos = (count, sum, t, S, usdBelowOutputs = false) => {
-  const outputs =
-    count > 0 ? t`${formatNumber(count)} outputs` : t`No outputs`;
+  const outputs = outputsLabel(count, t);
 
   if (!Number.isFinite(sum)) return outputs;
   if (count <= 0) return outputs;
@@ -252,12 +281,11 @@ const fmtTxos = (count, sum, t, S, usdBelowOutputs = false) => {
     </span>
   );
 
-  return (
-    <span className="address-output-summary">
-      {formatSatWithUsd(sum, { t, ...S })}
-      <span className="address-output-count">({outputs})</span>
-    </span>
-  );
+  return formatSatWithUsd(sum, { t, ...S }, [
+    <span className="address-output-amount">{formatSat(sum)}</span>,
+    " ",
+    <span className="address-output-count">({outputs})</span>,
+  ]);
 };
 
 const pagingNav = (

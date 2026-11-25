@@ -1,5 +1,6 @@
 [
   "foundation/fonts.css",
+  "foundation/fonts-inter.css",
   "legacy/pre-tokens.css",
   "foundation/tokens.css",
   "foundation/base.css",
@@ -10,6 +11,8 @@
   "components/status-badge.css",
   "components/asset-icon.css",
   "components/amount-with-usd.css",
+  "components/pending-block-details-card.css",
+  "layout/navbar.css",
   "layout/transactions.css",
   "layout/tx.css",
   "layout/addr.css",

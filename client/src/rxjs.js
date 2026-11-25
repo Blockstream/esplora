@@ -8,6 +8,7 @@ import 'rxjs/add/observable/timer'
 import 'rxjs/add/observable/fromEvent'
 import 'rxjs/add/observable/from'
 
+import 'rxjs/add/operator/auditTime'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/mapTo'

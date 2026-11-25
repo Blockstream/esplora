@@ -1,5 +1,6 @@
 import '@babel/polyfill'
 import { Observable as O } from './rxjs'
+import { asap } from 'rxjs/scheduler/asap'
 import {setAdapt} from '@cycle/run/lib/adapt';
 
 import { getMempoolDepth, getConfEstimate, calcSegwitFeeGains } from './lib/fees'
@@ -970,8 +971,9 @@ export default function main(
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
     ).map(setBase)
 
-  // DOM sink
-  , vdom$ = state$.map(S => S.view && views[S.view](S) || null)
+  // A route change emits several intermediate states in one turn. Render the settled state.
+  , renderState$ = process.browser ? state$.auditTime(0, asap) : state$
+  , vdom$ = renderState$.map(S => S.view && views[S.view](S) || null)
 
   // localStorage sink
   , store$ = O.merge(

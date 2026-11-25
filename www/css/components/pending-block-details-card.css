@@ -1,0 +1,25 @@
+.pending-block-details-card-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 20px;
+}
+
+/* The heading wraps internally so the Details button keeps its own column. */
+.pending-block-details-card-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0px 8px;
+  min-width: 0;
+}
+
+.pending-block-timestamp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--foreground-muted);
+  font-size: 14px;
+  font-weight: 400;
+}
